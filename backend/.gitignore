@@ -1,6 +1,14 @@
-node-modules
+# Node
+node_modules/
+
+# Environment variables
 .env
-.DS_Store
-logs
-*.log
+
+# Logs
 npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
