@@ -1,16 +1,27 @@
 import { Link } from "react-router-dom";
 import { reverseOrder, ToastPostion } from "../ReactToast/Toast";
-
+import { useState } from "react";
+import { FaEye, FaRegEyeSlash } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
+import { handelLogin } from "../Apis/Signup";
 
 
 export default function Login() {
-  console.log({ ToastPostion, reverseOrder })
+  const [StudentEmail, setStudentEmail] = useState("")
+  const [StudentPassword, setStudentPassword] = useState("")
+  const [role, setrole] = useState("")
+  const [ischeck, setcheck] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 
+  // handel login api daat 
+
+  const handelloginapi = (e) => {
+    handelLogin("hi daat", e)
+  }
   return (
     <>
-
-
       <div className="flex min-h-screen items-center justify-center  px-4">
 
         <div className="w-full max-w-sm rounded-xl bg-gray-800 p-6 shadow-lg">
@@ -25,7 +36,7 @@ export default function Login() {
 
           <form className="space-y-4">
 
-
+            {/* Role */}
             <div>
               <label className="mb-1 block text-xs font-medium text-gray-300">
                 Select Role
@@ -41,6 +52,8 @@ export default function Login() {
                 </label>
               </div>
             </div>
+
+
             {/* Email */}
             <div>
               <label className="block text-xs font-medium text-gray-300">
@@ -52,27 +65,38 @@ export default function Login() {
               />
             </div>
 
-            {/* Role */}
+
 
 
             {/* Password */}
-            <div>
+            <div className="relative">
               <label className="block text-xs font-medium text-gray-300">
                 Password
               </label>
+
               <input
-                type="password"
-                className="mt-1 w-full rounded-md bg-gray-700 px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-indigo-500"
+                type={showPassword ? "text" : "password"}
+                className="mt-1 w-full rounded-md bg-gray-700 px-3 py-1.5 pr-10 text-sm text-white focus:ring-2 focus:ring-indigo-500"
+                onChange={(e) => setStudentPassword(e.target.value)}
               />
+
+              <span
+                className="absolute right-3 top-7 cursor-pointer text-gray-400"
+                onClick={() => setShowPassword(prev => !prev)}
+              >
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
             </div>
+
 
 
 
             {/* Terms */}
             <div className="flex items-start gap-2">
-              <input type="checkbox" className="mt-1 h-3.5 w-3.5 accent-indigo-500" />
+              <input type="checkbox" className="mt-1 h-3.5 w-3.5 accent-indigo-500" required onClick={() => setcheck((prev) => !prev)
+              } />
               <span className="text-xs text-gray-300">
-                I agree to the <span className="text-indigo-400">Terms & Conditions</span>
+                {ischeck ? "I" : "Not"} agree to the <span className="text-indigo-400">Terms & Conditions</span>
               </span>
             </div>
 
@@ -85,7 +109,7 @@ export default function Login() {
             </p>
 
             {/* Submit */}
-            <button className="w-full rounded-md bg-indigo-600 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500">
+            <button className="w-full rounded-md bg-indigo-600 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500" onClick={handelloginapi}>
               Sign In
             </button>
           </form>
