@@ -111,7 +111,7 @@ function Navbar() {
                         <Link to="/StudentProfile">
                             <MobileItem title="Results & Grades" />
                         </Link>
-                        <Link to="/StudentProfile">
+                        <Link to="/StudyMaterials">
                             <MobileItem title="Study Materials" />
                         </Link>
                         <Link to="/StudentProfile">
