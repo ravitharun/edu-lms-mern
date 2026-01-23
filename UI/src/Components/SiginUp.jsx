@@ -2,7 +2,7 @@ export default function Example() {
     return (
         <>
             {/* New account crete */}
-            <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+            <div className="flex  flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900 min-w-screen min-h-screen">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <img
                         alt="Your Company"
