@@ -1,73 +1,104 @@
+import { Link } from "react-router-dom";
+import { reverseOrder, ToastPostion } from "../ReactToast/Toast";
+
+
+
 export default function Login() {
+  console.log({ ToastPostion, reverseOrder })
+
+
   return (
     <>
 
-      <div className="flex flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900 min-w-screen min-h-screen">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            alt="Your Company"
-            src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-            className="mx-auto h-10 w-auto"
-          />
-          <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">Sign in to your account</h2>
-        </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+      <div className="flex min-h-screen items-center justify-center  px-4">
+
+        <div className="w-full max-w-sm rounded-xl bg-gray-800 p-6 shadow-lg">
+
+          {/* Heading */}
+          <h2 className="mb-1 text-center text-xl font-bold text-white">
+            Login Your LMS Account
+          </h2>
+          <p className="mb-4 text-center text-xs text-gray-400">
+            Login as a Student or Teacher
+          </p>
+
+          <form className="space-y-4">
+
+
             <div>
-              <label htmlFor="email" className="block text-sm/6 font-medium text-gray-100">
-                Email address
+              <label className="mb-1 block text-xs font-medium text-gray-300">
+                Select Role
               </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  autoComplete="email"
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm/6 font-medium text-gray-100">
-                  Password
+              <div className="flex gap-3">
+                <label className="flex w-full items-center gap-2 rounded-md border border-gray-600 p-2 text-xs text-gray-200">
+                  <input type="radio" name="role" className="accent-indigo-500" defaultChecked />
+                  Student
                 </label>
-                <div className="text-sm">
-                  <a href="#" className="font-semibold text-indigo-400 hover:text-indigo-300">
-                    Forgot password?
-                  </a>
-                </div>
+                <label className="flex w-full items-center gap-2 rounded-md border border-gray-600 p-2 text-xs text-gray-200">
+                  <input type="radio" name="role" className="accent-indigo-500" />
+                  Teacher
+                </label>
               </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  autoComplete="current-password"
-                  className="block w-full rounded-md bg-white/5 px-3 py-1.5 text-base text-white outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
-                />
-              </div>
+            </div>
+            {/* Email */}
+            <div>
+              <label className="block text-xs font-medium text-gray-300">
+                Email Address
+              </label>
+              <input
+                type="email"
+                className="mt-1 w-full rounded-md bg-gray-700 px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-indigo-500"
+              />
             </div>
 
+            {/* Role */}
+
+
+            {/* Password */}
             <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-              >
-                Sign in
-              </button>
+              <label className="block text-xs font-medium text-gray-300">
+                Password
+              </label>
+              <input
+                type="password"
+                className="mt-1 w-full rounded-md bg-gray-700 px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-indigo-500"
+              />
             </div>
+
+
+
+            {/* Terms */}
+            <div className="flex items-start gap-2">
+              <input type="checkbox" className="mt-1 h-3.5 w-3.5 accent-indigo-500" />
+              <span className="text-xs text-gray-300">
+                I agree to the <span className="text-indigo-400">Terms & Conditions</span>
+              </span>
+            </div>
+
+            {/* Login */}
+            <p className="text-center text-xs text-gray-400">
+              Don't have an account?{" "}
+              <Link to="/siginup" className="text-indigo-400 hover:underline">
+                Create New account
+              </Link>
+            </p>
+
+            {/* Submit */}
+            <button className="w-full rounded-md bg-indigo-600 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500">
+              Sign In
+            </button>
           </form>
 
-          <p className="mt-10 text-center text-sm/6 text-gray-400">
-            Not a member?{' '}
-            <a href="#" className="font-semibold text-indigo-400 hover:text-indigo-300">
-              Start a 14 day free trial
-            </a>
+          {/* OR */}
+          <div className="my-4 flex items-center gap-2">
+            <div className="h-px flex-1 bg-gray-600" />
+            <span className="text-xs text-gray-400">OR</span>
+            <div className="h-px flex-1 bg-gray-600" />
+          </div>
+
+          <p className="text-center text-xs text-gray-400">
+            Sign In with Google (coming soon)
           </p>
         </div>
       </div>
