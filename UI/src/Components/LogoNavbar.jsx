@@ -7,6 +7,7 @@ import {
     FiChevronDown,
     FiMenu,
     FiX,
+    FiChevronUp,
 } from "react-icons/fi";
 
 function LogoNavbar() {
@@ -14,6 +15,7 @@ function LogoNavbar() {
     const [openMobile, setOpenMobile] = useState(false);
 
     return (
+    
         <nav className="sticky top-0 z-50 bg-white shadow">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
 
@@ -30,19 +32,19 @@ function LogoNavbar() {
                 {/* RIGHT: Desktop Profile */}
                 <div className="hidden md:flex items-center gap-4 relative">
                     <button
-                        onClick={() => setOpenProfile(!openProfile)}
+                        onClick={() => setOpenProfile((prev)=>!prev)}
                         className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-gray-100"
                     >
                         <FiUser className="text-gray-700" />
                         <span className="text-sm font-medium text-gray-700">
-                            Tharun
+                            HI,  Ravi Tharun
                         </span>
-                        <FiChevronDown className="text-gray-500" />
+                        {openProfile ? <FiChevronUp className="text-gray-500"/>: <FiChevronDown className="text-gray-500" />}
                     </button>
 
                     {/* Profile Dropdown */}
                     {openProfile && (
-                        <div className="absolute right-0 top-12 w-44 rounded-lg bg-white shadow-lg border">
+                        <div className="absolute right-0 top-12 w-44 rounded-lg bg-white shadow-lg ">
                             <Link
                                 to="/profile"
                                 className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50"
