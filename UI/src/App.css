@@ -1,1 +1,18 @@
 @import "tailwindcss";
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  color: #d1d5db;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+}
+
+.nav-btn:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
