@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FaEye, FaRegEyeSlash } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { handelLogin } from "../Apis/Signup";
-
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Login() {
   const [StudentEmail, setStudentEmail] = useState("")
@@ -12,16 +12,30 @@ export default function Login() {
   const [role, setrole] = useState("")
   const [ischeck, setcheck] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 
-  // handel login api daat 
-
+  // handel login api data
   const handelloginapi = (e) => {
-    handelLogin("hi daat", e)
+
+    if (!StudentEmail || !StudentPassword || !role) {
+      toast.error("Fill the required field's to login.")
+
+    }
+    if (!ischeck) {
+      return toast.error("U Not agree to the Terms & Conditions. ")
+    }
+    const Userdata = {
+      StudentEmail,
+      role,
+      StudentPassword
+    }
+    handelLogin(Userdata, e)
   }
+
+
   return (
     <>
+      <Toaster></Toaster>
       <div className="flex min-h-screen items-center justify-center  px-4">
 
         <div className="w-full max-w-sm rounded-xl bg-gray-800 p-6 shadow-lg">
@@ -43,11 +57,11 @@ export default function Login() {
               </label>
               <div className="flex gap-3">
                 <label className="flex w-full items-center gap-2 rounded-md border border-gray-600 p-2 text-xs text-gray-200">
-                  <input type="radio" name="role" className="accent-indigo-500" defaultChecked />
+                  <input type="radio" name="role" className="accent-indigo-500" onClick={() => setrole("student")} />
                   Student
                 </label>
                 <label className="flex w-full items-center gap-2 rounded-md border border-gray-600 p-2 text-xs text-gray-200">
-                  <input type="radio" name="role" className="accent-indigo-500" />
+                  <input type="radio" name="role" className="accent-indigo-500" onClick={() => setrole("teacher")} />
                   Teacher
                 </label>
               </div>
@@ -62,6 +76,8 @@ export default function Login() {
               <input
                 type="email"
                 className="mt-1 w-full rounded-md bg-gray-700 px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-indigo-500"
+                onChange={(e) => setStudentEmail(e.target.value)}
+                required
               />
             </div>
 
@@ -78,6 +94,7 @@ export default function Login() {
                 type={showPassword ? "text" : "password"}
                 className="mt-1 w-full rounded-md bg-gray-700 px-3 py-1.5 pr-10 text-sm text-white focus:ring-2 focus:ring-indigo-500"
                 onChange={(e) => setStudentPassword(e.target.value)}
+                required
               />
 
               <span

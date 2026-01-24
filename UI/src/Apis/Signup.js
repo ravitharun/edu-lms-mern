@@ -9,7 +9,7 @@ const handelLogin = async (data, e) => {
   try {
     e.preventDefault()
     // e.p
-    console.log(data)
+    console.log(data, "login data")
   } catch (error) {
 
   }
