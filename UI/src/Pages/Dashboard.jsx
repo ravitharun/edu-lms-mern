@@ -39,18 +39,32 @@ function Dashboard() {
   const [notificationType, setNotificationType] = useState("Notification");
   const [placementNotificationType, setplacementNotificationType] = useState("UpcomingJobs");
   const [profileimgs, setprofileimg] = useState(false)
-  const imgechooserurl = [{
-    imgUrl: "https://wallpapercave.com/wp/wp3629359.jpg"
+  const imgechooserurl = [
 
-  },
-  {
-    imgUrl: "https://wallpaperaccess.com/full/1349218.jpg"
+    {
+      imgUrl: "https://wallpapercave.com/wp/wp3629359.jpg"
 
-  },
-  {
-    imgUrl: "https://th.bing.com/th/id/OIP.IQisviMYhD2P8Th5nNajkAHaEK?w=269&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+    },
+    {
+      imgUrl: "https://tse1.mm.bing.net/th/id/OIP.Q4QiWBOb2kretcP6PEOUyQHaEK?rs=1&pid=ImgDetMain&o=7&rm=3"
 
-  },
+    },
+    {
+      imgUrl: "https://tse4.mm.bing.net/th/id/OIP.rJam30xWJpzfQHBwMx3tHwHaEJ?w=626&h=351&rs=1&pid=ImgDetMain&o=7&rm=3"
+
+    },
+    {
+      imgUrl: "https://th.bing.com/th/id/OIP.8P8HaDgqqrbnG1xMZaeGZgHaEK?w=290&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+
+    },
+    {
+      imgUrl: "https://wallpaperaccess.com/full/1349218.jpg"
+
+    },
+    {
+      imgUrl: "https://th.bing.com/th/id/OIP.IQisviMYhD2P8Th5nNajkAHaEK?w=269&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+
+    },
 
 
 
@@ -90,7 +104,7 @@ function Dashboard() {
     setimgurlChoosed(choosedurl)
     toast.success("Updated ...")
   }
- 
+
 
   return (
     <>
@@ -149,9 +163,20 @@ function Dashboard() {
           </div>
 
           {/* Button directly under image */}
-          <button className="flex items-center gap-2 mt-3 px-5 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold rounded-full shadow-md hover:shadow-xl hover:scale-105 transition-transform duration-300" onClick={Handelbgimages}>
-            <FaEdit className="text-sm" /> Customize
-          </button>
+         <button
+  onClick={Handelbgimages}
+  className="flex items-center gap-2 mt-3 px-5 py-2
+             bg-gradient-to-r from-blue-500/30 to-indigo-500/30
+             backdrop-blur-md
+             border border-white/20
+             text-white font-semibold rounded-full
+             shadow-md hover:shadow-xl
+             hover:from-blue-500/40 hover:to-indigo-500/40
+             hover:scale-105 transition-all duration-300"
+>
+  <FaEdit className="text-sm" /> Customize
+</button>
+
         </div>
 
       </div>
