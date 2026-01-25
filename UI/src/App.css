@@ -1,4 +1,8 @@
 @import "tailwindcss";
+.title{
+  background-color: red;
+  font-family: 'Courier New', Courier, monospace;
+}
 .nav-btn {
   display: flex;
   align-items: center;

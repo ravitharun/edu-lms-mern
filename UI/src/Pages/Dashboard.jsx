@@ -4,9 +4,12 @@ import App from '../App';
 import { FaBell, FaBellSlash, FaBriefcase, FaCheckCircle, FaDownload, FaEnvelope, FaInfoCircle, FaUserCircle } from 'react-icons/fa';
 import Footer from './Footer';
 import { IoNewspaperOutline } from "react-icons/io5";
-
+import "../App.css"
 function Dashboard() {
   const Name = "Ravi Tharun";
+
+
+
 
   const ProfileData = [
     { icon: '📊', type: "Attendance", count: "87.4%" },
@@ -101,143 +104,111 @@ function Dashboard() {
 
 
       {/* Main Section: Left Profile + Right Stats + Notifications */}
-      <div className="flex flex-col lg:flex-row gap-6 mt-6 justify-center">
-        {/* Left: Profile Card (smaller width) */}
-        <div
-          className="bg-white rounded-xl p-6 w-full lg:w-70 shadow-lg h-[360px]"
-          style={{ boxShadow: "0 4px 20px rgba(59, 130, 246, 0.2)" }}
-        >
-
-
-          <div className="flex flex-col items-center -mt-12 mb-3">
-            <div
-              className="bg-white rounded-full p-2"
-              style={{ boxShadow: "0 2px 10px rgba(59, 130, 246, 0.2)" }}
-            >
-              <div className="absolute md:static top-6 right-6">
-                <div
-                  className="w-16 h-16 rounded-full overflow-hidden ring-4 ring-white/50 ring-offset-2 shadow-lg"
-                  style={{ boxShadow: "0 8px 25px rgba(0,0,0,0.3)" }}
-                >
-                  <img
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face&auto=format&ixlib=rb-4.0.3"
-                    alt="Ravi Tharun"
-                    className="w-full h-full object-cover"
-                    title={Name}
-                  />
-                </div>
-              </div>
+      <div className="flex flex-col lg:flex-row gap-6 mt-6 px-4">
+        {/* ================= PROFILE CARD ================= */}
+        <div className="bg-white rounded-xl p-5 w-full sm:max-w-md lg:max-w-sm shadow-lg mx-auto">
+          <div className="flex flex-col items-center mb-4">
+            <div className="w-20 h-20 rounded-full overflow-hidden ring-4 ring-blue-200 shadow-lg">
+              <img
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120"
+                alt={Name}
+                className="w-full h-full object-cover"
+              />
             </div>
-            <h2 className="text-xl font-semibold text-gray-800 text-center mt-2">{Name}</h2>
-            <div className="w-12 h-1 bg-blue-500 rounded my-2"></div>
+
+            <h2 className="text-lg font-semibold text-gray-800 mt-2 text-center">
+              {Name}
+            </h2>
+            <div className="w-10 h-1 bg-blue-500 rounded mt-1"></div>
           </div>
 
-          <p className="text-sm text-gray-600 mb-3">CSE · B.Tech · 8th Sem · STU237</p>
+          <p className="text-sm text-gray-600 text-center mb-4">
+            CSE · B.Tech · 8th Sem · STU237
+          </p>
 
-          <div className="space-y-2 text-sm">
-            <p><span className="text-gray-500">Roll Number:</span> <span className="font-medium">40</span></p>
-            <p><span className="text-gray-500">Date of Birth:</span> <span className="font-medium">18/06/2005</span></p>
-            <p><span className="text-gray-500">Student Email:</span> <span className="font-medium">student_email</span></p>
-            <p><span className="text-gray-500">Phone Number:</span> <span className="font-medium">student_phnumber</span></p>
+          <div className="space-y-2 text-sm text-center text-gray-700">
+            <p><span className="text-gray-500">Roll No:</span> 40</p>
+            <p><span className="text-gray-500">DOB:</span> 18/06/2005</p>
+            <p><span className="text-gray-500">Email:</span> student_email</p>
+            <p><span className="text-gray-500">Phone:</span> student_phone</p>
           </div>
         </div>
 
-        {/* Right: Top Stats + Notifications (takes remaining space) */}
-        <div className="flex-1 flex flex-col gap-4 w-full">
-          {/* Top 3 ProfileData Cards */}
-          <div className="flex flex-wrap gap-4 justify-start">
+        {/* ================= RIGHT SECTION ================= */}
+        <div className="flex-1 flex flex-col gap-6 w-full">
+          {/* ---------- STATS CARDS ---------- */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {ProfileData.map((data, idx) => (
               <div
                 key={idx}
-                className="relative flex items-center gap-4 rounded-xl p-4 w-full sm:w-[calc(33%-1rem)] shadow-md"
-                style={{
-                  background: "linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%)",
-                  color: "white",
-                  height: "100px",
-                }}
+                title={data.type}
+                className="flex items-center gap-4 rounded-xl p-4 shadow-md text-white hover:cursor-pointer   bg-gradient-to-br from-blue-500 to-blue-400
+                hover:from-blue-300 
+hover:to-blue-400"
+
               >
-                <div className="flex items-center justify-center bg-white/20 rounded-lg w-12 h-12 text-2xl">
+                <div className="w-12 h-12 flex items-center justify-center bg-white/20 rounded-lg text-2xl ">
                   {data.icon}
                 </div>
-                <div className="flex flex-col">
-                  <span className="text-sm">{data.type}</span>
-                  <span className="text-2xl font-bold">{data.count}</span>
+                <div>
+                  <p className="text-sm">{data.type}</p>
+                  <p className="text-xl font-bold">{data.count}</p>
                 </div>
-                <div className="absolute bottom-0 right-0 w-16 h-16 rounded-tr-xl rounded-bl-xl bg-white/20"></div>
               </div>
             ))}
           </div>
 
-
-
-          {/* Notifications Section */}
-          <div className="bg-white p-4 rounded-xl shadow-md mt-2">
-            {/* Header */}
-            <div className="flex items-center gap-2 mb-4 text-gray-800  text-xl">
+          {/* ---------- NOTIFICATIONS ---------- */}
+          <div className="bg-white p-4 rounded-xl shadow-md w-full">
+            <div className="flex items-center gap-2 mb-4 text-lg font-semibold text-gray-800">
               <FaBell className="text-blue-500" />
-              <span className="flex items-center gap-1 font-mono">
-                <span>Notifications</span>
-                {notificationType !== "Notification" && (
-                  <span className="text-[10px] px-1.5 py-0.5 bg-blue-100 text-blue-600 rounded-full">
-                    {notificationType}
-                  </span>
-                )}
-              </span>
+              Notifications
             </div>
 
-            {/* Nav Tabs */}
-            <nav className="flex flex-wrap gap-3 justify-start bg-gray-100 p-2 rounded-md shadow-inner mb-4">
+            <nav className="flex flex-wrap gap-2 mb-4">
               {navItems.map((item) => (
-                <li
+                <button
                   key={item.key}
                   onClick={() => setNotificationType(item.key)}
-                  className={`list-none cursor-pointer px-4 py-2 rounded-full transition-colors duration-300 text-sm font-medium
-              ${notificationType === item.key
-                      ? "bg-blue-500 text-white shadow"
-                      : "text-gray-700 hover:bg-blue-200"
+                  className={`px-4 py-1.5 rounded-full text-sm transition
+                  ${notificationType === item.key
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-blue-100"
                     }`}
                 >
                   {item.label}
-                </li>
+                </button>
               ))}
             </nav>
 
-            {/* Notification Content */}
             {notificationType === "Notification" && (
-              <div className="overflow-y-auto" style={{ maxHeight: "250px" }}>
+              <div className="max-h-[220px] overflow-y-auto space-y-2">
                 {Notifications.map((notif, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-3 w-full hover:bg-gray-50 transition"
+                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50"
                   >
-                    <div className="flex items-center justify-center bg-blue-100 text-blue-500 rounded-full w-10 h-10">
+                    <div className="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-500 rounded-full">
                       {notif.icon}
                     </div>
-                    <div className="flex-1 mx-3">
-                      <p className="text-sm font-medium text-gray-800">{notif.title}</p>
+
+                    <div className="flex-1">
+                      <p className="text-sm font-medium">{notif.title}</p>
                       <p className="text-xs text-gray-500">{notif.subtitle}</p>
                     </div>
+
                     <span className="text-xs text-gray-400">{notif.time}</span>
                   </div>
                 ))}
               </div>
             )}
 
-            {notificationType === "Studentannocement" && (
+            {notificationType !== "Notification" && (
               <div className="text-center py-10 text-gray-500 font-medium">
-                Student Announcements will appear here.
-              </div>
-            )}
-
-            {notificationType === "circular" && (
-              <div className="text-center py-10 text-gray-500 font-medium">
-                Circulars will appear here.
+                No data available
               </div>
             )}
           </div>
-
-
-
         </div>
       </div>
 
