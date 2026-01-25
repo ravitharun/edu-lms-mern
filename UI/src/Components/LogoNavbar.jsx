@@ -15,7 +15,7 @@ function LogoNavbar() {
     const [openMobile, setOpenMobile] = useState(false);
 
     return (
-    
+
         <nav className="sticky top-0 z-50 bg-white shadow">
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
 
@@ -32,14 +32,15 @@ function LogoNavbar() {
                 {/* RIGHT: Desktop Profile */}
                 <div className="hidden md:flex items-center gap-4 relative">
                     <button
-                        onClick={() => setOpenProfile((prev)=>!prev)}
+                        onClick={() => setOpenProfile((prev) => !prev)}
                         className="flex items-center gap-2 rounded-lg px-3 py-2 hover:bg-gray-100"
                     >
                         <FiUser className="text-gray-700" />
-                        <span className="text-sm font-medium text-gray-700">
-                            HI,  Ravi Tharun
+                        <span className="text-sm font-medium bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                            HI, Ravi Tharun
                         </span>
-                        {openProfile ? <FiChevronUp className="text-gray-500"/>: <FiChevronDown className="text-gray-500" />}
+
+                        {openProfile ? <FiChevronUp className="text-gray-500" /> : <FiChevronDown className="text-gray-500" />}
                     </button>
 
                     {/* Profile Dropdown */}
