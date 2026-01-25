@@ -1,7 +1,7 @@
 
 import React, { Activity, useState } from 'react';
 import App from '../App';
-import { FaBell, FaBellSlash, FaBriefcase, FaCheckCircle, FaDownload, FaEdit, FaEnvelope, FaInfoCircle, FaUserCircle } from 'react-icons/fa';
+import { FaBell, FaBellSlash, FaBriefcase, FaCheck, FaCheckCircle, FaDownload, FaEdit, FaEnvelope, FaInfoCircle, FaTicketAlt, FaUserCircle } from 'react-icons/fa';
 import Footer from './Footer';
 import { IoNewspaperOutline } from "react-icons/io5";
 import "../App.css"
@@ -163,9 +163,9 @@ function Dashboard() {
           </div>
 
           {/* Button directly under image */}
-         <button
-  onClick={Handelbgimages}
-  className="flex items-center gap-2 mt-3 px-5 py-2
+          <button
+            onClick={Handelbgimages}
+            className="flex items-center gap-2 mt-3 px-5 py-2
              bg-gradient-to-r from-blue-500/30 to-indigo-500/30
              backdrop-blur-md
              border border-white/20
@@ -173,9 +173,9 @@ function Dashboard() {
              shadow-md hover:shadow-xl
              hover:from-blue-500/40 hover:to-indigo-500/40
              hover:scale-105 transition-all duration-300"
->
-  <FaEdit className="text-sm" /> Customize
-</button>
+          >
+            <FaEdit className="text-sm" /> Customize
+          </button>
 
         </div>
 
@@ -195,19 +195,33 @@ function Dashboard() {
 
             {/* Images Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {imgechooserurl.map((img, idx) => (
-                <div
-                  key={idx}
-                  className="cursor-pointer rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-400 transition"
-                  onClick={() => handleImageClick(img.imgUrl)}
-                >
-                  <img
-                    src={img.imgUrl}
-                    alt="not-found"
-                    className="w-full h-24 object-cover hover:scale-105 transition-transform"
-                  />
-                </div>
-              ))}
+              {imgechooserurl.map((img, idx) => {
+                const isSelected = imgurlChoosed === img.imgUrl;
+
+                return (
+                  <div
+                    key={idx}
+                    onClick={() => handleImageClick(img.imgUrl)}
+                    className={`relative cursor-pointer rounded-xl overflow-hidden border-2 
+          ${isSelected ? "border-green-500" : "border-transparent"}
+          hover:border-blue-400 transition`}
+                  >
+                    {/* ✅ Tick Icon */}
+                    {isSelected && (
+                      <div className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md">
+                        <FaCheckCircle className="text-green-500 text-lg sm:text-xl" />
+                      </div>
+                    )}
+
+                    {/* Image */}
+                    <img
+                      src={img.imgUrl}
+                      alt="not-found"
+                      className="w-full h-24 sm:h-28 md:h-32 object-cover hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
