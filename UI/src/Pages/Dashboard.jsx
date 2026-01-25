@@ -1,7 +1,7 @@
 
 import React, { Activity, useState } from 'react';
 import App from '../App';
-import { FaBell, FaBellSlash, FaBriefcase, FaCheck, FaCheckCircle, FaDownload, FaEdit, FaEnvelope, FaInfoCircle, FaTicketAlt, FaUserCircle } from 'react-icons/fa';
+import { FaBell, FaBellSlash, FaBriefcase, FaCheck, FaCheckCircle, FaDownload, FaEdit, FaEnvelope, FaInfoCircle, FaTicketAlt, FaUserCircle, FaUserTie } from 'react-icons/fa';
 import Footer from './Footer';
 import { IoNewspaperOutline } from "react-icons/io5";
 import "../App.css"
@@ -61,8 +61,25 @@ function Dashboard() {
       imgUrl: "https://wallpaperaccess.com/full/1349218.jpg"
 
     },
+    // {
+    //   type: "vid",
+    //   imgUrl: "https://www.pexels.com/download/video/28077530/"
+
+    // },
     {
       imgUrl: "https://th.bing.com/th/id/OIP.IQisviMYhD2P8Th5nNajkAHaEK?w=269&h=180&c=7&r=0&o=7&dpr=1.5&pid=1.7&rm=3"
+
+    },
+    {
+      imgUrl: "https://img.freepik.com/premium-photo/colourful-smoke-effect-shapes-emerging-from-depth-profound-black-background-chromatic-mirage-immerses-viewer-hypnotic-3d-environment_76964-63864.jpg"
+
+    },
+    {
+      imgUrl: "https://wallpaperaccess.com/full/3641747.jpg"
+
+    },
+    {
+      imgUrl: "https://img.freepik.com/free-photo/majestic-mountain-peak-tranquil-winter-landscape-generated-by-ai_188544-15662.jpg?t=st=1769354538~exp=1769358138~hmac=f6b8db79a0a2a68ccf6f80989cc3109ffcac2c31c1fd79eedea0d66ed097b833&w=1480"
 
     },
 
@@ -84,26 +101,61 @@ function Dashboard() {
   ];
   const Placement = []
   const message = "Image not applied yet"
+
+
   // handel poup to show customize images
   const Handelbgimages = () => {
     setprofileimg((prev) => !prev)
 
   }
 
-
-  const handleImageClick = (choosedurl) => {
-
-
-
-
-
-
+  // handleImageClick
+  const handleImageClick = (choosedurl, type) => {
     if (!choosedurl) {
       return toast.error("We hit a snag. Please refresh and try again.")
     }
+    if (type === "Vid") {
+
+      return setimgurlChoosed({ choosedurl, type })
+    }
     setimgurlChoosed(choosedurl)
     toast.success("Updated ...")
+    console.log(imgurlChoosed)
   }
+
+  // course's
+  const courses = [
+    {
+      title: "Data Structures & Algorithms",
+      img: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4",
+      notification: "Assignment due tomorrow",
+      prof: "Dr. S. Kumar"
+    },
+    {
+      title: "Database Management Systems",
+      img: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
+      notification: "New material uploaded",
+      prof: "Prof. Anjali Rao"
+    },
+    {
+      title: "Artificial Intelligence",
+      img: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+      notification: "Quiz on Friday",
+      prof: "Dr. R. Mehta"
+    },
+    {
+      title: "Computer Networks",
+      img: "https://images.unsplash.com/photo-1581091012184-7b1b9c8c1b4c",
+      notification: "Live class today 4 PM",
+      prof: "Prof. Naveen Sharma"
+    },
+    {
+      title: "Web Development (MERN)",
+      img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+      notification: "Project submission next week",
+      prof: "Mr. Rahul Verma"
+    }
+  ];
 
 
   return (
@@ -181,14 +233,18 @@ function Dashboard() {
         </div>
 
       </div>
+
+
+
+      {/* poup */}
       {profileimgs && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg w-11/12 md:w-3/4 lg:w-1/2 max-h-[80vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-semibold">Select Your Profile Image</h2>
+              <h2 className="text-lg font-semibold">Choose Your Dashboard Background</h2>
               <button
                 onClick={Handelbgimages}
-                className="text-red-500 font-bold text-xl"
+                className="text-gray-900 font-bold text-3xl hover:cursor-pointer hover:text-gray-500"
               >
                 &times;
               </button>
@@ -202,31 +258,48 @@ function Dashboard() {
                 return (
                   <div
                     key={idx}
-                    onClick={() => handleImageClick(img.imgUrl)}
-                    className={`relative cursor-pointer rounded-xl overflow-hidden border-2 
-          ${isSelected ? "border-green-500" : "border-transparent"}
-          hover:border-blue-400 transition`}
+                    onClick={() => handleImageClick(img.imgUrl, img.type)}
+                    className={`relative cursor-pointer rounded-xl overflow-hidden border-2
+        ${isSelected ? "border-green-500" : "border-transparent"}
+        hover:border-blue-400 transition`}
                   >
-                    {/* ✅ Tick Icon */}
+                    {/* Tick Icon */}
                     {isSelected && (
-                      <div className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md">
-                        <FaCheckCircle className="text-green-500 text-lg sm:text-xl" />
+                      <div className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-md">
+                        <FaCheckCircle className="text-green-500 text-lg" />
                       </div>
                     )}
 
-                    {/* Image */}
-                    <img
-                      src={img.imgUrl}
-                      alt="not-found"
-                      className="w-full h-24 sm:h-28 md:h-32 object-cover hover:scale-105 transition-transform duration-300"
-                    />
+                    {/* Fixed size container */}
+                    <div className="w-full aspect-[4/3]">
+                      {img.type === "vid" ? (
+                        <video
+                          src={img.imgUrl}
+                          autoPlay
+                          muted
+                          loop
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <img
+                          src={img.imgUrl}
+                          alt={img.type}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        />
+                      )}
+                    </div>
                   </div>
                 );
               })}
             </div>
+
           </div>
         </div>
       )}
+
+
+
+
 
       {/* Main Section: Left Profile + Right Stats + Notifications */}
       <div className="flex flex-col lg:flex-row gap-6 mt-6 px-4">
@@ -283,56 +356,132 @@ hover:to-blue-400"
             ))}
           </div>
 
-          {/* ---------- NOTIFICATIONS ---------- */}
+          {/* Your Courses */}
+
           <div className="bg-white p-4 rounded-xl shadow-md w-full">
-            <div className="flex items-center gap-2 mb-4 text-lg font-semibold text-gray-800">
-              <FaBell className="text-blue-500" />
-              Notifications
+            <div className="bg-white p-4 rounded-xl shadow-md w-full mb-5">
+              {/* Header */}
+              <div className="flex items-center gap-2 mb-4 text-lg font-semibold text-gray-800 relative">
+                <FaBell className="text-blue-500 text-xl" />
+
+                {/* Badge on top-right of the bell */}
+                <span className="absolute -top-2 -right-2 px-2.5 py-0.5 text-xs font-semibold text-white bg-blue-600 rounded-full">
+                  {courses.length}
+                </span>
+
+                <span className="ml-6">Your Courses</span>
+              </div>
+
+
+              {/* Courses Grid */}
+              <div
+                className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[230px] overflow-y-auto scrollbar-hide"
+              >
+                {courses.length <= 0 ?
+
+
+                  <>
+
+
+                    <div className="flex items-center justify-center mt-6">
+                      <div className="flex items-center gap-2 px-5 py-3 bg-blue-50 rounded-xl shadow-md">
+                        <FaInfoCircle className="text-lg text-blue-500" />
+                        <p className="text-sm text-blue-600 font-medium">
+                          No courses found
+                        </p>
+                      </div>
+                    </div>
+
+
+
+
+                  </>
+                  : courses.map((data, idx) => (
+                    <div
+                      key={idx}
+                      title={`${data.title} \n ${data.notification}`}
+                      className="flex gap-3 p-3 rounded-xl bg-white shadow-sm hover:shadow-lg transition-all duration-300"
+                    >
+                      {/* Image */}
+                      <img
+                        src={data.img}
+                        alt={data.title}
+                        className="w-12 h-12 rounded-lg object-cover"
+                      />
+
+                      {/* Content */}
+                      <div className="flex-1">
+                        <h3 className="text-sm font-semibold text-gray-800 leading-tight">
+                          {data.title}
+                        </h3>
+
+                        <p className="text-xs text-blue-600 mt-1 truncate">
+                          {data.notification}
+                        </p>
+
+                        <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
+                          <FaUserTie className="text-gray-400" />
+                          {data.prof}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
             </div>
 
-            <nav className="flex flex-wrap gap-2 mb-4">
-              {navItems.map((item) => (
-                <button
-                  key={item.key}
-                  onClick={() => setNotificationType(item.key)}
-                  className={`px-4 py-1.5 rounded-full text-sm transition
+
+
+            {/* ---------- NOTIFICATIONS ---------- */}
+            <div className="bg-white p-4 rounded-xl shadow-md w-full">
+              <div className="flex items-center gap-2 mb-4 text-lg font-semibold text-gray-800">
+                <FaBell className="text-blue-500" />
+                Notifications
+              </div>
+
+              <nav className="flex flex-wrap gap-2 mb-4">
+                {navItems.map((item) => (
+                  <button
+                    key={item.key}
+                    onClick={() => setNotificationType(item.key)}
+                    className={`px-4 py-1.5 rounded-full text-sm transition
                   ${notificationType === item.key
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-100 text-gray-700 hover:bg-blue-100"
-                    }`}
-                >
-                  {item.label}
-                </button>
-              ))}
-            </nav>
-
-            {notificationType === "Notification" && (
-              <div className="max-h-[220px] overflow-y-auto space-y-2">
-                {Notifications.map((notif, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50"
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-100 text-gray-700 hover:bg-blue-100"
+                      }`}
                   >
-                    <div className="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-500 rounded-full">
-                      {notif.icon}
-                    </div>
-
-                    <div className="flex-1">
-                      <p className="text-sm font-medium">{notif.title}</p>
-                      <p className="text-xs text-gray-500">{notif.subtitle}</p>
-                    </div>
-
-                    <span className="text-xs text-gray-400">{notif.time}</span>
-                  </div>
+                    {item.label}
+                  </button>
                 ))}
-              </div>
-            )}
+              </nav>
 
-            {notificationType !== "Notification" && (
-              <div className="text-center py-10 text-gray-500 font-medium">
-                No data available
-              </div>
-            )}
+              {notificationType === "Notification" && (
+                <div className="max-h-[220px] overflow-y-auto space-y-2">
+                  {Notifications.map((notif, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50"
+                    >
+                      <div className="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-500 rounded-full">
+                        {notif.icon}
+                      </div>
+
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">{notif.title}</p>
+                        <p className="text-xs text-gray-500">{notif.subtitle}</p>
+                      </div>
+
+                      <span className="text-xs text-gray-400">{notif.time}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {notificationType !== "Notification" && (
+                <div className="text-center py-10 text-gray-500 font-medium">
+                  No data available
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -470,9 +619,6 @@ hover:to-blue-400"
         </div>
 
       </div>
-
-
-
 
 
 
