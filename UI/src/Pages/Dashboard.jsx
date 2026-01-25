@@ -357,7 +357,7 @@ function Dashboard() {
                     </p>
                   </div>
                 </div>
-              )}F
+              )}
             </div>
           }
           {/* Empty State */}
