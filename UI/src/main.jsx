@@ -7,14 +7,20 @@ import { BrowserRouter } from "react-router-dom";
 import Login from './Components/Login.jsx';
 import Siginup from './Components/SiginUp.jsx';
 import Dashboard from './Pages/Dashboard.jsx';
+import MyCourses from './Pages/MyCourses.jsx';
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/siginup" element={<Siginup />} />
+ 
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/my-course" element={<MyCourses />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/siginup" element={<Siginup />} />
+
       </Routes>
     </BrowserRouter>
 

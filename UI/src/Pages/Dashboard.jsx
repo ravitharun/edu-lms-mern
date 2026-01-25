@@ -171,6 +171,7 @@ function Dashboard() {
              border border-white/20
              text-white font-semibold rounded-full
              shadow-md hover:shadow-xl
+             hover:cursor-pointer
              hover:from-blue-500/40 hover:to-indigo-500/40
              hover:scale-105 transition-all duration-300"
           >
