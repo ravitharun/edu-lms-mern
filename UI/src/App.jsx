@@ -4,25 +4,21 @@ import Navbar from "./Components/Navbar";
 
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  console.log(mobileMenuOpen)
+
   return (
     <>
-      {/* Hide LogoNavbar when mobile menu in Navbar is open */}
-  <>
-  {/* LogoNavbar sticky */}
-  <div className="sticky top-0 z-50">
-    <LogoNavbar hide={mobileMenuOpen} />
-  </div>
+      {/* LogoNavbar → hidden on mobile */}
+      <div className="sticky top-0 z-50 hidden md:block">
+        <LogoNavbar />
+      </div>
 
-  {/* Navbar sticky below LogoNavbar */}
-  <div className="sticky top-16 z-40"> 
-    <Navbar
-      mobileMenuOpen={mobileMenuOpen}
-      setMobileMenuOpen={setMobileMenuOpen}
-    />
-  </div>
-</>
-
+      {/* Navbar → always visible */}
+      <div className="sticky top-0 md:top-16 z-40">
+        <Navbar
+          mobileMenuOpen={mobileMenuOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+        />
+      </div>
     </>
   );
 }
