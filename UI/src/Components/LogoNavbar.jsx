@@ -11,7 +11,7 @@ import {
 } from "react-icons/fi";
 
 function LogoNavbar({ hide }) {
-  const [openProfile, setOpenProfile] = useState(true);
+  const [openProfile, setOpenProfile] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
 
   // Hide LogoNavbar if parent says so
