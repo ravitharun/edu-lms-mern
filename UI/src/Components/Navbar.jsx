@@ -57,18 +57,19 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
             </div>
 
             {/* MOBILE TOGGLE */}
-            <div className="flex items-center justify-between md:hidden w-full">
-              {/* Menu text on left */}
-              <span className="text-white font-semibold text-lg">Menu</span>
+            <div className="flex items-center justify-between w-full md:hidden">
+              {/* Logo */}
+              <img src="https://www.bing.com/th/id/OIP.zSG2VrHBm9ix_kbmmhw5cwHaHa?w=195&h=211&c=8&rs=1&qlt=90&r=0&o=6&dpr=1.5&pid=3.1&rm=2" alt="Logo" className="h-8" />
 
-              {/* Hamburger/X icon on right */}
+              {/* Hamburger / Close */}
               <button
-                onClick={() => setMobileMenuOpen((prev) => !prev)}
+                onClick={() => setMobileMenuOpen(prev => !prev)}
                 className="text-white cursor-pointer"
               >
                 {mobileMenuOpen ? <FiX size={26} /> : <FiMenu size={26} />}
               </button>
             </div>
+
           </div>
         </div>
 
@@ -80,7 +81,8 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
               <div className="flex flex-col gap-2 p-4">
 
                 <MobileItem to="/" icon={<FiHome />} title="Dashboard" />
-                <MobileItem to="/my-course" icon={<FiBook />} title="My Courses" />
+                <MobileItem to="/" icon={<FiMessageCircle />} title="Feedback" />
+                <MobileItem to="/my-course" icon={<FiFileText />} title="Study Materials" />
 
                 {/* Mobile Academics Dropdown */}
                 <div className="flex flex-col gap-1">
