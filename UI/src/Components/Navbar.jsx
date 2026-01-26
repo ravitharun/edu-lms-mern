@@ -19,7 +19,7 @@ import MobilePassnav from "./MobilePassnav";
 
 function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
   const [academicsOpen, setAcademicsOpen] = useState(false);
-  const [openProfile, setOpenProfile] = useState(true);
+  const [openProfile, setOpenProfile] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
 
   return (

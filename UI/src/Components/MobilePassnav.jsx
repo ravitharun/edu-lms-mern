@@ -8,7 +8,7 @@ function MobilePassnav({ mobileMenuOpen }) {
     return (
         <>
 
-            <div className="md:hidden border-t bg-white shadow">
+            <div className="md:hidden border-t bg-white shadow rounded-xl">
                 <div className="flex flex-col gap-2 px-4 py-4">
                     <Link
                         to="/profile"
