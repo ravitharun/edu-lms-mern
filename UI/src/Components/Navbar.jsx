@@ -32,8 +32,8 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
             {/* DESKTOP MENU */}
             <div className="hidden md:flex items-center gap-6">
               <NavItem to="/" icon={<FiHome size={20} />} title="Dashboard" />
-              <NavItem to="/feedback" icon={<FiMessageCircle size={20} />} title="Feedback" />
               <NavItem to="/my-course" icon={<FiFileText size={20} />} title="Study Materials" />
+              <NavItem to="/feedback" icon={<FiMessageCircle size={20} />} title="Feedback" />
 
               {/* Academics Dropdown */}
               <div className="relative">
@@ -81,8 +81,8 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
               <div className="flex flex-col gap-2 p-4">
 
                 <MobileItem to="/" icon={<FiHome />} title="Dashboard" />
-                <MobileItem to="/" icon={<FiMessageCircle />} title="Feedback" />
                 <MobileItem to="/my-course" icon={<FiFileText />} title="Study Materials" />
+                <MobileItem to="/" icon={<FiMessageCircle />} title="Feedback" />
 
                 {/* Mobile Academics Dropdown */}
                 <div className="flex flex-col gap-1">
