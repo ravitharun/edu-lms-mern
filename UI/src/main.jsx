@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import Login from './Components/Login.jsx';
 import Siginup from './Components/SiginUp.jsx';
 import BackgroungImgLoader from './Loaders/BackgroungImgLoader.jsx';
+import Studymaterials from './Pages/Studymaterials.jsx';
 const Dashboard = lazy(() => import("./Pages/Dashboard.jsx"));
 const MyCourses = lazy(() => import("./Pages/MyCourses.jsx"));
 // import MyCourses from './Pages/MyCourses.jsx';
@@ -20,6 +21,11 @@ createRoot(document.getElementById('root')).render(
         <Route path="/" element={
           <Suspense fallback={<BackgroungImgLoader />}>
             <Dashboard />
+          </Suspense>
+        } />
+        <Route path="/moreabout" element={
+          <Suspense fallback={<BackgroungImgLoader />}>
+            <Studymaterials  />
           </Suspense>
         } />
 

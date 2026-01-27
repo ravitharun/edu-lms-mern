@@ -1,32 +1,4 @@
-// import React from 'react';
 
-// function BackgroungImgLoader() {
-//   return (
-//     <div className="flex flex-col items-center justify-center w-full min-h-screen bg-gray-100 dark:bg-gray-900 p-4 space-y-6">
-
-//       {/* Header Skeleton */}
-//       <div className="w-3/4 h-8 bg-gray-300 dark:bg-gray-700 rounded-md animate-pulse"></div>
-
-//       {/* Sub-header Skeleton */}
-//       <div className="w-1/2 h-6 bg-gray-300 dark:bg-gray-700 rounded-md animate-pulse"></div>
-
-//       {/* Card Skeletons */}
-//       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full">
-//         {[...Array(6)].map((_, i) => (
-//           <div
-//             key={i}
-//             className="w-full h-48 bg-gray-300 dark:bg-gray-700 rounded-lg animate-pulse"
-//           ></div>
-//         ))}
-//       </div>
-
-//       {/* Footer Skeleton */}
-//       <div className="w-3/4 h-6 bg-gray-300 dark:bg-gray-700 rounded-md animate-pulse"></div>
-//     </div>
-//   );
-// }
-
-// export default BackgroungImgLoader;
 import React from "react";
 
 function BackgroungImgLoader() {

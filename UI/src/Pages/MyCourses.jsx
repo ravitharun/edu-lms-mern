@@ -2,6 +2,7 @@ import React from "react";
 import App from "../App";
 import BackButton from "../Components/BackButton";
 import BackgroungImgLoader from "../Loaders/BackgroungImgLoader";
+import { useNavigate } from "react-router-dom";
 
 function MyCourses() {
   const Data_metrails = [
@@ -48,15 +49,18 @@ function MyCourses() {
       CourseName: "Operating Systems",
     },
   ];
-
+  const naviaget = useNavigate("")
+  const handeldataprops = (data) => {
+    naviaget("/moreabout", { state: data })
+  }
   return (
     <>
       <App />
-      <BackButton />
+      <BackButton page="dashboard" />
 
       <div className="px-4 mt-8">
         <h1 className="text-2xl font-semibold text-gray-800 mb-6">
-          Study Materials  
+          Study Materials
         </h1>
         {/* GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -64,6 +68,7 @@ function MyCourses() {
             <div
               key={data.CourseID}
               className="bg-white rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer overflow-hidden"
+              onClick={() => handeldataprops(data)}
             >
               {/* IMAGE (TOP HALF) */}
               <div className="h-32 w-full">
@@ -92,7 +97,8 @@ function MyCourses() {
           ))}
         </div>
       </div>
-      <BackgroungImgLoader></BackgroungImgLoader>
+
+
     </>
   );
 }
