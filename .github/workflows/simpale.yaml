@@ -1,0 +1,12 @@
+name: github
+
+on: push
+
+jobs:
+  heytharundev:
+    runs-on: ubuntu-latest
+    steps:
+      - name: simple step
+        run: echo "Hello!"
+      - name: task2
+        run: echo "task2"  
