@@ -1,48 +1,51 @@
-name: github
+name: MERN Project CI
 
-on: 
+on:
   push:
     branches:
-    -  main
+      - main   # runs only on main branch
 
 jobs:
-  heytharundev:
+  frontend:
+    name: Frontend Build
     runs-on: ubuntu-latest
+
     steps:
-      -  name: Checkout code
-         uses: actions/checkout@v4  # grabs your repo code
-      - name: install the node
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version : 18
+          node-version: 18
 
-
-
-      - name: install react Packages
+      - name: Install frontend dependencies
         run: npm install
-      - name: build the react
+        working-directory: client
+
+      - name: Build frontend
         run: npm run build
+        working-directory: client
 
-      - name: task2
-        run: echo "installed done in ui side"  
-# server side it will run these 
-  backedn-dev:
+      - name: Frontend done
+        run: echo "Frontend build completed"
+
+  backend:
+    name: Backend Setup
     runs-on: ubuntu-latest
+
     steps:
-      -  name: Checkout code
-         uses: actions/checkout@v4  # grabs your repo code
-      - name: install the node
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version : 18
+          node-version: 18
 
-
-
-      - name: install react Packages
+      - name: Install backend dependencies
         run: npm install
+        working-directory: server
 
       - name: Backend ready
         run: echo "Backend dependencies installed successfully"
-
-    
-
