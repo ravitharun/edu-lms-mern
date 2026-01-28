@@ -21,11 +21,11 @@ jobs:
 
       - name: Install frontend dependencies
         run: npm install
-        working-directory: client
+        working-directory: UI
 
       - name: Build frontend
         run: npm run build
-        working-directory: client
+        working-directory: UI
 
       - name: Frontend done
         run: echo "Frontend build completed"
@@ -45,7 +45,7 @@ jobs:
 
       - name: Install backend dependencies
         run: npm install
-        working-directory: server
+        working-directory: backend
 
       - name: Backend ready
         run: echo "Backend dependencies installed successfully"
