@@ -1,6 +1,9 @@
 name: github
 
-on: push
+on: 
+  push:
+    branches:
+    -  main
 
 jobs:
   heytharundev:
@@ -8,8 +11,38 @@ jobs:
     steps:
       -  name: Checkout code
          uses: actions/checkout@v4  # grabs your repo code
+      - name: install the node
+        uses: actions/setup-node@v4
+        with:
+          node-version : 18
 
-      - name: simple step
-        run: echo "Hello!"
+
+
+      - name: install react Packages
+        run: npm install
+      - name: build the react
+        run: npm run build
+
       - name: task2
-        run: echo "task2"  
+        run: echo "installed done in ui side"  
+# server side it will run these 
+  backedn-dev:
+    runs-on: ubuntu-latest
+    steps:
+      -  name: Checkout code
+         uses: actions/checkout@v4  # grabs your repo code
+      - name: install the node
+        uses: actions/setup-node@v4
+        with:
+          node-version : 18
+
+
+
+      - name: install react Packages
+        run: npm install
+
+      - name: Backend ready
+        run: echo "Backend dependencies installed successfully"
+
+    
+
