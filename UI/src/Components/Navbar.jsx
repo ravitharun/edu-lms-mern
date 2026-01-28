@@ -102,7 +102,7 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                   )}
                 </div>
 
-                <MobileItem to="/studyMaterials" icon={<FiFileText />} title="Materials" />
+                {/* <MobileItem to="/studyMaterials" icon={<FiFileText />} title="Materials" /> */}
 
                 {/* Logo mobile view  */}
 
