@@ -1,8 +1,8 @@
 // Studymaterials.jsx
 import React from 'react'
-import App from '../App'
+import App from '../../App'
 import { useLocation } from 'react-router-dom'
-import BackButton from '../Components/BackButton'
+import BackButton from '../../Components/BackButton'
 
 function Studymaterials() {
   const location = useLocation()
