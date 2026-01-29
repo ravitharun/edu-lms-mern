@@ -39,6 +39,7 @@ jobs:
         run: echo "Frontend build completed"
 
   backend:
+    needs : frontend
     name: Backend Setup
     runs-on: ubuntu-latest
 
