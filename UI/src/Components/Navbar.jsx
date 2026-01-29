@@ -17,18 +17,20 @@ import {
 import LogoNavbar from "./LogoNavbar";
 import MobilePassnav from "./MobilePassnav";
 import AdminNavbar from "./AdminNavbar";
+import AdminDashboard from "../Pages/AdminPages/AdminDashboard";
 
 function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
   const [academicsOpen, setAcademicsOpen] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
-  const role = "Students"
+  const role = "Studentsd"
   return (
     <>
       {/* students Navbar */}
       {role != "Students" ?
         <>
           <AdminNavbar />
+          <AdminDashboard />
         </>
 
         : <nav className="sticky top-0 z-50 bg-gray-800 shadow-md">
