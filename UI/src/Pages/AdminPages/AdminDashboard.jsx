@@ -15,6 +15,7 @@ import {
 } from "react-icons/fa";
 import secureLocalStorage from "react-secure-storage";
 import { TfiAnnouncement } from "react-icons/tfi";
+import App from "../../App";
 
 function AdminDashboard() {
   const handleLogout = () => {
@@ -25,6 +26,8 @@ function AdminDashboard() {
 
 
   return (
+    <>
+    <App></App>
     <div className="min-h-screen bg-gray-100 p-4 md:p-6">
       {/* ---------- HEADER ---------- */}
       <div className="flex justify-between items-center mb-6">
@@ -122,16 +125,8 @@ function AdminDashboard() {
       </div>
 
       {/* ---------- NOTIFICATIONS & EVENTS ---------- */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-        <div className="bg-white rounded-xl shadow p-4">
-          <h2 className="text-lg font-semibold mb-3">Notifications</h2>
-          <ul className="space-y-2 text-sm">
-            <li><TfiAnnouncement></TfiAnnouncement> New assignment submitted</li>
-            <li><TfiAnnouncement/></TfiAnnouncement> Attendance marked for CSE 2nd Year</li>
-            <li><TfiAnnouncement/></TfiAnnouncement> Student sent a doubt</li>
-          </ul>
-        </div>
-
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-6 ">
+       
         <div className="bg-white rounded-xl shadow p-4">
           <h2 className="text-lg font-semibold mb-3">Upcoming Events</h2>
           <ul className="space-y-2 text-sm">
@@ -160,6 +155,7 @@ function AdminDashboard() {
         </table>
       </div>
     </div>
+    </>
   );
 }
 
