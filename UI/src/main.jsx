@@ -7,9 +7,10 @@ import { BrowserRouter } from "react-router-dom";
 import Login from './Components/Login.jsx';
 import Siginup from './Components/SiginUp.jsx';
 import BackgroungImgLoader from './Loaders/BackgroungImgLoader.jsx';
-import Studymaterials from './Pages/Studymaterials.jsx';
-const Dashboard = lazy(() => import("./Pages/Dashboard.jsx"));
-const MyCourses = lazy(() => import("./Pages/MyCourses.jsx"));
+import Studymaterials from './Pages/StudentPages/Studymaterials.jsx';
+import AdminDashboard from './Pages/AdminPages/AdminDashboard.jsx';
+const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
+const MyCourses = lazy(() => import("./Pages/StudentPages/MyCourses.jsx"));
 // import MyCourses from './Pages/MyCourses.jsx';
 
 
@@ -38,6 +39,7 @@ createRoot(document.getElementById('root')).render(
         />
         <Route path="/login" element={<Login />} />
         <Route path="/siginup" element={<Siginup />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
       </Routes>
     </BrowserRouter>

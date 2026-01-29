@@ -14,6 +14,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: cache-NodeModules(Ui)
+        uses: actions/cache@v3
+        with :
+          path : UI/node_modules
+          key :  forntend_dev -${{hashFiles('UI/package-lock.json')}}
+
+
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -42,6 +50,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
+      - name: cache-nodeModules(backend)
+        uses: actions/cache@v3
+        with :
+          path: backend/node_modules
+          key : backed-dev -${{hashFiles('backend/package-lock.json')}}
 
       - name: Install backend dependencies
         run: npm install

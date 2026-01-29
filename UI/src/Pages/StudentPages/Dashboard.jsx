@@ -1,10 +1,10 @@
 
 import React, { Activity, useState } from 'react';
-import App from '../App';
+import App from '../../App';
 import { FaBell, FaBellSlash, FaBriefcase, FaCheck, FaCheckCircle, FaDownload, FaEdit, FaEnvelope, FaInfoCircle, FaTicketAlt, FaUserCircle, FaUserTie } from 'react-icons/fa';
 import Footer from './Footer';
 import { IoNewspaperOutline } from "react-icons/io5";
-import "../App.css"
+import "../../App.css"
 import toast, { Toaster } from 'react-hot-toast';
 function Dashboard() {
   const Name = "Ravi Tharun";

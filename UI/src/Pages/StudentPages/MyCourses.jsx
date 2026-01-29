@@ -1,7 +1,7 @@
 import React from "react";
-import App from "../App";
-import BackButton from "../Components/BackButton";
-import BackgroungImgLoader from "../Loaders/BackgroungImgLoader";
+import App from "../../App";
+import BackButton from "../../Components/BackButton";
+import BackgroungImgLoader from "../../Loaders/BackgroungImgLoader";
 import { useNavigate } from "react-router-dom";
 
 function MyCourses() {
