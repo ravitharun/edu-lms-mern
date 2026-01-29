@@ -63,3 +63,11 @@ jobs:
 
       - name: Backend ready
         run: echo "Backend dependencies installed successfully"
+    
+  deploy :
+      name : deployment
+      runs-on: ubuntu-latest
+      steps :
+      - name : Deployment
+        run : echo "Deployment started"
+
