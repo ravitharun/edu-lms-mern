@@ -1,0 +1,25 @@
+name: Sample Task Practice
+
+on:
+  push:
+
+jobs:
+  sampleJob:
+    runs-on: ubuntu-latest
+    steps:
+      # Task 1: Main branch message
+      - name: Main branch message
+        if: github.ref == 'refs/heads/main'
+        run: echo "This is main branch"
+
+      # Task 2: Always run message
+      - name: Always run message
+        if: always()
+        run: echo "This runs no matter what"
+
+  backend:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Backend job
+        run: echo "Backend is running"
