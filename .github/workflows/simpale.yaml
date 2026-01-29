@@ -65,6 +65,7 @@ jobs:
         run: echo "Backend dependencies installed successfully"
     
   deploy :
+      needs : backend
       name : deployment
       runs-on: ubuntu-latest
       steps :
