@@ -6,8 +6,10 @@ import Footer from './Footer';
 import { IoNewspaperOutline } from "react-icons/io5";
 import "../../App.css"
 import toast, { Toaster } from 'react-hot-toast';
+import secureLocalStorage from 'react-secure-storage';
 function Dashboard() {
   const Name = "Ravi Tharun";
+
 
   const ProfileData = [
     { icon: '📊', type: "Attendance", count: "87.4%" },

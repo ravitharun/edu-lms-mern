@@ -6,8 +6,12 @@ import {
   FaCalendarCheck,
   FaBell,
 } from "react-icons/fa";
+import  secureLocalStorage  from  "react-secure-storage";
+
 
 function AdminDashboard() {
+  const setdata=secureLocalStorage.setItem("data","user")
+  console.log(setdata,'setdata')
   return (
     <div className="min-h-screen bg-gray-100 p-4 md:p-6">
       {/* ---------- HEADER ---------- */}
