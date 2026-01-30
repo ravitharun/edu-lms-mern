@@ -93,10 +93,10 @@ function MarkAttendance() {
             <td className="p-3 font-medium">{student.roll}</td>
             <td className="p-3">{student.name}</td>
             <td className="p-3 text-center">
-              <input type="checkbox" className="w-4 h-4 text-green-500" />
+              <input type="checkbox" id="w" className="w-4 h-4 text-green-500" />
             </td>
             <td className="p-3 text-center">
-              <input type="checkbox" className="w-4 h-4 text-red-500" />
+              <input type="checkbox"  id="w"className="w-4 h-4 text-red-500" />
             </td>
           </tr>
         ))}
