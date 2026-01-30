@@ -76,7 +76,26 @@ function ApplyLeave() {
 
         }
     ];
-
+    const [Fromdate, setFromdate] = useState("")
+    const [Todate, setTodate] = useState("")
+    const [TotalDays, setTotalDays] = useState("0")
+    const handelTodate = (date) => {
+        const GetDate = new Date(date)
+        const To_DATE = GetDate.getDate()
+        const To_mth = GetDate.getMonth()
+        console.log(To_DATE, To_mth + 1)
+        // const monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        // const dt = new Date("2026-01-08")
+        // // these is giving me the index of the Month value
+        // let get_permont = monthDays[dt.getMonth()]
+        // let getdt = dt.getDate()
+        // console.log("get_permont", get_permont, "getdt", getdt)
+        // let ra = get_permont - getdt + 1
+        // console.log(ra)
+        // const todt = new Date("2026-02-05")
+        // let gettodt = todt.getDate()
+        // console.log("gettodt", gettodt + ra)
+    }
     return (
         <>
             <App></App>
@@ -162,6 +181,11 @@ function ApplyLeave() {
                                         </label>
                                         <input
                                             type="date"
+                                            onChange={(e) => {
+                                                setFromdate(new Date(e.target.value).getDate())
+
+                                                console.log(e.target.value)
+                                            }}
                                             className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
                                         />
                                     </div>
@@ -172,6 +196,7 @@ function ApplyLeave() {
                                         </label>
                                         <input
                                             type="date"
+                                            onChange={(e) => handelTodate(e.target.value)}
                                             className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
                                         />
                                     </div>
