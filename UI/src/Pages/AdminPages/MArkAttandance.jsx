@@ -77,6 +77,10 @@ function MarkAttendance() {
   </div>
 
   {/* ================= ATTENDANCE TABLE ================= */}
+  <div>
+    <input type="checkbox" />
+    <label htmlFor=""> Mark All Present</label>
+  </div>
   <div className="bg-white shadow-md rounded-xl overflow-x-auto">
     <table className="w-full text-sm border-collapse">
       <thead className="bg-gray-100 text-gray-700">
