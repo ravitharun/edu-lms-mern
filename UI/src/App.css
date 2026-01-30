@@ -28,3 +28,17 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 } */
+@keyframes popupZoomOut {
+  from {
+    transform: scale(1.05);
+    opacity: 0;
+  }
+  to {
+    transform: scale(0.95);
+    opacity: 1;
+  }
+}
+
+.animate-popupZoomOut {
+  animation: popupZoomOut 0.25s ease-out;
+}

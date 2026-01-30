@@ -30,7 +30,7 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
       {role != "Students" ?
         <>
           <AdminNavbar />
-          <AdminDashboard />
+          {/* <AdminDashboard /> */}
         </>
 
         : <nav className="sticky top-0 z-50 bg-gray-800 shadow-md">
