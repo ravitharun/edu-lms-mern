@@ -34,7 +34,7 @@ function Addassignments() {
             <App></App>
             <div className="md:ml-64 p-6 min-h-screen bg-gray-100 space-y-6">
                 {/* ================= HEADER ================= */}
-                <AdminHeader></AdminHeader>
+                <AdminHeader pathname={"Add Assignments"}></AdminHeader>
 
                 {/* ================= SECTION DROPDOWN ================= */}
                 <div className="w-full max-w-sm bg-white rounded-xl shadow p-4">
