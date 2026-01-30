@@ -7,11 +7,12 @@ import { FaPlus } from 'react-icons/fa'
 
 function ApplyLeave() {
     const [handelpoup, sethandelPoup] = useState(false)
-    let progress = true
+    let progress = false
     const TbHeadings = [
         "S. No",             // Serial number
         "Leave Type",        // Casual, Sick, etc.
-        "Reason",            // Teacher’s reason for leave
+        "Reason",
+        "Email",                // Teacher’s reason for leave
         "From Date",         // Leave start
         "To Date",           // Leave end
         "Total Days",        // Auto-calculated
@@ -19,7 +20,63 @@ function ApplyLeave() {
         "Applied On",        // Date of application
         "Actions"            // View / Approve / Reject buttons
     ];
-    const fakeData = [{}]
+    const LeavesData = [
+        {
+            id: 1,
+            leaveType: "Casual Leave",
+            reason: "Family function",
+            fromDate: "2026-02-05",
+            toDate: "2026-02-06", email: "arjun@college.edu",
+            totalDays: 2,
+            status: "Pending",
+            appliedOn: "2026-01-30",
+
+        },
+        {
+            id: 2,
+            leaveType: "Sick Leave",
+            reason: "Fever and cold",
+            fromDate: "2026-02-01",
+            toDate: "2026-02-02", email: "arjun@college.edu",
+            totalDays: 2,
+            status: "Approved",
+            appliedOn: "2026-01-28",
+
+        },
+        {
+            id: 3,
+            leaveType: "Emergency Leave",
+            reason: "Urgent personal work",
+            fromDate: "2026-01-31",
+            toDate: "2026-01-31",
+            totalDays: 1,
+            status: "Rejected",
+            appliedOn: "2026-01-29",
+
+        },
+        {
+            id: 4,
+            leaveType: "On Duty",
+            reason: "Attend workshop",
+            fromDate: "2026-02-03",
+            toDate: "2026-02-04", email: "arjun@college.edu",
+            totalDays: 2,
+            status: "Approved",
+            appliedOn: "2026-01-27",
+        },
+        {
+            id: 5,
+            leaveType: "Casual Leave",
+            reason: "Personal work",
+            fromDate: "2026-02-07", email: "arjun@college.edu",
+            toDate: "2026-02-07",
+            totalDays: 1,
+            status: "Pending",
+            appliedOn: "2026-01-30",
+
+        }
+    ];
+
     return (
         <>
             <App></App>
@@ -153,25 +210,63 @@ function ApplyLeave() {
                 )}
                 {/* <AddingSoon pathname="ApplyLeave"></AddingSoon> */}
                 {progress ? <ProgressLoader></ProgressLoader> :
+                    <table className="w-full border-collapse">
+                        {/* Table Head */}
+                        <thead className="bg-gray-100 text-gray-700">
+                            <tr>
+                                {TbHeadings.map((heading, idx) => (
+                                    <th key={idx} className="p-3 text-left">
+                                        {heading}
+                                    </th>
+                                ))}
+                            </tr>
+                        </thead>
 
-                    <thead className="bg-gray-100 text-gray-700">
-                        <tr>
-                            {TbHeadings.map((heading, idx) => (
-                                <th key={idx} className="p-3 text-left">
-                                    {heading}
-                                </th>
+                        {/* Table Body */}
+                        <tbody>
+                            {LeavesData.map((data, idx) => (
+                                <tr
+                                    key={idx}
+                                    className="border-b hover:bg-gray-50 transition-colors"
+                                >
+                                    <td className="p-3">{data.id}</td>
+                                    <td className="p-3">{data.leaveType}</td>
+                                    <td className="p-3">{data.reason}</td>
+                                    <td className="p-3"><a href={`mailto:${data.email}`}>
+
+                                        {data.email}
+
+                                    </a>
+
+                                    </td>
+                                    <td className="p-3">{data.fromDate}</td>
+                                    <td className="p-3">{data.toDate}</td>
+                                    <td className="p-3">{data.totalDays}</td>
+                                    <td className="p-3">
+                                        <span
+                                            className={`px-2 py-1 rounded-full text-white text-xs ${data.status === "Approved"
+                                                ? "bg-green-500"
+                                                : data.status === "Rejected"
+                                                    ? "bg-red-500"
+                                                    : data.status === "Pending"
+                                                        ? "bg-blue-500"
+                                                        : ""
+                                                }`}
+                                        >
+                                            {data.status}
+                                        </span>
+                                    </td>
+                                    <td className="p-3">{data.appliedOn}</td>
+                                    <td className="p-3">
+                                        <button className="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700">
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
                             ))}
-                        </tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </thead>
+                        </tbody>
+                    </table>
+
                 }
             </div>
         </>
