@@ -11,6 +11,8 @@ import {
     FaBars,
     FaTimes,
     FaBell,
+    FaUpload,
+    FaRegCalendarTimes,
 } from "react-icons/fa";
 
 function AdminSidebar() {
@@ -19,10 +21,12 @@ function AdminSidebar() {
     const navbar = [
         { name: "Dashboard", link: "/admin-dashboard", icon: FaHome },
         { name: "Classes", link: "/classes", icon: FaChalkboardTeacher },
+        { name: "Upload Material", link: "/Upload-Material", icon: FaUpload },
         { name: "Assignments", link: "/assignments", icon: FaTasks },
         { name: "Attendance", link: "/attendance", icon: FaCalendarCheck },
         { name: "Students", link: "/students", icon: FaUserGraduate },
         { name: "Profile", link: "/teachers/profile", icon: FaUser },
+        { name: "ApplyLeave", link: "/teachers/ApplyLeave", icon: FaRegCalendarTimes },
         { name: "Logout", link: "/teachers/logout", icon: FaSignOutAlt },
     ];
 
@@ -63,11 +67,24 @@ function AdminSidebar() {
                                 <p className="text-xs text-gray-500">
                                     Hello, <span className="font-medium">Mr.</span>
                                 </p>
+
                                 <p className="text-sm font-semibold text-gray-800">
                                     Tharun Kumar
                                 </p>
+
+                                <div className="relative group">
+                                    <p className="text-xs text-gray-500 cursor-help">
+                                        Assistant Professor
+                                    </p>
+                                    <span className="absolute left-0 -top-6 hidden group-hover:block
+                   bg-black text-white text-xs px-2 py-1 rounded">
+                                        Designation
+                                    </span>
+                                </div>
+
                             </div>
                         </div>
+
 
                         {/* Right: Notification */}
                         <div className="relative cursor-pointer">

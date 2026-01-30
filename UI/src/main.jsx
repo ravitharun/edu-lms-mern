@@ -12,6 +12,10 @@ import AdminDashboard from './Pages/AdminPages/AdminDashboard.jsx';
 import Classes from './Pages/AdminPages/Classes.jsx';
 import MArkAttandance from './Pages/AdminPages/MArkAttandance.jsx';
 import Addassignments from './Pages/AdminPages/Addassignments.jsx';
+import UploadMaterilas from './Pages/AdminPages/UploadMaterilas.jsx';
+import ApplyLeave from './Pages/AdminPages/ApplyLeave.jsx';
+import Students from './Pages/AdminPages/Students.jsx';
+import AdminProfile from './Pages/AdminPages/AdminProfile.jsx';
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const MyCourses = lazy(() => import("./Pages/StudentPages/MyCourses.jsx"));
 // import MyCourses from './Pages/MyCourses.jsx';
@@ -47,6 +51,10 @@ createRoot(document.getElementById('root')).render(
         <Route path="/classes" element={<Classes />} />
         <Route path="/attendance" element={<MArkAttandance />} />
         <Route path="/assignments" element={<Addassignments />} />
+        <Route path="/Upload-Material" element={<UploadMaterilas />} />
+        <Route path="/students" element={<Students />} />
+        <Route path="/teachers/ApplyLeave" element={<ApplyLeave />} />
+        <Route path="/teachers/profile" element={<AdminProfile />} />
 
       </Routes>
     </BrowserRouter>
