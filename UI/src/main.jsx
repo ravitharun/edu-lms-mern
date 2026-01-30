@@ -8,7 +8,7 @@ import Login from './Components/Login.jsx';
 import Siginup from './Components/SiginUp.jsx';
 import BackgroungImgLoader from './Loaders/BackgroungImgLoader.jsx';
 import Studymaterials from './Pages/StudentPages/Studymaterials.jsx';
-import AdminDashboard from './Pages/AdminPages/AdminDashboard.jsx';
+
 import Classes from './Pages/AdminPages/Classes.jsx';
 import MArkAttandance from './Pages/AdminPages/MArkAttandance.jsx';
 import Addassignments from './Pages/AdminPages/Addassignments.jsx';
@@ -16,7 +16,9 @@ import UploadMaterilas from './Pages/AdminPages/UploadMaterilas.jsx';
 import ApplyLeave from './Pages/AdminPages/ApplyLeave.jsx';
 import Students from './Pages/AdminPages/Students.jsx';
 import AdminProfile from './Pages/AdminPages/AdminProfile.jsx';
+import Loaders from './Loaders/Loaders.jsx';
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
+const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
 const MyCourses = lazy(() => import("./Pages/StudentPages/MyCourses.jsx"));
 // import MyCourses from './Pages/MyCourses.jsx';
 
@@ -33,7 +35,7 @@ createRoot(document.getElementById('root')).render(
         } />
         <Route path="/moreabout" element={
           <Suspense fallback={<BackgroungImgLoader />}>
-            <Studymaterials  />
+            <Studymaterials />
           </Suspense>
         } />
 
@@ -41,13 +43,18 @@ createRoot(document.getElementById('root')).render(
         <Route path="/my-course" element={<Suspense fallback={<BackgroungImgLoader />}>
           <MyCourses />
 
-        </Suspense>} 
-        
+        </Suspense>}
+
         />
         <Route path="/login" element={<Login />} />
         <Route path="/siginup" element={<Siginup />} />
         {/* teacher routes */}
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/admin-dashboard" element={
+          <Suspense fallback={<Loaders />}>
+            <AdminDashboard />
+          </Suspense>
+        } />
+        {/* <Route path="/admin-dashboard" element={<AdminDashboard />} /> */}
         <Route path="/classes" element={<Classes />} />
         <Route path="/attendance" element={<MArkAttandance />} />
         <Route path="/assignments" element={<Addassignments />} />
