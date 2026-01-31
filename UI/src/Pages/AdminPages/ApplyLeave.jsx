@@ -76,7 +76,29 @@ function ApplyLeave() {
 
         }
     ];
+    const [Fromdate, setFromdate] = useState("")
+    const [Todate, setTodate] = useState("")
+    const [TotalDays, setTotalDays] = useState("0")
+    const handelTodate = (date) => {
+        if (!Fromdate) {
+            return alert("fill the from date")
+        }
+        let GetDate_FromDate = new Date(Fromdate)
+        let toDate = new Date(date)
+        const oneDay = 24 * 60 * 60 * 1000;
+        const totalLeaves =
+            Math.round((toDate - GetDate_FromDate) / oneDay) + 1;
+        console.log(totalLeaves, 'totalLeaves')
+        setTotalDays(totalLeaves)
 
+    }
+
+
+    const Handelclear = () => {
+        setFromdate(' ')
+        setTodate(' ')
+        setTotalDays(" ")
+    }
     return (
         <>
             <App></App>
@@ -162,7 +184,14 @@ function ApplyLeave() {
                                         </label>
                                         <input
                                             type="date"
+                                            value={Fromdate}
+                                            onChange={(e) => {
+                                                setFromdate(e.target.value)
+
+
+                                            }}
                                             className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                                            required
                                         />
                                     </div>
 
@@ -172,8 +201,13 @@ function ApplyLeave() {
                                         </label>
                                         <input
                                             type="date"
+                                            value={Todate}
+                                            onChange={(e) => handelTodate(e.target.value)}
+                                            disabled={!Fromdate}
                                             className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                                            required
                                         />
+
                                     </div>
                                 </div>
 
@@ -185,7 +219,8 @@ function ApplyLeave() {
                                     <input
                                         type="text"
                                         readOnly
-                                        value="10"
+                                        value={TotalDays}
+
                                         className="w-full border bg-gray-100 rounded-lg px-3 py-2 text-sm cursor-not-allowed"
                                     />
                                 </div>
@@ -199,6 +234,12 @@ function ApplyLeave() {
                                     className="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300"
                                 >
                                     Cancel
+                                </button>
+                                <button
+                                    onClick={Handelclear}
+                                    className="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300"
+                                >
+                                    Clear
                                 </button>
                                 <button className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700">
                                     Submit Leave
