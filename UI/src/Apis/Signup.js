@@ -1,9 +1,13 @@
 import { ToastType } from "../ReactToast/Toast"
-
-const handelapiSigup = (data, e) => {
+import axios from "axios"
+const handelapiSigup = async (data, e) => {
   e.preventDefault()
-  console.log(ToastType, ' toastType')
-  console.log(data)
+  try {
+    const response = await axios.post("")
+    console.log(response, data.message)
+  } catch (error) {
+
+  }
 }
 const handelLogin = async (data, e) => {
   try {
