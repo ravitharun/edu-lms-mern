@@ -1,47 +1,44 @@
-// Load environment variables
-const dotenv = require("dotenv");
-dotenv.config();
+console.log("Server updated at " + new Date().toLocaleTimeString());
 
-// Express and HTTP server
+require("dotenv").config();  // MUST be first l
 const express = require("express");
-const http = require("http");
-const app = express();
-
-// Middleware
 const cors = require("cors");
-app.use(cors());
-app.use(express.json()); // Parse JSON request bodies
-app.use("/uploads", express.static("uploads")); // serve uploaded files
-
-// DB Connection
+const http = require("http");
+const { Server } = require("socket.io");
 const connectDB = require("./config/db");
+const Authrouter = require("./routes/AuthRoutes");
+
+const app = express();
+const server = http.createServer(app);
+require("dotenv").config();
+
+// Connect to MongoDB
 connectDB();
 
+// Middleware
+app.use(cors());
+console.log("first")
+console.log("Server updated at " + new Date().toLocaleTimeString());
+
+app.use(express.json());
+app.use("/uploads", express.static("uploads"));
+
 // Routes
-const courseRoutes = require("./routes/courseRoutes");
-// Add other routes like userRoutes, attendanceRoutes here
-app.use("/api/courses", courseRoutes);
+app.use("/api/auth", Authrouter);
 
-// Socket.io for real-time updates
-const { Server } = require("socket.io");
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: { origin: "*" }, // allow frontend to connect
+// Test root
+app.get("/", (req, res) => {
+    res.send("Server is running!");
 });
 
+// Socket.io
+const io = new Server(server, { cors: { origin: "*" } });
 io.on("connection", (socket) => {
-  console.log("New user connected:", socket.id);
-
-  // Example: listen for updates and broadcast
-  socket.on("update", (data) => {
-    io.emit("update", data);
-  });
-
-  socket.on("disconnect", () => {
-    console.log("User disconnected:", socket.id);
-  });
+    console.log("New user connected:", socket.id);
+    socket.on("update", (data) => io.emit("update", data));
+    socket.on("disconnect", () => console.log("User disconnected:", socket.id));
 });
 
-// Start Server
+// Start server
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

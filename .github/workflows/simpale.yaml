@@ -3,7 +3,7 @@ name: MERN Project CI
 on:
   push:
     branches:
-      - main   # runs only on main branch
+      - main
 
 jobs:
   frontend:
@@ -14,13 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: cache-NodeModules(Ui)
+      - name: Cache NodeModules (UI)
         uses: actions/cache@v3
-        with :
-          path : UI/node_modules
-          key :  forntend_dev -${{hashFiles('UI/package-lock.json')}}
-
-
+        with:
+          path: UI/node_modules
+          key: frontend-dev-${{ hashFiles('UI/package-lock.json') }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -39,7 +37,7 @@ jobs:
         run: echo "Frontend build completed"
 
   backend:
-    needs : frontend
+    needs: frontend
     name: Backend Setup
     runs-on: ubuntu-latest
 
@@ -51,11 +49,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-      - name: cache-nodeModules(backend)
+
+      - name: Cache NodeModules (Backend)
         uses: actions/cache@v3
-        with :
+        with:
           path: backend/node_modules
-          key : backed-dev -${{hashFiles('backend/package-lock.json')}}
+          key: backend-dev-${{ hashFiles('backend/package-lock.json') }}
 
       - name: Install backend dependencies
         run: npm install
@@ -64,11 +63,11 @@ jobs:
       - name: Backend ready
         run: echo "Backend dependencies installed successfully"
     
-  deploy :
-      needs : backend
-      name : deployment
-      runs-on: ubuntu-latest
-      steps :
-      - name : Deployment
-        run : echo "Deployment started"
+  deploy:
+    needs: backend
+    name: Deployment
+    runs-on: ubuntu-latest
 
+    steps:
+      - name: Deployment
+        run: echo "Deployment started"
