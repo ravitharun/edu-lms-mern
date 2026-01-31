@@ -80,21 +80,24 @@ function ApplyLeave() {
     const [Todate, setTodate] = useState("")
     const [TotalDays, setTotalDays] = useState("0")
     const handelTodate = (date) => {
-        const GetDate = new Date(date)
-        const To_DATE = GetDate.getDate()
-        const To_mth = GetDate.getMonth()
-        console.log(To_DATE, To_mth + 1)
-        // const monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-        // const dt = new Date("2026-01-08")
-        // // these is giving me the index of the Month value
-        // let get_permont = monthDays[dt.getMonth()]
-        // let getdt = dt.getDate()
-        // console.log("get_permont", get_permont, "getdt", getdt)
-        // let ra = get_permont - getdt + 1
-        // console.log(ra)
-        // const todt = new Date("2026-02-05")
-        // let gettodt = todt.getDate()
-        // console.log("gettodt", gettodt + ra)
+        if (!Fromdate) {
+            return alert("fill the from date")
+        }
+        let GetDate_FromDate = new Date(Fromdate)
+        let toDate = new Date(date)
+        const oneDay = 24 * 60 * 60 * 1000;
+        const totalLeaves =
+            Math.round((toDate - GetDate_FromDate) / oneDay) + 1;
+        console.log(totalLeaves, 'totalLeaves')
+        setTotalDays(totalLeaves)
+
+    }
+
+
+    const Handelclear = () => {
+        setFromdate(' ')
+        setTodate(' ')
+        setTotalDays(" ")
     }
     return (
         <>
@@ -181,12 +184,14 @@ function ApplyLeave() {
                                         </label>
                                         <input
                                             type="date"
+                                            value={Fromdate}
                                             onChange={(e) => {
-                                                setFromdate(new Date(e.target.value).getDate())
+                                                setFromdate(e.target.value)
 
-                                                console.log(e.target.value)
+
                                             }}
                                             className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                                            required
                                         />
                                     </div>
 
@@ -196,9 +201,13 @@ function ApplyLeave() {
                                         </label>
                                         <input
                                             type="date"
+                                            value={Todate}
                                             onChange={(e) => handelTodate(e.target.value)}
+                                            disabled={!Fromdate}
                                             className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                                            required
                                         />
+
                                     </div>
                                 </div>
 
@@ -210,7 +219,8 @@ function ApplyLeave() {
                                     <input
                                         type="text"
                                         readOnly
-                                        value="10"
+                                        value={TotalDays}
+
                                         className="w-full border bg-gray-100 rounded-lg px-3 py-2 text-sm cursor-not-allowed"
                                     />
                                 </div>
@@ -224,6 +234,12 @@ function ApplyLeave() {
                                     className="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300"
                                 >
                                     Cancel
+                                </button>
+                                <button
+                                    onClick={Handelclear}
+                                    className="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300"
+                                >
+                                    Clear
                                 </button>
                                 <button className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700">
                                     Submit Leave
