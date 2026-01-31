@@ -18,6 +18,8 @@ connectDB();
 // Middleware
 app.use(cors());
 console.log("first")
+console.log("first")
+console.log("first")
 console.log("Server updated at " + new Date().toLocaleTimeString());
 
 app.use(express.json());
