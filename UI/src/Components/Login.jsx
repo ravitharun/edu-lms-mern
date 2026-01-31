@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { reverseOrder, ToastPostion } from "../ReactToast/Toast";
 import { useState } from "react";
 import { FaEye, FaRegEyeSlash } from "react-icons/fa";
@@ -12,10 +12,10 @@ export default function Login() {
   const [role, setrole] = useState("")
   const [ischeck, setcheck] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
-
+  const redirect = useNavigate("")
 
   // handel login api data
-  const handelloginapi = (e) => {
+  const handelloginapi = async (e) => {
 
     if (!StudentEmail || !StudentPassword || !role) {
       toast.error("Fill the required field's to login.")
@@ -29,7 +29,13 @@ export default function Login() {
       role,
       StudentPassword
     }
-    handelLogin(Userdata, e)
+    const get_user_valid = await handelLogin(Userdata, e)
+    console.log(get_user_valid.data.message=="The password is incorrect")
+    if (get_user_valid.status == 200) {
+      toast.success("Account Created.")
+      return redirect("/")
+    }
+
   }
 
 

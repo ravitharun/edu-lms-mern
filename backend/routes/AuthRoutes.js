@@ -3,8 +3,7 @@ const { NewAccount, LoginAccount } = require("../controllers/AuthController");
 
 const router = express.Router();
 
-router.get("/newDataUser3023", NewAccount);
-router.get("/newDataUser302134", NewAccount);
+router.post("/newDataUser", NewAccount);
 router.get("/LoginAccount", LoginAccount);
 
 module.exports = router;

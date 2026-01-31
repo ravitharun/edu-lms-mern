@@ -1,5 +1,5 @@
 import { use, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { handelapiSigup } from "../Apis/Signup";
 import toast, { Toaster } from 'react-hot-toast';
 import { FaEye, FaRegEyeSlash } from "react-icons/fa";
@@ -14,7 +14,7 @@ export default function Siginup() {
     const [ischeck, setcheck] = useState(false)
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+    const naviaget = useNavigate("")
 
     // 
     const Handeldata = async (e) => {
@@ -50,7 +50,13 @@ export default function Siginup() {
             role,
             ischeck
         }
-        await handelapiSigup(data, e)
+        const get = await handelapiSigup(data, e)
+
+        if (get.status == 201) {
+            toast.success("Account Created.")
+            return naviaget("/login")
+        }
+        
     }
     return (
         <>
