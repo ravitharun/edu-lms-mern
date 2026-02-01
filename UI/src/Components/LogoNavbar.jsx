@@ -79,7 +79,7 @@ function LogoNavbar({ hide }) {
                 <button
                   className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                   onClick={Logout}
-                > {UserLogin == null ? "Login" : <> <FiLogOut /> Logout</>}
+                > {UserLogin  ? "Logins" : <> <FiLogOut /> Logout</>}
                 </button>
               </div>
             )}

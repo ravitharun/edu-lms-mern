@@ -2,6 +2,7 @@ const { json } = require("express");
 const User = require("../models/User");
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
+const { generateRandomId } = require("../generateRandomId");
 
 // Register new user
 const NewAccount = async (req, res) => {
@@ -21,19 +22,58 @@ const NewAccount = async (req, res) => {
     }
     let hashPassword = bcrypt.hashSync(formdata.StudentPassword, 10)
     let hashConfirmPassword = bcrypt.hashSync(formdata.StudentConifrmPassword, 10)
+    // generate the id users/teachers both
+
+    const Lms_ID = generateRandomId(formdata.role, 4)
+    console.log(Lms_ID, 'Lms_ID')
+
     // store in DB
-    const saveData = new User({
+    // if (formdata.role === "student") {
+
+
+
+    //   const saveData = new User({
+    //     name: formdata.StudentName,
+    //     email: formdata.StudentEmail,
+    //     Student_ID: Lms_ID,
+    //     password: hashPassword,
+    //     ConfirmPassword: hashConfirmPassword,
+    //     role: formdata.role
+    //   })
+    //   await saveData.save()
+    // }
+    // else {
+    //   const saveData = new User({
+    //     name: formdata.StudentName,
+    //     email: formdata.StudentEmail,
+    //     teacher_Id: Lms_ID,
+    //     password: hashPassword,
+    //     ConfirmPassword: hashConfirmPassword,
+    //     role: formdata.role
+    //   })
+    //   await saveData.save()
+    // }
+
+    const userData = {
       name: formdata.StudentName,
       email: formdata.StudentEmail,
       password: hashPassword,
       ConfirmPassword: hashConfirmPassword,
       role: formdata.role
-    })
-    await saveData.save()
+    };
 
+    // 3️⃣ Role-based ID
+    if (formdata.role === "student") {
+      userData.Student_ID = Lms_ID;
+    }
 
+    if (formdata.role === "Teacher") {
+      userData.teacher_Id = Lms_ID;
+    }
 
-
+    // 4️⃣ Save ONCE
+    const saveData = new User(userData);
+    await saveData.save();
 
     return res.status(201).json({ message: "Account Created" });
   } catch (error) {
