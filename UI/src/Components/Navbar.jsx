@@ -18,16 +18,18 @@ import LogoNavbar from "./LogoNavbar";
 import MobilePassnav from "./MobilePassnav";
 import AdminNavbar from "./AdminNavbar";
 import AdminDashboard from "../Pages/AdminPages/AdminDashboard";
+import { UserLogin, UserRole } from "../Apis/Islogin";
 
 function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
   const [academicsOpen, setAcademicsOpen] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
-  const role = "Students"
+  const [role, setRole] = useState(UserRole)
+  console.log(UserRole)
   return (
     <>
       {/* students Navbar */}
-      {role != "Students" ?
+      {role != "student" ?
         <>
           <AdminNavbar />
           {/* <AdminDashboard /> */}

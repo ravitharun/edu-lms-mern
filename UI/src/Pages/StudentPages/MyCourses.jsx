@@ -3,6 +3,8 @@ import App from "../../App";
 import BackButton from "../../Components/BackButton";
 import BackgroungImgLoader from "../../Loaders/BackgroungImgLoader";
 import { useNavigate } from "react-router-dom";
+import Footer from "./Footer";
+import LMSLoader from "../../Loaders/BackgroungImgLoader";
 
 function MyCourses() {
   const Data_metrails = [
@@ -97,6 +99,7 @@ function MyCourses() {
           ))}
         </div>
       </div>
+      <Footer></Footer>
 
 
     </>

@@ -3,7 +3,9 @@ import React from 'react'
 import App from '../../App'
 import { useLocation } from 'react-router-dom'
 import BackButton from '../../Components/BackButton'
-
+import UserisLogin from '../../Components/UserisLogin'
+import Footer from './Footer';
+import LMSLoader from '../../Loaders/BackgroungImgLoader'
 function Studymaterials() {
   const location = useLocation()
   const course = location.state || {
@@ -35,7 +37,7 @@ function Studymaterials() {
     <>
       <App />
       <BackButton page="my-course"></BackButton>
-
+      <UserisLogin />
       <div className="max-w-6xl mx-auto p-4">
         <div className="mb-6">
           <h1 className="text-3xl font-bold mb-2">{course.CourseName}</h1>
@@ -89,6 +91,7 @@ function Studymaterials() {
           </table>
         </div>
       </div>
+  
     </>
   )
 }
