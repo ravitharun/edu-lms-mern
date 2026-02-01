@@ -5,6 +5,6 @@ const authMiddleware = require("../Middleware/Authmiddleware");
 const router = express.Router();
 
 router.post("/newDataUser", NewAccount);
-router.get("/LoginAccount",authMiddleware, LoginAccount);
+router.get("/LoginAccount", LoginAccount);
 
 module.exports = router;
