@@ -1,7 +1,7 @@
 const { json } = require("express");
 const User = require("../models/User");
 const bcrypt = require('bcrypt');
-const salt = 10;
+var jwt = require('jsonwebtoken');
 
 // Register new user
 const NewAccount = async (req, res) => {
@@ -30,6 +30,11 @@ const NewAccount = async (req, res) => {
       role: formdata.role
     })
     await saveData.save()
+
+
+
+
+
     return res.status(201).json({ message: "Account Created" });
   } catch (error) {
     console.error(error.message);
@@ -37,12 +42,30 @@ const NewAccount = async (req, res) => {
   }
 };
 
+
+
+
+
+
+
+// const authHeader = req.headers.authorization;
+// if (!authHeader) {
+//   // no token sent
+//   return console.log('No token.')
+// }
+// const token = authHeader.split(" ")[1];
+
+
+
+
 // Login user
 const LoginAccount = async (req, res) => {
   try {
     const { email, Password, role } = req.query;
     console.log({ email, Password, role })
 
+    const token = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    console.log(token)
     if (!email || !Password || !role) {
       return res.status(400).json({ message: "all inputs are required" })
     }
@@ -60,7 +83,7 @@ const LoginAccount = async (req, res) => {
 
     // main level to say user data are same
     if (Check_userAccount.email == email && Check_userAccount.role == role && check_password) {
-      return res.status(200).json({ message: "LoginAccount works" });
+      return res.status(200).json({ message: "Logedin", token: token, user: Check_userAccount });
     }
 
   } catch (error) {
