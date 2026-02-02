@@ -41,6 +41,8 @@ const handelLogin = async (data, e) => {
         'Content-Type': 'application/json'
       }
     })
+    console.log(response.data.message=="Logedin",'response Login Api')
+  
     if (response.data.message == "The password is incorrect") {
       return toast.error("The password is incorrect")
     }

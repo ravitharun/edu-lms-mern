@@ -17,12 +17,16 @@ import ApplyLeave from './Pages/AdminPages/ApplyLeave.jsx';
 import Students from './Pages/AdminPages/Students.jsx';
 import AdminProfile from './Pages/AdminPages/AdminProfile.jsx';
 import Loaders from './Loaders/Loaders.jsx';
+import secureLocalStorage from 'react-secure-storage';
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
 const MyCourses = lazy(() => import("./Pages/StudentPages/MyCourses.jsx"));
 // import MyCourses from './Pages/MyCourses.jsx';
 
 
+const clr_token_logout = secureLocalStorage.getItem("User_info")
+console.log(clr_token_logout?.role
+)
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
@@ -54,6 +58,7 @@ createRoot(document.getElementById('root')).render(
             <AdminDashboard />
           </Suspense>
         } />
+
         {/* <Route path="/admin-dashboard" element={<AdminDashboard />} /> */}
         <Route path="/classes" element={<Classes />} />
         <Route path="/attendance" element={<MArkAttandance />} />

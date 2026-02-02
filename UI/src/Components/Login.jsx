@@ -5,6 +5,7 @@ import { FaEye, FaRegEyeSlash } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { handelLogin } from "../Apis/Signup";
 import toast, { Toaster } from 'react-hot-toast';
+import { UserRole } from "../Apis/Islogin";
 
 export default function Login() {
   const [StudentEmail, setStudentEmail] = useState("")
@@ -30,10 +31,18 @@ export default function Login() {
       StudentPassword
     }
     const get_user_valid = await handelLogin(Userdata, e)
-    console.log(get_user_valid.data.message=="The password is incorrect")
-    if (get_user_valid.status == 200) {
+    console.log(get_user_valid.status, "get_user_valid")
+
+    // console.log(get_user_valid.data.message=="The password is incorrect")
+    if (get_user_valid.status === 200) {
+      console.log('true')
       toast.success("Account Created.")
-      return redirect("/")
+      if (UserRole.role == "Teacher") {
+        return redirect("/admin-dashboard")
+      } else {
+
+        return redirect("/")
+      }
     }
 
   }
