@@ -301,8 +301,8 @@ function AdminDashboard() {
           <div className="bg-white rounded-xl shadow p-4">
             <h2 className="text-lg font-semibold mb-4">My Profile</h2>
             <div className="flex items-center gap-4 mb-4">
-              <div className="w-14 h-14 rounded-full bg-blue-500 text-white flex items-center justify-center text-xl font-bold">
-                {UserName.name.charAt(0)}
+              <div className="w-14 h-14 rounded-full bg-blue-500 text-white flex items-center justify-center text-xl font-bold  gap-3">
+                <img                 className="w-10 h-10 rounded-full object-cover" src={`${`https://ui-avatars.com/api/?name=${UserName.name}`}`} alt={UserName.name} />
               </div>
               <div>
                 <p className="font-medium">Mr. {UserName.name}</p>
@@ -311,13 +311,13 @@ function AdminDashboard() {
             </div>
             <div className="flex gap-3">
               <Link to="/teachers/profile">
-                <button className="flex items-center gap-2 px-3 py-1 text-sm bg-gray-200 rounded">
+                <button className="flex items-center gap-2 px-3 py-1 text-sm bg-gray-200 rounded hover:cursor-pointer">
                   <FaUserEdit /> Edit
                 </button>
               </Link>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 px-3 py-1 text-sm bg-red-500 text-white rounded"
+                className="flex items-center gap-2 px-3 py-1 text-sm bg-red-500 text-white rounded hover:cursor-pointer"
               >
                 <FaSignOutAlt /> Logout
               </button>
