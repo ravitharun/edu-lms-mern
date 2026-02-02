@@ -90,7 +90,6 @@ const LoginAccount = async (req, res) => {
       return res.status(400).json({ message: "all inputs are required" })
     }
     const Check_userAccount = await User.findOne({ email })
-    console.log(Check_userAccount,'Check_userAccount')
     if (!Check_userAccount) {
       return res.status(403).json({ message: "USer NotFound." })
     }
@@ -102,7 +101,8 @@ const LoginAccount = async (req, res) => {
     }
 
     // main level to say user data are same
-    if (Check_userAccount.email == email && Check_userAccount.role == role && check_password) {
+    if (Check_userAccount.email == email || Check_userAccount.role == role || check_password) {
+      console.log("first")
       return res.status(200).json({ message: "Logedin", token: token, user: Check_userAccount });
     }
 

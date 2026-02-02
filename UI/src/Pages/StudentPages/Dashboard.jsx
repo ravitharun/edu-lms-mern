@@ -8,6 +8,7 @@ import "../../App.css"
 import toast, { Toaster } from 'react-hot-toast';
 import secureLocalStorage from 'react-secure-storage';
 import { UserRole } from '../../Apis/Islogin';
+import Error from '../../Components/Error';
 function Dashboard() {
   
   const [Profile, setprofile] = useState(UserRole.profilePreview)
@@ -624,7 +625,7 @@ hover:to-blue-400"
 
       </div>
 
-
+<Error></Error>
 
       {/* Footer */}
       <Footer />

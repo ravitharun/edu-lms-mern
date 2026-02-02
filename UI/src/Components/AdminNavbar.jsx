@@ -14,6 +14,7 @@ import {
     FaUpload,
     FaRegCalendarTimes,
 } from "react-icons/fa";
+import { handleLogout, UserName } from "../Apis/Islogin";
 
 function AdminSidebar() {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -27,7 +28,7 @@ function AdminSidebar() {
         { name: "Students", link: "/students", icon: FaUserGraduate },
         { name: "Profile", link: "/teachers/profile", icon: FaUser },
         { name: "ApplyLeave", link: "/teachers/ApplyLeave", icon: FaRegCalendarTimes },
-        { name: "Logout", link: "/teachers/logout", icon: FaSignOutAlt },
+        { name: "Logout", icon: FaSignOutAlt },
     ];
 
     return (
@@ -58,31 +59,43 @@ function AdminSidebar() {
                         {/* Left: Profile */}
                         <div className="flex items-center gap-3">
                             <img
-                                src="https://ui-avatars.com/api/?name=Tharun+Kumar"
+                                src={`${`https://ui-avatars.com/api/?name=${UserName.name}`}`}
                                 alt="Profile"
                                 className="w-10 h-10 rounded-full object-cover"
                             />
 
-                            <div className="leading-tight">
+                            <div className="leading-tight space-y-1">
+                                {/* Greeting */}
                                 <p className="text-xs text-gray-500">
                                     Hello, <span className="font-medium">Mr.</span>
                                 </p>
 
-                                <p className="text-sm font-semibold text-gray-800">
-                                    Tharun Kumar
+                                {/* Name */}
+                                <p className="text-sm font-semibold text-gray-800 leading-none">
+                                    {UserName.name}
                                 </p>
 
-                                <div className="relative group">
-                                    <p className="text-xs text-gray-500 cursor-help">
-                                        Assistant Professor
-                                    </p>
-                                    <span className="absolute left-0 -top-6 hidden group-hover:block
-                   bg-black text-white text-xs px-2 py-1 rounded">
+                                {/* Role + ID */}
+                                <div className="relative group w-fit">
+                                    <div className="flex items-center gap-2 text-xs text-gray-500 cursor-help">
+                                        <span className="leading-none">Assistant Professor</span>
+
+                                        <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-600
+                       text-[10px] font-medium leading-none flex items-center">
+                                            ID: {UserName.teacher_Id}
+                                        </span>
+                                    </div>
+
+                                    {/* Tooltip */}
+                                    <span className="absolute left-1/2 -translate-x-1/2 -top-7
+                     hidden group-hover:block whitespace-nowrap
+                     bg-gray-900 text-white text-[10px]
+                     px-2 py-1 rounded-md shadow-md">
                                         Designation
                                     </span>
                                 </div>
-
                             </div>
+
                         </div>
 
 
@@ -110,7 +123,7 @@ function AdminSidebar() {
                                 }
                             >
                                 <Icon className="text-lg" />
-                                {item.name}
+                                {item.name === 'Logout' ? <><button onClick={handleLogout}>{item.name}</button></> : item.name}
                             </NavLink>
                         );
                     })}
@@ -151,21 +164,44 @@ function AdminSidebar() {
                             {/* Left: Profile */}
                             <div className="flex items-center gap-3">
                                 <img
-                                    src="https://ui-avatars.com/api/?name=Tharun+Kumar"
+                                    src={`${`https://ui-avatars.com/api/?name=${UserName.name}`}`}
                                     alt="Profile"
                                     className="w-10 h-10 rounded-full object-cover"
                                 />
 
-                                <div className="leading-tight">
+                                <div className="leading-tight space-y-1">
+                                    {/* Greeting */}
                                     <p className="text-xs text-gray-500">
                                         Hello, <span className="font-medium">Mr.</span>
                                     </p>
-                                    <p className="text-sm font-semibold text-gray-800">
-                                        Tharun Kumar
-                                    </p>
-                                </div>
-                            </div>
 
+                                    {/* Name */}
+                                    <p className="text-sm font-semibold text-gray-800 leading-none">
+                                        {UserName.name}
+                                    </p>
+
+                                    {/* Role + ID */}
+                                    <div className="relative group w-fit">
+                                        <div className="flex items-center gap-2 text-xs text-gray-500 cursor-help">
+                                            <span className="leading-none">Assistant Professor</span>
+
+                                            <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-600
+                       text-[10px] font-medium leading-none flex items-center">
+                                                ID: {UserName.teacher_Id}
+                                            </span>
+                                        </div>
+
+                                        {/* Tooltip */}
+                                        <span className="absolute left-1/2 -translate-x-1/2 -top-7
+                     hidden group-hover:block whitespace-nowrap
+                     bg-gray-900 text-white text-[10px]
+                     px-2 py-1 rounded-md shadow-md">
+                                            Designation
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
                             {/* Right: Notification */}
                             <div className="relative cursor-pointer">
                                 <FaBell className="text-lg text-gray-600 hover:text-blue-600" />
@@ -178,21 +214,25 @@ function AdminSidebar() {
                         {navbar.map((item, idx) => {
                             const Icon = item.icon;
                             return (
-                                <NavLink
-                                    key={idx}
-                                    to={item.link}
-                                    onClick={() => setMenuOpen(false)}
-                                    className={({ isActive }) =>
-                                        `flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium
+                                <>
+                                    <NavLink
+                                        key={idx}
+                                        to={item.link}
+                                        onClick={() => setMenuOpen(false)}
+                                        className={({ isActive }) =>
+                                            `flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium
                     ${isActive
-                                            ? "bg-blue-50 text-blue-600"
-                                            : "text-gray-700 hover:bg-gray-100"
-                                        }`
-                                    }
-                                >
-                                    <Icon className="text-lg" />
-                                    {item.name}
-                                </NavLink>
+                                                ? "bg-blue-50 text-blue-600"
+                                                : "text-gray-700 hover:bg-gray-100"
+                                            }`
+                                        }
+                                    >
+                                        <Icon className="text-lg" />
+                                        {item.name === 'Logout' ? <><button onClick={handleLogout}>{item.name}</button></> : item.name}
+                                    </NavLink>
+
+
+                                </>
                             );
                         })}
                     </nav>

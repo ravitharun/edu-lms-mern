@@ -2,6 +2,7 @@ import React from "react";
 import App from "../../App";
 import AdminHeader from "../../Components/AdminHeader";
 import AddingSoon from "../../Loaders/AddingSoon";
+import { UserName } from "../../Apis/Islogin";
 
 function AdminProfile() {
   return (
@@ -22,7 +23,7 @@ function AdminProfile() {
           {/* Profile Image */}
           <div className="flex items-center gap-6" onTouchMove={()=>alert("hi")}>
             <img
-              src="https://png.pngtree.com/png-vector/20231019/ourlarge/pngtree-user-profile-avatar-png-image_10211468.png"
+              src={UserName.profilePreview}
               alt="Profile"
               className="w-24 h-24 rounded-full border"
             />
@@ -120,10 +121,11 @@ function AdminProfile() {
             </h3>
 
             <Input label="LinkedIn Profile URL" type="url" />
+            <Input label="Protiflo Profile URL" type="url" />
           </section>
 
-          {/* Loader / Coming Soon */}
-          <AddingSoon pathname={"Profile"} />
+          {/* Loader / Coming Soon
+          <AddingSoon pathname={"Profile"} /> */}
         </div>
       </div>
     </>

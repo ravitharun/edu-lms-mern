@@ -15,7 +15,7 @@ function UploadMaterilas() {
                 </div>
                 <h1 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-3 mt-3">
                 </h1>
-                <AddingSoon pathname={"Upload Material"}></AddingSoon>
+                {/* {false?hi:<AddingSoon pathname={"Upload Material"}></AddingSoon>} */}
             </div>
         </>
     )
