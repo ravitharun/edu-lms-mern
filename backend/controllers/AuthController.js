@@ -3,14 +3,20 @@ const User = require("../models/User");
 const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 const { generateRandomId } = require("../generateRandomId");
+const cloudinary = require("../config/cloudinary");
+
+cloudinary.api.ping()
+
 
 // Register new user
 const NewAccount = async (req, res) => {
   try {
-    const { formdata } = req.body
-
-    console.log('userLoginData', formdata)
-    const GetBy_email = await User.find({ email: formdata.email })
+    console.log("REQ BODY:", req.body); // text fields
+    console.log("REQ FILE:", req.file); // file info from Cloudinary
+    const formdata=req.body;
+    const Profile = req.file?.path;
+    const result = await cloudinary.uploader.upload(Profile,);
+    const GetBy_email = await User.find({ email: req.body.StudentEmail })
     if (!GetBy_email) {
       return res.status(400).json({ message: "Emails is already is exits please use another email to login." })
     }
@@ -25,41 +31,15 @@ const NewAccount = async (req, res) => {
     // generate the id users/teachers both
 
     const Lms_ID = generateRandomId(formdata.role, 4)
-    console.log(Lms_ID, 'Lms_ID')
-
-    // store in DB
-    // if (formdata.role === "student") {
-
-
-
-    //   const saveData = new User({
-    //     name: formdata.StudentName,
-    //     email: formdata.StudentEmail,
-    //     Student_ID: Lms_ID,
-    //     password: hashPassword,
-    //     ConfirmPassword: hashConfirmPassword,
-    //     role: formdata.role
-    //   })
-    //   await saveData.save()
-    // }
-    // else {
-    //   const saveData = new User({
-    //     name: formdata.StudentName,
-    //     email: formdata.StudentEmail,
-    //     teacher_Id: Lms_ID,
-    //     password: hashPassword,
-    //     ConfirmPassword: hashConfirmPassword,
-    //     role: formdata.role
-    //   })
-    //   await saveData.save()
-    // }
+  
 
     const userData = {
       name: formdata.StudentName,
       email: formdata.StudentEmail,
       password: hashPassword,
       ConfirmPassword: hashConfirmPassword,
-      role: formdata.role
+      role: formdata.role,
+      profilePreview: result.secure_url
     };
 
     // 3️⃣ Role-based ID
@@ -76,12 +56,12 @@ const NewAccount = async (req, res) => {
     await saveData.save();
 
     return res.status(201).json({ message: "Account Created" });
-  } catch (error) {
-    console.error(error.message);
+  }
+  catch (error) {
+    console.error(error,);
     return res.status(500).json({ error: "Server error" });
   }
 };
-
 
 
 
@@ -110,7 +90,7 @@ const LoginAccount = async (req, res) => {
       return res.status(400).json({ message: "all inputs are required" })
     }
     const Check_userAccount = await User.findOne({ email })
-    console.log(Check_userAccount, 'Check_userAccount')
+    console.log(Check_userAccount,'Check_userAccount')
     if (!Check_userAccount) {
       return res.status(403).json({ message: "USer NotFound." })
     }

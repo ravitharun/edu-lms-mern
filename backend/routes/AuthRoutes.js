@@ -1,10 +1,10 @@
 const express = require("express");
 const { NewAccount, LoginAccount } = require("../controllers/AuthController");
-const authMiddleware = require("../Middleware/Authmiddleware");
+const upload = require("../Middleware/upload");
 
 const router = express.Router();
 
-router.post("/newDataUser", NewAccount);
+router.post("/newDataUser",upload.single("profile") ,NewAccount);
 router.get("/LoginAccount", LoginAccount);
 
 module.exports = router;

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { handelapiSigup } from "../Apis/Signup";
 import toast, { Toaster } from "react-hot-toast";
 import { FaEye, FaEyeSlash, FaUserCircle } from "react-icons/fa";
+import axios from "axios";
 
 export default function Signup() {
     const [StudentName, setStudentName] = useState("");
@@ -13,31 +14,56 @@ export default function Signup() {
     const [ischeck, setcheck] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-    const [profilePreview, setProfilePreview] = useState(null);
+    const [profile, setProfile] = useState(null);
+
 
     const navigate = useNavigate();
 
     const Handeldata = async (e) => {
         e.preventDefault();
 
-        if (!StudentEmail || !StudentName || !StudentPassword || !StudentConifrmPassword || !role) {
+        if (!StudentEmail || !StudentName || !StudentPassword || !StudentConifrmPassword || !role || !profile) {
             return toast.error("Fill the required fields");
         }
         if (!ischeck) return toast.error("Agree to Terms & Conditions");
         if (StudentPassword !== StudentConifrmPassword) return toast.error("Passwords do not match");
+        const formData = new FormData();
+        formData.append("StudentName", StudentName);
+        formData.append("StudentEmail", StudentEmail);
+        formData.append("StudentPassword", StudentPassword);
+        formData.append("StudentConifrmPassword", StudentConifrmPassword);
+        formData.append("role", role);
+        formData.append("ischeck", ischeck);
+        if (profile) formData.append("profile", profile); // important for file
 
-        const data = { StudentEmail, StudentName, StudentPassword, StudentConifrmPassword, role, ischeck };
-        const res = await handelapiSigup(data, e);
-        if (res?.status === 201) {
-            toast.success("Account Created");
-            navigate("/login");
+
+
+
+        // const data = {StudentEmail,StudentName,StudentPassword,StudentConifrmPassword,ischeck,role,profile}
+        try {
+            const response = await axios.post(
+                "http://localhost:5001/api/auth/newDataUser",
+                formData,
+                { headers: { "Content-Type": "multipart/form-data" } }
+            );
+
+            if (response?.status === 201) {
+                toast.success("Account Created");
+                navigate("/login");
+            }
+        }
+        catch (err) {
+            console.log(err.message)
         }
     };
 
     const handleProfileUpload = (e) => {
         const file = e.target.files[0];
-        if (file) setProfilePreview(URL.createObjectURL(file));
+
+        setProfile(file); // ✅ real File (Multer needs this)
+        setProfilePreview(URL.createObjectURL(file)); // UI preview
     };
+
 
     return (
         <>
@@ -159,8 +185,8 @@ export default function Signup() {
                             {/* Profile Image Upload */}
                             <div className="flex items-center gap-3 mt-2">
                                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-800 flex items-center justify-center overflow-hidden border border-gray-600">
-                                    {profilePreview ? (
-                                        <img src={profilePreview} alt="profile" className="w-full h-full object-cover" />
+                                    {profile ? (
+                                        <img src={profile} alt="profile" className="w-full h-full object-cover" />
                                     ) : (
                                         <FaUserCircle className="text-gray-500 text-2xl sm:text-3xl" />
                                     )}

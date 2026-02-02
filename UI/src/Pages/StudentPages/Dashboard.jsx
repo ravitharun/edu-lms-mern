@@ -7,9 +7,12 @@ import { IoNewspaperOutline } from "react-icons/io5";
 import "../../App.css"
 import toast, { Toaster } from 'react-hot-toast';
 import secureLocalStorage from 'react-secure-storage';
+import { UserRole } from '../../Apis/Islogin';
 function Dashboard() {
-  const Name = "Ravi Tharun";
-
+  
+  const [Profile, setprofile] = useState(UserRole.profilePreview)
+  const [StudentID, setStudentID] = useState(UserRole.Student_ID)
+  const Name = UserRole.name;
 
   const ProfileData = [
     { icon: '📊', type: "Attendance", count: "87.4%" },
@@ -102,7 +105,7 @@ function Dashboard() {
 
   ];
   const Placement = []
-  const message = "Image not applied yet"
+  // const message = "Image not applied yet"
 
 
   // handel poup to show customize images
@@ -195,7 +198,7 @@ function Dashboard() {
         <div className="flex flex-col justify-center">
           <div className="flex items-center gap-2 mb-2" title="Student ID">
             <p className="text-xs uppercase tracking-wide text-gray-300">Student ID :</p>
-            <p className="text-lg font-semibold text-blue-400">STU237</p>
+            <p className="text-lg font-semibold text-blue-400">{StudentID}</p>
           </div>
           <p className="text-sm text-gray-300">6th Semester | CSE</p>
         </div>
@@ -209,7 +212,7 @@ function Dashboard() {
             style={{ boxShadow: "0 8px 25px rgba(0,0,0,0.3)" }}
           >
             <img
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=64&h=64&fit=crop&crop=face&auto=format&ixlib=rb-4.0.3"
+              src={Profile}
               alt="Ravi Tharun"
               className="w-full h-full object-cover"
               title="Ravi Tharun"
@@ -310,7 +313,7 @@ function Dashboard() {
           <div className="flex flex-col items-center mb-4">
             <div className="w-20 h-20 rounded-full overflow-hidden ring-4 ring-blue-200 shadow-lg">
               <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120"
+                src={Profile}
                 alt={Name}
                 className="w-full h-full object-cover"
               />
@@ -321,9 +324,8 @@ function Dashboard() {
             </h2>
             <div className="w-10 h-1 bg-blue-500 rounded mt-1"></div>
           </div>
-
           <p className="text-sm text-gray-600 text-center mb-4">
-            CSE · B.Tech · 8th Sem · STU237
+            CSE · B.Tech · 6th Sem · {StudentID}
           </p>
 
           <div className="space-y-2 text-sm text-center text-gray-700">
