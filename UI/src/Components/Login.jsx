@@ -44,10 +44,7 @@ export default function Login() {
         return redirect("/")
       }
     }
-
   }
-
-
   return (
     <>
       <Toaster></Toaster>
