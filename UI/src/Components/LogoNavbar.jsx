@@ -10,7 +10,7 @@ import {
   FiChevronUp,
 } from "react-icons/fi";
 import secureLocalStorage from "react-secure-storage";
-import { UserLogin } from "../Apis/Islogin";
+import { UserLogin, UserName } from "../Apis/Islogin";
 import UserisLogin from "./UserisLogin";
 function LogoNavbar({ hide }) {
   const [openProfile, setOpenProfile] = useState(false);
@@ -25,11 +25,11 @@ function LogoNavbar({ hide }) {
     }
   }
 
-    console.log( secureLocalStorage.getItem("User_info"))
+  console.log(secureLocalStorage.getItem("User_info"))
 
   // Hide LogoNavbar if parent says so
   if (hide) return null;
-
+console.log(UserName.name,'UserName')
   return (
     <>
       <UserisLogin />
@@ -54,7 +54,7 @@ function LogoNavbar({ hide }) {
             >
               <FiUser className="text-gray-700" />
               <span className="text-sm font-medium bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-                HI, Ravi Tharun
+                HI,{UserName.name}
               </span>
 
               {openProfile ? <FiChevronUp className="text-gray-500" /> : <FiChevronDown className="text-gray-500" />}
@@ -79,7 +79,7 @@ function LogoNavbar({ hide }) {
                 <button
                   className="flex w-full items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50"
                   onClick={Logout}
-                > {UserLogin  ? "Logins" : <> <FiLogOut /> Logout</>}
+                > {UserLogin ? "Logins" : <> <FiLogOut /> Logout</>}
                 </button>
               </div>
             )}
