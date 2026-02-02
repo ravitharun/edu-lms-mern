@@ -232,14 +232,13 @@ import {
 } from "react-icons/fa";
 import secureLocalStorage from "react-secure-storage";
 import App from "../../App";
+import { handleLogout, UserName } from "../../Apis/Islogin";
+import { Link } from "react-router-dom";
 
 function AdminDashboard() {
   const [showNotifications, setShowNotifications] = useState(false);
 
-  const handleLogout = () => {
-    secureLocalStorage.clear();
-    window.location.href = "/login";
-  };
+
 
   return (
     <>
@@ -252,7 +251,7 @@ function AdminDashboard() {
             <p className="text-sm text-gray-500">
               Hello, <span className="font-medium">Mr.</span>
             </p>
-            <h1 className="text-2xl font-semibold text-gray-800">Tharun Kumar</h1>
+            <h1 className="text-2xl font-semibold text-gray-800">{UserName.name}</h1>
           </div>
 
           {/* Bell notifications */}
@@ -303,17 +302,19 @@ function AdminDashboard() {
             <h2 className="text-lg font-semibold mb-4">My Profile</h2>
             <div className="flex items-center gap-4 mb-4">
               <div className="w-14 h-14 rounded-full bg-blue-500 text-white flex items-center justify-center text-xl font-bold">
-                T
+                {UserName.name.charAt(0)}
               </div>
               <div>
-                <p className="font-medium">Mr. Tharun</p>
+                <p className="font-medium">Mr. {UserName.name}</p>
                 <p className="text-sm text-gray-500">Computer Science</p>
               </div>
             </div>
             <div className="flex gap-3">
-              <button className="flex items-center gap-2 px-3 py-1 text-sm bg-gray-200 rounded">
-                <FaUserEdit /> Edit
-              </button>
+              <Link to="/teachers/profile">
+                <button className="flex items-center gap-2 px-3 py-1 text-sm bg-gray-200 rounded">
+                  <FaUserEdit /> Edit
+                </button>
+              </Link>
               <button
                 onClick={handleLogout}
                 className="flex items-center gap-2 px-3 py-1 text-sm bg-red-500 text-white rounded"
