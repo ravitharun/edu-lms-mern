@@ -10,7 +10,7 @@ const Authrouter = require("./routes/AuthRoutes");
 
 const app = express();
 const server = http.createServer(app);
-require("dotenv").config();
+require('dotenv').config();
 
 // Connect to MongoDB
 connectDB();
@@ -24,7 +24,9 @@ console.log("Server updated at " + new Date().toLocaleTimeString());
 
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
-
+console.log("CLOUD_NAME:", process.env.CLOUD_NAME);
+console.log("API_KEY:", process.env.API_KEY);
+console.log("API_SECRET:", process.env.API_SECRET);
 // Routes
 app.use("/api/auth", Authrouter);
 

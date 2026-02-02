@@ -25,7 +25,7 @@ function LogoNavbar({ hide }) {
     }
   }
 
-
+    console.log( secureLocalStorage.getItem("User_info"))
 
   // Hide LogoNavbar if parent says so
   if (hide) return null;

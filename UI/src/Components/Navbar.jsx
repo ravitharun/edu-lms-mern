@@ -19,13 +19,14 @@ import MobilePassnav from "./MobilePassnav";
 import AdminNavbar from "./AdminNavbar";
 import AdminDashboard from "../Pages/AdminPages/AdminDashboard";
 import { UserLogin, UserRole } from "../Apis/Islogin";
+import secureLocalStorage from "react-secure-storage";
 
 function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
   const [academicsOpen, setAcademicsOpen] = useState(false);
   const [openProfile, setOpenProfile] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
-  const [role, setRole] = useState(UserRole)
-  console.log(UserRole)
+  const [role, setRole] = useState(UserRole.role)
+
   return (
     <>
       {/* students Navbar */}
