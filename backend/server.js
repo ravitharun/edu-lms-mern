@@ -7,6 +7,7 @@ const http = require("http");
 const { Server } = require("socket.io");
 const connectDB = require("./config/db");
 const Authrouter = require("./routes/AuthRoutes");
+const Subjects = require("./routes/SubjectsRouter");
 
 const app = express();
 const server = http.createServer(app);
@@ -29,6 +30,7 @@ console.log("API_KEY:", process.env.API_KEY);
 console.log("API_SECRET:", process.env.API_SECRET);
 // Routes
 app.use("/api/auth", Authrouter);
+app.use("/api/subjects", Subjects);
 
 // Test root
 app.get("/", (req, res) => {
