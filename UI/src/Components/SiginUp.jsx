@@ -144,6 +144,15 @@ export default function Signup() {
                                         />
                                         Teacher
                                     </label>
+                                    <label className="flex items-center gap-2 w-full border border-gray-600 rounded-md p-2 text-xs text-gray-200">
+                                        <input
+                                            type="radio"
+                                            name="role"
+                                            className="accent-indigo-500"
+                                            onChange={() => setrole("Admin")}
+                                        />
+                                        Admin
+                                    </label>
                                 </div>
                             </div>
 
@@ -217,12 +226,12 @@ export default function Signup() {
                                 Sign Up
                             </button>
                             {/* Or separator */}
-                            <div className="flex items-center my-2">
+                            {/* <div className="flex items-center my-2">
                                 <hr className="flex-grow border-gray-600" />
                                 <span className="mx-2 text-gray-400 text-xs">or</span>
                                 <hr className="flex-grow border-gray-600" />
-                            </div>
-                            <div className="flex justify-center mt-2">
+                            </div> */}
+                            {/* <div className="flex justify-center mt-2">
                                 <button
                                     type="button"
                                     className="flex items-center justify-center w-full bg-white hover:bg-gray-100 text-gray-800 py-2 rounded-md shadow-md font-medium transition"
@@ -234,7 +243,7 @@ export default function Signup() {
                                     />
                                     Sign up with Google
                                 </button>
-                            </div>
+                            </div> */}
 
 
                             {/* Login */}

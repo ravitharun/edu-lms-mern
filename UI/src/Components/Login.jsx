@@ -76,6 +76,15 @@ export default function Login() {
                   <input type="radio" name="role" className="accent-indigo-500" onClick={() => setrole("teacher")} />
                   Teacher
                 </label>
+                <label className="flex items-center gap-2 w-full border border-gray-600 rounded-md p-2 text-xs text-gray-200">
+                  <input
+                    type="radio"
+                    name="role"
+                    className="accent-indigo-500"
+                    onChange={() => setrole("Admin")}
+                  />
+                  Admin
+                </label>
               </div>
             </div>
 
