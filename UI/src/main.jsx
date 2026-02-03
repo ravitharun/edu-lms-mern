@@ -18,6 +18,7 @@ import Students from './Pages/AdminPages/Students.jsx';
 import AdminProfile from './Pages/AdminPages/AdminProfile.jsx';
 import Loaders from './Loaders/Loaders.jsx';
 import secureLocalStorage from 'react-secure-storage';
+import MasterAdminDashboard from './Pages/AdminPages/Master/MasterAdminDashboard.jsx';
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
 const MyCourses = lazy(() => import("./Pages/StudentPages/MyCourses.jsx"));
@@ -67,6 +68,8 @@ createRoot(document.getElementById('root')).render(
         <Route path="/students" element={<Students />} />
         <Route path="/teachers/ApplyLeave" element={<ApplyLeave />} />
         <Route path="/teachers/profile" element={<AdminProfile />} />
+{/* adminMAster routes */}
+        <Route path="/AdminDashboard" element={<MasterAdminDashboard />} />
 
       </Routes>
     </BrowserRouter>
