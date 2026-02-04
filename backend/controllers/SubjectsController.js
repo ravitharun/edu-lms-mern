@@ -34,5 +34,19 @@ const SubjectsSchemaController = async (req, res) => {
         return res.status(500).json({ message: err.message });
     }
 };
+ const fetchAllSubjects=async(req,res)=>{
+    try{
+        const data=await subject.find({})
+        // const data=[]
+        if(data.length==0){
+            return res.status(404).json({message:"No Subjects."})
+        }
+        return res.status(201).json({message:data})
 
-module.exports = { SubjectsSchemaController }
+    }
+    catch(err){
+        console.log("err from the fetchAllSubjects",err.message)
+        return res.status(500).json({message:"server Error"})
+    }
+}
+module.exports = { SubjectsSchemaController,fetchAllSubjects }
