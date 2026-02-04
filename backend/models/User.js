@@ -13,10 +13,15 @@ const userSchema = new mongoose.Schema({
     unique: true,
     index: true, sparse: true // ⭐ IMPORTANT
   },
+  Admin_Id: {
+    type: String,
+    unique: true,
+    index: true, sparse: true // ⭐ IMPORTANT
+  },
   password: { type: String, required: true },
   profilePreview: { type: String, required: true },
   ConfirmPassword: { type: String, required: true },
-  role: { type: String, enum: ["student", "Teacher"], default: "student" }
+  role: { type: String, enum: ["student", "Teacher","Admin"], default: "student" }
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);

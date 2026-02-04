@@ -3,4 +3,4 @@ const generateRandomId = (prefix, length) => {
   const max = Math.pow(10, length) - 1;
   return `${prefix}-${Math.floor(Math.random() * (max - min + 1) + min)}`;
 };
-module.exports={generateRandomId    }
+module.exports = { generateRandomId }

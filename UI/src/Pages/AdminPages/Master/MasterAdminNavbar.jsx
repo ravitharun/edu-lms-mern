@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaBars, FaTimes, FaTachometerAlt, FaBook, FaChalkboardTeacher, FaUsers, FaUserGraduate, FaCog, FaUser } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function MasterAdminNavbar() {
   const [open, setOpen] = useState(false);
@@ -35,8 +36,8 @@ function MasterAdminNavbar() {
             </div>
             <span className="font-semibold text-gray-800 text-lg">Admin</span>
           </div>
-          <button 
-            className="md:hidden p-1 rounded-lg hover:bg-gray-100" 
+          <button
+            className="md:hidden p-1 rounded-lg hover:bg-gray-100"
             onClick={() => setOpen(false)}
           >
             <FaTimes className="text-lg text-gray-600" />
@@ -45,29 +46,31 @@ function MasterAdminNavbar() {
 
         {/* Menu */}
         <nav className="p-6 space-y-2 mt-4">
-          <SidebarItem icon={<FaTachometerAlt />} title="Dashboard" active={true} />
-          <SidebarItem icon={<FaBook />} title="Subjects Master" />
-          <SidebarItem icon={<FaChalkboardTeacher />} title="Assign Teachers" />
-          <SidebarItem icon={<FaUsers />} title="Classes" />
-          <SidebarItem icon={<FaUserGraduate />} title="Students" />
-          <SidebarItem icon={<FaChalkboardTeacher />} title="Teachers" />
-          <SidebarItem icon={<FaCog />} title="Settings" />
-          <SidebarItem icon={<FaUser />} title="Profile" />
+          <SidebarItem icon={<FaTachometerAlt />} title="Dashboard" active={true} url="/AdminDashboard"/>
+          <SidebarItem icon={<FaBook />} title="Subjects Master" url="/Admin/AssiginSubjects" />
+          <SidebarItem icon={<FaChalkboardTeacher />} title="Assign Teachers" url="/admin/Assign-Teachers" />
+          <SidebarItem icon={<FaUserGraduate />} title="Students"  url="/admin/Students"/>
+          <SidebarItem icon={<FaChalkboardTeacher />} title="Teachers"  url="/admin/Teachers"/>
+          {/* <SidebarItem icon={<FaCog />} title="Settings" url="/admin/" /> */}
+          <SidebarItem icon={<FaUser />} title="Profile" url="/admin/Profile" />
         </nav>
       </aside>
     </>
   );
 }
 
-const SidebarItem = ({ icon, title, active = false }) => (
-  <div className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer group
-    ${active 
-      ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg" 
-      : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-    }`}>
-    <span className={`text-lg ${active ? 'text-white' : 'group-hover:text-blue-600'}`}>{icon}</span>
-    <span>{title}</span>
-  </div>
+const SidebarItem = ({ icon, title, active = false, url }) => (
+  <Link to={url}>
+
+    <div className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer group
+    ${active
+        ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg"
+        : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
+      }`}>
+      <span className={`text-lg ${active ? 'text-white' : 'group-hover:text-blue-600'}`}>{icon}</span>
+      <span>{title}</span>
+    </div>
+  </Link>
 );
 
 export default MasterAdminNavbar;
