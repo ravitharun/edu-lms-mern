@@ -11,12 +11,12 @@ const userSchema = new mongoose.Schema({
   teacher_Id: {
     type: String,
     unique: true,
-    index: true, sparse: true // ⭐ IMPORTANT
+    index: true, sparse: true 
   },
   Admin_Id: {
     type: String,
     unique: true,
-    index: true, sparse: true // ⭐ IMPORTANT
+    index: true, sparse: true
   },
   password: { type: String, required: true },
   profilePreview: { type: String, required: true },

@@ -47,7 +47,7 @@ function MasterAdminNavbar() {
         {/* Menu */}
         <nav className="p-6 space-y-2 mt-4">
           <SidebarItem icon={<FaTachometerAlt />} title="Dashboard" active={true} url="/AdminDashboard"/>
-          <SidebarItem icon={<FaBook />} title="Subjects Master" url="/Admin/AssiginSubjects" />
+          <SidebarItem icon={<FaBook />} title="Manage Subjects" url="/Admin/AssiginSubjects"  />
           <SidebarItem icon={<FaChalkboardTeacher />} title="Assign Teachers" url="/admin/Assign-Teachers" />
           <SidebarItem icon={<FaUserGraduate />} title="Students"  url="/admin/Students"/>
           <SidebarItem icon={<FaChalkboardTeacher />} title="Teachers"  url="/admin/Teachers"/>
