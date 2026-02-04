@@ -50,7 +50,7 @@ const SubjectsSchemaController = async (req, res) => {
 }
  const fetchAllTeachers=async(req,res)=>{
     try{
-        const data=await User.find({role: "Teacher"})
+        const data=await User.find({role: "Teacher"}).select("name teacher_Id")
         console.log(data,"data")
         if(data.length==0){
             console.log('No Subjects')
