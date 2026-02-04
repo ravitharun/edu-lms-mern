@@ -30,8 +30,7 @@ const NewAccount = async (req, res) => {
     let hashConfirmPassword = bcrypt.hashSync(formdata.StudentConifrmPassword, 10)
     // generate the id users/teachers both
 
-    const Lms_ID = generateRandomId(formdata.role, 4)
-  
+    const ID = generateRandomId(formdata.role, 4)
 
     const userData = {
       name: formdata.StudentName,
@@ -44,11 +43,14 @@ const NewAccount = async (req, res) => {
 
     // 3️⃣ Role-based ID
     if (formdata.role === "student") {
-      userData.Student_ID = Lms_ID;
+      userData.Student_ID = ID;
     }
 
     if (formdata.role === "Teacher") {
-      userData.teacher_Id = Lms_ID;
+      userData.teacher_Id = ID;
+    }
+    if (formdata.role === "Admin") {
+      userData.Admin_Id = ID;
     }
 
     // 4️⃣ Save ONCE

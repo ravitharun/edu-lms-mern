@@ -15,7 +15,7 @@ export default function Signup() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [profile, setProfile] = useState(null);
-
+    const [privew, setProfilePreview] = useState("")
 
     const navigate = useNavigate();
 
@@ -41,11 +41,7 @@ export default function Signup() {
 
         // const data = {StudentEmail,StudentName,StudentPassword,StudentConifrmPassword,ischeck,role,profile}
         try {
-            const response = await axios.post(
-                "http://localhost:5001/api/auth/newDataUser",
-                formData,
-                { headers: { "Content-Type": "multipart/form-data" } }
-            );
+            const response = await handelapiSigup(formData, e)
 
             if (response?.status === 201) {
                 toast.success("Account Created");
@@ -60,9 +56,9 @@ export default function Signup() {
     const handleProfileUpload = (e) => {
         const file = e.target.files[0];
 
-        setProfile(file); // ✅ real File (Multer needs this)
+        setProfile(file);
         setProfilePreview(URL.createObjectURL(file)); // UI preview
-    };
+    }
 
 
     return (
@@ -194,8 +190,8 @@ export default function Signup() {
                             {/* Profile Image Upload */}
                             <div className="flex items-center gap-3 mt-2">
                                 <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-800 flex items-center justify-center overflow-hidden border border-gray-600">
-                                    {profile ? (
-                                        <img src={profile} alt="profile" className="w-full h-full object-cover" />
+                                    {privew ? (
+                                        <img src={privew} alt="profile" className="w-full h-full object-cover" />
                                     ) : (
                                         <FaUserCircle className="text-gray-500 text-2xl sm:text-3xl" />
                                     )}

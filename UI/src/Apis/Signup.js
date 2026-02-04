@@ -5,9 +5,9 @@ import secureLocalStorage from "react-secure-storage";
 const handelapiSigup = async (formData, e) => {
   e.preventDefault()
   try {
-    for (let [key, value] of formData.entries()) {
-      console.log("Ui form data", key, value);
-    }
+    // for (let [key, value] of formData.entries()) {
+    //   console.log("Ui form data", key, value);
+    // }
     const response = await axios.post(
       "http://localhost:5001/api/auth/newDataUser",
       formData,
@@ -41,7 +41,6 @@ const handelLogin = async (data, e) => {
         'Content-Type': 'application/json'
       }
     })
-    console.log(response.data.message=="Logedin",'response Login Api')
   
     if (response.data.message == "The password is incorrect") {
       return toast.error("The password is incorrect")
