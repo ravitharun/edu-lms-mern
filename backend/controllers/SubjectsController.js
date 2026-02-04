@@ -1,4 +1,5 @@
-const { subject } = require("../models/Master")
+const { subject } = require("../models/Master");
+const User = require("../models/User");
 
 const SubjectsSchemaController = async (req, res) => {
     try {
@@ -21,9 +22,7 @@ const SubjectsSchemaController = async (req, res) => {
                 });
             }
         }
-
         // await subject.insertMany(subjects);
-
         res.status(201).json({
             message: "Subjects added successfully",
             count: subjects.length
@@ -49,4 +48,21 @@ const SubjectsSchemaController = async (req, res) => {
         return res.status(500).json({message:"server Error"})
     }
 }
-module.exports = { SubjectsSchemaController,fetchAllSubjects }
+ const fetchAllTeachers=async(req,res)=>{
+    try{
+        const data=await User.find({role: "Teacher"})
+        console.log(data,"data")
+        if(data.length==0){
+            console.log('No Subjects')
+            return res.status(404).json({message:"No Subjects."})
+        }
+        return res.status(201).json({message:data})
+
+    }
+    catch(err){
+        console.log("err from the fetchAllSubjects",err.message)
+        return res.status(500).json({message:"server Error"})
+    }
+}
+
+module.exports = { SubjectsSchemaController,fetchAllSubjects,fetchAllTeachers }

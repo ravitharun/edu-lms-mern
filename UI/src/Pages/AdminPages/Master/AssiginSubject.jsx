@@ -67,6 +67,7 @@ function AssiginSubject() {
                         <div className="max-w-7xl mx-auto mt-10 flex items-center justify-between">
                             <h2 className="text-xl font-semibold text-gray-800">
                                 Manage Subjects
+                                <hr className="mt-3 h-1 w-24 border-0 rounded-full bg-blue-500" />
                             </h2>
 
                             <button className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 text-sm rounded-md shadow-sm transition">

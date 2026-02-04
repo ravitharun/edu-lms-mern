@@ -9,3 +9,12 @@ export const fetchAllSubjects = async () => {
         console.log(err.message)
     }
 }
+export const fetchAllTeacherName = async () => {
+    try {
+        const response = await axios.get("http://localhost:5001/api/subjects/get/Teachers")
+        return response
+    }
+    catch (err) {
+        console.log(err.message)
+    }
+}
