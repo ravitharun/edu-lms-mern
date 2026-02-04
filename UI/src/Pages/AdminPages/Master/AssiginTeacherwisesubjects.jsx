@@ -72,7 +72,7 @@ function AssiginTeacherwisesubjects() {
 
         // const reponse = await AssignTeacher(data_choose)
         Swal.fire({
-            title: "Confirm Assignment",
+            title: "Confirm Assign",
             text: `Assign ${data_choose.ChooseSubjects} to Prof. ${data_choose.ChooseTecherName}?`,
             icon: "question",
             showCancelButton: true,
