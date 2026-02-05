@@ -37,14 +37,15 @@ function AssiginTeacherwisesubjects() {
         const getSubjects = async () => {
             try {
                 const response_sudjects = await fetchAllSubjects()
-
-                Setsubjects(response_sudjects.data.message)
+                Setsubjects(response_sudjects.data?.message)
+                // console.log(response_sudjects.status==401,'response ')
             }
             catch (err) {
-                console.log(err.message)
+                console.log(err.status,"getSubjects")
             }
         }
         getSubjects()
+
         const getTeachersName = async () => {
             try {
                 const response_sudjects = await fetchAllTeacherName()
@@ -70,7 +71,7 @@ function AssiginTeacherwisesubjects() {
             ChooseTecherName
         }
 
-        // const reponse = await AssignTeacher(data_choose)
+        // const reponse = ~await AssignTeacher(data_choose)
         Swal.fire({
             title: "Confirm Assign",
             text: `Assign ${data_choose.ChooseSubjects} to Prof. ${data_choose.ChooseTecherName}?`,
