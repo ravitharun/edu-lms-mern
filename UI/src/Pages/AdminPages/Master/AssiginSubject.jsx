@@ -71,9 +71,9 @@ function AssiginSubject() {
                                 <hr className="mt-3 h-1 w-24 border-0 rounded-full bg-blue-500" />
                             </h2>
 
-                            <button className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 text-sm rounded-md shadow-sm transition" onClick={()=>setpoupForm((prev)=>!prev)} >
+                            <button className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 text-sm rounded-md shadow-sm transition" onClick={() => setpoupForm((prev) => !prev)} >
                                 <FaPlus className="text-xs" />
-                                {!poupForm?'Add':'close'}
+                                {!poupForm ? 'Add' : 'close'}
                             </button>
                         </div>
                         <div className="mt-10 mb-10 flex justify-center">
@@ -98,13 +98,16 @@ function AssiginSubject() {
 
                             </div>
                         </div>
-{poupForm && <>
-Open form
-<div>
-input
-<button onClick={()=>setpoupForm(false)}>close</button>
-<div>
-</>}
+                        {poupForm &&
+                            <>
+                                Open form
+                                <div>
+                                    <input type="text" />
+                                    <input type="text" />
+                                    <button onClick={() => setpoupForm(false)}>close</button>
+                                </div>
+                            </>
+                        }
                         {/* table */}
                         <div className="overflow-x-auto bg-white rounded-xl shadow-md">
                             <table className="min-w-full border-collapse border border-gray-200 rounded-lg overflow-hidden">
