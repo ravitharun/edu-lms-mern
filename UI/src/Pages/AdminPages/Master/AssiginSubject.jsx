@@ -11,18 +11,19 @@ function AssiginSubject() {
     const [Search, setsearch] = useState('')
     const [loder, setloader] = useState(false)
     const [originalData, setOriginalData] = useState([]);
+    const [poupForm, setpoupForm] = useState(false);
 
     useEffect(() => {
         const get = async () => {
             try {
                 setloader(true)
-                const data = await fetchAllSubjects()
-                console.log(data)
-                setallData(data.data.message)
-                setOriginalData(data.data.message);
+                const rsdata = await fetchAllSubjects()
+                // console.log(data)
+                setallData(rsdata.data?.message)
+                setOriginalData(rsdata.data?.message);
                 setloader(false)
             } catch (err) {
-                console.log(err)
+                console.log(err.message)
             }
 
         }
@@ -70,9 +71,9 @@ function AssiginSubject() {
                                 <hr className="mt-3 h-1 w-24 border-0 rounded-full bg-blue-500" />
                             </h2>
 
-                            <button className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 text-sm rounded-md shadow-sm transition">
+                            <button className="flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 text-sm rounded-md shadow-sm transition" onClick={()=>setpoupForm((prev)=>!prev)} >
                                 <FaPlus className="text-xs" />
-                                Add
+                                {!poupForm?'Add':'close'}
                             </button>
                         </div>
                         <div className="mt-10 mb-10 flex justify-center">
@@ -97,7 +98,13 @@ function AssiginSubject() {
 
                             </div>
                         </div>
-
+{poupForm && <>
+Open form
+<div>
+input
+<button onClick={()=>setpoupForm(false)}>close</button>
+<div>
+</>}
                         {/* table */}
                         <div className="overflow-x-auto bg-white rounded-xl shadow-md">
                             <table className="min-w-full border-collapse border border-gray-200 rounded-lg overflow-hidden">

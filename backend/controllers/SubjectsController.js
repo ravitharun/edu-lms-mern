@@ -36,6 +36,7 @@ const SubjectsSchemaController = async (req, res) => {
  const fetchAllSubjects=async(req,res)=>{
     try{
         const data=await subject.find({})
+         const authorizationToken = req.headers['authorization']; 
         // const data=[]
         if(data.length==0){
             return res.status(404).json({message:"No Subjects."})
@@ -48,6 +49,7 @@ const SubjectsSchemaController = async (req, res) => {
         return res.status(500).json({message:"server Error"})
     }
 }
+
  const fetchAllTeachers=async(req,res)=>{
     try{
         const data=await User.find({role: "Teacher"}).select("name teacher_Id")
