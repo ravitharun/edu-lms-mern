@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import MasterAdminNavbar from './MasterAdminNavbar';
 import MasterLogoNav from './MasterLogoNav';
-import { AddnewSubjuect, fetchAllSubjects } from './APIS/GetAll-subjects';
+import { AddnewSubjuect, fetchAllSubjects, HandelDeleteCourse } from './APIS/GetAll-subjects';
 import { FaPlus, FaSearch, FaTimes } from 'react-icons/fa';
 import Loaders from '../../../Loaders/Loaders';
 import Dataloading from '../../../Loaders/Dataloading';
 import toast, { Toaster } from 'react-hot-toast';
+import Swal from "sweetalert2";
 
 function AssiginSubject() {
     const [getAllData, setallData] = useState([]);
@@ -17,6 +18,7 @@ function AssiginSubject() {
     const [subjectCode, setSubjectCode] = useState("");
     const [year, setYear] = useState("");
     const [dept, setDept] = useState("");
+    const [fillterdeletd, seflltes] = useState([])
     useEffect(() => {
         const get = async () => {
             try {
@@ -77,6 +79,40 @@ function AssiginSubject() {
         catch (err) {
             console.log("err from the a.jsx", err)
         }
+    }
+
+
+    const handelDeleteCourse = async (id) => {
+        Swal.fire({
+            title: "Do you want to Delete these  Course?",
+            showDenyButton: true,
+            showCancelButton: false,
+            // confirmButtonText: "Save",
+            confirmButtonText: "Yes, Delete it",
+            // cancelButtonText: "No",
+            icon: "info"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                Swal.fire("Saved!", "", "success");
+                try {
+                    const response = await HandelDeleteCourse(id)
+                    if (response.data.message === "Course Deleted.") {
+                        const setdata = getAllData.filter(item => item._id !== id);
+                        setallData(setdata);
+                        return toast.success('Course Deleted.')
+                    }
+
+                }
+                catch (err) {
+                    toast.error(err.message)
+                }
+            } else if (result.isDenied) {
+
+                Swal.fire("Course is not  Deleted", "", "info");
+            }
+        })
+
+
     }
     return (
         <>
@@ -213,7 +249,7 @@ function AssiginSubject() {
                                         <th className="px-6 py-4 text-center">Action</th>
                                     </tr>
                                 </thead>
-
+                                <h2>{getAllData.length}length</h2>
                                 {loder ? (
                                     <tbody>
                                         <tr>
@@ -247,16 +283,15 @@ function AssiginSubject() {
                                                 <td className="px-6 py-4 text-center">{data.subject}</td>
                                                 <td className="px-6 py-4 text-center">{data.year}</td>
                                                 <td className="px-6 py-4 text-center">
-                                                    
+
                                                     <div className="flex gap-2">
                                                         <button className="px-3 py-1 bg-yellow-400 text-white rounded hover:bg-yellow-500 transition">
                                                             Edit
                                                         </button>
-                                                        <button className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition" onClick={()=>alert(data._id)}>
+                                                        <button className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition" onClick={() => handelDeleteCourse(data._id)}>
                                                             Delete
                                                         </button>
                                                     </div>
-
                                                 </td>
                                             </tr>
                                         ))}

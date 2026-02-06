@@ -49,3 +49,19 @@ export const AddnewSubjuect = async (data) => {
 
 
 }
+export const HandelDeleteCourse = async (data) => {
+
+    // try {?
+    const response = await axios.delete(`http://localhost:5001/api/subjects/delete/Course/${data}`,
+
+        Header_Token_expry
+
+    )
+
+
+
+    return response;
+
+
+
+}
