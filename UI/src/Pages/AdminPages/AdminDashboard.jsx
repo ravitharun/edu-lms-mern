@@ -14,6 +14,7 @@ import App from "../../App";
 import { handleLogout, UserName } from "../../Apis/Islogin";
 import { Link } from "react-router-dom";
 import MasterAdmin from "./Master/MasterAdmin";
+// import UserisLogin from "../../Components/UserisLogin";
 
 function AdminDashboard() {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -23,7 +24,7 @@ function AdminDashboard() {
   return (
     <>
       <App></App>
-
+      {/* <UserisLogin></UserisLogin> */}
       <div className="flex flex-col md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
         {/* ================= HEADER ================= */}
         <div className="flex justify-between items-center">
@@ -31,7 +32,7 @@ function AdminDashboard() {
             <p className="text-sm text-gray-500">
               Hello, <span className="font-medium">Mr.</span>
             </p>
-            <h1 className="text-2xl font-semibold text-gray-800">{UserName.name}</h1>
+            <h1 className="text-2xl font-semibold text-gray-800">{UserName?.name}</h1>
           </div>
 
           {/* Bell notifications */}
@@ -82,7 +83,7 @@ function AdminDashboard() {
             <h2 className="text-lg font-semibold mb-4">My Profile</h2>
             <div className="flex items-center gap-4 mb-4">
               <div className="w-14 h-14 rounded-full bg-blue-500 text-white flex items-center justify-center text-xl font-bold  gap-3">
-                <img                 className="w-10 h-10 rounded-full object-cover" src={`${`https://ui-avatars.com/api/?name=${UserName.name}`}`} alt={UserName.name} />
+                <img className="w-10 h-10 rounded-full object-cover" src={`${`https://ui-avatars.com/api/?name=${UserName.name}`}`} alt={UserName.name} />
               </div>
               <div>
                 <p className="font-medium">Mr. {UserName.name}</p>
@@ -136,7 +137,7 @@ function AdminDashboard() {
           </div>
         </div>
       </div>
-   
+
     </>
   );
 }

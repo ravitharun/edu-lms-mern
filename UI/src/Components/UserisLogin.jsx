@@ -1,25 +1,12 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import secureLocalStorage from 'react-secure-storage'
+import { useEffect } from "react"
+import secureLocalStorage from "react-secure-storage"
 
-function UserisLogin() {
-    const navigate = useNavigate("")
-    useEffect(() => {
-        const fun = () => {
-            let tkn = secureLocalStorage.getItem("token")
+export const fun = () => {
+    let tkn = secureLocalStorage.getItem("token")
+    console.log("tkn", tkn)
 
-            if (tkn == null) {
-                return navigate("/login")
-            }
+    if (tkn == null) {
+        return window.location.href="/login"
+    }
 
-        }
-        fun()
-    }, [])
-    return (
-        <>
-
-
-        </>)
 }
-
-export default UserisLogin

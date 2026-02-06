@@ -33,7 +33,7 @@ function MasterLogoNav({ path }) {
           <p className="text-sm font-medium text-gray-800">Ravi Tharun</p>
         </div>
         <img
-          src={UserName.profilePreview}
+          src={UserName?.profilePreview}
           alt="Profile"
           className="w-10 h-10 rounded-full object-cover border-2 border-gray-200 hover:border-blue-400 cursor-pointer transition-all"
         />

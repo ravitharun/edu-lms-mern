@@ -5,12 +5,16 @@ import { AssignTeacher, fetchAllSubjects, fetchAllTeacherName } from './APIS/Get
 import toast, { Toaster } from 'react-hot-toast'
 import { FaPlus } from 'react-icons/fa'
 import Swal from "sweetalert2";
+import { fun } from '../../../Components/UserisLogin'
 
 function AssiginTeacherwisesubjects() {
     const [GetSubjects, Setsubjects] = useState([])
     const [subjectsName, SetsubjectsName] = useState([])
     const [ChooseSubjects, setChooseSubjects] = useState('')
     const [ChooseTecherName, setChooseTecherName] = useState('')
+    useEffect(() => {
+        fun()
+    }, [])
     const FakeData = [{
         courseId: "cse101",
         subject: "java Programming",
@@ -41,7 +45,7 @@ function AssiginTeacherwisesubjects() {
                 // console.log(response_sudjects.status==401,'response ')
             }
             catch (err) {
-                console.log(err.status,"getSubjects")
+                console.log(err.status, "getSubjects")
             }
         }
         getSubjects()
@@ -120,7 +124,7 @@ function AssiginTeacherwisesubjects() {
             <Toaster />
             <div className="min-h-screen flex bg-gray-50 overflow-x-hidden">
                 {/* Sidebar */}
-                <MasterAdminNavbar />
+                <MasterAdminNavbar path="Assign Teachers" Active={false} />
 
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col min-w-0 w-full">
