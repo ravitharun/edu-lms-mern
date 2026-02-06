@@ -7,6 +7,7 @@ import Loaders from '../../../Loaders/Loaders';
 import Dataloading from '../../../Loaders/Dataloading';
 import toast, { Toaster } from 'react-hot-toast';
 import Swal from "sweetalert2";
+import { fun } from '../../../Components/UserisLogin';
 
 function AssiginSubject() {
     const [getAllData, setallData] = useState([]);
@@ -19,6 +20,11 @@ function AssiginSubject() {
     const [year, setYear] = useState("");
     const [dept, setDept] = useState("");
     const [fillterdeletd, seflltes] = useState([])
+
+    useEffect(() => {
+        fun()
+    }, [])
+
     useEffect(() => {
         const get = async () => {
             try {

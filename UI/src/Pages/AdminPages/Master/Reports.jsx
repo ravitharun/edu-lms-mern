@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MasterAdminNavbar from './MasterAdminNavbar'
 import MasterLogoNav from './MasterLogoNav'
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+import { fun } from '../../../Components/UserisLogin';
 
 function Reports() {
     const data = [
@@ -10,6 +11,9 @@ function Reports() {
         { name: "MECH", students: 60 },
     ];
     const page='Reports'
+      useEffect(() => {
+        fun()
+      }, [])
     return (
         <div className="min-h-screen flex bg-gray-50">
             {/* Sidebar */}
