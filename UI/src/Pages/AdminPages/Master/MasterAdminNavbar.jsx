@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import { FaBars, FaTimes, FaTachometerAlt, FaBook, FaChalkboardTeacher, FaUsers, FaUserGraduate, FaCog, FaUser } from "react-icons/fa";
+import { FaBars, FaTimes, FaTachometerAlt, FaBook, FaChalkboardTeacher, FaUsers, FaUserGraduate, FaCog, FaUser, FaCheck, FaUserCheck, FaPowerOff } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { handleLogout, UserLogin } from "../../../Apis/Islogin";
+import { handelLogin } from "../../../Apis/Signup";
 
-function MasterAdminNavbar() {
+function MasterAdminNavbar({ path, Active }) {
+  console.log({ path, Active })
   const [open, setOpen] = useState(false);
 
   return (
@@ -34,7 +37,7 @@ function MasterAdminNavbar() {
             <div className="w-9 h-9 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 text-white flex items-center justify-center font-bold text-sm">
               LMS
             </div>
-            <span className="font-semibold text-gray-800 text-lg">Admin</span>
+            <span className="font-semibold text-gray-800 text-lg">Admin </span>
           </div>
           <button
             className="md:hidden p-1 rounded-lg hover:bg-gray-100"
@@ -46,29 +49,33 @@ function MasterAdminNavbar() {
 
         {/* Menu */}
         <nav className="p-6 space-y-2 mt-4">
-          <SidebarItem icon={<FaTachometerAlt />} title="Dashboard" active={true} url="/AdminDashboard"/>
-          <SidebarItem icon={<FaBook />} title="Manage Subjects" url="/Admin/AssiginSubjects"  />
-          <SidebarItem icon={<FaChalkboardTeacher />} title="Assign Teachers" url="/admin/Assign-Teachers" />
-          <SidebarItem icon={<FaUserGraduate />} title="Students"  url="/admin/Students"/>
-          <SidebarItem icon={<FaChalkboardTeacher />} title="Teachers"  url="/admin/Teachers"/>
+          <SidebarItem icon={<FaTachometerAlt />} title="Dashboard" active={true} url="/AdminDashboard" />
+          <SidebarItem icon={<FaBook />} title="Manage Subjects" url="/Admin/AssiginSubjects" path={path} active={Active} />
+          <SidebarItem icon={<FaChalkboardTeacher />} title="Assign Teachers" url="/admin/Assign-Teachers" active={Active} path={path} />
+          <SidebarItem icon={<FaUserGraduate />} title="Reports" url="/admin/Reports" path={path} active={Active} />
+          <SidebarItem icon={<FaChalkboardTeacher />} title="Teachers" url="/admin/Teachers" path={path} active={Active} />
           {/* <SidebarItem icon={<FaCog />} title="Settings" url="/admin/" /> */}
-          <SidebarItem icon={<FaUser />} title="Profile" url="/admin/Profile" />
+          <SidebarItem icon={<FaUser />} title="Profile" url="/admin/Profile" path={path} active={Active} />
+          {<>
+
+            {UserLogin ? <SidebarItem icon={<FaPowerOff />} title="LogOut" url="/admin/Profile" path={path} active={Active} onClick={handleLogout} /> : <SidebarItem icon={<FaUserCheck />} title="Login" url="/admin/Profile" path={path} active={Active} />}
+          </>}
         </nav>
       </aside>
     </>
   );
 }
 
-const SidebarItem = ({ icon, title, active = false, url }) => (
+const SidebarItem = ({ icon, title, active, url, path,onClick }) => (
   <Link to={url}>
 
     <div className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer group
-    ${active
-        ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg"
+    
+    ${path === title ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg"
         : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-      }`}>
-      <span className={`text-lg ${active ? 'text-white' : 'group-hover:text-blue-600'}`}>{icon}</span>
-      <span>{title}</span>
+      }`} onClick={onClick}>
+      <span className={`text-lg ${path == title ? 'text-white' : 'group-hover:text-blue-600'}`}>{icon}</span>
+      <span >{title}</span>
     </div>
   </Link>
 );

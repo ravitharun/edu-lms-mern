@@ -21,15 +21,14 @@ import secureLocalStorage from 'react-secure-storage';
 import MasterAdminDashboard from './Pages/AdminPages/Master/MasterAdminDashboard.jsx';
 import AssiginSubject from './Pages/AdminPages/Master/AssiginSubject.jsx';
 import AssiginTeacherwisesubjects from './Pages/AdminPages/Master/AssiginTeacherwisesubjects.jsx';
+import AdminStudents from './Pages/AdminPages/Master/Reports.jsx';
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
 const MyCourses = lazy(() => import("./Pages/StudentPages/MyCourses.jsx"));
 // import MyCourses from './Pages/MyCourses.jsx';
 
 
-const clr_token_logout = secureLocalStorage.getItem("User_info")
-console.log(clr_token_logout?.role
-)
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
@@ -70,11 +69,12 @@ createRoot(document.getElementById('root')).render(
         <Route path="/students" element={<Students />} />
         <Route path="/teachers/ApplyLeave" element={<ApplyLeave />} />
         <Route path="/teachers/profile" element={<AdminProfile />} />
-{/* adminMAster routes */}
+        {/* adminMAster routes */}
         <Route path="/AdminDashboard" element={<MasterAdminDashboard />} />
         <Route path="/Admin/AssiginSubjects" element={<AssiginSubject />} />
         <Route path="/admin/Assign-Teachers" element={<AssiginTeacherwisesubjects />} />
         <Route path="/Admin/Profile" element={<AdminProfile />} />
+        <Route path="/admin/Reports" element={<AdminStudents />} />
 
       </Routes>
     </BrowserRouter>

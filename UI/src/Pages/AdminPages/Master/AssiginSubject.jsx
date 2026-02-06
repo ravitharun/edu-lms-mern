@@ -119,7 +119,7 @@ function AssiginSubject() {
             <Toaster />
             <div className="min-h-screen flex bg-gray-50">
                 {/* Sidebar */}
-                <MasterAdminNavbar />
+                <MasterAdminNavbar path="Manage Subjects" />
 
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col min-w-0 w-full">

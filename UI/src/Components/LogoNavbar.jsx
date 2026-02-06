@@ -11,7 +11,6 @@ import {
 } from "react-icons/fi";
 import secureLocalStorage from "react-secure-storage";
 import { UserLogin, UserName } from "../Apis/Islogin";
-import UserisLogin from "./UserisLogin";
 function LogoNavbar({ hide }) {
   const [openProfile, setOpenProfile] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
@@ -31,7 +30,7 @@ function LogoNavbar({ hide }) {
 
   return (
     <>
-      <UserisLogin />
+      {/* <UserisLogin /> */}
       <nav className="sticky top-0 z-50 bg-white shadow ">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
 
