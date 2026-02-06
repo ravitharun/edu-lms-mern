@@ -92,4 +92,23 @@ const addByOne = async (req, res) => {
 
     }
 }
-module.exports = { SubjectsSchemaController, fetchAllSubjects, fetchAllTeachers, addByOne }
+
+
+const DeleteCourse = async (req, res) => {
+    try {
+        const { id } = req.params
+        console.log(id)
+        if (!id) {
+            console.log('ID is missing. from the delete route Course')
+            return res.status(404).json({ message: "ID is missing." })
+        }
+        const Delete_course = await subject.findByIdAndDelete(id)
+        if (Delete_course) {
+
+            return res.status(200).json({ message: "Course Deleted." })
+        }
+    } catch (error) {
+        return res.status(500).json({ message: error.message })
+    }
+}
+module.exports = { SubjectsSchemaController, fetchAllSubjects, fetchAllTeachers, addByOne, DeleteCourse }
