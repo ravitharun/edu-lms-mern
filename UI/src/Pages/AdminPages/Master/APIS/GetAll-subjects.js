@@ -36,3 +36,16 @@ export const AssignTeacher = async (data) => {
         console.log(err.message)
     }
 }
+export const AddnewSubjuect = async (data) => {
+    // try {
+    const response = await axios.post("http://localhost:5001/api/subjects/add/subjectByForm", { data: data },
+
+        Header_Token_expry
+
+    )
+    console.log(response.data, 'response from the Add new Subject api')
+
+    return response;
+
+
+}

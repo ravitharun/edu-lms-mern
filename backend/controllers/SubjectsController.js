@@ -4,14 +4,12 @@ const User = require("../models/User");
 const SubjectsSchemaController = async (req, res) => {
     try {
         const subjects = req.body; // array
-
+        // console.log(subjects, 'subjects')
         if (!Array.isArray(subjects) || subjects.length === 0) {
             return res.status(400).json({ message: "No subjects data" });
         }
-
-
         for (let i = 0; i < subjects.length; i++) {
-            const findCourse = await subject.findOne({courseId:subjects[i].courseId})
+            const findCourse = await subject.findOne({ courseId: subjects[i].courseId })
             if (findCourse) {
                 return res.status(400).json({ message: "course is already exits." })
             }
@@ -22,7 +20,7 @@ const SubjectsSchemaController = async (req, res) => {
                 });
             }
         }
-        // await subject.insertMany(subjects);
+        await subject.insertMany(subjects);
         res.status(201).json({
             message: "Subjects added successfully",
             count: subjects.length
@@ -33,38 +31,65 @@ const SubjectsSchemaController = async (req, res) => {
         return res.status(500).json({ message: err.message });
     }
 };
- const fetchAllSubjects=async(req,res)=>{
-    try{
-        const data=await subject.find({})
-         const authorizationToken = req.headers['authorization']; 
+const fetchAllSubjects = async (req, res) => {
+    try {
+        const data = await subject.find({})
+        const authorizationToken = req.headers['authorization'];
         // const data=[]
-        if(data.length==0){
-            return res.status(404).json({message:"No Subjects."})
+        if (data.length == 0) {
+            return res.status(404).json({ message: "No Subjects." })
         }
-        return res.status(201).json({message:data})
+        return res.status(201).json({ message: data })
 
     }
-    catch(err){
-        console.log("err from the fetchAllSubjects",err.message)
-        return res.status(500).json({message:"server Error"})
+    catch (err) {
+        console.log("err from the fetchAllSubjects", err.message)
+        return res.status(500).json({ message: "server Error" })
     }
 }
 
- const fetchAllTeachers=async(req,res)=>{
-    try{
-        const data=await User.find({role: "Teacher"}).select("name teacher_Id")
-        console.log(data,"data")
-        if(data.length==0){
+const fetchAllTeachers = async (req, res) => {
+    try {
+        const data = await User.find({ role: "Teacher" }).select("name teacher_Id")
+        console.log(data, "data")
+        if (data.length == 0) {
             console.log('No Subjects')
-            return res.status(404).json({message:"No Subjects."})
+            return res.status(404).json({ message: "No Subjects." })
         }
-        return res.status(201).json({message:data})
+        return res.status(201).json({ message: data })
 
     }
-    catch(err){
-        console.log("err from the fetchAllSubjects",err.message)
-        return res.status(500).json({message:"server Error"})
+    catch (err) {
+        console.log("err from the fetchAllSubjects", err.message)
+        return res.status(500).json({ message: "server Error" })
     }
 }
+const addByOne = async (req, res) => {
+    try {
+        const { data } = req.body
+        console.log(data)
+        // { subjectName: 'efk', subjectCode: '212', year: '12', dept: 'rfmr' }
 
-module.exports = { SubjectsSchemaController,fetchAllSubjects,fetchAllTeachers }
+        const check_isSubjects = await subject.find({ courseId: data.subjectCode })
+        console.log(check_isSubjects)
+        if (!check_isSubjects) {
+            return res.status(401).json({ message: "These Course ID is already Exits." })
+        } else {
+
+
+            const addSubject_new = new subject({
+                subject: data.subjectName,
+                courseId: data.subjectCode,
+                department: data.dept,
+                year: data.year,
+            })
+            await addSubject_new.save()
+            return res.status(201).json({ message: "Subject is added." })
+        }
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).json({ message: err.message })
+
+    }
+}
+module.exports = { SubjectsSchemaController, fetchAllSubjects, fetchAllTeachers, addByOne }
