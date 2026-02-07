@@ -9,6 +9,9 @@ import {
     ResponsiveContainer,
     LabelList,
 } from "recharts";
+import { MdOutlineFileDownload } from "react-icons/md";
+import { CSVLink } from "react-csv";
+import DownloadReports from "./DownloadReports";
 
 function StudentsReports() {
     const data = [
@@ -19,10 +22,13 @@ function StudentsReports() {
         { name: "EEE", students: 20, color: "#362F4F" },
         { name: "AERO", students: 50, color: "#511D43" },
     ];
-
+    const yer = new Date
     return (
-        // 🔥 full width + left aligned
         <>
+            <div className="mt-10">
+                <DownloadReports data={data} fileName={`students-report-${yer.getFullYear()}`} buttonName={'Students'}/>
+            </div>
+
 
             <div className="w-full p-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -44,7 +50,7 @@ function StudentsReports() {
                                             <Cell key={index} fill={entry.color} />
                                         ))}
                                         <LabelList
-                                            dataKey="students"
+                                            dataKey="students" position="top"
                                         // position="insideStart"
                                         // formatter={(value, entry) => `${entry.name}: ${value}`}
                                         />
@@ -71,7 +77,7 @@ function StudentsReports() {
                                             <Cell key={index} fill={entry.color} />
                                         ))}
                                         <LabelList
-                                            dataKey="students"
+                                            dataKey="students" position="top"
                                         // position="right"
                                         // formatter={(value, entry) => `${entry.name}: ${value}`}
                                         />
@@ -98,7 +104,7 @@ function StudentsReports() {
                                             <Cell key={index} fill={entry.color} />
                                         ))}
                                         <LabelList
-                                            dataKey="students"
+                                            dataKey="students" position="top"
 
                                         // formatter={(value, entry) => `${entry.name}: ${value}`}
                                         />
@@ -126,7 +132,7 @@ function StudentsReports() {
                                         ))}
                                         <LabelList
                                             dataKey="students"
-
+                                            position="top"
                                         // formatter={(value, entry) => `${entry.name}: ${value}`}
                                         />
                                     </Bar>
