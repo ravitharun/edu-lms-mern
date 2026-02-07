@@ -99,7 +99,7 @@ function AssiginSubject() {
             icon: "info"
         }).then(async (result) => {
             if (result.isConfirmed) {
-                Swal.fire("Saved!", "", "success");
+                Swal.fire("Deleted Course !", "", "success");
                 try {
                     const response = await HandelDeleteCourse(id)
                     if (response.data.message === "Course Deleted.") {
