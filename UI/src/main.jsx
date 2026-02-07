@@ -22,6 +22,7 @@ import MasterAdminDashboard from './Pages/AdminPages/Master/MasterAdminDashboard
 import AssiginSubject from './Pages/AdminPages/Master/AssiginSubject.jsx';
 import AssiginTeacherwisesubjects from './Pages/AdminPages/Master/AssiginTeacherwisesubjects.jsx';
 import AdminStudents from './Pages/AdminPages/Master/Reports.jsx';
+import TeachersProfiles from './Pages/AdminPages/Master/TeachersProfiles.jsx';
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
 const MyCourses = lazy(() => import("./Pages/StudentPages/MyCourses.jsx"));
@@ -75,6 +76,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/admin/Assign-Teachers" element={<AssiginTeacherwisesubjects />} />
         <Route path="/Admin/Profile" element={<AdminProfile />} />
         <Route path="/admin/Reports" element={<AdminStudents />} />
+        <Route path="/admin/Teachers" element={<TeachersProfiles />} />
 
       </Routes>
     </BrowserRouter>
