@@ -1,6 +1,6 @@
 import React from "react";
 
-function ProgressLoader() {
+function ProgressLoader({path}) {
   return (
     <div className="flex flex-col items-center justify-center py-16 text-gray-600">
       {/* Big Spinner */}
@@ -8,7 +8,7 @@ function ProgressLoader() {
 
       {/* Text */}
       <span className="text-base font-medium">
-        Updating In progress…
+        Updating In progress… <b>{path}</b>
       </span>
     </div>
 
