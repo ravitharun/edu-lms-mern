@@ -14,6 +14,7 @@ export default function Login() {
   const [ischeck, setcheck] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
   const redirect = useNavigate("")
+  const [loading, setloading] = useState(false)
 
   // handel login api data
   const handelloginapi = async (e) => {
@@ -30,8 +31,10 @@ export default function Login() {
       role,
       StudentPassword
     }
+    setloading(true)
     const get_user_valid = await handelLogin(Userdata, e)
     console.log(get_user_valid.status, "get_user_valid")
+    setloading(false)
 
     // console.log(get_user_valid.data.message=="The password is incorrect")
     if (get_user_valid.status === 200) {
@@ -147,8 +150,22 @@ export default function Login() {
             </p>
 
             {/* Submit */}
-            <button className="w-full rounded-md bg-indigo-600 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500" onClick={handelloginapi}>
-              Sign In
+
+            <button
+              onClick={handelloginapi}
+              disabled={loading}
+              className={`px-6 py-2 rounded-md text-white font-medium
+  transition-all duration-300 w-full
+  ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+            >
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  Loading...
+                </span>
+              ) : (
+                'Sign In'
+              )}
             </button>
           </form>
 
