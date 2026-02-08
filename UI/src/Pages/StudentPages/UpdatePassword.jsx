@@ -1,12 +1,43 @@
 import React from 'react'
 import App from '../../App'
 import { UserName } from '../../Apis/Islogin'
+import axios from 'axios'
+import toast, { Toaster } from 'react-hot-toast'
+import { useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 function UpdatePassword() {
+  const [loading, setloadin] = useState(false)
+    const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  console.log(token,'token from ui')
+
+  console.log(token); // abc123
+  const handelUpdatepassowrd = async (e) => {
+
+    e.preventDefault()
+    try {
+      // console.log('first')
+      setloadin(true)
+      const response = await axios.post("http://localhost:5001/api/password/passowrdUpdate", { email: UserName?.email })
+      console.log(response.data.message)
+      if (response.data.message == "emailSent.") {
+        toast.success(`Email sent to the ${UserName?.email}`)
+      }
+      if(response.status==401){
+        console.log(401)
+      }
+      setloadin(false)
+    } catch (error) {
+      toast.error(error.message)
+    }
+
+  }
   return (
     <>
 
       <App></App>
+      <Toaster />
       <div>
 
         <form className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6 sm:p-8 space-y-5 mt-10">
@@ -32,11 +63,21 @@ function UpdatePassword() {
 
           {/* Update Button */}
           <button
-            type="submit"
-            className="w-full py-2.5 rounded-lg bg-blue-600 text-white font-medium
-               hover:bg-blue-700 active:scale-95 transition-all duration-200"
+            // onClick={Handeldata}
+            onClick={handelUpdatepassowrd}
+            disabled={loading}
+            className={`px-6 py-2 rounded-md text-white font-medium
+  transition-all duration-300 w-full
+  ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
           >
-            Update Password
+            {loading ? (
+              <span className="flex items-center gap-2 text-center">
+                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin "></span>
+                Sending An Email...
+              </span>
+            ) : (
+              'update Password'
+            )}
           </button>
         </form>
 

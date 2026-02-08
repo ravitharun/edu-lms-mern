@@ -43,7 +43,7 @@ const NewAccount = async (req, res) => {
       StudentsYearDepartment: formdata.StudentsYearDepartment,
 
     };
-console.log(formdata.StudentsYearDepartment.split(" "),'formdata.StudentsYearDepartment.split("")')
+    console.log(formdata.StudentsYearDepartment.split(" "), 'formdata.StudentsYearDepartment.split("")')
     // 3️⃣ Role-based ID
     if (formdata.role === "student") {
       userData.Student_ID = ID;
@@ -60,13 +60,13 @@ console.log(formdata.StudentsYearDepartment.split(" "),'formdata.StudentsYearDep
 
     // 4️⃣ Save ONCE
     const saveData = new User(userData);
-     const info = await transporter.sendMail({
-    from: '"Maddison Foo Koch" <maddison53@ethereal.email>',
-    to: "bar@example.com, baz@example.com",
-    subject: "Hello ✔",
-    text: "Hello world?", // Plain-text version of the message
-    html: "<b>Hello world?</b>", // HTML version of the message
-  });
+    //    const info = await transporter.sendMail({
+    //   from: '"',
+    //   to: "bar@example.com, baz@example.com",
+    //   subject: "Hello ✔",
+    //   text: "Hello world?", // Plain-text version of the message
+    //   html: "<b>Hello world?</b>", // HTML version of the message
+    // });
     await saveData.save();
 
     return res.status(201).json({ message: "Account Created" });

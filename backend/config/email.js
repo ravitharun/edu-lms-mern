@@ -3,12 +3,13 @@ const nodemailer = require("nodemailer");
 // Create a transporter using Ethereal test credentials.
 // For production, replace with your actual SMTP server details.
 const transporter = nodemailer.createTransport({
-  host: "smtp.ethereal.email",
-  port: 587,
-  secure: false, // Use true for port 465, false for port 587
+  service: "gmail",
   auth: {
-    user: "maddison53@ethereal.email",
-    pass: "jn7jnAPss4f63QBp6D",
-  },
+    user: "tr565003@gmail.com",
+    pass: "kcocficadwdgncrh" // App Password (no spaces)
+  }
 });
-module.exports=transporter
+transporter.verify()
+  .then(() => console.log("✅ Gmail SMTP Connected"))
+  .catch(err => console.error("❌ Error:", err));
+module.exports = { transporter }
