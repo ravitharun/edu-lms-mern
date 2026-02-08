@@ -15,7 +15,7 @@ import { UserName } from "../../Apis/Islogin";
 
 function AdminProfile() {
   const page = "Profile";
-//   console.log(UserName)
+  //   console.log(UserName)
 
   return (
     <div className="min-h-screen flex bg-gray-50">
@@ -42,7 +42,7 @@ function AdminProfile() {
               <div className="flex flex-col sm:flex-row justify-between gap-6">
                 <div className="flex items-center gap-5">
                   <img className="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-3xl font-bold text-blue-600" src={UserName.profilePreview}>
-                   
+
                   </img>
                   <div>
                     <h2 className="text-xl font-semibold text-gray-900">
@@ -64,9 +64,9 @@ function AdminProfile() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 <Input label="Full Name" icon={<FiUser />} placeholder="Super Admin" value={UserName.name} />
-                <Input label="Email" icon={<FiMail />} placeholder="admin@college.edu" value={UserName.email}/>
+                <Input label="Email" icon={<FiMail />} placeholder="admin@college.edu" value={UserName.email} />
                 <Input label="Phone" icon={<FiPhone />} placeholder="+91 98765 43210" />
-                <Input label="Role" icon={<FiBriefcase />} placeholder="Administrator" disabled  value={"Admin"}/>
+                <Input label="Role" icon={<FiBriefcase />} placeholder="Administrator" disabled value={"Admin"} />
               </div>
             </Section>
 
@@ -142,21 +142,24 @@ const Section = ({ title, icon, children }) => (
   </div>
 );
 
-const Input = ({ label, icon, placeholder, type = "text", disabled = false,value }) => (
+const Input = ({ label, icon, placeholder, type = "text", disabled = false, value }) => (
   <div className="flex flex-col gap-1">
     <label className="text-sm font-medium text-gray-700">{label}</label>
+
     <div className="relative">
       {icon && (
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
           {icon}
         </span>
       )}
+
       <input
         type={type}
         placeholder={placeholder}
         disabled={disabled}
         value={value}
-        className={`w-full rounded-lg border px-${icon ? "10" : "4"} py-2.5 text-sm outline-none
+        className={`w-full rounded-lg border py-2.5 text-sm outline-none
+          ${icon ? "pl-10 pr-4" : "px-4"}
           ${disabled
             ? "bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed"
             : "bg-white border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
