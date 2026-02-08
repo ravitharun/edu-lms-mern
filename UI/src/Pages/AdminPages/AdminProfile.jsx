@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   FiUser,
   FiMail,
@@ -15,7 +15,29 @@ import { UserName } from "../../Apis/Islogin";
 
 function AdminProfile() {
   const page = "Profile";
-  //   console.log(UserName)
+  console.log(UserName,'UserName')
+  // console.log(new Date(UserName?.updatedAt).toUTCString())
+  const [first, setfirst] = useState('')
+  useEffect(() => {
+    const getos = () => {
+      const userAgent = navigator.userAgent;
+      const platform = navigator.platform.toLowerCase();
+      if (userAgent.includes("Firefox") && platform.includes("win")) {
+        setfirst(" Firefox on Windows");
+      } else if (userAgent.includes("Chrome") && platform.includes("win")) {
+        setfirst(" Chrome on Windows");
+      } else if (userAgent.includes("Firefox") && platform.includes("mac")) {
+        setfirst(" Firefox on macOS");
+      } else if (userAgent.includes("Chrome") && platform.includes("mac")) {
+        setfirst(" Chrome on macOS");
+      } else {
+        setfirst("Other browser or OS");
+      }
+    }
+    getos()
+  }, [])
+
+
 
   return (
     <div className="min-h-screen flex bg-gray-50">
@@ -67,13 +89,14 @@ function AdminProfile() {
                 <Input label="Email" icon={<FiMail />} placeholder="admin@college.edu" value={UserName.email} />
                 <Input label="Phone" icon={<FiPhone />} placeholder="+91 98765 43210" />
                 <Input label="Role" icon={<FiBriefcase />} placeholder="Administrator" disabled value={"Admin"} />
+                <Input label="Admin_Id" icon={<FiBriefcase />} placeholder="Admin_Id" disabled value={UserName?.Admin_Id} />
               </div>
             </Section>
 
             {/* Security */}
             <Section title="Security Settings" icon={<FiLock />}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Input label="Current Password" type="password" placeholder="••••••••" />
+                <Input label="Current Password" type="password" placeholder="••••••••" value={UserName?.password} />
                 <Input label="New Password" type="password" placeholder="••••••••" />
                 <Input label="Confirm Password" type="password" placeholder="••••••••" />
               </div>
@@ -104,13 +127,12 @@ function AdminProfile() {
             {/* Activity */}
             <Section title="Activity Information">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                <Info label="Last Login" value="Today, 10:45 AM" />
-                <Info label="Device" value="Chrome on Windows" />
-                <Info label="Account Created" value="12 Jan 2024" />
-                <Info label="Last Updated" value="02 Feb 2026" />
+                <Info label="Updated At" value={new Date(UserName?.updatedAt).toLocaleDateString()} />
+                <Info label="Device" value={first} />
+                <Info label="Account Created" value={new Date(UserName?.createdAt).toLocaleDateString()} />
+                <Info label="Last Updated" value={new Date(UserName?.updatedAt).toLocaleDateString()}/>
               </div>
             </Section>
-
             {/* Danger Zone */}
             <div className="bg-white border border-red-200 rounded-xl p-6">
               <h3 className="text-red-600 font-semibold flex items-center gap-2">
