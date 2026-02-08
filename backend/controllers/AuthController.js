@@ -13,7 +13,7 @@ const NewAccount = async (req, res) => {
   try {
     console.log("REQ BODY:", req.body); // text fields
     console.log("REQ FILE:", req.file); // file info from Cloudinary
-    const formdata=req.body;
+    const formdata = req.body;
     const Profile = req.file?.path;
     const result = await cloudinary.uploader.upload(Profile,);
     const GetBy_email = await User.find({ email: req.body.StudentEmail })
@@ -39,16 +39,19 @@ const NewAccount = async (req, res) => {
       ConfirmPassword: hashConfirmPassword,
       role: formdata.role,
       profilePreview: result.secure_url,
-      department:formdata.department
-    };
+      StudentsYearDepartment: formdata.StudentsYearDepartment,
 
+    };
+console.log(formdata.StudentsYearDepartment.split(" "),'formdata.StudentsYearDepartment.split("")')
     // 3️⃣ Role-based ID
     if (formdata.role === "student") {
       userData.Student_ID = ID;
+      userData.department = formdata.StudentsYearDepartment.split(" ")[0]
     }
 
     if (formdata.role === "Teacher") {
       userData.teacher_Id = ID;
+      userData.department = formdata.department
     }
     if (formdata.role === "Admin") {
       userData.Admin_Id = ID;
@@ -61,7 +64,7 @@ const NewAccount = async (req, res) => {
     return res.status(201).json({ message: "Account Created" });
   }
   catch (error) {
-    console.error(error,);
+    console.error(error.message,);
     return res.status(500).json({ error: "Server error" });
   }
 };
