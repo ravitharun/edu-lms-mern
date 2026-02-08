@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 const { generateRandomId } = require("../generateRandomId");
 const cloudinary = require("../config/cloudinary");
+const { transporter } = require("../config/email");
 
 cloudinary.api.ping()
 
@@ -59,6 +60,13 @@ console.log(formdata.StudentsYearDepartment.split(" "),'formdata.StudentsYearDep
 
     // 4️⃣ Save ONCE
     const saveData = new User(userData);
+     const info = await transporter.sendMail({
+    from: '"Maddison Foo Koch" <maddison53@ethereal.email>',
+    to: "bar@example.com, baz@example.com",
+    subject: "Hello ✔",
+    text: "Hello world?", // Plain-text version of the message
+    html: "<b>Hello world?</b>", // HTML version of the message
+  });
     await saveData.save();
 
     return res.status(201).json({ message: "Account Created" });
