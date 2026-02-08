@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import LogoNavbar from "./Components/LogoNavbar";
 import Navbar from "./Components/Navbar";
+import { UserRole } from "./Apis/Islogin";
 
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -9,7 +10,7 @@ function App() {
     <>
       {/* LogoNavbar → hidden on mobile */}
       <div className="sticky top-0 z-50 hidden md:block">
-        <LogoNavbar />
+       {UserRole==="Admin" ?<LogoNavbar />:""}
       </div>
 
       {/* Navbar → always visible */}
