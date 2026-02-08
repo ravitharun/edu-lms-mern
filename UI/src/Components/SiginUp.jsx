@@ -6,6 +6,9 @@ import { FaEye, FaEyeSlash, FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 
 export default function Signup() {
+    const departments = ["CSE", "ECE", "MECH", "EEE", "CIVIL"];
+    const [department, setDepartment] = useState("");
+
     const [StudentName, setStudentName] = useState("");
     const [StudentEmail, setStudentEmail] = useState("");
     const [StudentPassword, setStudentPassword] = useState("");
@@ -34,6 +37,7 @@ export default function Signup() {
         formData.append("StudentConifrmPassword", StudentConifrmPassword);
         formData.append("role", role);
         formData.append("ischeck", ischeck);
+        formData.append("department", department);
         if (profile) formData.append("profile", profile); // important for file
 
 
@@ -84,11 +88,28 @@ export default function Signup() {
                     <div className="p-4 sm:p-6 flex flex-col justify-center">
                         <h2 className="text-xl font-bold text-white text-center mb-2">Create Your LMS Account</h2>
                         <p className="text-xs text-gray-400 text-center mb-4">Register as Student or Teacher</p>
-
+ {/* Profile Image Upload */}
+                            <div className="flex items-center gap-3 mt-2">
+                                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-800 flex items-center justify-center overflow-hidden border border-gray-600">
+                                    {privew ? (
+                                        <img src={privew} alt="profile" className="w-full h-full object-cover" />
+                                    ) : (
+                                        <FaUserCircle className="text-gray-500 text-2xl sm:text-3xl" />
+                                    )}
+                                </div>
+                                <label className="cursor-pointer">
+                                    <span className="px-3 py-1 text-xs sm:text-sm rounded-md bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition">
+                                        Upload
+                                    </span>
+                                    <input type="file" accept="image/*" className="hidden" onChange={handleProfileUpload} />
+                                </label>
+                            </div>
                         <form className="space-y-3">
+                            
 
                             {/* Full Name & Email in Row */}
                             <div className="flex flex-col sm:flex-row sm:gap-4">
+                                
                                 {/* Full Name */}
                                 <div className="flex flex-col w-full">
                                     <label htmlFor="fullname" className="text-xs text-gray-300 mb-1">Full Name</label>
@@ -151,7 +172,23 @@ export default function Signup() {
                                     </label>
                                 </div>
                             </div>
-
+                            {role === "Teacher" && (
+                                <div className="mb-4">
+                                    <label className="block text-white mb-1 font-medium">Department</label>
+                                    <select
+                                        value={department}
+                                        onChange={(e) => setDepartment(e.target.value)}
+                                        className="w-full border rounded p-2 text-white"
+                                    >
+                                        <option value="" className="text-black">Select Department</option>
+                                        {departments.map((dept) => (
+                                            <option key={dept} value={dept} className="text-black">
+                                                {dept}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
 
                             {/* Password & Confirm Password in Row */}
                             <div className="flex flex-col sm:flex-row sm:gap-3">
@@ -187,22 +224,7 @@ export default function Signup() {
                                 </div>
                             </div>
 
-                            {/* Profile Image Upload */}
-                            <div className="flex items-center gap-3 mt-2">
-                                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-800 flex items-center justify-center overflow-hidden border border-gray-600">
-                                    {privew ? (
-                                        <img src={privew} alt="profile" className="w-full h-full object-cover" />
-                                    ) : (
-                                        <FaUserCircle className="text-gray-500 text-2xl sm:text-3xl" />
-                                    )}
-                                </div>
-                                <label className="cursor-pointer">
-                                    <span className="px-3 py-1 text-xs sm:text-sm rounded-md bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition">
-                                        Upload
-                                    </span>
-                                    <input type="file" accept="image/*" className="hidden" onChange={handleProfileUpload} />
-                                </label>
-                            </div>
+                           
 
                             {/* Terms */}
                             <div className="flex items-center gap-2 text-xs text-gray-300 mt-2">

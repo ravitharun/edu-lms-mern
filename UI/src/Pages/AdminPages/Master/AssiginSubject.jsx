@@ -248,6 +248,7 @@ function AssiginSubject() {
                             <table className="min-w-full border-collapse border border-gray-200 rounded-lg overflow-hidden">
                                 <thead>
                                     <tr className="bg-gray-100 text-gray-700 text-sm uppercase">
+                                        <th className="px-6 py-4 text-left"> ID</th>
                                         <th className="px-6 py-4 text-left">Course ID</th>
                                         <th className="px-6 py-4 text-left">Department</th>
                                         <th className="px-6 py-4 text-center">Subject</th>
@@ -255,7 +256,6 @@ function AssiginSubject() {
                                         <th className="px-6 py-4 text-center">Action</th>
                                     </tr>
                                 </thead>
-                                <h2>{getAllData.length}length</h2>
                                 {loder ? (
                                     <tbody>
                                         <tr>
@@ -284,6 +284,7 @@ function AssiginSubject() {
                                                 key={idx}
                                                 className="hover:bg-gray-50 transition"
                                             >
+                                                <td className="px-6 py-4 text-left">{idx+1}</td>
                                                 <td className="px-6 py-4 text-left">{data.courseId}</td>
                                                 <td className="px-6 py-4 text-left">{data.department}</td>
                                                 <td className="px-6 py-4 text-center">{data.subject}</td>

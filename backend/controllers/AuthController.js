@@ -38,7 +38,8 @@ const NewAccount = async (req, res) => {
       password: hashPassword,
       ConfirmPassword: hashConfirmPassword,
       role: formdata.role,
-      profilePreview: result.secure_url
+      profilePreview: result.secure_url,
+      department:formdata.department
     };
 
     // 3️⃣ Role-based ID
