@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import MasterAdminNavbar from "./MasterAdminNavbar";
 import MasterLogoNav from "./MasterLogoNav";
 
@@ -72,7 +72,27 @@ function TeachersProfiles() {
             pendingReviews: 1,
         },
     ];
+    const [getTeacherprofiles, setteacherprofile] = useState(Profiles)
+    const [searchTeacher, setSerchteacherprofile] = useState([])
+    const [Errormessage, seterror] = useState('')
 
+    const handelSerach = (e) => {
+        let search = e
+        let search_filter = getTeacherprofiles.filter((subj) =>
+            subj.name?.toLowerCase().includes(search) || subj.dept?.toLowerCase().includes(search) || subj.designation?.toLowerCase().includes(search))
+        setteacherprofile(search_filter)
+
+        if(search_filter.length==0){
+            seterror(`No Techers Found ${search}`)
+        }
+        if (search == "") {
+            setteacherprofile(Profiles)
+        }
+    }
+    const handelclear = () => {
+        setSerchteacherprofile('')
+    }
+    console.log(getTeacherprofiles)
     return (
         <div className="min-h-screen flex bg-gray-50">
             <MasterAdminNavbar path={page} />
@@ -93,12 +113,19 @@ function TeachersProfiles() {
                         <input
                             type="text"
                             placeholder="Search faculty..."
+                            onChange={(e) => handelSerach(e.target.value)}
+                            // value={searchTeacher}
                             className="w-full px-4 py-2 rounded-lg border border-gray-300 shadow-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                         />
-                    </div>
 
+
+
+                    </div>
+                    {!Errormessage ?
+                        <button onClick={handelclear}>{Errormessage}</button> : ""
+                    }
                     <div className="space-y-4 max-w-5xl mx-auto">
-                        {Profiles.map((pr, idx) => (
+                        {getTeacherprofiles.map((pr, idx) => (
                             <div
                                 key={idx}
                                 className="flex flex-col lg:flex-row items-start lg:items-center justify-between bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-4 lg:p-5 border border-gray-100 w-full group"
