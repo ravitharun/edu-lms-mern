@@ -6,7 +6,20 @@ import { FaEye, FaEyeSlash, FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 
 export default function Signup() {
-    const departments = ["CSE", "ECE", "MECH", "EEE", "CIVIL"];
+    // const departments = ["CSE", "ECE", "MECH", "EEE", "CIVIL"];
+    // const allDepts = [
+    //     "CSE 1", "CSE 2", "CSE 3", "CSE 4",
+    //     "ECE 1", "ECE 2", "ECE 3", "ECE 4",
+    //     "EEE 1", "EEE 2", "EEE 3", "EEE 4",
+    //     "MECH 1", "MECH 2", "MECH 3", "MECH 4",
+    //     "CIVIL 1", "CIVIL 2", "CIVIL 3", "CIVIL 4"
+    // ];
+    const departments = ["CSE", "ECE", "EEE", "MECH", "CIVIL"];
+    const years = [1, 2, 3, 4];
+
+    const allDepts = departments.flatMap(dept =>
+        years.map(year => `${dept} ${year}`)
+    );
     const [department, setDepartment] = useState("");
 
     const [StudentName, setStudentName] = useState("");
@@ -19,7 +32,8 @@ export default function Signup() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [profile, setProfile] = useState(null);
     const [privew, setProfilePreview] = useState("")
-
+    const [StudentsYearDepartment, setStudentsYearDepartment] = useState("")
+    const [loading, setloading] = useState(false)
     const navigate = useNavigate();
 
     const Handeldata = async (e) => {
@@ -38,6 +52,7 @@ export default function Signup() {
         formData.append("role", role);
         formData.append("ischeck", ischeck);
         formData.append("department", department);
+        formData.append("StudentsYearDepartment", StudentsYearDepartment);
         if (profile) formData.append("profile", profile); // important for file
 
 
@@ -45,7 +60,9 @@ export default function Signup() {
 
         // const data = {StudentEmail,StudentName,StudentPassword,StudentConifrmPassword,ischeck,role,profile}
         try {
+            setloading(true)
             const response = await handelapiSigup(formData, e)
+            setloading(false)
 
             if (response?.status === 201) {
                 toast.success("Account Created");
@@ -88,28 +105,28 @@ export default function Signup() {
                     <div className="p-4 sm:p-6 flex flex-col justify-center">
                         <h2 className="text-xl font-bold text-white text-center mb-2">Create Your LMS Account</h2>
                         <p className="text-xs text-gray-400 text-center mb-4">Register as Student or Teacher</p>
- {/* Profile Image Upload */}
-                            <div className="flex items-center gap-3 mt-2">
-                                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-800 flex items-center justify-center overflow-hidden border border-gray-600">
-                                    {privew ? (
-                                        <img src={privew} alt="profile" className="w-full h-full object-cover" />
-                                    ) : (
-                                        <FaUserCircle className="text-gray-500 text-2xl sm:text-3xl" />
-                                    )}
-                                </div>
-                                <label className="cursor-pointer">
-                                    <span className="px-3 py-1 text-xs sm:text-sm rounded-md bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition">
-                                        Upload
-                                    </span>
-                                    <input type="file" accept="image/*" className="hidden" onChange={handleProfileUpload} />
-                                </label>
+                        {/* Profile Image Upload */}
+                        <div className="flex items-center gap-3 mt-2">
+                            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-800 flex items-center justify-center overflow-hidden border border-gray-600">
+                                {privew ? (
+                                    <img src={privew} alt="profile" className="w-full h-full object-cover" />
+                                ) : (
+                                    <FaUserCircle className="text-gray-500 text-2xl sm:text-3xl" />
+                                )}
                             </div>
+                            <label className="cursor-pointer">
+                                <span className="px-3 py-1 text-xs sm:text-sm rounded-md bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition">
+                                    Upload
+                                </span>
+                                <input type="file" accept="image/*" className="hidden" onChange={handleProfileUpload} />
+                            </label>
+                        </div>
                         <form className="space-y-3">
-                            
+
 
                             {/* Full Name & Email in Row */}
                             <div className="flex flex-col sm:flex-row sm:gap-4">
-                                
+
                                 {/* Full Name */}
                                 <div className="flex flex-col w-full">
                                     <label htmlFor="fullname" className="text-xs text-gray-300 mb-1">Full Name</label>
@@ -189,6 +206,23 @@ export default function Signup() {
                                     </select>
                                 </div>
                             )}
+                            {role === "student" && (
+                                <div className="mb-4">
+                                    <label className="block text-white mb-1 font-medium">Department</label>
+                                    <select
+                                        value={StudentsYearDepartment}
+                                        onChange={(e) => setStudentsYearDepartment(e.target.value)}
+                                        className="w-full border rounded p-2 text-white"
+                                    >
+                                        <option value="" className="text-black">Select Department</option>
+                                        {allDepts.map((dept) => (
+                                            <option key={dept} value={dept} className="text-black">
+                                                {dept}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
 
                             {/* Password & Confirm Password in Row */}
                             <div className="flex flex-col sm:flex-row sm:gap-3">
@@ -224,7 +258,7 @@ export default function Signup() {
                                 </div>
                             </div>
 
-                           
+
 
                             {/* Terms */}
                             <div className="flex items-center gap-2 text-xs text-gray-300 mt-2">
@@ -237,12 +271,22 @@ export default function Signup() {
 
                             {/* Normal Sign Up */}
                             <button
-                                type="button"
                                 onClick={Handeldata}
-                                className="w-full bg-indigo-600 hover:bg-indigo-500 text-white py-2 rounded-md font-semibold transition"
+                                disabled={loading}
+                                className={`px-6 py-2 rounded-md text-white font-medium
+  transition-all duration-300 w-full
+  ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
                             >
-                                Sign Up
+                                {loading ? (
+                                    <span className="flex items-center gap-2">
+                                        <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                                        Loading...
+                                    </span>
+                                ) : (
+                                    'Sign Up'
+                                )}
                             </button>
+
                             {/* Or separator */}
                             {/* <div className="flex items-center my-2">
                                 <hr className="flex-grow border-gray-600" />

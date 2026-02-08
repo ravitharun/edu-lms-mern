@@ -22,7 +22,8 @@ const userSchema = new mongoose.Schema({
   profilePreview: { type: String, required: true },
   ConfirmPassword: { type: String, required: true },
   role: { type: String, enum: ["student", "Teacher","Admin"], default: "student" },
-  department: { type: String, enum: ["CSE", "ECE", "MECH", "EEE", "CIVIL"], default: "CSE" }
+  department: { type: String, enum: ["CSE", "ECE", "MECH", "EEE", "CIVIL"], default: "CSE" },
+  StudentsYearDepartment: { type: String,required:true }
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);
