@@ -74,7 +74,7 @@ createRoot(document.getElementById('root')).render(
         <Route path="/AdminDashboard" element={<MasterAdminDashboard />} />
         <Route path="/Admin/AssiginSubjects" element={<AssiginSubject />} />
         <Route path="/admin/Assign-Teachers" element={<AssiginTeacherwisesubjects />} />
-        <Route path="/Admin/Profile" element={<AdminProfile />} />
+        <Route path="/admin/Profile" element={<AdminProfile />} />
         <Route path="/admin/Reports" element={<AdminStudents />} />
         <Route path="/admin/Teachers" element={<TeachersProfiles />} />
 

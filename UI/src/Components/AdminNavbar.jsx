@@ -50,7 +50,7 @@ function AdminSidebar() {
             <aside className="hidden md:flex fixed left-0 top-0 h-screen w-64 flex-col bg-white border-r">
                 <div className="h-14 flex items-center px-6 border-b">
                     <h1 className="text-xl font-bold text-blue-600">
-                        Teacher Panel
+                        {/* Teacher Panel */}
                     </h1>
                 </div>
                 <div className="mt-10 px-4">
