@@ -7,13 +7,16 @@ import { IoNewspaperOutline } from "react-icons/io5";
 import "../../App.css"
 import toast, { Toaster } from 'react-hot-toast';
 import secureLocalStorage from 'react-secure-storage';
-import { UserRole } from '../../Apis/Islogin';
+import { UserName, UserRole } from '../../Apis/Islogin';
 import Error from '../../Components/Error';
 function Dashboard() {
   
   const [Profile, setprofile] = useState(UserRole.profilePreview)
   const [StudentID, setStudentID] = useState(UserRole.Student_ID)
   const Name = UserRole.name;
+  console.log(UserName.StudentsYearDepartment.split(" ")[0])
+  console.log(UserName)
+  console.log(UserName.StudentsYearDepartment.split(" ")[1])
 
   const ProfileData = [
     { icon: '📊', type: "Attendance", count: "87.4%" },
@@ -201,7 +204,7 @@ function Dashboard() {
             <p className="text-xs uppercase tracking-wide text-gray-300">Student ID :</p>
             <p className="text-lg font-semibold text-blue-400">{StudentID}</p>
           </div>
-          <p className="text-sm text-gray-300">6th Semester | CSE</p>
+          <p className="text-sm text-gray-300">{UserName.StudentsYearDepartment.split(" ")[1]} (Semester )| {UserName.StudentsYearDepartment.split(" ")[0]}</p>
         </div>
 
         {/* Right Side: Profile Image */}
@@ -326,14 +329,14 @@ function Dashboard() {
             <div className="w-10 h-1 bg-blue-500 rounded mt-1"></div>
           </div>
           <p className="text-sm text-gray-600 text-center mb-4">
-            CSE · B.Tech · 6th Sem · {StudentID}
+            {UserName.StudentsYearDepartment.split(" ")[0]} · B.Tech · {UserName.StudentsYearDepartment.split(" ")[1]} Sem · {StudentID}
           </p>
 
           <div className="space-y-2 text-sm text-center text-gray-700">
             <p><span className="text-gray-500">Roll No:</span> 40</p>
             <p><span className="text-gray-500">DOB:</span> 18/06/2005</p>
-            <p><span className="text-gray-500">Email:</span> student_email</p>
-            <p><span className="text-gray-500">Phone:</span> student_phone</p>
+            <p><span className="text-gray-500">Email:</span> {UserName.email}</p>
+            <p><span className="text-gray-500">Phone:</span> adding</p>
           </div>
         </div>
 

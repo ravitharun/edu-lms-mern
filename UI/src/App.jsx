@@ -10,7 +10,8 @@ function App() {
     <>
       {/* LogoNavbar → hidden on mobile */}
       <div className="sticky top-0 z-50 hidden md:block">
-       {UserRole==="Admin" ?<LogoNavbar />:""}
+       {/* {UserRole!="Admin" ?<LogoNavbar />:""} */}
+       <LogoNavbar />
       </div>
 
       {/* Navbar → always visible */}
