@@ -15,7 +15,7 @@ import { UserName } from "../../Apis/Islogin";
 
 function AdminProfile() {
   const page = "Profile";
-  console.log(UserName,'UserName')
+  // console.log(UserName,'UserName')
   // console.log(new Date(UserName?.updatedAt).toUTCString())
   const [first, setfirst] = useState('')
   useEffect(() => {
