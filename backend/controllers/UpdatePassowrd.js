@@ -121,7 +121,7 @@ const updatepassword = async (req, res) => {
     const user = await User.findOne({
       resetToken: token,
       resetTokenExpiry: { $gt: Date.now() }
-    });
+    })
     if (!user) {
       console.log({ message: "Token expired." })
       return res.status(401).json({ message: "Token expired." })
