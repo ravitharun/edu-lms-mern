@@ -1,4 +1,8 @@
+
+const mongoose = require("mongoose");
+
 const subjectWiseTeacherSchema = new mongoose.Schema({
+
   classId: {
     type: String, // e.g. "CSE-3"
     required: true,
@@ -24,23 +28,22 @@ const subjectWiseTeacherSchema = new mongoose.Schema({
 
       subjectName: {
         type: String, // DBMS
-        required: true
+        // required: true
       },
 
-      teacher: {
-        teacherId: {
-          type: String, 
-          required: true
-        },
-        name: {
-          type: String, 
-          required: true
-        },
-        Techer_profile: {
-          type: String, 
-  
-        }
+      teacherId: {
+        type: String,
+        // required: true
+      },
+      name: {
+        type: String,
+        // required: true
+      },
+      Techer_profile: {
+        type: String,
+
       }
+
     }
   ]
 }, { timestamps: true });
