@@ -12,6 +12,7 @@ function AssiginTeacherwisesubjects() {
     const [subjectsName, SetsubjectsName] = useState([])
     const [ChooseSubjects, setChooseSubjects] = useState('')
     const [ChooseTecherName, setChooseTecherName] = useState('')
+    console.log(ChooseTecherName, 'ChooseTecherName')
     useEffect(() => {
         fun()
     }, [])
@@ -76,10 +77,12 @@ function AssiginTeacherwisesubjects() {
         }
         const data_choose = {
             ChooseSubjects,
-            ChooseTecherName
+            ChooseTecherName,
+            classid: `${ChooseSubjects.split("-")[1]}${ChooseSubjects.split("-")[2]}`
         }
+        console.log(`${ChooseSubjects.split("-")[1]}${ChooseSubjects.split("-")[2]}`)
+        console.table(data_choose)
 
-        // const reponse = ~await AssignTeacher(data_choose)
         Swal.fire({
             title: "Confirm Assign",
             text: `Assign ${data_choose.ChooseSubjects} to Prof. ${data_choose.ChooseTecherName}?`,
@@ -185,7 +188,7 @@ function AssiginTeacherwisesubjects() {
                                         >
                                             <option value="" disabled>-- Teacher --</option>
                                             {subjectsName.map((sub, idx) => (
-                                                <option key={idx} value={`${sub.name}-${sub.teacher_Id}-${sub.profilePreview}`}>
+                                                <option key={idx} value={`${sub.name}@${sub.teacher_Id}@${sub.profilePreview}`}>
                                                     {sub.name}
                                                 </option>
                                             ))}
