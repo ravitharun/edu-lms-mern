@@ -29,7 +29,11 @@ function UpdatePassword() {
       }
       setloadin(false)
     } catch (error) {
-      toast.error(error.message)
+      // toast.error(
+      if(error.message=='Network Error'){
+        toast.error('Network Error')
+        setloadin(false)
+      }
     }
 
   }

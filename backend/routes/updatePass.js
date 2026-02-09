@@ -1,5 +1,6 @@
 const express = require("express")
-const passowrdUpdate = require("../controllers/UpdatePassowrd")
+const {passowrdUpdateEmail,updatepassword} = require("../controllers/UpdatePassowrd")
 const updatePasswordRouter = express.Router()
-updatePasswordRouter.post("/passowrdUpdate", passowrdUpdate)
+updatePasswordRouter.post("/passowrdUpdate", passowrdUpdateEmail)
+updatePasswordRouter.post("/UpdatePassword",updatepassword )
 module.exports = updatePasswordRouter

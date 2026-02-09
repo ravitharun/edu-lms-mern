@@ -41,6 +41,7 @@ const NewAccount = async (req, res) => {
       role: formdata.role,
       profilePreview: result.secure_url,
       StudentsYearDepartment: formdata.StudentsYearDepartment,
+      resetToken:""
 
     };
     console.log(formdata.StudentsYearDepartment.split(" "), 'formdata.StudentsYearDepartment.split("")')

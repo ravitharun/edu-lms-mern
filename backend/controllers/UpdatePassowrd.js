@@ -3,30 +3,42 @@ const User = require("../models/User")
 const crypto = require("crypto");
 
 const token = crypto.randomBytes(32).toString("hex");
-const passowrdUpdate = async (req, res) => {
-    try {
-        let { email } = req.body
-        if (email == "tharunravi67122@gmail.com") {
-            email = 'tharunravi672@gmail.com'
-        }
-        console.log(email)
-        if (!email) {
-            console.log(email, "email is null")
-            return res.status(404).json({ message: "fill the required Email id is required" })
-        }
-        const Check_emailIsexits = await User.findOne({ email: email })
-        if (!Check_emailIsexits) {
-            console.log(`these email${email} is not exits.`)
-            return res.status(403).json({ message: `these email${email} is not exits.` })
-        }
-        // const token=jwt
-        const resetLink = `https://LMSTeam.com/reset-password?token=${token}`;
-        console.log(token, 'token')
-        const info = await transporter.sendMail({
-            from: 'tharunravi6722@gmail.com',
-            to: email,
-            subject: "Reset Your Password 🔐",
-            html: `
+
+
+
+
+const bcrypt = require('bcrypt');
+
+const passowrdUpdateEmail = async (req, res) => {
+  try {
+    let { email } = req.body
+    if (email == "tharunravi67122@gmail.com") {
+      email = 'tharunravi672@gmail.com'
+    }
+    console.log(email)
+    if (!email) {
+      console.log(email, "email is null")
+      return res.status(404).json({ message: "fill the required Email id is required" })
+    }
+    const Check_emailIsexits = await User.findOne({ email: email })
+    console.log(Check_emailIsexits, 'Check_emailIsexits')
+    if (!Check_emailIsexits) {
+      console.log(`these email${email} is not exits.`)
+      return res.status(403).json({ message: `these email${email} is not exits.` })
+    }
+    // const token=jwt
+    Check_emailIsexits.resetToken = token
+    Check_emailIsexits.resetTokenExpiry =  Date.now() + 10 * 60 * 1000;
+
+    await Check_emailIsexits.save()
+    const resetLink = `https://LMSTeam.com/reset-password?token=${token}`;
+    console.log(token, 'token')
+    // email headers
+    const info = await transporter.sendMail({
+      from: 'tharunravi6722@gmail.com',
+      to: email,
+      subject: "Reset Your Password 🔐",
+      html: `
   <div style="font-family: Arial, sans-serif; background:#f4f6f8; padding:20px;">
     <div style="max-width:600px; margin:auto; background:#ffffff; border-radius:8px; overflow:hidden;">
       
@@ -79,16 +91,57 @@ const passowrdUpdate = async (req, res) => {
     </div>
   </div>
   `
-        });
-        await info
-        console.log({ message: "emailSent." })
-        return res.status(200).json({ message: "emailSent." })
-    } catch (error) {
-        if (error.name === "TokenExpiredError") {
-            return res.status(401).json({ message: "Token expired" });
-        }
+    });
+    console.log({ message: "emailSent." }, 'sw')
+
+    return res.status(200).json({ message: "emailSent." })
+  } catch (error) {
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({ message: "Token expired" });
     }
+  }
 
 }
 
-module.exports = passowrdUpdate
+
+
+const updatepassword = async (req, res) => {
+  try {
+    const { token, password } = req.body
+
+
+
+
+    console.log({ token, password })
+
+
+
+
+
+    const user = await User.findOne({
+      resetToken: token,
+      resetTokenExpiry: { $gt: Date.now() }
+    });
+    if (!user) {
+      console.log({ message: "Token expired." })
+      return res.status(401).json({ message: "Token expired." })
+    }
+    if (!password) {
+      console.log({ message: "Password is required ." })
+      return res.status(404).json({ message: "Password is required ." })
+    }
+    let hashPassword = bcrypt.hashSync(password, 10)
+    let hashConfirmPassword = bcrypt.hashSync(password, 10)
+    user.password = hashPassword
+    user.ConfirmPassword = hashConfirmPassword
+    user.resetToken = null
+    user.resetTokenExpiry = null
+    await user.save()
+
+    return res.status(200).json({ message: `${password}` })
+  } catch (error) {
+    console.log(error.message)
+    return res.status(500).json({ message: "Server error." })
+  }
+}
+module.exports = { passowrdUpdateEmail, updatepassword }
