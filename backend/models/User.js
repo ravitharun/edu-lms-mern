@@ -4,14 +4,14 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   Student_ID: {
-    type: String, 
+    type: String,
     unique: true,
-    sparse: true 
+    sparse: true
   },
   teacher_Id: {
     type: String,
     unique: true,
-    index: true, sparse: true 
+    index: true, sparse: true
   },
   Admin_Id: {
     type: String,
@@ -21,9 +21,14 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   profilePreview: { type: String, required: true },
   ConfirmPassword: { type: String, required: true },
-  role: { type: String, enum: ["student", "Teacher","Admin"], default: "student" },
+  role: { type: String, enum: ["student", "Teacher", "Admin"], default: "student" },
   department: { type: String, enum: ["CSE", "ECE", "MECH", "EEE", "CIVIL"], default: "CSE" },
-  StudentsYearDepartment: { type: String,required:true }
+  StudentsYearDepartment: { type: String, required: true },
+  resetToken: { type: String, },
+  resetTokenExpiry: {
+    type: Date,
+    default: null
+  }
 }, { timestamps: true });
 
 module.exports = mongoose.model("User", userSchema);
