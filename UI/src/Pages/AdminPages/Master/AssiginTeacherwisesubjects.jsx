@@ -15,6 +15,9 @@ function AssiginTeacherwisesubjects() {
     useEffect(() => {
         fun()
     }, [])
+
+
+    console.log(subjectsName, 'subjectsName')
     const FakeData = [{
         courseId: "cse101",
         subject: "java Programming",
@@ -41,6 +44,7 @@ function AssiginTeacherwisesubjects() {
         const getSubjects = async () => {
             try {
                 const response_sudjects = await fetchAllSubjects()
+                console.log(response_sudjects.data)
                 Setsubjects(response_sudjects.data?.message)
                 // console.log(response_sudjects.status==401,'response ')
             }
@@ -161,8 +165,8 @@ function AssiginTeacherwisesubjects() {
                                         >
                                             <option value="" disabled>-- Subject --</option>
                                             {GetSubjects.map((sub, idx) => (
-                                                <option key={idx} value={sub.subject}>
-                                                    {sub.subject}
+                                                <option key={idx} value={`${sub.subject} -${sub.department}-${sub.year}-${sub.courseId}`}>
+                                                    {sub.subject} -{sub.department}-{sub.year}-{sub.courseId}
                                                 </option>
                                             ))}
                                         </select>
@@ -181,7 +185,7 @@ function AssiginTeacherwisesubjects() {
                                         >
                                             <option value="" disabled>-- Teacher --</option>
                                             {subjectsName.map((sub, idx) => (
-                                                <option key={idx} value={sub.name}>
+                                                <option key={idx} value={`${sub.name}-${sub.teacher_Id}-${sub.profilePreview}`}>
                                                     {sub.name}
                                                 </option>
                                             ))}

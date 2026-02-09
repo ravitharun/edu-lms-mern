@@ -28,7 +28,8 @@ export const fetchAllTeacherName = async () => {
 }
 export const AssignTeacher = async (data) => {
     try {
-        // const response = await axios.get("http://localhost:5001/api/subjects/get/Teachers")
+    
+        const response = await axios.post("http://localhost:5001/api/AssignSubjects/assign/subjects",{data:data})
         // return response
         console.log(data, 'data')
     }
