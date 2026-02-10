@@ -12,6 +12,15 @@ const SubjectAddByteacher = async (req, res) => {
         const id = data.ChooseTecherName.split("@")[1];
         const ulr = data.ChooseTecherName.split("@")[2];
         const findByclassid = await subjectWiseTeacherSchema.findOne({ classId: data.classid })
+        const isassigned = await subjectWiseTeacherSchema.findOne({ "subjects.subjectId": courseID })
+
+        // if courseid is alredy assigned to the class 
+        if (isassigned) {
+            console.log({ message: "Course is already Assigned." })
+            return res.status(400).json({ message: "Course is already Assigned." })
+        }
+
+        // check the class id and push into that
         if (findByclassid == null) {
             const add = new subjectWiseTeacherSchema({
                 classId: dept + year,
@@ -32,9 +41,8 @@ const SubjectAddByteacher = async (req, res) => {
             return await add.save()
         }
 
-
+        // else it checks the class id and add into it 
         const addByclassid = await subjectWiseTeacherSchema.findOneAndUpdate({ classId: data.classid },
-
             {
                 $push: {
                     subjects: {
@@ -47,18 +55,29 @@ const SubjectAddByteacher = async (req, res) => {
                     }
                 }
             }, { upsert: true, new: true }
-            
         )
-        console.log('add based on the class ID')
+
         await addByclassid.save()
 
-
-        console.log('added the subject.')
-
-        return res.status(201).json({ message: "Done." })
+        return res.status(201).json({ message: "Assigned." })
     } catch (error) {
         console.log(error.message)
         return res.status(500).json({ message: "server error while assigning the subjects." })
     }
 }
-module.exports = { SubjectAddByteacher }
+
+
+const GetallAssignedSubjects = async (req, res) => {
+    try {
+        const GetAllAssignedSubjects = await subjectWiseTeacherSchema.find({})
+        if (GetAllAssignedSubjects.length == 0) {
+            return res.status(404).json({ message: "No Subjects Assigned ." })
+        }
+        return res.status(200).json({ message: GetAllAssignedSubjects })
+
+    } catch (error) {
+        console.log(error.message, "from the GetAllAssignedSubjects api call")
+        returnres.status(500).json({ message: 'server error' })
+    }
+}
+module.exports = { SubjectAddByteacher, GetallAssignedSubjects }
