@@ -6,19 +6,18 @@ import toast, { Toaster } from 'react-hot-toast'
 import { FaPlus } from 'react-icons/fa'
 import Swal from "sweetalert2";
 import { fun } from '../../../Components/UserisLogin'
+import { Header_Token_expry } from '../../../Apis/Islogin'
+import axios from 'axios'
 
 function AssiginTeacherwisesubjects() {
     const [GetSubjects, Setsubjects] = useState([])
     const [subjectsName, SetsubjectsName] = useState([])
     const [ChooseSubjects, setChooseSubjects] = useState('')
     const [ChooseTecherName, setChooseTecherName] = useState('')
-    console.log(ChooseTecherName, 'ChooseTecherName')
+
     useEffect(() => {
         fun()
     }, [])
-
-
-    console.log(subjectsName, 'subjectsName')
     const FakeData = [{
         courseId: "cse101",
         subject: "java Programming",
@@ -41,11 +40,13 @@ function AssiginTeacherwisesubjects() {
         action: true
 
     }]
+
+
     useEffect(() => {
         const getSubjects = async () => {
             try {
                 const response_sudjects = await fetchAllSubjects()
-                console.log(response_sudjects.data)
+
                 Setsubjects(response_sudjects.data?.message)
                 // console.log(response_sudjects.status==401,'response ')
             }
@@ -72,7 +73,7 @@ function AssiginTeacherwisesubjects() {
 
     const assignSubjects = async () => {
         if (!ChooseSubjects || !ChooseTecherName) {
-            console.log("Please verify the subject and course details before assigning it to the teacher")
+
             return toast.error("Please verify the subject and course details before assigning it to the teacher.")
         }
         const data_choose = {
@@ -80,8 +81,7 @@ function AssiginTeacherwisesubjects() {
             ChooseTecherName,
             classid: `${ChooseSubjects.split("-")[1]}${ChooseSubjects.split("-")[2]}`
         }
-        console.log(`${ChooseSubjects.split("-")[1]}${ChooseSubjects.split("-")[2]}`)
-        console.table(data_choose)
+
 
         Swal.fire({
             title: "Confirm Assign",
@@ -101,24 +101,20 @@ function AssiginTeacherwisesubjects() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const response = await AssignTeacher(data_choose);
+                    const data = await AssignTeacher(data_choose);
 
-                    // ✅ SweetAlert success AFTER API
-                    Swal.fire({
+                    console.log(data)
+                    return Swal.fire({
                         title: "Assigned!",
                         text: "Teacher assigned successfully",
                         icon: "success",
                         timer: 1500,
                         showConfirmButton: false,
                     });
-                } catch (err) {
-                    const message =
-                        err?.response?.data?.message ||
-                        err?.message ||
-                        "Failed to assign teacher";
 
-                    // ❌ Error toast
-                    toast.error(message);
+
+                } catch (err) {
+                    console.log(err.message, 'from thw assignTecher.jsx')
                 }
             }
         });
