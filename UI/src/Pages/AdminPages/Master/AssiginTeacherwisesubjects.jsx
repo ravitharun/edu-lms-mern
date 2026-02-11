@@ -26,9 +26,10 @@ function AssiginTeacherwisesubjects() {
                 setLoader(true)
                 const data = await GetAllSubjectsAssignedTeacher()
                 setfetchAssignedSubjects(data)
-                setLoader(true)
+                setLoader(0)
             }
-            catch (err) {
+            catch (err) 
+            {
                 console.log(err)
             }
         }

@@ -59,7 +59,7 @@ function AdminSidebar() {
                         {/* Left: Profile */}
                         <div className="flex items-center gap-3">
                             <img
-                                src={`${`https://ui-avatars.com/api/?name=${UserName.name}`}`}
+                                src={`${`https://ui-avatars.com/api/?name=${UserName?.name}`}`}
                                 alt="Profile"
                                 className="w-10 h-10 rounded-full object-cover"
                             />
@@ -72,7 +72,7 @@ function AdminSidebar() {
 
                                 {/* Name */}
                                 <p className="text-sm font-semibold text-gray-800 leading-none">
-                                    {UserName.name}
+                                    {UserName?.name}
                                 </p>
 
                                 {/* Role + ID */}
@@ -82,7 +82,7 @@ function AdminSidebar() {
 
                                         <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-600
                        text-[10px] font-medium leading-none flex items-center">
-                                            ID: {UserName.teacher_Id}
+                                            ID: {UserName?.teacher_Id}
                                         </span>
                                     </div>
 
@@ -164,7 +164,7 @@ function AdminSidebar() {
                             {/* Left: Profile */}
                             <div className="flex items-center gap-3">
                                 <img
-                                    src={`${`https://ui-avatars.com/api/?name=${UserName.name}`}`}
+                                    src={`${`https://ui-avatars.com/api/?name=${UserName?.name}`}`}
                                     alt="Profile"
                                     className="w-10 h-10 rounded-full object-cover"
                                 />
@@ -177,7 +177,7 @@ function AdminSidebar() {
 
                                     {/* Name */}
                                     <p className="text-sm font-semibold text-gray-800 leading-none">
-                                        {UserName.name}
+                                        {UserName?.name}
                                     </p>
 
                                     {/* Role + ID */}
@@ -187,7 +187,7 @@ function AdminSidebar() {
 
                                             <span className="px-2 py-0.5 rounded-full bg-gray-100 text-gray-600
                        text-[10px] font-medium leading-none flex items-center">
-                                                ID: {UserName.teacher_Id}
+                                                ID: {UserName?.teacher_Id}
                                             </span>
                                         </div>
 
