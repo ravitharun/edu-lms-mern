@@ -60,7 +60,7 @@ function LogoNavbar({ hide }) {
     animate-gradient
   "
               >
-                HI, {UserName.name}
+                HI, {UserName?.name}
               </span>
 
               {openProfile ? <FiChevronUp className="text-gray-500" /> : <FiChevronDown className="text-gray-500" />}

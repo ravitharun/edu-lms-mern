@@ -1,12 +1,14 @@
 import { useEffect } from "react"
+import toast from "react-hot-toast"
 import secureLocalStorage from "react-secure-storage"
 
 export const fun = () => {
     let tkn = secureLocalStorage.getItem("token")
-    // console.log("tkn", tkn)
-
     if (tkn == null) {
-        return window.location.href="/login"
-    }
+        setTimeout(() => {
+            toast.error("Token Expryed Login Again.")
+            return window.location.href = "/login"
+        }, 1500);
+    }   
 
 }

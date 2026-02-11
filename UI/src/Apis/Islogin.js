@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import secureLocalStorage from "react-secure-storage";
 export const UserRole = secureLocalStorage.getItem("User_info")
 export const UserLogin = secureLocalStorage.getItem("token")
@@ -8,8 +9,11 @@ export const handleLogout = () => {
     const UserName = secureLocalStorage.removeItem("User_info")
     console.log("get", get)
     if (!get) {
-        return window.location.href = "/login";
+        setTimeout(() => {
+            return window.location.href = "/login";
+        }, 1500);
     }
+
 }
 export const Header_Token_expry = {
     headers: {
