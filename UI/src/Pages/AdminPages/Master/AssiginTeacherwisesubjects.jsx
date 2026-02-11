@@ -1,23 +1,42 @@
 import React, { useEffect, useState } from 'react'
 import MasterAdminNavbar from './MasterAdminNavbar'
 import MasterLogoNav from './MasterLogoNav'
-import { AssignTeacher, fetchAllSubjects, fetchAllTeacherName } from './APIS/GetAll-subjects'
+import { AssignTeacher, fetchAllSubjects, fetchAllTeacherName, GetAllSubjectsAssignedTeacher } from './APIS/GetAll-subjects'
 import toast, { Toaster } from 'react-hot-toast'
 import { FaPlus } from 'react-icons/fa'
 import Swal from "sweetalert2";
 import { fun } from '../../../Components/UserisLogin'
 import { Header_Token_expry } from '../../../Apis/Islogin'
 import axios from 'axios'
+import Dataloading from '../../../Loaders/Dataloading'
 
 function AssiginTeacherwisesubjects() {
     const [GetSubjects, Setsubjects] = useState([])
     const [subjectsName, SetsubjectsName] = useState([])
     const [ChooseSubjects, setChooseSubjects] = useState('')
     const [ChooseTecherName, setChooseTecherName] = useState('')
-
+    const [fetchAssignedSubjects, setfetchAssignedSubjects] = useState([])
+    const [loader, setLoader] = useState(false)
     useEffect(() => {
         fun()
     }, [])
+    useEffect(() => {
+        const fetch = async () => {
+            try {
+                setLoader(true)
+                const data = await GetAllSubjectsAssignedTeacher()
+                setfetchAssignedSubjects(data)
+                setLoader(true)
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }
+        fetch()
+    }, [])
+
+
+
     const FakeData = [{
         courseId: "cse101",
         subject: "java Programming",
@@ -213,6 +232,12 @@ function AssiginTeacherwisesubjects() {
                                     <thead className="bg-gray-100">
                                         <tr>
                                             <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
+                                                classId
+                                            </th>
+                                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
+                                                year
+                                            </th>
+                                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
                                                 Subject
                                             </th>
                                             <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
@@ -222,6 +247,9 @@ function AssiginTeacherwisesubjects() {
                                                 Teacher
                                             </th>
                                             <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
+                                                department
+                                            </th>
+                                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
                                                 Teacher ID
                                             </th>
                                             <th className="px-4 py-3 text-center text-xs font-semibold text-gray-600 uppercase">
@@ -229,28 +257,29 @@ function AssiginTeacherwisesubjects() {
                                             </th>
                                         </tr>
                                     </thead>
-
-                                    {/* TABLE BODY */}
-                                    <tbody className="divide-y divide-gray-200 bg-white">
-                                        {FakeData.length > 0 ? (
-                                            FakeData.map((data, idx) => (
+                                    <tbody className="bg-white">
+                                        {loader ? (
+                                            <tr>
+                                                <td colSpan="9" className="h-64">
+                                                    <div className="flex items-center justify-center h-full">
+                                                        <Dataloading  path="Assigning teacher to subject…
+"/>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ) : fetchAssignedSubjects.length > 0 ? (
+                                            fetchAssignedSubjects.map((data, idx) => (
                                                 <tr className="hover:bg-gray-50" key={idx}>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">
-                                                        {data.subject}
-                                                    </td>
-
-                                                    <td className="px-4 py-3 text-sm text-gray-800">
-                                                        {data.courseId}
-                                                    </td>
-
-                                                    <td className="px-4 py-3 text-sm text-gray-800">
-                                                        {data.assign_Teacher}
-                                                    </td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">
-                                                        {data.teacher_Id}
-                                                    </td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.classId}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.year}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.classId}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].subjectId}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].name}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.department}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].teacherId}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.teacher_Id}</td>
                                                     <td className="px-4 py-3 text-center">
-                                                        <button className="text-red-600 hover:text-red-800 text-sm font-medium cursor-pointer">
+                                                        <button className="text-red-600 hover:text-red-800 text-sm font-medium">
                                                             Unassign
                                                         </button>
                                                     </td>
@@ -258,10 +287,7 @@ function AssiginTeacherwisesubjects() {
                                             ))
                                         ) : (
                                             <tr>
-                                                <td
-                                                    colSpan="4"
-                                                    className="px-4 py-6 text-center text-sm text-gray-500"
-                                                >
+                                                <td colSpan="9" className="px-4 py-6 text-center text-sm text-gray-500">
                                                     No assignments found
                                                 </td>
                                             </tr>
@@ -269,13 +295,14 @@ function AssiginTeacherwisesubjects() {
                                     </tbody>
 
                                 </table>
+
                             </div>
 
 
                         </div>
                     </main>
-                </div>
-            </div>
+                </div >
+            </div >
 
         </>
     )

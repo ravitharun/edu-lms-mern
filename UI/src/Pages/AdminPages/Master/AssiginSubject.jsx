@@ -264,7 +264,7 @@ function AssiginSubject() {
                                         <tr>
                                             <td colSpan={4} className="py-16">
                                                 <div className="flex items-center justify-center">
-                                                    <Dataloading />
+                                                    <Dataloading path="Subjects are "/>
                                                 </div>
                                             </td>
                                         </tr>

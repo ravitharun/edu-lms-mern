@@ -73,8 +73,8 @@ const GetallAssignedSubjects = async (req, res) => {
         if (GetAllAssignedSubjects.length == 0) {
             return res.status(404).json({ message: "No Subjects Assigned ." })
         }
+        console.log(GetAllAssignedSubjects, 'GetAllAssignedSubjects')
         return res.status(200).json({ message: GetAllAssignedSubjects })
-
     } catch (error) {
         console.log(error.message, "from the GetAllAssignedSubjects api call")
         returnres.status(500).json({ message: 'server error' })
