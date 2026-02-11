@@ -72,8 +72,9 @@ const addByOne = async (req, res) => {
 
         const check_isSubjects = await subject.find({ courseId: data.subjectCode })
         console.log(check_isSubjects)
-        if (!check_isSubjects) {
-            return res.status(401).json({ message: "These Course ID is already Exits." })
+        if (check_isSubjects) {
+            console.log('hi')
+            return res.status(401).json( "These Course ID is already Exits.")
         } else {
 
 
@@ -88,7 +89,7 @@ const addByOne = async (req, res) => {
         }
     } catch (error) {
         console.log(error.message)
-        return res.status(500).json({ message: err.message })
+        return res.status(500).json({ message: error.message })
 
     }
 }

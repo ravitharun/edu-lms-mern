@@ -83,6 +83,9 @@ function AssiginSubject() {
             }
         }
         catch (err) {
+            if (err.status == 401) {
+                toast.error(`Course ID ${data.subjectCode} is already exits.`)
+            }
             console.log("err from the a.jsx", err)
         }
     }
@@ -284,7 +287,7 @@ function AssiginSubject() {
                                                 key={idx}
                                                 className="hover:bg-gray-50 transition"
                                             >
-                                                <td className="px-6 py-4 text-left">{idx+1}</td>
+                                                <td className="px-6 py-4 text-left">{idx + 1}</td>
                                                 <td className="px-6 py-4 text-left">{data.courseId}</td>
                                                 <td className="px-6 py-4 text-left">{data.department}</td>
                                                 <td className="px-6 py-4 text-center">{data.subject}</td>

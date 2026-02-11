@@ -49,6 +49,7 @@ export const AddnewSubjuect = async (data) => {
 
     )
 
+    console.log(response.data,'res')
     return response;
 
 
