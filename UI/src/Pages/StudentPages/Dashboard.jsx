@@ -13,10 +13,9 @@ function Dashboard() {
   
   const [Profile, setprofile] = useState(UserRole.profilePreview)
   const [StudentID, setStudentID] = useState(UserRole.Student_ID)
-  const Name = UserRole.name;
-  console.log(UserName.StudentsYearDepartment.split(" ")[0])
-  console.log(UserName)
-  console.log(UserName.StudentsYearDepartment.split(" ")[1])
+  const Name = UserRole;
+  console.log(UserRole)
+
 
   const ProfileData = [
     { icon: '📊', type: "Attendance", count: "87.4%" },
@@ -204,7 +203,7 @@ function Dashboard() {
             <p className="text-xs uppercase tracking-wide text-gray-300">Student ID :</p>
             <p className="text-lg font-semibold text-blue-400">{StudentID}</p>
           </div>
-          <p className="text-sm text-gray-300">{UserName.StudentsYearDepartment.split(" ")[1]} (Semester )| {UserName.StudentsYearDepartment.split(" ")[0]}</p>
+          <p className="text-sm text-gray-300">{UserName?.StudentsYearDepartment?.split(" ")[1]} (Semester )| {UserName?.StudentsYearDepartment?.split(" ")[0]}</p>
         </div>
 
         {/* Right Side: Profile Image */}
@@ -329,7 +328,7 @@ function Dashboard() {
             <div className="w-10 h-1 bg-blue-500 rounded mt-1"></div>
           </div>
           <p className="text-sm text-gray-600 text-center mb-4">
-            {UserName.StudentsYearDepartment.split(" ")[0]} · B.Tech · {UserName.StudentsYearDepartment.split(" ")[1]} Sem · {StudentID}
+            {UserName?.StudentsYearDepartment?.split(" ")[0]} · B.Tech · {UserName.StudentsYearDepartment.split(" ")[1]} Sem · {StudentID}
           </p>
 
           <div className="space-y-2 text-sm text-center text-gray-700">
