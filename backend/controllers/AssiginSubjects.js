@@ -80,4 +80,33 @@ const GetallAssignedSubjects = async (req, res) => {
         returnres.status(500).json({ message: 'server error' })
     }
 }
-module.exports = { SubjectAddByteacher, GetallAssignedSubjects }
+
+
+const GetSubjectsByclassID = async (req, res) => {
+    try {
+        const { id } = req.params
+
+        if (!id) {
+            console.log("ID is Missing.")
+            return res.status(409).json({ message: "ID is Missing." })
+        }
+
+        const GetSubjects = await subjectWiseTeacherSchema.findOne({ classId: id })
+        if (GetSubjects.subjects.length == 0) {
+            console.log("No Subjects Found.")
+            return res.status(404).json({ message: "No Subjects Found." })
+        }
+        if (!GetSubjects) {
+            console.log('No classId found')
+            return res.status(404).json({ message: "No classId found" })
+        }
+        return res.status(200).json({ message: GetSubjects })
+    } catch (error) {
+        console.log(error.message, 'err from the get all subjects by classID:)')
+        return res.status(500).json({ message: "server Error" })
+
+    }
+
+
+}
+module.exports = { SubjectAddByteacher, GetallAssignedSubjects, GetSubjectsByclassID }
