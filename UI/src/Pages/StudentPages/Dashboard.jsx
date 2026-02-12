@@ -15,8 +15,6 @@ function Dashboard() {
   const [StudentID, setStudentID] = useState(UserRole.Student_ID)
   const Name = UserRole;
   console.log(UserRole)
-
-
   const ProfileData = [
     { icon: '📊', type: "Attendance", count: "87.4%" },
     { icon: '📝', type: "Assignments Pending", count: 4 },

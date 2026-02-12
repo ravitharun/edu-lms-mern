@@ -1,8 +1,9 @@
-const { SubjectAddByteacher, GetallAssignedSubjects } = require("../controllers/AssiginSubjects")
+const { SubjectAddByteacher, GetallAssignedSubjects, GetSubjectsByclassID } = require("../controllers/AssiginSubjects")
 
 const express=require("express")
 const authMiddleware = require("../Middleware/Authmiddleware")
 const SubjectTeacher=express.Router()
 SubjectTeacher.post("/assign/subjects",authMiddleware,SubjectAddByteacher)
 SubjectTeacher.get("/assign/AllSubjects",authMiddleware,GetallAssignedSubjects)
+SubjectTeacher.get("/Get/Subjects/:id",GetSubjectsByclassID)
 module.exports={SubjectTeacher}

@@ -1,59 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import App from "../../App";
 import BackButton from "../../Components/BackButton";
 import BackgroungImgLoader from "../../Loaders/BackgroungImgLoader";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 import LMSLoader from "../../Loaders/BackgroungImgLoader";
+import { UserName, UserRole } from "../../Apis/Islogin";
+import axios from "axios";
+import { useState } from "react";
 
 function MyCourses() {
-  const Data_metrails = [
-    {
-      CourseID: "CSE101",
-      Img: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-      coursecode: "CS101",
-      CourseName: "Programming in C",
-    },
-    {
-      CourseID: "CSE102",
-      Img: "https://images.unsplash.com/photo-1526378722484-bd91ca387e72",
-      coursecode: "CS102",
-      CourseName: "Data Structures",
-    },
-    {
-      CourseID: "CSE103",
-      Img: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
-      coursecode: "CS103",
-      CourseName: "DBMS",
-    },
-    {
-      CourseID: "CSE103",
-      Img: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
-      coursecode: "CS103",
-      CourseName: "DBMS",
-    },
-    {
-      CourseID: "CSE104",
-      Img: "https://images.unsplash.com/photo-1517430816045-df4b7de1cd0b",
-      coursecode: "CS104",
-      CourseName: "Operating Systems",
-    },
-    {
-      CourseID: "CSE104",
-      Img: "https://images.unsplash.com/photo-1517430816045-df4b7de1cd0b",
-      coursecode: "CS104",
-      CourseName: "Operating Systems",
-    },
-    {
-      CourseID: "CSE104",
-      Img: "https://images.unsplash.com/photo-1517430816045-df4b7de1cd0b",
-      coursecode: "CS104",
-      CourseName: "Operating Systems",
-    },
-  ];
+
+  const [Info, setInfo] = useState({
+    yr: "",
+    department: ""
+  })
+
+  const [subjects, setsubjects] = useState([])
+
+  useEffect(() => {
+    const fetchAllSubjectsClassid = async () => {
+      try {
+        const response_subjectsByClassID = await axios.get(`http://localhost:5001/api/AssignSubjects/get/subjects/${UserName.StudentsYearDepartment.split(" ").join("")}`)
+        setInfo({
+          yr: response_subjectsByClassID.data.message.year,
+          department: response_subjectsByClassID.data.message.department
+        })
+        console.log(response_subjectsByClassID.data.message.subjects, 'response_subjectsByClassID')
+        setsubjects(response_subjectsByClassID.data.message.subjects)
+
+      } catch (error) {
+
+      }
+
+    }
+    fetchAllSubjectsClassid()
+  }, [])
+  // debugger
+
   const naviaget = useNavigate("")
-  const handeldataprops = (data) => {
-    naviaget("/moreabout", { state: data })
+  const handeldataprops = (data, info) => {
+    const newdata = {
+      data, info
+    }
+    console.log(newdata)
+    naviaget("/moreabout", { state: newdata })
   }
   return (
     <>
@@ -62,20 +53,23 @@ function MyCourses() {
 
       <div className="px-4 mt-8">
         <h1 className="text-2xl font-semibold text-gray-800 mb-6">
-          Study Materials
+          Study Materials  - year {Info.yr} - department {Info.department}
         </h1>
         {/* GRID */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {Data_metrails.map((data) => (
+          {subjects.map((data) => (
             <div
-              key={data.CourseID}
+              key={data.subjectId}
               className="bg-white rounded-2xl shadow-md hover:shadow-xl transition cursor-pointer overflow-hidden"
-              onClick={() => handeldataprops(data)}
+              onClick={() => handeldataprops(data, {
+                year: Info.yr,
+                dept: Info.department
+              })}
             >
               {/* IMAGE (TOP HALF) */}
               <div className="h-32 w-full">
                 <img
-                  src={data.Img}
+                  src='https://images.unsplash.com/photo-1518770660439-4636190af475'
                   alt={data.CourseName}
                   className="w-full h-full object-cover"
                 />
@@ -84,11 +78,11 @@ function MyCourses() {
               {/* CONTENT (BOTTOM HALF) */}
               <div className="p-4">
                 <span className="text-xs font-semibold text-blue-500">
-                  {data.coursecode}
+                  {data.subjectId}
                 </span>
 
                 <h2 className="text-sm font-semibold text-gray-800 mt-1">
-                  {data.CourseName}
+                  {data.subjectName}
                 </h2>
 
                 <button className="mt-3 text-sm text-blue-600 font-medium hover:underline">

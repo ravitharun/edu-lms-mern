@@ -1,88 +1,218 @@
+// // Studymaterials.jsx
+// import React from 'react'
+// import App from '../../App'
+// import { useLocation } from 'react-router-dom'
+// import BackButton from '../../Components/BackButton'
+
+// import Footer from './Footer';
+// import LMSLoader from '../../Loaders/BackgroungImgLoader'
+// function Studymaterials() {
+//   const location = useLocation()
+//   const course = location.state || 
+//   console.log(course, 'course')
+//   return (
+//     <>
+//       <App />
+//       <BackButton page="my-course"></BackButton>
+
+//       <div className="max-w-6xl mx-auto p-4">
+//         <div className="mb-6">
+//           <h1 className="text-3xl font-bold mb-2">{course.CourseName}</h1>
+//           <p className="text-gray-600">
+//             <span className="font-semibold">Course Code:</span> {course.subjectId} |{' '}
+//             <span className="font-semibold">Course ID:</span> {course.subjectId} |{' '}
+//             <span className="font-semibold">Professor:</span> {course.name}
+//             <img src={course.Techer_profile} alt={course.name} />
+//           </p>
+//         </div>
+
+//         <div className="overflow-x-auto">
+//           <table className="min-w-full border border-gray-200 table-auto">
+//             <thead className="bg-gray-100 sticky top-0">
+//               <tr>
+//                 <th className="border px-4 py-2 text-left">Module</th>
+//                 <th className="border px-4 py-2 text-left">Study Materials</th>
+//                 <th className="border px-4 py-2 text-left">Pending Assignments</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {course?.Modules?.map((module, idx) => (
+//                 <tr key={idx} className="hover:bg-gray-50">
+//                   <td className="border px-4 py-2 font-semibold">{module.ModuleName}</td>
+
+//                   <td className="border px-4 py-2">
+//                     {module?.StudyMaterials.length > 0 ? (
+//                       <ul className="list-disc list-inside">
+//                         {module.StudyMaterials.map((item, i) => (
+//                           <li key={i}>{item}</li>
+//                         ))}
+//                       </ul>
+//                     ) : (
+//                       <span className="text-gray-400">No materials</span>
+//                     )}
+//                   </td>
+
+//                   <td className="border px-4 py-2">
+//                     {module?.PendingAssignments.length > 0 ? (
+//                       <ul className="list-disc list-inside text-red-600">
+//                         {module.PendingAssignments.map((item, i) => (
+//                           <li key={i}>{item}</li>
+//                         ))}
+//                       </ul>
+//                     ) : (
+//                       <span className="text-gray-400">No pending assignments</span>
+//                     )}
+//                   </td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </table>
+//         </div>
+//       </div>
+
+//     </>
+//   )
+// }
+
+// export default Studymaterials
 // Studymaterials.jsx
 import React from 'react'
 import App from '../../App'
 import { useLocation } from 'react-router-dom'
 import BackButton from '../../Components/BackButton'
-
-import Footer from './Footer';
+import Footer from './Footer'
 import LMSLoader from '../../Loaders/BackgroungImgLoader'
+
 function Studymaterials() {
   const location = useLocation()
-  const course = location.state || {
-    CourseID: 'CSE101',
-    CourseName: 'Programming in C',
-    coursecode: 'CS101',
-    Img: 'https://images.unsplash.com/photo-1518770660439-4636190af475',
-    Professor: 'Dr. John Doe',
-    Modules: [
-      {
-        ModuleName: 'Module 1: Basics',
-        StudyMaterials: ['Lecture 1.pdf', 'Lecture 2.pdf'],
-        PendingAssignments: ['Assignment 1', 'Assignment 2'],
-      },
-      {
-        ModuleName: 'Module 2: Advanced',
-        StudyMaterials: ['Lecture 3.pdf', 'Lecture 4.pdf'],
-        PendingAssignments: ['Assignment 3'],
-      },
-      {
-        ModuleName: 'Module 3: Practice',
-        StudyMaterials: ['Lecture 5.pdf'],
-        PendingAssignments: [],
-      },
-    ],
+  const course = location.state.data
+  const Subject_info = location.state.info
+
+  console.log(course, 'course')
+
+  if (!course) {
+    return (
+      <>
+        <App />
+        <div className="flex justify-center items-center h-screen text-gray-500 text-lg">
+          No Course Data Found
+        </div>
+      </>
+    )
   }
 
   return (
     <>
       <App />
-      <BackButton page="my-course"></BackButton>
-      
+      <BackButton page="my-course" />
+
       <div className="max-w-6xl mx-auto p-4">
+
+        {/* ================= HEADER ================= */}
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">{course.CourseName}</h1>
-          <p className="text-gray-600">
-            <span className="font-semibold">Course Code:</span> {course.coursecode} |{' '}
-            <span className="font-semibold">Course ID:</span> {course.CourseID} |{' '}
-            <span className="font-semibold">Professor:</span> {course.Professor}
-          </p>
+          <div className="bg-white shadow-md rounded-xl p-6 mb-6 border">
+
+            {/* Subject Name */}
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+              {course.subjectName}
+            </h1>
+
+            {/* Year & Department Badges */}
+            <div className="flex flex-wrap gap-3">
+
+              <span className="px-4 py-1 bg-blue-100 text-blue-700 font-semibold rounded-full text-sm shadow-sm">
+                Year {Subject_info.year}
+              </span>
+
+              <span className="px-4 py-1 bg-purple-100 text-purple-700 font-semibold rounded-full text-sm shadow-sm">
+                {Subject_info.dept} Department
+              </span>
+
+            </div>
+          </div>
+
+          {/* Improved UI Section */}
+          <div className="flex items-center justify-between bg-white shadow-md rounded-xl p-5 border">
+
+            {/* Left Side - Course Details */}
+            <div className="text-gray-700 space-y-2">
+              <p>
+                <span className="font-semibold">Course Code:</span>{" "}
+                {course.subjectId}
+              </p>
+
+              <p>
+                <span className="font-semibold">Course ID:</span>{" "}
+                {course.subjectId}
+              </p>
+
+              <p>
+                <span className="font-semibold">Professor:</span>{" "}
+                {course.name}
+              </p>
+            </div>
+
+            {/* Right Side - Teacher Image */}
+            <div>
+              <img
+                src={course.Techer_profile}
+                alt={course.name}
+                className="w-24 h-24 rounded-full object-cover border-4 border-blue-500 shadow-lg hover:scale-105 transition duration-300"
+              />
+            </div>
+
+          </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-gray-200 table-auto">
-            <thead className="bg-gray-100 sticky top-0">
+        {/* ================= TABLE ================= */}
+        <div className="overflow-x-auto bg-white shadow-md rounded-xl border">
+          <table className="min-w-full table-auto">
+            <thead className="bg-gray-100">
               <tr>
-                <th className="border px-4 py-2 text-left">Module</th>
-                <th className="border px-4 py-2 text-left">Study Materials</th>
-                <th className="border px-4 py-2 text-left">Pending Assignments</th>
+                <th className="border px-4 py-3 text-left">Module</th>
+                <th className="border px-4 py-3 text-left">Study Materials</th>
+                <th className="border px-4 py-3 text-left">Pending Assignments</th>
               </tr>
             </thead>
+
             <tbody>
               {course?.Modules?.map((module, idx) => (
-                <tr key={idx} className="hover:bg-gray-50">
-                  <td className="border px-4 py-2 font-semibold">{module.ModuleName}</td>
+                <tr
+                  key={idx}
+                  className="hover:bg-gray-50 transition duration-200"
+                >
+                  {/* Module Name */}
+                  <td className="border px-4 py-3 font-semibold">
+                    {module.ModuleName}
+                  </td>
 
-                  <td className="border px-4 py-2">
-                    {module?.StudyMaterials.length > 0 ? (
-                      <ul className="list-disc list-inside">
+                  {/* Study Materials */}
+                  <td className="border px-4 py-3">
+                    {module?.StudyMaterials?.length > 0 ? (
+                      <ul className="list-disc list-inside space-y-1">
                         {module.StudyMaterials.map((item, i) => (
                           <li key={i}>{item}</li>
                         ))}
                       </ul>
                     ) : (
-                      <span className="text-gray-400">No materials</span>
+                      <span className="text-gray-400">
+                        No materials
+                      </span>
                     )}
                   </td>
 
-                  <td className="border px-4 py-2">
-                    {module?.PendingAssignments.length > 0 ? (
-                      <ul className="list-disc list-inside text-red-600">
+                  {/* Pending Assignments */}
+                  <td className="border px-4 py-3">
+                    {module?.PendingAssignments?.length > 0 ? (
+                      <ul className="list-disc list-inside text-red-600 space-y-1">
                         {module.PendingAssignments.map((item, i) => (
                           <li key={i}>{item}</li>
                         ))}
                       </ul>
                     ) : (
-                      <span className="text-gray-400">No pending assignments</span>
+                      <span className="text-gray-400">
+                        No pending assignments
+                      </span>
                     )}
                   </td>
                 </tr>
@@ -90,8 +220,10 @@ function Studymaterials() {
             </tbody>
           </table>
         </div>
+
       </div>
-  
+
+      {/* <Footer /> */}
     </>
   )
 }
