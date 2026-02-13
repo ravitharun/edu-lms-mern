@@ -1,10 +1,43 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import App from '../../App'
 import { FaBell, FaUser } from "react-icons/fa";
 import { TfiExport } from "react-icons/tfi";
 import AdminHeader from '../../Components/AdminHeader';
+import { useLocation } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import { UserName } from '../../Apis/Islogin';
 function Addassignments() {
     const [showNotifications, setShowNotifications] = useState(false);
+    const location = useLocation()
+    const [classList, setClassList] = useState([])
+    const [ClosePop, SetClose] = useState(false)
+    const [StateClassID, LocationStateClassID] = useState(location.state)
+    const [section, setsection] = useState(StateClassID ? StateClassID : "")
+    console.log("section", section)
+
+    useEffect(() => {
+        const Fetch_Assignment = async () => {
+            try {
+
+                const reonse = await axios.get("http://localhost:5001/api/classlist/getsection", {
+                    params: {
+                        teacher_Id: UserName.teacher_Id
+                    }
+                })
+                console.log(reonse.data.message)
+                setClassList(reonse.data.message)
+
+            } catch (error) {
+                console.log(error.message, 'from the Fetching Teacher Pages Api Call.')
+                toast.error(error.message)
+            }
+        }
+        Fetch_Assignment()
+    }, [])
+
+
+
 
     // Sample data for students
     const Assignments = [
@@ -86,27 +119,52 @@ function Addassignments() {
                         htmlFor="section"
                         className="block mb-2 text-sm font-medium text-gray-700"
                     >
-                        Choose a Section
+                        Choose a Section <b className='text-red-500'>{section ? (section) : ''}</b>
                     </label>
                     <select
                         id="section"
-                        onChange={(e) => console.log(e.target.value)}
-                        className="w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition"
+                        onChange={(e) => setsection(e.target.value)}
+                        // disabled={section}
+
+                        className={`w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition `}
+
                     >
-                        <option value="" disabled selected>
-                            -- Select Section --
+                        <option value={StateClassID} selected disabled>
+                            {StateClassID ? StateClassID :
+
+                                '      --Select Section --'
+                            }
                         </option>
-                        {Class.map((cls, idx) => (
-                            <option
-                                key={idx}
-                                value={`${cls.className}-${cls.Dept}-${cls.section}`}
-                                className="text-gray-700"
-                            >
-                                {cls.className} - {cls.Dept} - {cls.section}
-                            </option>
-                        ))}
+                        {
+                            classList.map((cls, idx) => (
+                                <option
+                                    key={idx}
+                                    title='ClassSection-department-Year'
+                                    value={` ${cls.classId} - ${cls.department} - ${cls.year}`}
+                                    className={`text-gray-700   `}
+
+
+                                >
+                                    {cls.classId} - {cls.department} - {cls.year}
+                                </option>
+
+                            ))
+                        }
+
                     </select>
                 </div>
+                {section && (
+                    <button
+                        onClick={() => SetClose(true)}
+                        className="px-4 py-2 rounded-lg bg-blue-500 text-white font-medium hover:bg-blue-600 transition-colors duration-200"
+                    >
+                        {ClosePop ? 'Close' : 'Add Assignment'}
+                    </button>
+                )}
+
+
+
+
 
                 {/* ================= ATTENDANCE TABLE ================= */}
                 <div className="bg-white shadow-lg rounded-xl overflow-hidden">
@@ -213,9 +271,43 @@ function Addassignments() {
                 </div>
 
 
-                {/* ================= ACTION BUTTON ================= */}
+
 
             </div>
+
+
+            {/* assignments Pop */}
+            {ClosePop && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+                    {/* Popup container */}
+                    <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg animate-scaleIn">
+                        <h2 className="mb-4 text-lg font-semibold text-gray-800">
+                            Assignment Details
+                        </h2>
+
+                        {/* Content */}
+                        <div className="mb-4 text-gray-700">{section}</div>
+
+                        {/* Buttons */}
+                        <div className="flex justify-end gap-3">
+                            <button
+                                onClick={() => SetClose(false)}
+                                className="px-4 py-2 rounded-lg bg-gray-300 text-gray-700 hover:bg-gray-400 transition-colors duration-200"
+                            >
+                                Close
+                            </button>
+                            <button
+                                className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200"
+                            >
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
+
 
         </>
     )

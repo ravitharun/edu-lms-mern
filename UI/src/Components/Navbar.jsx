@@ -26,7 +26,7 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
   const [openProfile, setOpenProfile] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
   const [role, setRole] = useState(UserRole?.role)
-  console.log(role, 'role')
+  // console.log(role, 'role')
 
   return (
     <>
