@@ -5,6 +5,7 @@ import App from "../../App";
 import MasterAdmin from "./Master/MasterAdmin";
 import toast from "react-hot-toast";
 import { GetClassList } from "./TechersApiCall/FetchApicall";
+import secureLocalStorage from "react-secure-storage";
 
 function Classes() {
   const [Action, SetActon] = useState("");
@@ -23,6 +24,7 @@ function Classes() {
       try {
         const response_class = await GetClassList()
         console.log(response_class.data.message.classId)
+        secureLocalStorage.setItem("totalClass",response_class.data.message.length)
         setAssignedClasses(response_class.data.message)
         setinof({
           classId: response_class.data.message[0].classId,
