@@ -5,6 +5,7 @@ import AdminHeader from '../../Components/AdminHeader'
 import AddingSoon from '../../Loaders/AddingSoon'
 import { UserName } from '../../Apis/Islogin'
 import { HandelUpload } from '../../Apis/FileUploadApi'
+import toast, { Toaster } from 'react-hot-toast'
 
 function UploadMaterilas() {
     const [Upload, setUpload] = useState(false)
@@ -14,6 +15,9 @@ function UploadMaterilas() {
     const Action="Material"
 
     const handelSubmit = async () => {
+        if(!Name || !Description){
+            return toast.error("Fill The Required Input's.")
+        }
         const formdata = new FormData()
         formdata.append("Name", Name)
         formdata.append("Description", Description)
@@ -38,6 +42,7 @@ function UploadMaterilas() {
     return (
         <>
             <App></App>
+            <Toaster/>
             <div className="md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
                 {/* ================= HEADER ================= */}
                 <div className=''>
@@ -84,9 +89,10 @@ function UploadMaterilas() {
                                         Name <span className="text-red-500">*</span>
                                     </label>
                                     <input
-                                        type="text"      value={Name}
+                                        type="text"      
+                                        // value={Name}
                                         placeholder="Enter name"
-                                        onChange={(e) => setname(e.target.value)}
+                                        // onChange={(e) => setname(e.target.value)}
                                         className="mt-1 w-full rounded-lg border px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
                                     />
                                 </div>
@@ -124,12 +130,12 @@ function UploadMaterilas() {
                                     Cancel
                                 </button>
 
-                                <button
+                                {Name &&<button
                                     onClick={handelSubmit}
                                     className="rounded-lg bg-blue-600 px-5 py-2 text-sm text-white hover:bg-blue-700"
                                 >
                                     Submit
-                                </button>
+                                </button>}
                                 <button
                                     onClick={handelClear}
                                     className="rounded-lg bg-blue-600 px-5 py-2 text-sm text-white hover:bg-blue-700"
@@ -142,7 +148,7 @@ function UploadMaterilas() {
                 )}
 
 
-                {false ? hi : <AddingSoon pathname={"Upload Material"}></AddingSoon>}
+                {!true ? 'hi' : <AddingSoon pathname={"Upload Material"}></AddingSoon>}
 
 
             </div>

@@ -11,7 +11,7 @@ import {
 } from "react-icons/fa";
 import secureLocalStorage from "react-secure-storage";
 import App from "../../App";
-import { handleLogout, UserName } from "../../Apis/Islogin";
+import { handleLogout, totalClass, UserName } from "../../Apis/Islogin";
 import { Link } from "react-router-dom";
 import MasterAdmin from "./Master/MasterAdmin";
 import { fun } from "../../Components/UserisLogin";
@@ -68,10 +68,10 @@ function AdminDashboard() {
 
         {/* ================= STATS CARDS ================= */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <DashboardCard title="Classes" value="5" icon={<FaChalkboardTeacher />} color="bg-blue-500" />
-          <DashboardCard title="Students" value="180" icon={<FaUserGraduate />} color="bg-green-500" />
-          <DashboardCard title="Assignments" value="12" icon={<FaTasks />} color="bg-purple-500" />
-          <DashboardCard title="Attendance" value="92%" icon={<FaCalendarCheck />} color="bg-orange-500" />
+          <DashboardCard title="Classes" value={totalClass } icon={<FaChalkboardTeacher />} color="bg-blue-500" />
+          <DashboardCard title="Students" value={totalClass==0?"no":totalClass} icon={<FaUserGraduate />} color="bg-green-500" />
+          {/* <DashboardCard title="Assignments" value="12" icon={<FaTasks />} color="bg-purple-500" />
+          <DashboardCard title="Attendance" value="92%" icon={<FaCalendarCheck />} color="bg-orange-500" /> */}
         </div>
 
         {/* ================= MAIN CONTENT GRID ================= */}

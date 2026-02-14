@@ -129,8 +129,8 @@ function Addassignments() {
                         className={`w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition `}
 
                     >
-                        <option value={StateClassID} selected disabled>
-                            {StateClassID ? StateClassID :
+                        <option value={section} selected disabled>
+                            {section ? section :
 
                                 '      --Select Section --'
                             }
@@ -278,26 +278,119 @@ function Addassignments() {
 
             {/* assignments Pop */}
             {ClosePop && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
-                    {/* Popup container */}
-                    <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg animate-scaleIn">
-                        <h2 className="mb-4 text-lg font-semibold text-gray-800">
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 p-4 sm:p-8">
+                    {/* Popup container - zoomed out, responsive, scrollable */}
+                    <div className="w-full max-w-md md:max-w-lg bg-white rounded-2xl shadow-2xl p-6 sm:p-8 animate-scaleIn max-h-[90vh] overflow-y-auto transform scale-95 md:scale-100">
+
+                        <h2 className="text-xl font-semibold text-gray-800 mb-6 border-b pb-3">
                             Assignment Details
                         </h2>
 
-                        {/* Content */}
-                        <div className="mb-4 text-gray-700">{section}</div>
+                        <div className="space-y-5">
+                            {/* Section Dropdown */}
+                            <div>
+                                <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Choose Section
+                                    {section && (
+                                        <span className="ml-2 text-blue-600 font-semibold">
+                                            {section} 
+                                        </span>
+                                    )}
+                                </label>
+                               
+                                <select
+                                    id="section"
+                                    onChange={(e) => setsection(e.target.value)}
+                                    className="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                >
+                                    <option value={section} disabled selected>
+                                        {section ? section : "-- Select Section --"}
+                                    </option>
+                                    {classList.map((cls, idx) => (
+                                        <option
+                                            key={idx}
+                                            value={`${cls.classId} - ${cls.department} - ${cls.year}`}
+                                        >
+                                            {cls.classId} - {cls.department} - {cls.year}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* Assignment Name */}
+                            <div>
+                                <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Assignment Name
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter assignment name"
+                                    className="w-full rounded-xl border border-gray-300 px-4 py-2.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                    required
+                                />
+                            </div>
+
+                            {/* Marks */}
+                            <div>
+                                <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Marks
+                                </label>
+                                <input
+                                    type="number"
+                                    placeholder="Enter marks"
+                                    className="w-full rounded-xl border border-gray-300 px-4 py-2.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                    required
+                                    min="0"
+                                />
+                            </div>
+
+                            {/* Due Date */}
+                            <div>
+                                <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Due Date
+                                </label>
+                                <input
+                                    type="date"
+                                    className="w-full rounded-xl border border-gray-300 px-4 py-2.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                    required
+                                />
+                            </div>
+
+                            {/* File Upload */}
+                            <div>
+                                <label className="block mb-2 text-sm font-medium text-gray-700">
+                                    Upload File
+                                </label>
+                                <label className="flex items-center justify-center w-full px-4 py-6 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+                                    <div className="text-center">
+                                        <p className="text-sm text-gray-600">
+                                            Click to upload or drag and drop
+                                        </p>
+                                        <p className="text-xs text-gray-400 mt-1">
+                                            PDF, DOC, DOCX (Max 5MB)
+                                        </p>
+                                    </div>
+                                    <input
+                                        type="file"
+                                        className="hidden"
+                                        required
+                                        accept=".pdf,.doc,.docx"
+                                    />
+                                </label>
+                            </div>
+                        </div>
 
                         {/* Buttons */}
-                        <div className="flex justify-end gap-3">
+                        <div className="flex justify-end gap-3 mt-8 pt-4 border-t">
                             <button
                                 onClick={() => SetClose(false)}
-                                className="px-4 py-2 rounded-lg bg-gray-300 text-gray-700 hover:bg-gray-400 transition-colors duration-200"
+                                className="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300 transition font-medium flex-1 sm:flex-none"
                             >
                                 Close
                             </button>
                             <button
-                                className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors duration-200"
+                                type="submit"
+                                className="px-5 py-2.5 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition font-medium shadow-md flex-1 sm:flex-none"
                             >
                                 Submit
                             </button>
@@ -305,6 +398,8 @@ function Addassignments() {
                     </div>
                 </div>
             )}
+
+
 
 
 
