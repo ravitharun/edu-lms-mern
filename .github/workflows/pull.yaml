@@ -1,7 +1,7 @@
 name: Run on Any Push
 
 on:
-  pull_request:       # triggers on any branch
+  push:       # triggers on any branch
 
 jobs:
   example:
