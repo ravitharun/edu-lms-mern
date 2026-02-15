@@ -1,0 +1,22 @@
+name: pull-request Form Main
+on:
+    pull_request:
+        branches:
+            - main
+
+jobs:
+    Ui:
+        runs-on: ubuntu-latest
+        steps:
+            - name: ui-pulling
+              run: echo "pulling form ui"
+            - name: ui-pulled
+              run: echo "pulled form ui Done."
+    server:
+        needs: Ui
+        runs-on: ubuntu-latest
+        steps:
+            - name: server-pulling
+              run: echo "pulling form server"
+            - name: server-pulled
+              run: echo "pulled form server Done."
