@@ -1,11 +1,24 @@
-name: Run on Any Push
+name: Pull Request to Main
 
 on:
-  push:       # triggers on any branch
+  pull_request:
+    branches:
+      - Tharun-dev
 
 jobs:
-  example:
+  ui:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: echo "This workflow runs on any branch push!"
+      - name: UI Pulling
+        run: echo "Pulling from UI"
+      - name: UI Pulled
+        run: echo "Pulled from UI Done."
+
+  server:
+    needs: ui
+    runs-on: ubuntu-latest
+    steps:
+      - name: Server Pulling
+        run: echo "Pulling from Server"
+      - name: Server Pulled
+        run: echo "Pulled from Server Done."
