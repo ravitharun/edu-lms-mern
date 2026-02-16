@@ -14,16 +14,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
       - name: Cache NodeModules (UI)
         uses: actions/cache@v3
         with:
           path: UI/node_modules
           key: frontend-dev-${{ hashFiles('UI/package-lock.json') }}
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
 
       - name: Install frontend dependencies
         run: npm install
@@ -32,6 +32,12 @@ jobs:
       - name: Build frontend
         run: npm run build
         working-directory: UI
+
+      - name: Upload Build Files
+        uses: actions/upload-artifact@v4
+        with:
+          name: BuildFile
+          path: UI/build/
 
       - name: Frontend done
         run: echo "Frontend build completed"
@@ -62,12 +68,20 @@ jobs:
 
       - name: Backend ready
         run: echo "Backend dependencies installed successfully"
-    
+
   deploy:
     needs: backend
     name: Deployment
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deployment
+      - name: Download Build Files
+        uses: actions/download-artifact@v4
+        with:
+          name: BuildFile
+
+      - name: Show build files
+        run: ls -R
+
+      - name: Deployment started
         run: echo "Deployment started"
