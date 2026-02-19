@@ -3,6 +3,7 @@ import App from '../../App'
 import AdminHeader from '../../Components/AdminHeader'
 import AddingSoon from '../../Loaders/AddingSoon'
 import StudentProfile from './StudentsProfile'
+import { Link, useNavigate } from 'react-router-dom'
 
 function Students() {
     const Class = [
@@ -20,6 +21,10 @@ function Students() {
             section: "b"
         }
     ]
+    const navigate = useNavigate("")
+    const handelData = (data) => {
+        navigate("/StudentsProfile", { state: data })
+    }
     return (
         <>
             <App></App>
@@ -49,7 +54,7 @@ function Students() {
                             <option value="" disabled selected>
                                 -- Select Section --
                             </option>
-                      
+
                             {Class.map((cls, idx) => (
                                 <option
                                     key={idx}
@@ -91,9 +96,11 @@ function Students() {
                                         </span>
                                     </td>
                                     <td className="p-3 text-center">
-                                        <button className="px-3 py-1 text-xs bg-blue-500 text-white rounded">
+
+                                        <button className="px-3 py-1 text-xs bg-blue-500 text-white rounded" onClick={()=>handelData({name:"tharun"})}>
                                             View
                                         </button>
+
                                     </td>
                                 </tr>
 
@@ -109,9 +116,9 @@ function Students() {
                                         </span>
                                     </td>
                                     <td className="p-3 text-center">
-                                        <button className="px-3 py-1 text-xs bg-blue-500 text-white rounded" >
+                                        <Link to="/StudentsProfile"><button className="px-3 py-1 text-xs bg-blue-500 text-white rounded" >
                                             View
-                                        </button>
+                                        </button></Link>
                                     </td>
                                 </tr>
 
@@ -121,7 +128,7 @@ function Students() {
                     </div>
                 </div>
 
-                <StudentProfile></StudentProfile>
+
             </div>
 
         </>
