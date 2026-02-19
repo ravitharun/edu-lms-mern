@@ -63,9 +63,42 @@ function UploadMaterilas() {
     const handelClear = () => {
         setsection("")
         setDescription("")
-        
+
         setfile(null)
     }
+
+    const Samplejsondata = [
+        {
+
+            Section: "Cse-1",
+            UploadedDate: 1771477439702,
+            Name: "Java",
+            Description: "java basics.",
+            file: ""
+        }
+
+        , {
+
+            Section: "Cse-1",
+            UploadedDate: 1771477439702,
+            Name: "Java",
+            Description: "java basics.",
+            file: ""
+        }, {
+
+            Section: "Cse-1",
+            Name: "Java", UploadedDate: 1771477439702,
+            Description: "java basics.",
+            file: ""
+        }, {
+
+            Section: "Cse-1",
+            // UploadedDate:'1771477439702',
+            Name: "Java", UploadedDate: 1771477439702,
+            Description: "java basics.",
+            file: ""
+        }
+    ]
     return (
         <>
             <App></App>
@@ -100,7 +133,7 @@ function UploadMaterilas() {
 
                             {/* Form */}
                             <form className="space-y-4">
-                         
+
                                 <div className="w-full max-w-sm bg-white rounded-xl shadow p-4">
                                     <label
                                         htmlFor="section"
@@ -214,42 +247,42 @@ function UploadMaterilas() {
 
                             {/* Form */}
                             <form className="space-y-4">
-                                 <label
-                                        htmlFor="section"
-                                        className="block mb-2 text-sm font-medium text-gray-700"
-                                    >
-                                        Choose a Section <b className='text-red-500'></b>
-                                    </label>
-                                    <select
-                                        id="section"
-                                        onChange={(e) => setsection(e.target.value)}
-                                        // disabled={section}
-                                        className={`w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition `}
+                                <label
+                                    htmlFor="section"
+                                    className="block mb-2 text-sm font-medium text-gray-700"
+                                >
+                                    Choose a Section <b className='text-red-500'></b>
+                                </label>
+                                <select
+                                    id="section"
+                                    onChange={(e) => setsection(e.target.value)}
+                                    // disabled={section}
+                                    className={`w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition `}
 
-                                    >
-                                        <option value=""  selected disabled>
-                                            
-
-                                                --Select Section --
-                                            
-                                        </option>
-                                        {
-                                            classList.map((cls, idx) => (
-                                                <option
-                                                    key={idx}
-                                                    title='ClassSection-department-Year'
-                                                    value={` ${cls.classId} - ${cls.department} - ${cls.year}`}
-                                                    className={`text-gray-700   `}
+                                >
+                                    <option value="" selected disabled>
 
 
-                                                >
-                                                    {cls.classId} - {cls.department} - {cls.year}
-                                                </option>
+                                        --Select Section --
 
-                                            ))
-                                        }
+                                    </option>
+                                    {
+                                        classList.map((cls, idx) => (
+                                            <option
+                                                key={idx}
+                                                title='ClassSection-department-Year'
+                                                value={` ${cls.classId} - ${cls.department} - ${cls.year}`}
+                                                className={`text-gray-700   `}
 
-                                    </select>
+
+                                            >
+                                                {cls.classId} - {cls.department} - {cls.year}
+                                            </option>
+
+                                        ))
+                                    }
+
+                                </select>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-600">
                                         Name <span className="text-red-500">*</span>
@@ -296,7 +329,7 @@ function UploadMaterilas() {
                                     Cancel
                                 </button>
 
-                                { <button
+                                {<button
                                     onClick={handelSubmit}
                                     className="rounded-lg bg-blue-600 px-5 py-2 text-sm text-white hover:bg-blue-700"
                                 >
@@ -314,10 +347,119 @@ function UploadMaterilas() {
                 )}
 
 
-                {!true ? 'hi' : <AddingSoon pathname={"Upload Material"}></AddingSoon>}
+                {/* <table border="1" cellPadding="10" cellSpacing="0">
+                    <thead>
+                        <tr>
+                            {['Section', 'Name', 'Description', 'Actions'].map((data, idx) => (
+                                <td key={idx}>{data}</td>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+
+                            {
+                                Samplejsondata.map((notes, idx) => (
+                                    <div key={idx}>
+
+                                        <td>{notes.Section}</td>
+                                        <td>{notes.Name}</td>
+                                        <td>{notes.Description}</td>
+                                        <td>
+                                            <button onClick={() => toast.success(`edit ft ${idx}`)}>Edit</button>
+                                            <button onClick={() => toast.success(`view ft ${idx}`)}>View</button>
+                                            <button onClick={() => toast.success(`delete ft ${idx}`)}>Delete</button>
+                                        </td>
+                                    </div>
+                                ))
+                            }
+                        </tr>
+                    </tbody>
+                </table> */}
+                <div className="w-full bg-white shadow-lg rounded-xl p-4">
+
+                    <h2 className="text-xl font-semibold mb-4 text-gray-700">
+                        Upload Material  </h2>
+
+                    {/* Scroll wrapper for mobile */}
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full border border-gray-200 text-sm text-left">
+
+                            {/* Table Head */}
+                            <thead className="bg-blue-600 text-white">
+                                <tr>
+                                    {['Section', 'Name', 'Description', 'Uploaded Date', 'Actions'].map((data, idx) => (
+                                        <th key={idx} className="px-4 py-3 whitespace-nowrap">
+                                            {data}
+                                        </th>
+                                    ))}
+                                </tr>
+                            </thead>
+
+                            {/* Table Body */}
+                            <tbody className="divide-y divide-gray-200">
+                                {Samplejsondata.map((notes, idx) => (
+                                    <tr key={idx} className="hover:bg-gray-50 transition duration-200">
+
+                                        <td className="px-4 py-3 whitespace-nowrap" title={notes.Section}>
+                                            {notes.Section}
+                                        </td>
+
+                                        <td className="px-4 py-3 whitespace-nowrap" title={notes.Name}>
+                                            {notes.Name}
+                                        </td>
+
+                                        <td className="px-4 py-3 max-w-xs truncate" title={notes.Description}>
+                                            {notes.Description}
+                                        </td>
+                                        <td className="px-4 py-3 max-w-xs truncate whitespace-nowrap" title='uploaded Date And time'>
+                                            <span title="Date Uploaded">
+                                                {new Date(notes.UploadedDate).toLocaleDateString()}
+                                            </span>
+                                            {" - "}
+                                            <span title="Time Uploaded">
+                                                {new Date(notes.UploadedDate).toLocaleTimeString()}
+                                            </span>
+                                        </td>
+
+                                        <td className="px-4 py-3 whitespace-nowrap space-x-2">
+
+                                            <button
+                                                onClick={() => toast.success(`Edit ${idx}`)}
+                                                className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md text-xs"
+                                            >
+                                                Edit
+                                            </button>
+
+                                            <button
+                                                onClick={() => toast.success(`View ${idx}`)}
+                                                className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-xs"
+                                            >
+                                                View
+                                            </button>
+
+                                            <button
+                                                onClick={() => toast.success(`Delete ${idx}`)}
+                                                className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-xs"
+                                            >
+                                                Delete
+                                            </button>
+
+                                        </td>
+
+                                    </tr>
+                                ))}
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+
+                {/* {!true ? 'hi' : <AddingSoon pathname={"Upload Material"}></AddingSoon>} */}
 
 
             </div>
+
         </>
     )
 }
