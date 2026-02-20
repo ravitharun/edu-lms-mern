@@ -85,6 +85,7 @@ const GetallAssignedSubjects = async (req, res) => {
 const GetSubjectsByclassID = async (req, res) => {
     try {
         const { id } = req.params
+        console.log(id,'id')
 
         if (!id) {
             console.log("ID is Missing.")
@@ -92,7 +93,8 @@ const GetSubjectsByclassID = async (req, res) => {
         }
 
         const GetSubjects = await subjectWiseTeacherSchema.findOne({ classId: id })
-        if (GetSubjects.subjects.length == 0) {
+        console.log(GetSubjects,'GetSubjects')
+        if (GetSubjects==null) {
             console.log("No Subjects Found.")
             return res.status(404).json({ message: "No Subjects Found." })
         }
