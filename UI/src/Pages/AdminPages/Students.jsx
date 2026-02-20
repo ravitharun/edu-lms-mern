@@ -4,6 +4,12 @@ import AdminHeader from '../../Components/AdminHeader'
 import AddingSoon from '../../Loaders/AddingSoon'
 import StudentProfile from './StudentsProfile'
 import { Link, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+// import { GetstudentsProfile } from './TechersApiCall/FetchApicall'
+import { useState } from 'react'
+import axios from 'axios'
+import { UserName } from '../../Apis/Islogin'
+
 
 function Students() {
     const Class = [
@@ -21,10 +27,34 @@ function Students() {
             section: "b"
         }
     ]
+    const [StudentsData, setStudentsData] = useState([])
     const navigate = useNavigate("")
+
+
     const handelData = (data) => {
         navigate("/StudentsProfile", { state: data })
     }
+
+    useEffect(() => {
+        const response = async() => {
+            try {
+                const response = await axios.get("http://localhost:5001/api/classlist/getstudents", {
+                    params: {
+                        id: UserName.teacher_Id
+                    }, 
+                    // Header_Token_expry
+                })
+                console.log(response, 'response')
+                setStudentsData(response.data.getstudents, 'response')
+                return response
+            } catch (error) {
+                console.log(error)
+
+            }
+        }
+        response()
+    }, [])
+
     return (
         <>
             <App></App>
@@ -84,44 +114,52 @@ function Students() {
                             </thead>
 
                             <tbody>
-                                <tr className="border-b hover:bg-gray-50">
-                                    <td className="p-3">21CS001</td>
-                                    <td className="p-3 font-medium">Arjun Kumar</td>
-                                    <td className="p-3 text-center">92%</td>
-                                    <td className="p-3 text-center">7 / 8</td>
-                                    <td className="p-3 text-center">85</td>
-                                    <td className="p-3 text-center">
-                                        <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
-                                            Active
-                                        </span>
-                                    </td>
-                                    <td className="p-3 text-center">
+                                {StudentsData.map((data, idx) => (
 
-                                        <button className="px-3 py-1 text-xs bg-blue-500 text-white rounded" onClick={()=>handelData({name:"tharun"})}>
-                                            View
-                                        </button>
+                                    <tr className="border-b hover:bg-gray-50" key={idx}  onClick={() =>handelData 
+                        (data)}>
 
-                                    </td>
-                                </tr>
+                                        <td className="p-3">{data.Student_ID}</td>
 
-                                <tr className="border-b hover:bg-gray-50">
-                                    <td className="p-3">21CS002</td>
-                                    <td className="p-3 font-medium">Sneha Reddy</td>
-                                    <td className="p-3 text-center">68%</td>
-                                    <td className="p-3 text-center">4 / 8</td>
-                                    <td className="p-3 text-center">62</td>
-                                    <td className="p-3 text-center">
-                                        <span className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-700">
-                                            At Risk
-                                        </span>
-                                    </td>
-                                    <td className="p-3 text-center">
-                                        <Link to="/StudentsProfile"><button className="px-3 py-1 text-xs bg-blue-500 text-white rounded" >
-                                            View
-                                        </button></Link>
-                                    </td>
-                                </tr>
+                                        <td className="p-3 font-medium">
+                                            {data.name}
+                                        </td>
 
+                                        <td className="p-3 text-center">
+                                            {data.percentage|| "In progress"}
+                                        </td>
+
+                                        <td className="p-3 text-center">
+                                            {data.attended||0} / {data.total||0}
+                                        </td>
+
+                                        <td className="p-3 text-center">
+                                            {data.marks|| "0"}
+                                        </td>
+
+                                        <td className="p-3 text-center">
+                                            <span
+                                                className={`px-2 py-1 text-xs rounded-full ${data.status === "Active"
+                                                    ? "bg-green-100 text-green-700"
+                                                    : "bg-red-100 text-red-700"
+                                                    }`}
+                                            >
+                                                {data.status|| 'In progress'}
+                                            </span>
+                                        </td>
+
+                                        <td className="p-3 text-center">
+                                            <button
+                                                className="px-3 py-1 text-xs bg-blue-500 text-white rounded"
+                                                onClick={() =>handelData 
+                        (data)}
+                                            >
+                                                View
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
 
