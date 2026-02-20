@@ -3,6 +3,7 @@ import AdminHeader from "../../Components/AdminHeader";
 import App from "../../App";
 import { Link, useLocation } from "react-router-dom";
 
+
 function StudentProfile() {
   const date = useLocation()
   console.log(date.state
