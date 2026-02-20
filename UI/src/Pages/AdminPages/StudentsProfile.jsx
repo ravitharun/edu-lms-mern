@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AdminHeader from "../../Components/AdminHeader";
 import App from "../../App";
 import { Link, useLocation } from "react-router-dom";
+import AddingSoon from "../../Loaders/AddingSoon";
 
 
 function StudentProfile() {
@@ -35,18 +36,23 @@ function StudentProfile() {
             <div className="bg-white rounded-xl shadow p-6 mb-6">
               <div className="flex items-center gap-6">
                 <img
-                  src={`https://ui-avatars.com/api/?name=${date.state.name}`}
+                  src={
+                    date?.state?.profilePreview
+                      ? date.state.profilePreview
+                      : `https://ui-avatars.com/api/?name=${date?.state?.name || "User"}`
+                  }
                   alt="student"
-                  className="w-20 h-20 rounded-full border"
+                  className="w-20 h-20 rounded-full border object-cover hover:cursor-pointer"
                 />
 
                 <div>
                   <h2 className="text-xl font-semibold text-gray-800">
                     {date.state.name}
                   </h2>
-                  <p className="text-sm text-gray-600">{date.state.rollnumber || 123}</p>
-                  <p className="text-sm text-gray-600">{date.state.dept || 'Department:CSE'}</p>
+                  <p className="text-sm text-gray-600">{date.state.Student_ID || 123}</p>
+                  <p className="text-sm text-gray-600">{date.state.department || 'Department:CSE'}</p>
                   <p className="text-sm text-gray-600">{date.state.email || "Email: arjun@college.edu"}</p>
+                  {/* <img src={date.state.profilePreview}></img> */}
                 </div>
               </div>
             </div>
@@ -77,7 +83,7 @@ function StudentProfile() {
                 Recent Attendance
               </h3>
 
-              <table className="w-full text-sm">
+              {/* <table className="w-full text-sm">
                 <thead className="bg-gray-100">
                   <tr>
                     <th className="p-3 text-left">Date</th>
@@ -94,7 +100,8 @@ function StudentProfile() {
                     <td className="p-3 text-red-600 font-medium">Absent</td>
                   </tr>
                 </tbody>
-              </table>
+              </table> */}
+              <AddingSoon pathname="Recent Attendance"></AddingSoon>
             </div>
 
             {/* Actions */}

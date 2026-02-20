@@ -84,7 +84,7 @@ const GetClassSection = async (req, res) => {
 
 const getStudents = async (req, res) => {
     try {
-        const id = "Teacher-5512"
+        const {id} = req.query
         console.log(id, 'id')
         if (!id) { return res.status(404).json({ message: "ID is required." }) }
         const getStudents = await subjectwiseteacher.find({ "subjects.teacherId": id })
@@ -94,7 +94,7 @@ const getStudents = async (req, res) => {
         const getDpet_yr = getStudents[0].department +" " + getStudents[0].year
         const getstudents = await User.find({ StudentsYearDepartment: getDpet_yr})
     
-        return res.json({ 'getStudents': getStudents, "getstudents": getstudents })
+        return res.json({ getstudents:getstudents })
     } catch (error) {
 
     }
