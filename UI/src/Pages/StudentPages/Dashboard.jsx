@@ -10,11 +10,10 @@ import secureLocalStorage from 'react-secure-storage';
 import { UserName, UserRole } from '../../Apis/Islogin';
 import Error from '../../Components/Error';
 function Dashboard() {
-  
+
   const [Profile, setprofile] = useState(UserRole.profilePreview)
   const [StudentID, setStudentID] = useState(UserRole.Student_ID)
-  const Name = UserRole;
-  const ProfileData = [
+  const Name = UserRole.role; const ProfileData = [
     { icon: '📊', type: "Attendance", count: "87.4%" },
     { icon: '📝', type: "Assignments Pending", count: 4 },
     { icon: '📚', type: "Courses Pending", count: 2 },
@@ -621,7 +620,7 @@ hover:to-blue-400"
 
       </div>
 
-<Error></Error>
+      <Error></Error>
 
       {/* Footer */}
       <Footer />

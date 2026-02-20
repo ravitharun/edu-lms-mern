@@ -17,7 +17,6 @@ import ApplyLeave from './Pages/AdminPages/ApplyLeave.jsx';
 import Students from './Pages/AdminPages/Students.jsx';
 import AdminProfile from './Pages/AdminPages/AdminProfile.jsx';
 import Loaders from './Loaders/Loaders.jsx';
-import secureLocalStorage from 'react-secure-storage';
 import MasterAdminDashboard from './Pages/AdminPages/Master/MasterAdminDashboard.jsx';
 import AssiginSubject from './Pages/AdminPages/Master/AssiginSubject.jsx';
 import AssiginTeacherwisesubjects from './Pages/AdminPages/Master/AssiginTeacherwisesubjects.jsx';
@@ -25,9 +24,11 @@ import AdminStudents from './Pages/AdminPages/Master/Reports.jsx';
 import TeachersProfiles from './Pages/AdminPages/Master/TeachersProfiles.jsx';
 import UpdatePassword from './Pages/StudentPages/UpdatePassword.jsx';
 import StudentProfile from './Pages/AdminPages/StudentsProfile.jsx';
+
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
 const MyCourses = lazy(() => import("./Pages/StudentPages/MyCourses.jsx"));
+const Studentprofile = lazy(() => import("./Pages/StudentPages/Studentprofile.jsx"));
 // import MyCourses from './Pages/MyCourses.jsx';
 
 
@@ -49,8 +50,16 @@ createRoot(document.getElementById('root')).render(
         } />
 
 
-        <Route path="/my-course" element={<Suspense fallback={<BackgroungImgLoader />}>
+        <Route path="/my-course" 
+        element={<Suspense fallback={<BackgroungImgLoader />}>
           <MyCourses />
+
+        </Suspense>}
+
+        />
+        <Route path="/profile" 
+        element={<Suspense fallback={<BackgroungImgLoader />}>
+          <Studentprofile />
 
         </Suspense>}
 

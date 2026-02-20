@@ -1,4 +1,5 @@
 const subjectwiseteacher = require("../models/subjectwiseteacher");
+const User = require("../models/User");
 
 // These is used to get the class list assigned by the teachersID reference
 const getClasslist = async (req, res) => {
@@ -50,7 +51,7 @@ const getClasslist = async (req, res) => {
 const GetClassSection = async (req, res) => {
     try {
         const { teacher_Id } = req.query;
-        console.log(teacher_Id,'teacher_Id from the GetClassSection Api Call.')
+        console.log(teacher_Id, 'teacher_Id from the GetClassSection Api Call.')
 
         if (!teacher_Id) {
             console.log({ message: "TeacherID is missing" })
@@ -76,8 +77,26 @@ const GetClassSection = async (req, res) => {
 
     }
     catch (error) {
-        console.log(error.message,'from the GetClassSection Api Call.')
+        console.log(error.message, 'from the GetClassSection Api Call.')
         return res.status(500).json({ message: "Internal Server Error" })
     }
 }
-module.exports = { getClasslist, GetClassSection }
+
+const getStudents = async (req, res) => {
+    try {
+        const id = "Teacher-5512"
+        console.log(id, 'id')
+        if (!id) { return res.status(404).json({ message: "ID is required." }) }
+        const getStudents = await subjectwiseteacher.find({ "subjects.teacherId": id })
+        if (getStudents.length == 0) {
+            return res.status(404).json({ message: "no" })
+        }
+        const getDpet_yr = getStudents[0].department +" " + getStudents[0].year
+        const getstudents = await User.find({ StudentsYearDepartment: getDpet_yr})
+    
+        return res.json({ 'getStudents': getStudents, "getstudents": getstudents })
+    } catch (error) {
+
+    }
+}
+module.exports = { getClasslist, GetClassSection, getStudents }
