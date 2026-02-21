@@ -1,66 +1,89 @@
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
 import { UserName } from "../Apis/Islogin";
 
 function Error() {
-    const HandelLogout = () => {
-        const clr_token_logout = secureLocalStorage.removeItem("token")
-        const clr_userInfo_logout = secureLocalStorage.removeItem("User_info")
-        if (!clr_token_logout || !clr_userInfo_logout) {
-            navigate("/login")
-        }
+  const navigate = useNavigate();
+  const userInfo = secureLocalStorage.getItem("User_info");
+  const role = userInfo?.role || "Unknown";
+  const name = userInfo?.name || "User";
 
-    }
+  const requiredRole = "Admin";
 
-  
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
-            <div className="bg-white shadow-xl rounded-2xl p-8 max-w-md w-full text-center">
+  const handleLogout = () => {
+    secureLocalStorage.removeItem("token");
+    secureLocalStorage.removeItem("User_info");
+    navigate("/login");
+  };
 
-                {/* Icon */}
-                <div className="flex justify-center hover:cursor-not-allowed">
-                    <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center">
-                        <span className="text-3xl">🚫</span>
-                    </div>
-                </div>
+  return (
+    <div className="min-h-screen flex bg-gray-100">
 
-                {/* Error Code */}
-                <h1 className="mt-4 text-4xl font-bold text-red-600">
-                    Access Restricted
-                </h1>
-
-                {/* Message */}
-                <p className="mt-3 text-gray-600">
-                    This page is not available for your current role.
-                    Please contact your instructor or log in with a valid account.
-                </p>
-
-                {/* Actions */}
-                <div className="mt-6 flex flex-col gap-3">
-                    <Link
-                        to={UserName.role=="student"?"/":UserName.role=="Teacher"?"/admin-dashboard":"/AdminDashboard"}
-                        className="w-full py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition"
-                    >
-                        Go to Dashboard
-                    </Link>
-
-                    <Link
-                        to="/login"
-                        onClick={HandelLogout}
-                        className="w-full py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
-                    >
-                        Switch Account
-                    </Link>
-                </div>
-
-                {/* Footer */}
-                <p className="mt-6 text-sm text-gray-400">
-                    LMS Security Policy • 403 Error
-                </p>
-            </div>
+      {/* LEFT SIDE - Academic Info Panel */}
+      <div className="hidden md:flex w-1/2 bg-blue-800 text-white items-center justify-center p-10">
+        <div>
+          <h1 className="text-3xl font-bold tracking-wide">
+            Learning Management System
+          </h1>
+          <p className="mt-4 text-blue-100 text-sm leading-relaxed max-w-sm">
+            Secure academic platform providing role-based access 
+            to courses, reports, and administrative resources.
+          </p>
         </div>
-    );
+      </div>
+
+      {/* RIGHT SIDE - Access Card */}
+      <div className="flex flex-1 items-center justify-center px-6">
+
+        <div className="bg-white shadow-lg rounded-xl p-8 max-w-md w-full border">
+
+          {/* Title */}
+          <h2 className="text-2xl font-semibold text-gray-800">
+            Access Restricted
+          </h2>
+
+          <p className="mt-3 text-gray-600 text-sm">
+            Hello <span className="font-medium">{UserName
+            ?.role|| "User"}</span>, 
+            your current role is <span className="font-medium text-blue-700">{UserName
+            ?.role|| "Unknown"}</span>.
+          </p>
+
+    <p className="mt-2 text-sm text-gray-600">
+  This resource is not available for your account.
+</p>
+          {/* Info Box */}
+          <div className="mt-5 bg-gray-50 border rounded-lg p-4 text-sm text-gray-600">
+            If you believe this is a mistake, please contact your academic administrator.
+          </div>
+
+          {/* Buttons */}
+          <div className="mt-6 flex flex-col gap-3">
+            <button
+              onClick={() => navigate("/")}
+              className="w-full py-2 rounded-md bg-blue-700 text-white hover:bg-blue-800 transition"
+            >
+              Back to Dashboard
+            </button>
+
+            <button
+              onClick={handleLogout}
+              className="w-full py-2 rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 transition"
+            >
+              Logout & Switch Account
+            </button>
+          </div>
+
+          {/* Footer */}
+          <p className="mt-6 text-xs text-red-400 text-center">
+            Error Code: 403 • Role-Based Access Control
+          </p>
+
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Error;
