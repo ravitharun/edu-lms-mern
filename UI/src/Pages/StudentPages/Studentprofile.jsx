@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import BackButton from '../../Components/BackButton'
 import App from '../../App'
 import { UserName } from '../../Apis/Islogin'
@@ -6,13 +6,19 @@ import { UserName } from '../../Apis/Islogin'
 function Studentprofile() {
 
     const inputStyle = "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition";
+    const [file, setfile] = useState(null)
+    const [profilePrivew, setprofilePrivew] = useState('')
 
-    console.log(UserName, 'UserName')
-
+    const fileUpdate = (e) => {
+        const file = e.target.files[0]
+        console.log(file)
+        const profilePrivew_url = URL.createObjectURL(file)
+        setprofilePrivew(profilePrivew_url)
+        setfile(file)
+    }
     return (
         <>
             <App />
-
             <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-100 px-4 py-10">
 
                 {/* Header */}
@@ -26,7 +32,7 @@ function Studentprofile() {
                         </p>
                     </div>
 
-                    <button className="hidden md:block bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-lg text-sm font-medium shadow-sm">
+                    <button className="hidden md:block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-medium shadow-sm transition">
                         Save Changes
                     </button>
                 </div>
@@ -35,17 +41,16 @@ function Studentprofile() {
                 <div className="max-w-6xl mx-auto bg-white border border-gray-200 shadow-lg rounded-2xl p-6 md:p-10">
 
                     {/* Top Section */}
-                    <div className="flex flex-col md:flex-row items-center md:items-center justify-between gap-6 mb-10 border-b pb-6">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-10 border-b pb-6">
 
                         <div className="flex items-center gap-5">
                             <div className="relative">
                                 <img
-                                    src={UserName?.profilePreview || "https://via.placeholder.com/150"}
+                                    src={profilePrivew?profilePrivew:UserName.profilePreview}
                                     alt="Profile"
                                     className="w-24 h-24 rounded-full object-cover border-2 border-blue-400"
                                 />
-
-                                <div className="absolute bottom-0 right-0 bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full">
+                                <div className="absolute bottom-0 right-0 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
                                     Edit
                                 </div>
                             </div>
@@ -60,52 +65,127 @@ function Studentprofile() {
                             </div>
                         </div>
 
-                        <input type="file" className="text-xs cursor-pointer" />
+                        <input type="file" className="text-xs cursor-pointer" onChange={(e) => fileUpdate(e)} />
                     </div>
 
-                    {/* Form */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    {/* Form Sections */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
 
-                        <div className="space-y-4">
-                            <h3 className="text-md font-semibold text-gray-700">
+                        {/* Personal Information */}
+                        <div className="space-y-5">
+                            <h3 className="text-md font-semibold text-gray-700 border-b pb-2">
                                 Personal Information
                             </h3>
 
-                            <input type="text" placeholder="Full Name" className={inputStyle} />
-                            <input type="email" placeholder="Email Address" className={inputStyle} />
-                            <input type="tel" placeholder="Phone Number" className={inputStyle} />
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">
+                                    Full Name
+                                </label>
+                                <input
+                                    type="text"
+                                    className={inputStyle}
+                                    value={UserName?.name || ""}
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">
+                                    Email Address
+                                </label>
+                                <input
+                                    type="email"
+                                    className={inputStyle}
+                                    value={UserName?.email || ""}
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">
+                                    Phone Number
+                                </label>
+                                <input type="tel" className={inputStyle} />
+                            </div>
                         </div>
 
-                        <div className="space-y-4">
-                            <h3 className="text-md font-semibold text-gray-700">
+                        {/* Academic Information */}
+                        <div className="space-y-5">
+                            <h3 className="text-md font-semibold text-gray-700 border-b pb-2">
                                 Academic Information
                             </h3>
 
-                            <input type="text" placeholder="Student ID" className={inputStyle} />
-                            <input type="text" placeholder="Department" className={inputStyle} />
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">
+                                    Student ID
+                                </label>
+                                <input
+                                    type="text"
+                                    className={inputStyle}
+                                    value={UserName?.Student_ID || ""}
+                                    readOnly
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-gray-600 mb-1">
+                                    Department
+                                </label>
+                                <input
+                                    type="text"
+                                    className={inputStyle}
+                                    value={UserName?.department || ""}
+                                    readOnly
+                                />
+                            </div>
 
                             <div className="grid grid-cols-2 gap-4">
-                                <input type="text" placeholder="Year" className={inputStyle} />
-                                <input type="text" placeholder="Section" className={inputStyle} />
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                                        Year
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className={inputStyle}
+                                        value={UserName?.StudentsYearDepartment?.split(" ")[1] || ""}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600 mb-1">
+                                        Section
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className={inputStyle}
+                                        value={UserName?.department || ""}
+                                    />
+                                </div>
+
                             </div>
                         </div>
+
                     </div>
 
-                    {/* About */}
-                    <div className="mt-8">
-                        <h3 className="text-md font-semibold text-gray-700 mb-2">
+                    {/* About Section */}
+                    <div className="mt-10">
+                        <h3 className="text-md font-semibold text-gray-700 border-b pb-2 mb-4">
                             About
                         </h3>
+
+                        <label className="block text-sm font-medium text-gray-600 mb-1">
+                            Bio
+                        </label>
+
                         <textarea
                             rows="4"
-                            placeholder="Write something about yourself..."
                             className={inputStyle}
+                            placeholder="Write something about yourself..."
                         ></textarea>
                     </div>
 
-                    {/* Mobile Button */}
+                    {/* Mobile Save Button */}
                     <div className="mt-8 md:hidden">
-                        <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg text-sm font-medium">
+                        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-medium transition">
                             Save Changes
                         </button>
                     </div>
