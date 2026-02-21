@@ -1,5 +1,5 @@
 
-import React, { Activity, useState } from 'react';
+import React, { Activity, useEffect, useState } from 'react';
 import App from '../../App';
 import { FaBell, FaBellSlash, FaBriefcase, FaCheck, FaCheckCircle, FaDownload, FaEdit, FaEnvelope, FaInfoCircle, FaTicketAlt, FaUserCircle, FaUserTie } from 'react-icons/fa';
 import Footer from './Footer';
@@ -9,6 +9,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import secureLocalStorage from 'react-secure-storage';
 import { UserName, UserRole } from '../../Apis/Islogin';
 import Error from '../../Components/Error';
+import { GetallSubjects } from './StudentsApi';
+import ProgressLoader from '../../Loaders/Progressloader';
 function Dashboard() {
 
   const [Profile, setprofile] = useState(UserRole.profilePreview)
@@ -88,6 +90,28 @@ function Dashboard() {
 
 
   ]
+  // course's
+  const [courses, setcourses] = useState(
+    []
+  )
+  // get the all subjects
+
+  useEffect(() => {
+    const getSubjects = async () => {
+      try {
+        // console.log(UserName.StudentsYearDepartment.split(" ").join(""),'UserName.StudentsYearDepartment.split(" ").join("")')
+        const response = await GetallSubjects(UserName.StudentsYearDepartment.split(" ").join(""))
+        console.log(response)
+        setcourses(response.data)
+      } catch (error) {
+        console.log(error, message)
+        toast.error(error)
+      }
+    }
+    getSubjects()
+  }, [])
+
+
 
   const [imgurlChoosed, setimgurlChoosed] = useState(imgechooserurl[0].imgUrl);
   const navItems = [
@@ -124,39 +148,7 @@ function Dashboard() {
     console.log(imgurlChoosed)
   }
 
-  // course's
-  const courses = [
-    {
-      title: "Data Structures & Algorithms",
-      img: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4",
-      notification: "Assignment due tomorrow",
-      prof: "Dr. S. Kumar"
-    },
-    {
-      title: "Database Management Systems",
-      img: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
-      notification: "New material uploaded",
-      prof: "Prof. Anjali Rao"
-    },
-    {
-      title: "Artificial Intelligence",
-      img: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
-      notification: "Quiz on Friday",
-      prof: "Dr. R. Mehta"
-    },
-    {
-      title: "Computer Networks",
-      img: "https://images.unsplash.com/photo-1581091012184-7b1b9c8c1b4c",
-      notification: "Live class today 4 PM",
-      prof: "Prof. Naveen Sharma"
-    },
-    {
-      title: "Web Development (MERN)",
-      img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
-      notification: "Project submission next week",
-      prof: "Mr. Rahul Verma"
-    }
-  ];
+
 
 
   return (
@@ -396,36 +388,42 @@ hover:to-blue-400"
 
 
                   </>
-                  : courses.map((data, idx) => (
-                    <div
-                      key={idx}
-                      title={`${data.title} \n ${data.notification}`}
-                      className="flex gap-3 p-3 rounded-xl bg-white shadow-sm hover:shadow-lg transition-all duration-300"
-                    >
-                      {/* Image */}
-                      <img
-                        src={data.img}
-                        alt={data.title}
-                        className="w-12 h-12 rounded-lg object-cover"
-                      />
+                  : 
+                  // courses?.map((data, idx) => (
+                  //   <div
+                  //     key={idx}
+                  //     title={`${data.title} \n ${data.notification}`}
+                  //     className="flex gap-3 p-3 rounded-xl bg-white shadow-sm hover:shadow-lg transition-all duration-300"
+                  //   >
+                  //     {/* Image */}
+                  //     <img
+                  //       src={data.img}
+                  //       alt={data.title}
+                  //       className="w-12 h-12 rounded-lg object-cover"
+                  //     />
 
-                      {/* Content */}
-                      <div className="flex-1">
-                        <h3 className="text-sm font-semibold text-gray-800 leading-tight">
-                          {data.title}
-                        </h3>
+                  //     {/* Content */}
+                  //     <div className="flex-1">
+                  //       <h3 className="text-sm font-semibold text-gray-800 leading-tight">
+                  //         {data.title}
+                  //       </h3>
 
-                        <p className="text-xs text-blue-600 mt-1 truncate">
-                          {data.notification}
-                        </p>
+                  //       <p className="text-xs text-blue-600 mt-1 truncate">
+                  //         {data.notification}
+                  //       </p>
 
-                        <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
-                          <FaUserTie className="text-gray-400" />
-                          {data.prof}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+                  //       <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
+                  //         <FaUserTie className="text-gray-400" />
+                  //         {data.prof}
+                  //       </div>
+                  //     </div>
+                  //   </div>
+
+
+                  // ))
+                  <ProgressLoader pathname="adding"></ProgressLoader>
+                  
+                  }
               </div>
             </div>
 
