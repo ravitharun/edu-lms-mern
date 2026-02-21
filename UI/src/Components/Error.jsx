@@ -1,6 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
+import { UserName } from "../Apis/Islogin";
 
 function Error() {
     const HandelLogout = () => {
@@ -11,6 +12,8 @@ function Error() {
         }
 
     }
+
+  
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
             <div className="bg-white shadow-xl rounded-2xl p-8 max-w-md w-full text-center">
@@ -36,7 +39,7 @@ function Error() {
                 {/* Actions */}
                 <div className="mt-6 flex flex-col gap-3">
                     <Link
-                        to="/dashboard"
+                        to={UserName.role=="student"?"/":UserName.role=="Teacher"?"/admin-dashboard":"/AdminDashboard"}
                         className="w-full py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition"
                     >
                         Go to Dashboard

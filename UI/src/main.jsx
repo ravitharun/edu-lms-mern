@@ -24,6 +24,8 @@ import AdminStudents from './Pages/AdminPages/Master/Reports.jsx';
 import TeachersProfiles from './Pages/AdminPages/Master/TeachersProfiles.jsx';
 import UpdatePassword from './Pages/StudentPages/UpdatePassword.jsx';
 import StudentProfile from './Pages/AdminPages/StudentsProfile.jsx';
+import Error from './Components/Error.jsx';
+import ProtectedRoute from './Components/ProtectedRoute.jsx';
 
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
@@ -40,7 +42,10 @@ createRoot(document.getElementById('root')).render(
 
         <Route path="/" element={
           <Suspense fallback={<BackgroungImgLoader />}>
-            <Dashboard />
+            <ProtectedRoute allowedRoles={"student"}>
+
+              <Dashboard />
+            </ProtectedRoute>
           </Suspense>
         } />
         <Route path="/moreabout" element={
@@ -50,46 +55,156 @@ createRoot(document.getElementById('root')).render(
         } />
 
 
-        <Route path="/my-course" 
-        element={<Suspense fallback={<BackgroungImgLoader />}>
-          <MyCourses />
+        <Route path="/my-course"
+          element={<Suspense fallback={<BackgroungImgLoader />}
 
-        </Suspense>}
+
+          >
+            <ProtectedRoute allowedRoles={"students"}>
+              <MyCourses />
+            </ProtectedRoute>
+
+          </Suspense>}
 
         />
-        <Route path="/profile" 
-        element={<Suspense fallback={<BackgroungImgLoader />}>
-          <Studentprofile />
+        <Route path="/profile"
+          element={<Suspense fallback={<BackgroungImgLoader />}>
+            <ProtectedRoute allowedRoles={"students"}>
 
-        </Suspense>}
+              <Studentprofile />
+            </ProtectedRoute>
+
+          </Suspense>}
 
         />
         <Route path="/login" element={<Login />} />
+        <Route path="/access-restricted" element={<Error />} />
         <Route path="/siginup" element={<Siginup />} />
         {/* teacher routes */}
         <Route path="/admin-dashboard" element={
           <Suspense fallback={<Loaders />}>
-            <AdminDashboard />
+            <ProtectedRoute allowedRoles={"Teacher"}>
+
+              <AdminDashboard />
+            </ProtectedRoute>
           </Suspense>
         } />
 
         {/* <Route path="/admin-dashboard" element={<AdminDashboard />} /> */}
         <Route path="/change-password" element={<UpdatePassword />} />
-        <Route path="/classes" element={<Classes />} />
-        <Route path="/StudentsProfile" element={<StudentProfile />} />
-        <Route path="/attendance" element={<MArkAttandance />} />
-        <Route path="/assignments" element={<Addassignments />} />
-        <Route path="/Upload-Material" element={<UploadMaterilas />} />
-        <Route path="/students" element={<Students />} />
-        <Route path="/teachers/ApplyLeave" element={<ApplyLeave />} />
-        <Route path="/teachers/profile" element={<AdminProfile />} />
+        <Route path="/classes" element={<ProtectedRoute allowedRoles={"Teacher"}>
+
+          <Classes />
+        </ProtectedRoute>} />
+
+        <Route path="/StudentsProfile" element={<ProtectedRoute allowedRoles={"Teacher"}>
+
+
+          <StudentProfile />
+        </ProtectedRoute>} />
+        <Route path="/attendance" element={
+
+
+          <ProtectedRoute allowedRoles={["Teacher"]}>
+
+            <MArkAttandance />
+          </ProtectedRoute>
+
+        } />
+        <Route path="/assignments" element={
+
+
+
+          <ProtectedRoute allowedRoles={"Teacher"}>
+            <Addassignments />
+          </ProtectedRoute>
+
+        } />
+        <Route
+          path="/Upload-Material"
+          element={
+            <ProtectedRoute allowedRoles={["Teacher"]}>
+              <UploadMaterilas />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/students"
+          element={
+            <ProtectedRoute allowedRoles={["Teacher"]}>
+              <Students />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/teachers/ApplyLeave"
+          element={
+            <ProtectedRoute allowedRoles={["Teacher"]}>
+              <ApplyLeave />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/teachers/profile"
+          element={
+            <ProtectedRoute allowedRoles={["Teacher"]}>
+              <AdminProfile />
+            </ProtectedRoute>
+          }
+        />
+
         {/* adminMAster routes */}
-        <Route path="/AdminDashboard" element={<MasterAdminDashboard />} />
-        <Route path="/Admin/AssiginSubjects" element={<AssiginSubject />} />
-        <Route path="/admin/Assign-Teachers" element={<AssiginTeacherwisesubjects />} />
-        <Route path="/admin/Profile" element={<AdminProfile />} />
-        <Route path="/admin/Reports" element={<AdminStudents />} />
-        <Route path="/admin/Teachers" element={<TeachersProfiles />} />
+        <Route path="/AdminDashboard" element={<ProtectedRoute allowedRoles={["Admin"]}>
+          <MasterAdminDashboard />
+        </ProtectedRoute>} />
+
+        <Route
+          path="/Admin/AssiginSubjects"
+          element={
+            <ProtectedRoute allowedRoles={["Admin"]}>
+              <AssiginSubject />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/Assign-Teachers"
+          element={
+            <ProtectedRoute allowedRoles={["Admin"]}>
+              <AssiginTeacherwisesubjects />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/Profile"
+          element={
+            <ProtectedRoute allowedRoles={["Admin"]}>
+              <AdminProfile />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/Reports"
+          element={
+            <ProtectedRoute allowedRoles={["Admin"]}>
+              <AdminStudents />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/Teachers"
+          element={
+            <ProtectedRoute allowedRoles={["Admin"]}>
+              <TeachersProfiles />
+            </ProtectedRoute>
+          }
+        />
 
       </Routes>
     </BrowserRouter>
