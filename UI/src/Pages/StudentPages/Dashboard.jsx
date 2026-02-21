@@ -659,7 +659,7 @@ hover:to-blue-400"
 
       </div >
 
-      <Error></Error>
+      {/* <Error></Error> */}
 
       {/* Footer */}
       <Footer />
