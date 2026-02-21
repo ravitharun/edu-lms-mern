@@ -44,7 +44,8 @@ function Error() {
           </h2>
 
           <p className="mt-3 text-gray-600 text-sm">
-            Hello <span className="font-medium">{name}</span>, 
+            Hello <span className="font-medium">{UserName
+            ?.role|| "User"}</span>, 
             your current role is <span className="font-medium text-blue-700">{UserName
             ?.role|| "Unknown"}</span>.
           </p>
@@ -75,7 +76,7 @@ function Error() {
           </div>
 
           {/* Footer */}
-          <p className="mt-6 text-xs text-gray-400 text-center">
+          <p className="mt-6 text-xs text-red-400 text-center">
             Error Code: 403 • Role-Based Access Control
           </p>
 
