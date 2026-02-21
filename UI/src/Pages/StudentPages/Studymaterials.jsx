@@ -9,8 +9,10 @@ import LMSLoader from '../../Loaders/BackgroungImgLoader'
 
 function Studymaterials() {
   const location = useLocation()
+  console.log(location,'locationlocationlocationlocations')
   const course = location.state.data
   const Subject_info = location.state.info
+  console.log(Subject_info,'Subject_info')
 
   console.log(course, 'course')
 

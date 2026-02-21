@@ -11,6 +11,7 @@ import { UserName, UserRole } from '../../Apis/Islogin';
 import Error from '../../Components/Error';
 import { GetallSubjects } from './StudentsApi';
 import ProgressLoader from '../../Loaders/Progressloader';
+import { Link } from 'react-router-dom';
 function Dashboard() {
 
   const [Profile, setprofile] = useState(UserRole.profilePreview)
@@ -101,8 +102,9 @@ function Dashboard() {
       try {
         // console.log(UserName.StudentsYearDepartment.split(" ").join(""),'UserName.StudentsYearDepartment.split(" ").join("")')
         const response = await GetallSubjects(UserName.StudentsYearDepartment.split(" ").join(""))
-        console.log(response)
-        setcourses(response.data)
+        // console.log(response)
+        setcourses(response.data.message)
+        console.log(response.data.message.subjects)
       } catch (error) {
         console.log(error, message)
         toast.error(error)
@@ -388,42 +390,74 @@ hover:to-blue-400"
 
 
                   </>
-                  : 
-                  // courses?.map((data, idx) => (
-                  //   <div
-                  //     key={idx}
-                  //     title={`${data.title} \n ${data.notification}`}
-                  //     className="flex gap-3 p-3 rounded-xl bg-white shadow-sm hover:shadow-lg transition-all duration-300"
-                  //   >
-                  //     {/* Image */}
-                  //     <img
-                  //       src={data.img}
-                  //       alt={data.title}
-                  //       className="w-12 h-12 rounded-lg object-cover"
-                  //     />
+                  :
+                  courses.subjects.map((data, idx) => (
+                    <Link to="/moreabout" state={
+                      {
+                        data: data,
+                        info: {
+                          dept: data.department || "CSE",
+                          year: "1"
+                        }
+                      }
 
-                  //     {/* Content */}
-                  //     <div className="flex-1">
-                  //       <h3 className="text-sm font-semibold text-gray-800 leading-tight">
-                  //         {data.title}
-                  //       </h3>
-
-                  //       <p className="text-xs text-blue-600 mt-1 truncate">
-                  //         {data.notification}
-                  //       </p>
-
-                  //       <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
-                  //         <FaUserTie className="text-gray-400" />
-                  //         {data.prof}
-                  //       </div>
-                  //     </div>
-                  //   </div>
+                    }>
+                      <div
+                        key={idx}
+                        title={`${data.subjectName} \n (${data.subjectId})`}
+                        className="flex items-start gap-4 p-4 rounded-2xl bg-white border border-gray-100 
+               hover:shadow-md hover:-translate-y-1 transition-all duration-300 cursor-pointer"
+                      >
 
 
-                  // ))
-                  <ProgressLoader pathname="adding"></ProgressLoader>
-                  
-                  }
+
+                        {/* Teacher Image */}
+                        <img
+                          src={data.Techer_profile}
+                          alt={data.classId}
+                          className="w-14 h-14 rounded-xl object-cover border"
+                        />
+
+                        {/* Content Section */}
+                        <div className="flex-1 space-y-1">
+
+                          {/* Subject Name */}
+                          <h3 className="text-sm font-semibold text-gray-800">
+                            {data.subjectName}
+                          </h3>
+
+                          {/* Subject ID */}
+                          <p className="text-xs text-gray-500">
+                            {data.subjectId}
+                          </p>
+
+                          {/* Notification */}
+                          <p className="text-xs text-blue-600 truncate">
+                            {data.notification}
+                          </p>
+
+                          {/* Teacher */}
+                          <div
+                            title={`Professor ${data.name}`}
+                            className="flex items-center gap-2 mt-2 text-xs text-gray-600"
+                          >
+                            <FaUserTie className="text-blue-500 text-sm" />
+
+                            <span className="font-medium text-gray-700">
+                              Prof. {data.name}
+                            </span>
+                          </div>
+
+                        </div>
+                      </div>
+                    </Link>
+                  ))
+
+
+
+                  // <ProgressLoader pathname="adding"></ProgressLoader>
+
+                }
               </div>
             </div>
 
@@ -482,61 +516,65 @@ hover:to-blue-400"
             </div>
           </div>
         </div>
-      </div>
+      </div >
 
 
 
 
       {/* placement ui components sections and  Placement Registration  of the ui  */}
-      <div className="flex flex-col lg:flex-row gap-4 w-full mt-10">
+      < div className="flex flex-col lg:flex-row gap-4 w-full mt-10" >
 
         {/* Placement News */}
-        <div className="bg-white p-4 rounded-xl shadow-md w-full lg:w-1/2 h-full">
+        < div className="bg-white p-4 rounded-xl shadow-md w-full lg:w-1/2 h-full" >
 
           {/* Header */}
-          <div className="flex items-center gap-2 mb-4 text-gray-800 font-semibold text-base sm:text-lg">
+          < div className="flex items-center gap-2 mb-4 text-gray-800 font-semibold text-base sm:text-lg" >
             <IoNewspaperOutline className="text-blue-500 text-lg" />
             <span>Placement News</span>
-          </div>
+          </ div>
 
           {/* Empty State */}
-          {Placement.length <= 0 && (
-            <div className="flex justify-center sm:justify-start mt-4">
-              <div className="flex items-center gap-2 px-4 py-3 bg-blue-100 rounded-xl shadow-sm">
-                <FaInfoCircle className="text-xl text-blue-600" />
-                <p className="text-sm text-gray-600 font-medium">
-                  No placement news to display
-                </p>
+          {
+            Placement.length <= 0 && (
+              <div className="flex justify-center sm:justify-start mt-4">
+                <div className="flex items-center gap-2 px-4 py-3 bg-blue-100 rounded-xl shadow-sm">
+                  <FaInfoCircle className="text-xl text-blue-600" />
+                  <p className="text-sm text-gray-600 font-medium">
+                    No placement news to display
+                  </p>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )
+          }
+        </div >
 
         {/* Placement Registration */}
-        <div className="bg-white p-4 rounded-xl shadow-md w-full lg:w-1/2 h-full">
+        < div className="bg-white p-4 rounded-xl shadow-md w-full lg:w-1/2 h-full" >
 
           {/* Header */}
-          <div className="flex items-center gap-2 mb-4 text-gray-800 font-semibold text-base sm:text-lg">
+          < div className="flex items-center gap-2 mb-4 text-gray-800 font-semibold text-base sm:text-lg" >
             <IoNewspaperOutline className="text-blue-500 text-lg" />
             <span>Placement Registration</span>
-          </div>
+          </div >
 
           {/* Nav Tabs */}
-          <nav className="flex flex-wrap gap-2 sm:gap-3 bg-gray-100 p-2 rounded-md shadow-inner mb-4">
-            {Placement_Registration_navItems.map((item) => (
-              <li
-                key={item.key}
-                onClick={() => setplacementNotificationType(item.key)}
-                className={`list-none cursor-pointer px-3 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300 text-xs sm:text-sm font-medium
+          < nav className="flex flex-wrap gap-2 sm:gap-3 bg-gray-100 p-2 rounded-md shadow-inner mb-4" >
+            {
+              Placement_Registration_navItems.map((item) => (
+                <li
+                  key={item.key}
+                  onClick={() => setplacementNotificationType(item.key)}
+                  className={`list-none cursor-pointer px-3 sm:px-4 py-1.5 sm:py-2 rounded-full transition-all duration-300 text-xs sm:text-sm font-medium
             ${placementNotificationType === item.key
-                    ? "bg-blue-500 text-white shadow"
-                    : "text-gray-700 hover:bg-blue-200"
-                  }`}
-              >
-                {item.label}
-              </li>
-            ))}
-          </nav>
+                      ? "bg-blue-500 text-white shadow"
+                      : "text-gray-700 hover:bg-blue-200"
+                    }`}
+                >
+                  {item.label}
+                </li>
+              ))
+            }
+          </nav >
 
           {placementNotificationType === "UpcomingJobs" &&
             <div className="bg-white rounded-xl p-4 sm:p-6 shadow-md w-full">
@@ -571,7 +609,8 @@ hover:to-blue-400"
               )}
             </div>
           }
-          {placementNotificationType === "AppliedJobs" &&
+          {
+            placementNotificationType === "AppliedJobs" &&
             <div className="bg-white rounded-xl p-4 sm:p-6 shadow-md w-full">
 
               {/* Header */}
@@ -604,19 +643,21 @@ hover:to-blue-400"
             </div>
           }
           {/* Empty State */}
-          {Placement.length != 0 && (
-            <div className="flex justify-center sm:justify-start mt-4">
-              <div className="flex items-center gap-2 px-4 py-3 bg-blue-100 rounded-xl shadow-sm">
-                <FaInfoCircle className="text-xl text-blue-600" />
-                <p className="text-sm text-gray-600 font-medium">
-                  No placement news to display
-                </p>
+          {
+            Placement.length != 0 && (
+              <div className="flex justify-center sm:justify-start mt-4">
+                <div className="flex items-center gap-2 px-4 py-3 bg-blue-100 rounded-xl shadow-sm">
+                  <FaInfoCircle className="text-xl text-blue-600" />
+                  <p className="text-sm text-gray-600 font-medium">
+                    No placement news to display
+                  </p>
+                </div>
               </div>
-            </div>
-          )}
-        </div>
+            )
+          }
+        </div >
 
-      </div>
+      </div >
 
       <Error></Error>
 
