@@ -80,6 +80,66 @@ function TeachersProfiles() {
 
 
     }
+
+
+    const HandelAccountActivate = (id) => {
+
+        console.log(id, 'HandelAccountActivate')
+        if (!id) { return toast.error("something Went Wrong.") }
+        Swal.fire(
+
+            {
+                title: "Activate Account?",
+                html: `
+    <p class="text-gray-600">
+      Are you sure you want to activate this account?
+    </p>
+    <p class="text-sm text-gray-500 mt-2">
+      The user will regain access to the system immediately.
+    </p>
+  `,
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#16a34a",
+                cancelButtonColor: "#6b7280",
+                confirmButtonText: "Yes, Activate",
+                cancelButtonText: "Cancel"
+                // denyButtonText: ``
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    // const data = await deactivateAccount(id)
+                    // if (data.data.message === 'ok') {
+                    //     Swal.fire(
+                    //         "Success!",
+                    //         "Account has been deactivated successfully.",
+                    //         "success"
+                    //     );
+                    //     // toast.success("DeactivateAccount.")
+                    // }
+                    Swal.fire({
+                        title: "Success!",
+                        html: `
+    <p class="text-gray-700">
+      Account has been <b class="text-green-600">activated</b> successfully.
+    </p>
+    <p class="text-sm text-gray-500 mt-2">
+      The user can now access the system.
+    </p>
+  `,
+                        icon: "success",
+                        confirmButtonColor: "#16a34a",
+                        confirmButtonText: "OK"
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire(
+                        "Cancelled",
+                        "The action has been cancelled.",
+                        "info"
+                    );
+                }
+            });
+
+    }
     return (
         <>
             <Toaster />
@@ -114,126 +174,125 @@ function TeachersProfiles() {
                         {!Errormessage ?
                             <button onClick={handelclear}>{Errormessage}</button> : ""
                         }
-                     <div className="space-y-4 max-w-5xl mx-auto">
-  {loading ? (
-    <Dataloading />
-  ) : (
-    getTeacherprofiles.map((pr, idx) => (
-      <div
-        key={idx}
-        className="flex flex-col lg:flex-row justify-between bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-5 border border-gray-100 w-full"
-      >
-        {/* LEFT SECTION */}
-        <div className="flex items-start gap-4 flex-1 min-w-0">
-          <img
-            src={pr.profilePreview}
-            alt={pr.name}
-            className="w-20 h-20 rounded-full object-cover border-2 border-white shadow ring-2 ring-green-100 transition"
-          />
+                        <div className="space-y-4 max-w-5xl mx-auto">
+                            {loading ? (
+                                <Dataloading />
+                            ) : (
+                                getTeacherprofiles.map((pr, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="flex flex-col lg:flex-row justify-between bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-300 p-5 border border-gray-100 w-full"
+                                    >
+                                        {/* LEFT SECTION */}
+                                        <div className="flex items-start gap-4 flex-1 min-w-0">
+                                            <img
+                                                src={pr.profilePreview}
+                                                alt={pr.name}
+                                                className="w-20 h-20 rounded-full object-cover border-2 border-white shadow ring-2 ring-green-100 transition"
+                                            />
 
-          <div className="flex flex-col flex-1 min-w-0">
-            {/* Name + Role */}
-            <div className="flex items-center gap-3 flex-wrap">
-              <h2 className="text-xl font-semibold text-gray-900 truncate">
-                {pr.name}
-              </h2>
-              <span className="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
-                {pr.role}
-              </span>
-            </div>
+                                            <div className="flex flex-col flex-1 min-w-0">
+                                                {/* Name + Role */}
+                                                <div className="flex items-center gap-3 flex-wrap">
+                                                    <h2 className="text-xl font-semibold text-gray-900 truncate">
+                                                        {pr.name}
+                                                    </h2>
+                                                    <span className="px-3 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                                                        {pr.role}
+                                                    </span>
+                                                </div>
 
-            {/* Details Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 text-sm text-gray-600">
-              <p>
-                <span className="font-semibold text-gray-900">Dept:</span>{" "}
-                <b>{pr.department}</b>
-              </p>
+                                                {/* Details Grid */}
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 text-sm text-gray-600">
+                                                    <p>
+                                                        <span className="font-semibold text-gray-900">Dept:</span>{" "}
+                                                        <b>{pr.department}</b>
+                                                    </p>
 
-              <p>
-                <span className="font-semibold text-gray-900">Emp ID:</span>{" "}
-                <b>{pr.teacher_Id}</b>
-              </p>
+                                                    <p>
+                                                        <span className="font-semibold text-gray-900">Emp ID:</span>{" "}
+                                                        <b>{pr.teacher_Id}</b>
+                                                    </p>
 
-              <p className="md:col-span-2">
-                <span className="font-semibold text-gray-900">Subjects:</span>{" "}
-                <b>{pr?.subjects?.join(", ")}</b>
-              </p>
+                                                    <p className="md:col-span-2">
+                                                        <span className="font-semibold text-gray-900">Subjects:</span>{" "}
+                                                        <b>{pr?.subjects?.join(", ")}</b>
+                                                    </p>
 
-              <p>
-                <span className="font-semibold text-gray-900">Exp:</span>{" "}
-                {pr?.exp || 0} yrs
-              </p>
-            </div>
-          </div>
-        </div>
+                                                    <p>
+                                                        <span className="font-semibold text-gray-900">Exp:</span>{" "}
+                                                        {pr?.exp || 0} yrs
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
 
-        {/* RIGHT SECTION */}
-        <div className="flex flex-col items-end justify-between mt-5 lg:mt-0 lg:ml-6 min-w-[220px]">
-          
-          {/* Status Section */}
-          <div className="flex flex-col items-end gap-2 text-sm font-medium">
-            
-            {/* Online Status */}
-            <div className="flex items-center gap-2">
-              <span
-                className={`w-2.5 h-2.5 rounded-full ${
-                  pr?.isonline ? "bg-green-500" : "bg-red-500"
-                }`}
-              ></span>
-              <span
-                className={
-                  pr?.isonline ? "text-green-600" : "text-red-600"
-                }
-              >
-                {pr?.isonline ? "Online" : "Offline"}
-              </span>
-            </div>
+                                        {/* RIGHT SECTION */}
+                                        <div className="flex flex-col items-end justify-between mt-5 lg:mt-0 lg:ml-6 min-w-[220px]">
 
-            {/* Account Status */}
-            {pr?.AccountStatus && (
-              <span className="px-3 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full">
-                Account Deactivated
-              </span>
-            )}
+                                            {/* Status Section */}
+                                            <div className="flex flex-col items-end gap-2 text-sm font-medium">
 
-            {/* Stats */}
-            <span className="text-xs text-gray-500 text-right">
-              {pr?.status} • Classes Today: {pr?.classesToday} • Reviews:{" "}
-              {pr?.pendingReviews}
-            </span>
-          </div>
+                                                {/* Online Status */}
+                                                <div className="flex items-center gap-2">
+                                                    <span
+                                                        className={`w-2.5 h-2.5 rounded-full ${pr?.isonline ? "bg-green-500" : "bg-red-500"
+                                                            }`}
+                                                    ></span>
+                                                    <span
+                                                        className={
+                                                            pr?.isonline ? "text-green-600" : "text-red-600"
+                                                        }
+                                                    >
+                                                        {pr?.isonline ? "Online" : "Offline"}
+                                                    </span>
+                                                </div>
 
-          {/* Buttons */}
-          <div className="flex flex-wrap gap-3 mt-4 w-full justify-end">
-            <button className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 text-sm font-medium hover:bg-gray-100 transition duration-200">
-              View Profile
-            </button>
+                                                {/* Account Status */}
+                                                {pr?.AccountStatus && (
+                                                    <span className="px-3 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full">
+                                                        Account Deactivated
+                                                    </span>
+                                                )}
 
-            <button className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition duration-200 shadow-sm hover:shadow-md">
-              Message
-            </button>
+                                                {/* Stats */}
+                                                <span className="text-xs text-gray-500 text-right">
+                                                    {pr?.status} • Classes Today: {pr?.classesToday} • Reviews:{" "}
+                                                    {pr?.pendingReviews}
+                                                </span>
+                                            </div>
 
-            {pr?.AccountStatus ? (
-  <button
-    className="px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-medium hover:bg-green-700 transition duration-200 shadow-sm hover:shadow-md"
-    onClick={() => HandelAccount(pr.teacher_Id)}
-  >
-    Activate
-  </button>
-) : (
-  <button
-    className="px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition duration-200 shadow-sm hover:shadow-md"
-    onClick={() => HandelAccount(pr.teacher_Id)}
-  >
-    Deactivate
-  </button>
-)}
-          </div>
-        </div>
-      </div>
-    ))
-  )}
-</div>
+                                            {/* Buttons */}
+                                            <div className="flex flex-wrap gap-3 mt-4 w-full justify-end">
+                                                <button className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 text-sm font-medium hover:bg-gray-100 transition duration-200">
+                                                    View Profile
+                                                </button>
+
+                                                <button className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition duration-200 shadow-sm hover:shadow-md">
+                                                    Message
+                                                </button>
+
+                                                {pr?.AccountStatus ? (
+                                                    <button
+                                                        className="px-4 py-2 rounded-lg bg-gray-400 text-white text-sm font-medium cursor-pointer hover:bg-green-500"
+                                                        title="You can The Activate Account"
+                                                        onClick={() => HandelAccountActivate(pr.teacher_Id)}              >
+                                                        Deactivated
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        className="px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition duration-200 shadow-sm hover:shadow-md"
+                                                        onClick={() => HandelAccount(pr.teacher_Id)}
+                                                    >
+                                                        Deactivate
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                        </div>
 
                     </main>
                 </div>
