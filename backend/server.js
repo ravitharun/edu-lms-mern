@@ -11,6 +11,7 @@ const Subjects = require("./routes/SubjectsRouter");
 const updatePasswordRouter = require("./routes/updatePass");
 const { SubjectTeacher } = require("./routes/AssiginSubjectrouter");
 const { classlist } = require("./routes/GetallClasslistrouter");
+const AccountDeactivateRouter = require("./routes/AccountDeactivateRouter");
 
 const app = express();
 const server = http.createServer(app);
@@ -37,6 +38,7 @@ app.use("/api/subjects", Subjects);
 app.use("/api/password", updatePasswordRouter);
 app.use("/api/AssignSubjects", SubjectTeacher);
 app.use("/api/classlist", classlist);
+app.use("/api/Account", AccountDeactivateRouter);
 
 // Test root
 app.get("/", (req, res) => {
