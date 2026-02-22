@@ -82,7 +82,7 @@ function TeachersProfiles() {
             subj.name?.toLowerCase().includes(search) || subj.dept?.toLowerCase().includes(search) || subj.designation?.toLowerCase().includes(search))
         setteacherprofile(search_filter)
 
-        if(search_filter.length==0){
+        if (search_filter.length == 0) {
             seterror(`No Techers Found ${search}`)
         }
         if (search == "") {
@@ -92,7 +92,9 @@ function TeachersProfiles() {
     const handelclear = () => {
         setSerchteacherprofile('')
     }
-    console.log(getTeacherprofiles)
+    const HandelAccount = (id) => {
+        console.log("Deactivate Account Id EMp:", id)
+    }
     return (
         <div className="min-h-screen flex bg-gray-50">
             <MasterAdminNavbar path={page} />
@@ -164,13 +166,32 @@ function TeachersProfiles() {
                                             {pr.status} • Classes Today: {pr.classesToday} • Reviews: {pr.pendingReviews}
                                         </span>
                                     </div>
-                                    <div className="flex items-center gap-2 w-full sm:w-auto mt-2 sm:mt-0">
-                                        <button className="flex-1 sm:flex-none px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 hover:border-gray-400 text-sm font-medium transition-all duration-200 shadow-sm">
+                                    <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto mt-3 sm:mt-0">
+
+                                        {/* View Profile */}
+                                        <button className="flex-1 sm:flex-none px-4 py-2 rounded-lg border border-gray-300 
+  bg-white text-gray-700 text-sm font-medium 
+  hover:bg-gray-100 hover:border-gray-400 
+  transition duration-200 ease-in-out">
                                             View Profile
                                         </button>
-                                        <button className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium shadow-sm hover:shadow-md transition-all duration-200">
+
+                                        {/* Message */}
+                                        <button className="flex-1 sm:flex-none px-4 py-2 rounded-lg 
+  bg-blue-600 text-white text-sm font-medium 
+  hover:bg-blue-700 
+  transition duration-200 ease-in-out shadow-sm hover:shadow-md">
                                             Message
                                         </button>
+
+                                        {/* Deactivate */}
+                                        <button className="flex-1 sm:flex-none px-4 py-2 rounded-lg 
+  bg-red-500 text-white text-sm font-medium 
+  hover:bg-red-600 
+  transition duration-200 ease-in-out shadow-sm hover:shadow-md" onClick={() => HandelAccount(pr.empid)}>
+                                            Deactivate
+                                        </button>
+
                                     </div>
                                 </div>
                             </div>
