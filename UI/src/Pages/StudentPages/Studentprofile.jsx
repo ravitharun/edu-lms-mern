@@ -8,13 +8,25 @@ function Studentprofile() {
     const inputStyle = "w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 transition";
     const [file, setfile] = useState(null)
     const [profilePrivew, setprofilePrivew] = useState('')
-
+    const [name, setname] = useState("")
+    const [Email, setemail] = useState("")
+    const [ID, setID] = useState("")
+    const [Department, setDepartment] = useState("")
+    const [Phonenumber, setPhonenumber] = useState("")
+    const [Year, setYear] = useState("")
+    const [Section, setSection] = useState("")
+    const [Bio, setBio] = useState("")
     const fileUpdate = (e) => {
         const file = e.target.files[0]
         console.log(file)
         const profilePrivew_url = URL.createObjectURL(file)
         setprofilePrivew(profilePrivew_url)
         setfile(file)
+    }
+
+    const handelEdit=()=>{
+        alert("hi")
+    
     }
     return (
         <>
@@ -46,13 +58,13 @@ function Studentprofile() {
                         <div className="flex items-center gap-5">
                             <div className="relative">
                                 <img
-                                    src={profilePrivew?profilePrivew:UserName.profilePreview}
+                                    src={profilePrivew ? profilePrivew : UserName.profilePreview}
                                     alt="Profile"
                                     className="w-24 h-24 rounded-full object-cover border-2 border-blue-400"
                                 />
-                                <div className="absolute bottom-0 right-0 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full">
+                                <button className="absolute bottom-0 right-0 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full" onClick={handelEdit}>
                                     Edit
-                                </div>
+                                </button>
                             </div>
 
                             <div>
