@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     index: true, sparse: true
   },
   password: { type: String, required: true },
+  AccountStatus: { type:Boolean,default:true, required: true },
   profilePreview: { type: String, required: true },
   ConfirmPassword: { type: String, required: true },
   role: { type: String, enum: ["student", "Teacher", "Admin"], default: "student" },

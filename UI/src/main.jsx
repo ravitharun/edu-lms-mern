@@ -150,7 +150,7 @@ createRoot(document.getElementById('root')).render(
         <Route
           path="/teachers/profile"
           element={
-            <ProtectedRoute allowedRoles={["Teacher"]}>
+            <ProtectedRoute allowedRoles={["Admin"]}>
               <AdminProfile />
             </ProtectedRoute>
           }
