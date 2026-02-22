@@ -82,9 +82,9 @@ function TeachersProfiles() {
     }
 
 
-    const HandelAccountActivate = (id) => {
+    const HandelAccountActivate = (id,action="Update") => {
 
-        console.log(id, 'HandelAccountActivate')
+        console.log(id, 'HandelAccountActivate',action)
         if (!id) { return toast.error("something Went Wrong.") }
         Swal.fire(
 
@@ -107,7 +107,7 @@ function TeachersProfiles() {
                 // denyButtonText: ``
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    // const data = await deactivateAccount(id)
+                    const data = await deactivateAccount(id,action)
                     // if (data.data.message === 'ok') {
                     //     Swal.fire(
                     //         "Success!",
