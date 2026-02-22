@@ -8,7 +8,10 @@ const ProtectedRoute = ({ allowedRoles, children }) => {
     if (!UserName) {
         return <Navigate to="/login" replace />;
     }
-
+    if (UserName.AccountStatus) {
+        console.log(UserName.AccountStatus, 'UserName.AccountStatus')
+        return <Navigate to="/AccountDeactivate" replace />;
+    }
     const role = UserName.role;
 
     // Role not allowed

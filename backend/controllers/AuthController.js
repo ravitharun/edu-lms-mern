@@ -112,7 +112,7 @@ const LoginAccount = async (req, res) => {
     }
     // password we will compare now Password input to db Password
     const check_password = await bcrypt.compare(Password, Check_userAccount.password);
-    console.log(check_password, 'check_password')
+    console.log(Check_userAccount, 'check_password')
     if (!check_password) {
       return res.status(403).json({ message: "The password is incorrect" })
     }

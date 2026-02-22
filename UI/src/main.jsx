@@ -26,6 +26,7 @@ import UpdatePassword from './Pages/StudentPages/UpdatePassword.jsx';
 import StudentProfile from './Pages/AdminPages/StudentsProfile.jsx';
 import Error from './Components/Error.jsx';
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
+import AccountDeactivate from './Components/AcctountDeactive.jsx';
 
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
@@ -79,6 +80,7 @@ createRoot(document.getElementById('root')).render(
         />
         <Route path="/login" element={<Login />} />
         <Route path="/access-restricted" element={<Error />} />
+        <Route path="/AccountDeactivate" element={<AccountDeactivate />} />
         <Route path="/siginup" element={<Siginup />} />
         {/* teacher routes */}
         <Route path="/admin-dashboard" element={

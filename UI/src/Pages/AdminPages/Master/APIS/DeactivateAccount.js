@@ -7,12 +7,9 @@ export const deactivateAccount = async (id, action) => {
 
     }
     else {
-
         const response = await axios.post("http://localhost:5001/api/Account/Deactivate", { id: id })
         console.log(response, 'response')
         return response
     }
-
-
 
 }
