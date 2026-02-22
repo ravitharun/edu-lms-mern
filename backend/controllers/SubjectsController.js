@@ -51,7 +51,7 @@ const fetchAllSubjects = async (req, res) => {
 const fetchAllTeachers = async (req, res) => {
     try {
         const data = await User.find({ role: "Teacher" }).select("name teacher_Id profilePreview")
-        console.log(data, "data")
+        console.log(data.length, "data")
         if (data.length == 0) {
             console.log('No Subjects')
             return res.status(404).json({ message: "No Subjects." })
@@ -64,6 +64,27 @@ const fetchAllTeachers = async (req, res) => {
         return res.status(500).json({ message: "server Error" })
     }
 }
+const fetchTeachersInfo = async (req, res) => {
+    try {
+        const data = await User.find({ role: "Teacher" })
+        if (data.length == 0) {
+            console.log('No Subjects')
+            return res.status(404).json({ message: "No Subjects." })
+        }
+           console.log(data.length, "get/TeachersInfo")
+        return res.status(201).json({ message: data })
+
+    }
+    catch (err) {
+        console.log("err from the fetchAllSubjects", err.message)
+        return res.status(500).json({ message: "server Error" })
+    }
+}
+
+
+
+
+
 const addByOne = async (req, res) => {
     try {
         const { data } = req.body
@@ -94,7 +115,6 @@ const addByOne = async (req, res) => {
     }
 }
 
-
 const DeleteCourse = async (req, res) => {
     try {
         const { id } = req.params
@@ -112,4 +132,5 @@ const DeleteCourse = async (req, res) => {
         return res.status(500).json({ message: error.message })
     }
 }
-module.exports = { SubjectsSchemaController, fetchAllSubjects, fetchAllTeachers, addByOne, DeleteCourse }
+
+module.exports = { SubjectsSchemaController, fetchAllSubjects, fetchAllTeachers, addByOne, DeleteCourse ,fetchTeachersInfo}

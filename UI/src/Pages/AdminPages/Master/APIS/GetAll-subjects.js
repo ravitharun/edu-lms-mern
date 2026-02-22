@@ -30,14 +30,14 @@ export const AssignTeacher = async (data) => {
     try {
 
         const response = await axios.post("http://localhost:5001/api/AssignSubjects/assign/subjects", { data: data }, Header_Token_expry)
-      console.log(response)
+        console.log(response)
 
     }
     catch (err) {
-            console.log()
-            if(err.message=='Request failed with status code 400'){
-                return alert('Course alredy ')
-            }
+        console.log()
+        if (err.message == 'Request failed with status code 400') {
+            return alert('Course alredy ')
+        }
 
     }
 }
@@ -49,7 +49,7 @@ export const AddnewSubjuect = async (data) => {
 
     )
 
-    console.log(response.data,'res')
+    console.log(response.data, 'res')
     return response;
 
 
@@ -74,8 +74,18 @@ export const HandelDeleteCourse = async (data) => {
 
 
 // get all assigned subjects from techer 
-export const GetAllSubjectsAssignedTeacher=async()=>{
-    const response=await axios.get("http://localhost:5001/api/AssignSubjects/assign/AllSubjects",Header_Token_expry)
-    console.log(response.data.message,'res')
+export const GetAllSubjectsAssignedTeacher = async () => {
+    const response = await axios.get("http://localhost:5001/api/AssignSubjects/assign/AllSubjects", Header_Token_expry)
+    console.log(response.data.message, 'res')
     return response.data.message
+}
+
+
+export const GetallTeacherProfile = async (req, res) => {
+
+    const response = await axios.get("http://localhost:5001/api/subjects/get/TeachersInfo",
+        Header_Token_expry
+    )
+    return response
+
 }

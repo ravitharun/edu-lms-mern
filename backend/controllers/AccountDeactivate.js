@@ -1,4 +1,6 @@
- const AccountDeactivate = async (req, res) => {
+const User = require("../models/User")
+
+const AccountDeactivate = async (req, res) => {
     try {
         const { id } = req.body
         if (!id) {
@@ -6,10 +8,13 @@
             return res.status(404).json({ message: "ID is missing for AccountDeactivate." })
         }
         console.log(id, 'id')
-        return res.status(200).json({ message: 'ok' })
+        const updated = await User.findOneAndUpdate({ teacher_Id: id }, { AccountStatus: true }, { new: true }                  // options
+        )
+        console.log(updated, 'ipdated')
+        return res.status(200).json({ message: "ok" })
     } catch (error) {
         console.log('error from the AccountDeactivate api.')
         return res.status(500).json({ message: 'server Error.' })
     }
 }
-module.exports={AccountDeactivate}
+module.exports = { AccountDeactivate }
