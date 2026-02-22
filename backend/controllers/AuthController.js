@@ -46,6 +46,7 @@ const NewAccount = async (req, res) => {
     };
     console.log(formdata.StudentsYearDepartment.split(" "), 'formdata.StudentsYearDepartment.split("")')
     // 3️⃣ Role-based ID
+    console.log(formdata.role,'formdata.role')
     if (formdata.role === "student") {
       userData.Student_ID = ID;
       userData.department = formdata.StudentsYearDepartment.split(" ")[0]
@@ -53,6 +54,7 @@ const NewAccount = async (req, res) => {
 
     if (formdata.role === "Teacher") {
       userData.teacher_Id = ID;
+      userData.AccountStatus;
       userData.department = formdata.department
     }
     if (formdata.role === "Admin") {
