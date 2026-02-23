@@ -3,6 +3,7 @@ import { FaBars, FaTimes, FaTachometerAlt, FaBook, FaChalkboardTeacher, FaUsers,
 import { Link } from "react-router-dom";
 import { handleLogout, UserLogin } from "../../../Apis/Islogin";
 import { handelLogin } from "../../../Apis/Signup";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 
 function MasterAdminNavbar({ path, Active }) {
   console.log({ path, Active })
@@ -56,9 +57,10 @@ function MasterAdminNavbar({ path, Active }) {
           <SidebarItem icon={<FaChalkboardTeacher />} title="Teachers" url="/admin/Teachers" path={path} active={Active} />
           {/* <SidebarItem icon={<FaCog />} title="Settings" url="/admin/" /> */}
           <SidebarItem icon={<FaUser />} title="Profile" url="/admin/Profile" path={path} active={Active} />
+          <SidebarItem icon={<HiOutlineExclamationCircle />} title="Issues" url="/admin/Issues" path={path} active={Active} />
           {<>
 
-            {UserLogin ? <SidebarItem icon={<FaPowerOff />} title="LogOut" url="/admin/Profile" path={path} active={Active} onClick={handleLogout} /> : <SidebarItem icon={<FaUserCheck />} title="Login" url="/admin/Profile" path={path} active={Active} />}
+            {UserLogin && <SidebarItem icon={<FaPowerOff />} title="LogOut"  path={path} active={Active} onClick={handleLogout} /> }
           </>}
         </nav>
       </aside>
@@ -67,6 +69,7 @@ function MasterAdminNavbar({ path, Active }) {
 }
 
 const SidebarItem = ({ icon, title, active, url, path,onClick }) => (
+  // console.log(path)
   <Link to={url}>
 
     <div className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer group
