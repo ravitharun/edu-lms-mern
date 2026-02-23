@@ -11,6 +11,7 @@ import axios from "axios";
 
 function AccountDeactivated() {
     const [poup, setpoup] = useState(false)
+    const [issuetype, settype] = useState("")
 
 
 
@@ -31,6 +32,15 @@ function AccountDeactivated() {
         setpoup(false)
         setReason("")
     }
+    const issueOptions = [
+        { value: "account_deactivation", label: "Account Deactivation" },
+        { value: "account_reactivation", label: "Account Reactivation Request" },
+        { value: "login_issue", label: "Login Problem" },
+        { value: "profile_issue", label: "Profile Update Issue" },
+        { value: "course_issue", label: "Course Upload Issue" },
+        { value: "technical_bug", label: "Technical Bug" },
+        { value: "other", label: "Other" }
+    ];
     return (
         <>
             <ToastContainer />
@@ -101,6 +111,7 @@ function AccountDeactivated() {
                                 <label className="text-sm font-medium text-gray-700">
                                     Emp name
                                 </label>
+
                                 <input
                                     type="text"
                                     value={UserName.name}
@@ -121,9 +132,35 @@ function AccountDeactivated() {
                                     className={`w-full bg-gray-100 text-gray-600 px-3 py-2 rounded-lg text-sm ${UserName.email && 'cursor-not-allowed'}`}
                                 />
                             </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Priority
+                                </label>
+                                <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </select>
+                            </div><div className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                        Issue Type
+                                    </label>
+                                    <select className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" onChange={(e)=>settype(e.target.value)}>
+                                        {issueOptions.map((type, idx) => (
+                                            <option key={type.value} value={type.value}>
 
+                                                {type.label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
                             {/* Reason */}
-                            <div className="mb-4">
+                            {issuetype=='other'
+                                
+                                &&
+                                <div className="mb-4">
                                 <label className="text-sm font-medium text-gray-700">
                                     Reason for Reactivation
                                 </label>
@@ -135,8 +172,8 @@ function AccountDeactivated() {
                                     className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
                                     onChange={(e) => setReason(e.target.value)}
                                 ></textarea>
-                            </div>
-
+                            </div>}
+<br/>
                             {/* Buttons */}
                             <div className="flex justify-end gap-3">
                                 <button
