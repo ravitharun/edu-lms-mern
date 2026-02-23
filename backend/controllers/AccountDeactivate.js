@@ -41,14 +41,23 @@ const UpdateDeactivate = async (req, res) => {
 const AccountDeactivateUpdateReason = async (req, res) => {
     try {
         console.log(req.body)
-        if (!req.body.name || !req.body.email || !req.body.empid || !req.body.Reason ||!req.body.IssueType) {
+        if (!req.body.name || !req.body.email || !req.body.empid || !req.body.issuetype || !req.body.priorty) {
+            console.log({ message: "Some data are missing." })
             return res.status(404).json({ message: "Some data are missing." })
+
+        }
+        if(req.body.issuetype=="other"){
+            if(!req.body.Reason){
+                console.log({message:"Reason Is Requred."})
+                return res.status(404).json({message:"Reason Is Requred."})
+            }
         }
         const add = new ModelReasonDeactivate({
             name: req.body.name,
             email: req.body.email,
             empid: req.body.empid,
-            Reason: req.body.Reason, IssueType: req.body.IssueType
+            IssueType: req.body.issuetype,
+            Reason: req.body.issuetype=="other"?'':req.body.Reason, 
 
         })
         await add.save()

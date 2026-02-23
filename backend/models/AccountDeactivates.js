@@ -4,7 +4,7 @@ const AccountDeactivate = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     empid: { type: String, required: true },
-    Reason: { type: String, required: true },
+    Reason: { type: String, },
     IssueType:{type: String, required: true}
 
 },)
