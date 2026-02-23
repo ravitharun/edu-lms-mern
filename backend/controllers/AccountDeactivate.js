@@ -46,10 +46,10 @@ const AccountDeactivateUpdateReason = async (req, res) => {
             return res.status(404).json({ message: "Some data are missing." })
 
         }
-        if(req.body.issuetype=="other"){
-            if(!req.body.Reason){
-                console.log({message:"Reason Is Requred."})
-                return res.status(404).json({message:"Reason Is Requred."})
+        if (req.body.issuetype == "other") {
+            if (!req.body.Reason) {
+                console.log({ message: "Reason Is Requred." })
+                return res.status(404).json({ message: "Reason Is Requred." })
             }
         }
         const add = new ModelReasonDeactivate({
@@ -57,7 +57,7 @@ const AccountDeactivateUpdateReason = async (req, res) => {
             email: req.body.email,
             empid: req.body.empid,
             IssueType: req.body.issuetype,
-            Reason: req.body.issuetype=="other"?'':req.body.Reason, 
+            Reason: req.body.issuetype == "other" ? '' : req.body.Reason,
 
         })
         await add.save()
@@ -70,4 +70,19 @@ const AccountDeactivateUpdateReason = async (req, res) => {
     }
 }
 
-module.exports = { AccountDeactivate, UpdateDeactivate, AccountDeactivateUpdateReason }
+
+const GetAccountDeactivateUpdateReason = async (req, res) => {
+    try {
+
+        const GetallIssues = await ModelReasonDeactivate.find({})
+
+        console.log("GetallIssues",GetallIssues)
+        return res.status(200).json({ message:GetallIssues })
+    }
+    catch (err) {
+        console.log(err.message, 'from get all issues from db')
+        return res.status(500).json({ message: "server error" })
+    }
+}
+
+module.exports = { AccountDeactivate, UpdateDeactivate, AccountDeactivateUpdateReason,GetAccountDeactivateUpdateReason }
