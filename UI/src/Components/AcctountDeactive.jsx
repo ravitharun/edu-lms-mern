@@ -3,14 +3,38 @@ import React, { useState } from "react";
 import { ShieldExclamationIcon } from "@heroicons/react/24/outline";
 import "../Pages/AccountDeactivated.css";
 import { Link } from "react-router-dom";
-import { UserName } from "../Apis/Islogin";
+import { Header_Token_expry, UserName } from "../Apis/Islogin";
+import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
+import axios from "axios";
+
 
 function AccountDeactivated() {
     const [poup, setpoup] = useState(false)
-    console.log(UserName, 'poup')
+
+
+
+    const [Reason, setReason] = useState("")
+    const handelRequest = async () => {
+        console.log(Header_Token_expry, 'Header_Token_expry')
+
+        if (!Reason) {
+            toast.error("please enter required Felids")
+        }
+        const promise = axios.post("http://localhost:5001/api/Account/UpdateReason", { name: UserName.name, email: UserName.email, empid: UserName.teacher_Id, Reason }, Header_Token_expry)
+        toast.promise(promise, {
+
+            loading: "Submitting your request...",
+            success: "Request submitted successfully. The admin will review it shortly.",
+            error: "Failed to submit request. Please try again."
+        })
+        setpoup(false)
+        setReason("")
+    }
     return (
         <>
-
+            <ToastContainer />
+            <Toaster />
             <div className="deactivate-wrapper">
                 <div className="deactivate-card">
 
@@ -63,7 +87,7 @@ function AccountDeactivated() {
                                 </button>
                             </div>
                             <label className="text-sm font-medium text-gray-700">
-                              EmpID
+                                EmpID
                             </label>
                             {/* Auto-filled Info */}
                             <div className="space-y-3 mb-4">
@@ -71,15 +95,18 @@ function AccountDeactivated() {
                                     type="text"
                                     value={UserName.teacher_Id}
                                     readOnly
+                                    // onChange={(e) => setempid(e.target.value)}
                                     className={`w-full bg-gray-100 text-gray-600 px-3 py-2 rounded-lg text-sm ${UserName.teacher_Id && 'cursor-not-allowed'}`}
                                 />
                                 <label className="text-sm font-medium text-gray-700">
-                                  Emp name
+                                    Emp name
                                 </label>
                                 <input
                                     type="text"
                                     value={UserName.name}
                                     readOnly
+                                    // onChange={(e) => setname(e.target.value)}
+
                                     className={`w-full bg-gray-100 text-gray-600 px-3 py-2 rounded-lg text-sm ${UserName.name && 'cursor-not-allowed'}`}
                                 />
                                 <label className="text-sm font-medium text-gray-700">
@@ -88,6 +115,8 @@ function AccountDeactivated() {
                                 <input
                                     type="email"
                                     value={UserName.email}
+                                    // onChange={(e) => setemail(e.target.value)}
+
                                     readOnly
                                     className={`w-full bg-gray-100 text-gray-600 px-3 py-2 rounded-lg text-sm ${UserName.email && 'cursor-not-allowed'}`}
                                 />
@@ -100,23 +129,37 @@ function AccountDeactivated() {
                                 </label>
                                 <textarea
                                     placeholder="Please explain why your account should be reactivated..."
+                                    required
                                     rows="3"
+                                    value={Reason}
                                     className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    onChange={(e) => setReason(e.target.value)}
                                 ></textarea>
                             </div>
 
                             {/* Buttons */}
                             <div className="flex justify-end gap-3">
                                 <button
-                                    onClick={() => setPoup(false)}
+                                    onClick={() => setpoup(false)}
                                     className="px-4 py-2 text-sm rounded-lg bg-gray-200 hover:bg-gray-300"
                                 >
                                     Cancel
                                 </button>
 
-                                <button className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition hover:cursor-pointer">
-                                    Send Request
-                                </button>
+                                {Reason &&
+                                    <>
+
+                                        <button className="px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition hover:cursor-pointer"
+                                            // disabled={!Reason}
+                                            onClick={handelRequest}
+                                        >
+                                            Send Request
+                                        </button>
+                                    </>
+
+
+                                }
+
                             </div>
 
                         </div>
