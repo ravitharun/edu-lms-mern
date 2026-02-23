@@ -233,8 +233,12 @@ function AssiginTeacherwisesubjects() {
                                     <thead className="bg-gray-100">
                                         <tr>
                                             <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
+                                                S.no
+                                            </th>
+                                            <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
                                                 classId
                                             </th>
+                                   
                                             <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
                                                 year
                                             </th>
@@ -271,6 +275,7 @@ function AssiginTeacherwisesubjects() {
                                         ) : fetchAssignedSubjects.length > 0 ? (
                                             fetchAssignedSubjects.map((data, idx) => (
                                                 <tr className="hover:bg-gray-50" key={idx}>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{idx+1}</td>
                                                     <td className="px-4 py-3 text-sm text-gray-800">{data.classId}</td>
                                                     <td className="px-4 py-3 text-sm text-gray-800">{data.year}</td>
                                                     <td className="px-4 py-3 text-sm text-gray-800">{data.classId}</td>
