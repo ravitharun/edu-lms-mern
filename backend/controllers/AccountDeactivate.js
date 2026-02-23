@@ -1,6 +1,6 @@
 const User = require("../models/User")
 // const DeactivateModel
-const {ModelReasonDeactivate} = require("../models/AccountDeactivates");
+const { ModelReasonDeactivate } = require("../models/AccountDeactivates");
 
 const AccountDeactivate = async (req, res) => {
     try {
@@ -41,14 +41,14 @@ const UpdateDeactivate = async (req, res) => {
 const AccountDeactivateUpdateReason = async (req, res) => {
     try {
         console.log(req.body)
-        if (!req.body.name || !req.body.email || !req.body.empid || !req.body.Reason) {
+        if (!req.body.name || !req.body.email || !req.body.empid || !req.body.Reason ||!req.body.IssueType) {
             return res.status(404).json({ message: "Some data are missing." })
         }
         const add = new ModelReasonDeactivate({
             name: req.body.name,
             email: req.body.email,
             empid: req.body.empid,
-            Reason: req.body.Reason
+            Reason: req.body.Reason, IssueType: req.body.IssueType
 
         })
         await add.save()
