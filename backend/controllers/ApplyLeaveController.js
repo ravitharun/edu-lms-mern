@@ -27,10 +27,9 @@ const ApplyLeave = async (req, res) => {
 }
 const GetallLeavesdata = async (req, res) => {
     try {
-        // const { EmailId } = req.query
-        // if (!EmailId) return res.status(404).json({ message: "someThing went Wrong." })
-        const getEmailBasedLeaves = await ApplyToLeave.find({})
-        console.log(getEmailBasedLeaves, 'getEmailBasedLeaves')
+        const { EmpID } = req.query
+        if (!EmpID) return res.status(404).json({ message: "someThing went Wrong." })
+        const getEmailBasedLeaves = await ApplyToLeave.find({EmpID:EmpID})
         if (getEmailBasedLeaves.length == 0)
             return res.status(200).json({ message: "No Leave Applications Yet" })
         return res.status(200).json({ message: getEmailBasedLeaves })
