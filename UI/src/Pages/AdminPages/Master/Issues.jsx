@@ -4,6 +4,8 @@ import MasterLogoNav from './MasterLogoNav'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 import Dataloading from '../../../Loaders/Dataloading'
+import Swal from 'sweetalert2'
+import { deactivateAccount } from './APIS/DeactivateAccount'
 
 function Issues() {
     const page = 'Issues'
@@ -32,38 +34,12 @@ function Issues() {
     }, [])
 
 
-    console.log(Issues, 'IssuesIssuesIssuesIssues')
-    // const issues = [
-    //     {
-    //         id: 1,
-    //         name: "Ravi Kumar",
-    //         email: "ravi@gmail.com",
-    //         type: "Account Deactivation",
-    //         priority: "High",
-    //         status: "Pending",
-    //         date: "20 Feb 2026"
-    //     },
-    //     {
-    //         id: 2,
-    //         name: "Anitha Sharma",
-    //         email: "anitha@gmail.com",
-    //         type: "Course Upload Issue",
-    //         priority: "Medium",
-    //         status: "In Progress",
-    //         date: "21 Feb 2026"
-    //     },
-    //     {
-    //         id: 3,
-    //         name: "Suresh Reddy",
-    //         email: "suresh@gmail.com",
-    //         type: "Login Problem",
-    //         priority: "Low",
-    //         status: "Resolved",
-    //         date: "22 Feb 2026"
-    //     }
-    // ]
 
+    const HandelAccountActivate = (id, action = "Update") => {
 
+        deactivateAccount(id, action)
+
+    }
     return (
         <div className="min-h-screen flex bg-gray-50">
             <MasterAdminNavbar path={page} />
@@ -169,7 +145,7 @@ function Issues() {
   hover:bg-red-500 hover:text-white 
   transition-all duration-200 ease-in-out 
   shadow-sm hover:shadow-md cursor-pointer"
-                                                            onClick={() => toast.success("Account Reactivation in progress...")}
+                                                            onClick={() => HandelAccountActivate(issue.empid)}
                                                         >
                                                             Account Reactivation
                                                         </button>
