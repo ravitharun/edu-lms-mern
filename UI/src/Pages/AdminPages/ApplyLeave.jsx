@@ -92,7 +92,7 @@ function ApplyLeave() {
         const response = await ApplyLeaveRequest(data)
         console.log(response.data.message == "leave application sent")
         if (response.data.message == "leave application sent") {
-            return toast.success(" Leave Application Sent Successfully!", {
+            toast.success(" Leave Application Sent Successfully!", {
                 style: {
                     border: "1px solid #4CAF50",
                     padding: "12px",
@@ -105,20 +105,23 @@ function ApplyLeave() {
                     secondary: "#fff",
                 },
             });
+            return sethandelPoup(false)
         }
-        toast.error("❌ Failed to Send Leave Application!", {
-            style: {
-                border: "1px solid #f44336",
-                padding: "12px",
-                color: "#721c24",
-                background: "#fdecea",
-                borderRadius: "8px",
-            },
-            iconTheme: {
-                primary: "#f44336",
-                secondary: "#fff",
-            },
-        });
+        else {
+            toast.error("❌ Failed to Send Leave Application!", {
+                style: {
+                    border: "1px solid #f44336",
+                    padding: "12px",
+                    color: "#721c24",
+                    background: "#fdecea",
+                    borderRadius: "8px",
+                },
+                iconTheme: {
+                    primary: "#f44336",
+                    secondary: "#fff",
+                },
+            });
+        }
     }
 
     return (
@@ -152,7 +155,7 @@ function ApplyLeave() {
                                         Apply Leave
                                     </h2>      <button
                                         onClick={() => sethandelPoup(false)}
-                                        className="text-gray-500 hover:text-black text-lg"
+                                        className="text-gray-500 hover:text-black text-lg hover:cursor-pointer"
                                     >
                                         ✕
                                     </button>
@@ -245,12 +248,12 @@ function ApplyLeave() {
                                         Clear
                                     </button>
 
-                                    <button
+                                    {ReasonLeave && <button
                                         className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition"
                                         onClick={HandelLeave}
                                     >
                                         Submit
-                                    </button>
+                                    </button>}
                                 </div>
 
                             </div>
