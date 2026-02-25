@@ -52,7 +52,7 @@ export const deactivateAccount = async (id, action) => {
                         });
                         setTimeout(() => {
                             window.location.reload(true);
-                        }, 2500);
+                        }, 1500);
                     }
                     return response
 
@@ -77,7 +77,7 @@ export const deactivateAccount = async (id, action) => {
                         });
                         setTimeout(() => {
                             window.location.reload(true);
-                        }, 2500);
+                        }, 1500);
                     }
 
                 }
