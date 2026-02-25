@@ -82,62 +82,12 @@ function TeachersProfiles() {
     }
 
 
-    const HandelAccountActivate = (id,action="Update") => {
+    const HandelAccountActivate = async (id,action="Update") => {
 
         console.log(id, 'HandelAccountActivate',action)
-        if (!id) { return toast.error("something Went Wrong.") }
-        Swal.fire(
+        const data = await deactivateAccount(id,action)
+        console.log(data.data,'data')
 
-            {
-                title: "Activate Account?",
-                html: `
-    <p class="text-gray-600">
-      Are you sure you want to activate this account?
-    </p>
-    <p class="text-sm text-gray-500 mt-2">
-      The user will regain access to the system immediately.
-    </p>
-  `,
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#16a34a",
-                cancelButtonColor: "#6b7280",
-                confirmButtonText: "Yes, Activate",
-                cancelButtonText: "Cancel"
-                // denyButtonText: ``
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    const data = await deactivateAccount(id,action)
-                    // if (data.data.message === 'ok') {
-                    //     Swal.fire(
-                    //         "Success!",
-                    //         "Account has been deactivated successfully.",
-                    //         "success"
-                    //     );
-                    //     // toast.success("DeactivateAccount.")
-                    // }
-                    Swal.fire({
-                        title: "Success!",
-                        html: `
-    <p class="text-gray-700">
-      Account has been <b class="text-green-600">activated</b> successfully.
-    </p>
-    <p class="text-sm text-gray-500 mt-2">
-      The user can now access the system.
-    </p>
-  `,
-                        icon: "success",
-                        confirmButtonColor: "#16a34a",
-                        confirmButtonText: "OK"
-                    });
-                } else if (result.isDenied) {
-                    Swal.fire(
-                        "Cancelled",
-                        "The action has been cancelled.",
-                        "info"
-                    );
-                }
-            });
 
     }
     return (
