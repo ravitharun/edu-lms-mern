@@ -1,15 +1,6 @@
 const { ApplyToLeave } = require("../models/ApplyLeave")
 
 const ApplyLeave = async (req, res) => {
-    // {
-    //   EmpName: 'Ravi Tharun',
-    //   EmpID: 'Teacher-6087',
-    //   Fromdate: '2026-02-25',
-    //   EmpEmailId: 'tharunravi672@gmail.com',
-    //   Todate: '2026-02-27',
-    //   leaveType: 'Casual Leave',
-    //   TotalDays: 3
-    // }
     try {
         const { ApplyLeave } = req.body
         console.log(ApplyLeave)
@@ -34,5 +25,21 @@ const ApplyLeave = async (req, res) => {
 
 
 }
+const GetallLeavesdata = async (req, res) => {
+    try {
+        // const { EmailId } = req.query
+        // if (!EmailId) return res.status(404).json({ message: "someThing went Wrong." })
+        const getEmailBasedLeaves = await ApplyToLeave.find({})
+        console.log(getEmailBasedLeaves, 'getEmailBasedLeaves')
+        if (getEmailBasedLeaves.length == 0)
+            return res.status(200).json({ message: "No Leave Applications Yet" })
+        return res.status(200).json({ message: getEmailBasedLeaves })
 
-module.exports = { ApplyLeave }
+    } catch (error) {
+        console.log(error.message, 'err from the GetallLeavesData api call.')
+        return res.status(500).json({ message: 'server error' })
+
+    }
+
+}
+module.exports = { ApplyLeave, GetallLeavesdata }

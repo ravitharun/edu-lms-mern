@@ -1,5 +1,6 @@
 const express=require("express")
-const { ApplyLeave } = require("../controllers/ApplyLeaveController")
+const { ApplyLeave, GetallLeavesdata } = require("../controllers/ApplyLeaveController")
 const leaveRouter=express.Router()
 leaveRouter.post("/ApplyLeave",ApplyLeave)
+leaveRouter.get("/GetallLeavesdata",GetallLeavesdata)
 module.exports={leaveRouter}
