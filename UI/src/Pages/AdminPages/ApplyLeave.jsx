@@ -71,25 +71,54 @@ function ApplyLeave() {
         setTotalDays("0")
     }
 
-    const HandelLeave = () => {
+    const HandelLeave = async () => {
         if (!Fromdate || !Todate || !leaveType || !ReasonLeave || !EmpEmailId) {
             console.log(ReasonLeave, 'ReasonLeave')
             return toast.error("Please fill the required filed's")
         }
         // make json data to send server
         const data = {
+            ReasonLeave: ReasonLeave,
             EmpName: UserName.name,
             EmpID: UserName.teacher_Id,
             Fromdate: Fromdate,
+            EmpEmailId: EmpEmailId,
             Todate: Todate,
             leaveType: leaveType,
             TotalDays: TotalDays
 
         }
 
-        const response=ApplyLeaveRequest(data)
-        console.log(response)
-        toast.success("leave application sent")
+        const response = await ApplyLeaveRequest(data)
+        console.log(response.data.message == "leave application sent")
+        if (response.data.message == "leave application sent") {
+            return toast.success(" Leave Application Sent Successfully!", {
+                style: {
+                    border: "1px solid #4CAF50",
+                    padding: "12px",
+                    color: "#155724",
+                    background: "#E6FFFA",
+                    borderRadius: "8px",
+                },
+                iconTheme: {
+                    primary: "#4CAF50",
+                    secondary: "#fff",
+                },
+            });
+        }
+        toast.error("❌ Failed to Send Leave Application!", {
+            style: {
+                border: "1px solid #f44336",
+                padding: "12px",
+                color: "#721c24",
+                background: "#fdecea",
+                borderRadius: "8px",
+            },
+            iconTheme: {
+                primary: "#f44336",
+                secondary: "#fff",
+            },
+        });
     }
 
     return (
