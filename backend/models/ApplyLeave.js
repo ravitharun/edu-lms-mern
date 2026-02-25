@@ -16,7 +16,7 @@ const LeaveApplicaltions = new mongoose.Schema({
     Todate: { type: Date, required: true },
     leaveType: { type: String, required: true },
     TotalDays: { type: Number, required: true },
-    Application_status: { type: String, default: "Inprogress" },
+    Application_status: { type: String, default: "Inprogress",enum:["Inprogress",'Accepted','Rejected'] },
     ReasonLeave: { type: String, required: 1 }  
 
 

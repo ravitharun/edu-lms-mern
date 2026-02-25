@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import App from '../../App'
 import AdminHeader from '../../Components/AdminHeader'
 import ProgressLoader from '../../Loaders/Progressloader'
 import { FaCalendarAlt, FaPlus } from 'react-icons/fa'
 import { UserName } from '../../Apis/Islogin'
 import toast, { Toaster } from 'react-hot-toast'
-import { ApplyLeaveRequest } from './TechersApiCall/LeaveApi'
+import { ApplyLeaveRequest, GetLeavesApplyByID } from './TechersApiCall/LeaveApi'
+import Dataloading from '../../Loaders/Dataloading'
 
 function ApplyLeave() {
     const [handelpoup, sethandelPoup] = useState(false)
@@ -16,6 +17,7 @@ function ApplyLeave() {
         "Leave Type",
         "Reason",
         "Email",
+        "EmpId",
         "From Date",
         "To Date",
         "Total Days",
@@ -24,37 +26,52 @@ function ApplyLeave() {
         "Actions"
     ]
 
-    const LeavesData = [
-        {
-            id: 1,
-            leaveType: "Casual Leave",
-            reason: "Family function",
-            fromDate: "2026-02-05",
-            toDate: "2026-02-06",
-            email: "arjun@college.edu",
-            totalDays: 2,
-            status: "Pending",
-            appliedOn: "2026-01-30",
-        },
-        {
-            id: 2,
-            leaveType: "Sick Leave",
-            reason: "Fever and cold",
-            fromDate: "2026-02-01",
-            toDate: "2026-02-02",
-            email: "arjun@college.edu",
-            totalDays: 2,
-            status: "Approved",
-            appliedOn: "2026-01-28",
-        }
-    ]
-
+    // const LeavesData = [
+    //     {
+    //         id: 1,
+    //         leaveType: "Casual Leave",
+    //         reason: "Family function",
+    //         fromDate: "2026-02-05",
+    //         toDate: "2026-02-06",
+    //         email: "arjun@college.edu",
+    //         totalDays: 2,
+    //         status: "Pending",
+    //         appliedOn: "2026-01-30",
+    //     },
+    //     {
+    //         id: 2,
+    //         leaveType: "Sick Leave",
+    //         reason: "Fever and cold",
+    //         fromDate: "2026-02-01",
+    //         toDate: "2026-02-02",
+    //         email: "arjun@college.edu",
+    //         totalDays: 2,
+    //         status: "Approved",
+    //         appliedOn: "2026-01-28",
+    //     }
+    // ]
+    const [LeavesData, setLeavesData] = useState([])
     const [Fromdate, setFromdate] = useState("")
     const [Todate, setTodate] = useState("")
     const [TotalDays, setTotalDays] = useState("0")
     const [leaveType, setleavetype] = useState("")
     const [ReasonLeave, setLeaveReason] = useState("")
     const [EmpEmailId, setEmpEmailId] = useState("")
+    const [Loader, setLoader] = useState(false)
+
+    useEffect(() => {
+        const getApplyedLeaves = async () => {
+            setLoader(true)
+            const response_Data = await GetLeavesApplyByID()
+            console.log(response_Data.data.message, 'Based on the EmpId leaves Applyications.')
+            setLeavesData(response_Data.data.message)
+            setLoader(false)
+        }
+        getApplyedLeaves()
+    }, [])
+
+
+
 
     const handelTodate = (date) => {
         if (!Fromdate) return alert("Fill From Date first")
@@ -123,7 +140,8 @@ function ApplyLeave() {
             });
         }
     }
-
+const Date_dt=new Date('2026-02-26T00:00:00.000Z')
+console.log(Date_dt.toLocaleString())
     return (
         <>
             <App />
@@ -263,11 +281,10 @@ function ApplyLeave() {
 
                     </>
                 )}
-
-                {/* ================= DESKTOP TABLE ================= */}
                 {/* ================= RESPONSIVE TABLE ================= */}
                 <div className="w-full overflow-x-auto bg-white rounded-lg">
                     <table className="min-w-[900px] w-full border-collapse">
+
                         <thead className="bg-gray-100 text-gray-700">
                             <tr>
                                 {TbHeadings.map((heading, idx) => (
@@ -279,40 +296,55 @@ function ApplyLeave() {
                         </thead>
 
                         <tbody>
-                            {LeavesData.map((data) => (
-                                <tr key={data.id} className="border-b hover:bg-gray-50">
-                                    <td className="p-3">{data.id}</td>
-                                    <td className="p-3 whitespace-nowrap">{data.leaveType}</td>
-                                    <td className="p-3 min-w-[200px]">{data.reason}</td>
-                                    <td className="p-3 break-all min-w-[220px]">
-                                        <a href={`mailto:${data.email}`} className="text-blue-600">
-                                            {data.email}
-                                        </a>
-                                    </td>
-                                    <td className="p-3 whitespace-nowrap">{data.fromDate}</td>
-                                    <td className="p-3 whitespace-nowrap">{data.toDate}</td>
-                                    <td className="p-3">{data.totalDays}</td>
-                                    <td className="p-3">
-                                        <span
-                                            className={`px-2 py-1 rounded-full text-white text-xs ${data.status === "Approved"
-                                                ? "bg-green-500"
-                                                : data.status === "Rejected"
-                                                    ? "bg-red-500"
-                                                    : "bg-blue-500"
-                                                }`}
-                                        >
-                                            {data.status}
-                                        </span>
-                                    </td>
-                                    <td className="p-3 whitespace-nowrap">{data.appliedOn}</td>
-                                    <td className="p-3">
-                                        <button className="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700">
-                                            View
-                                        </button>
+                            {Loader ? (
+                                <tr>
+                                    <td
+                                        colSpan={TbHeadings.length}
+                                        className="h-40"
+                                    >
+                                        <div className="flex justify-center items-center h-40">
+                                            <Dataloading path="Leave" />
+                                        </div>
                                     </td>
                                 </tr>
-                            ))}
+                            ) : (
+                                LeavesData.map((data,idx) => (
+                                    <tr key={data.id} className="border-b hover:bg-gray-50">
+                                        <td className="p-3">{idx+1}</td>
+                                        <td className="p-3 whitespace-nowrap">{data.leaveType}</td>
+                                        <td className="p-3 min-w-[200px]">{data.ReasonLeave}</td>
+                                        <td className="p-3 break-all min-w-[220px]">
+                                            <a href={`mailto:${data.EmpEmailId}`} className="text-blue-600">
+                                                {data.EmpEmailId}
+                                            </a>
+                                        </td>
+                                        <td className="p-3 whitespace-nowrap">{data.EmpID}</td>
+                                        <td className="p-3 whitespace-nowrap">{ new Date(data.Fromdate).toLocaleString()}</td>
+                                        <td className="p-3 whitespace-nowrap">{new Date(data.Todate).toLocaleDateString()}</td>
+                                        <td className="p-3">{data.TotalDays}</td>
+                                        <td className="p-3">
+                                            <span
+                                                className={`px-2 py-1 rounded-full text-white text-xs ${data.status === "Approved"
+                                                        ? "bg-green-500"
+                                                        : data.Application_status === "Rejected"
+                                                            ? "bg-red-500"
+                                                            : "bg-blue-500"
+                                                    }`}
+                                            >
+                                                {data.Application_status}
+                                            </span>
+                                        </td>
+                                        <td className="p-3 whitespace-nowrap">{  new Date(data.createdAt).toLocaleString()}</td>
+                                        <td className="p-3">
+                                            <button className="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700">
+                                                View
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
+
                     </table>
                 </div>
 
