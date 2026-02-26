@@ -45,11 +45,15 @@ const GetallLeavesdata = async (req, res) => {
 
 const GetleavesByrequestEmail=async(req,res)=>{
     try {
-        // const{Referemail}=req.params
-        const Referemail='tharunravi672@gmail.com'
+        const{Referemail}=req.query
+        // const Referemail='tharunravi672@gmail.com'
         console.log(Referemail,'Referemail')
         const response_Referemail=await ApplyToLeave.find({EmpEmailId:Referemail})
+        if(response_Referemail.length==0){
+            return res.status(200).json({message:"No leaves Apply."})
+        }
         console.log(response_Referemail,'response_Referemail')
+        return res.status(200).json({message:response_Referemail})
 
     } catch (error) {
         return res.status(500).json({message:"server error."})
