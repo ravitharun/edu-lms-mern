@@ -13,6 +13,7 @@ import {
     FaBell,
     FaUpload,
     FaRegCalendarTimes,
+    FaRegCalendarAlt,
 } from "react-icons/fa";
 import { handleLogout, UserName } from "../Apis/Islogin";
 
@@ -28,6 +29,7 @@ function AdminSidebar() {
         { name: "Students", link: "/students", icon: FaUserGraduate },
         { name: "Profile", link: "/teachers/profile", icon: FaUser },
         { name: "ApplyLeave", link: "/teachers/ApplyLeave", icon: FaRegCalendarTimes },
+        { name: "Leave Requests", link: "/teachers/ApplyLeaveAccept", icon: FaRegCalendarAlt },
         { name: "Logout", icon: FaSignOutAlt },
     ];
 

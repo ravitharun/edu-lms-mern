@@ -7,24 +7,25 @@ import { UserName } from '../../Apis/Islogin'
 import toast, { Toaster } from 'react-hot-toast'
 import { ApplyLeaveRequest, GetLeavesApplyByID } from './TechersApiCall/LeaveApi'
 import Dataloading from '../../Loaders/Dataloading'
+import { TbHeadings } from '../../Components/Leaveheadings'
 
 function ApplyLeave() {
     const [handelpoup, sethandelPoup] = useState(false)
     let progress = false
 
-    const TbHeadings = [
-        "S. No",
-        "Leave Type",
-        "Reason",
-        "Email",
-        "EmpId",
-        "From Date",
-        "To Date",
-        "Total Days",
-        "Status",
-        "Applied On",
-        "Actions"
-    ]
+    // const TbHeadings = [
+    //     "S. No",
+    //     "Leave Type",
+    //     "Reason",
+    //     "Email",
+    //     "EmpId",
+    //     "From Date",
+    //     "To Date",
+    //     "Total Days",
+    //     "Status",
+    //     "Applied On",
+    //     "Actions"
+    // ]
 
     // const LeavesData = [
     //     {

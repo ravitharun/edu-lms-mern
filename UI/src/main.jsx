@@ -28,6 +28,7 @@ import Error from './Components/Error.jsx';
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
 import AccountDeactivate from './Components/AcctountDeactive.jsx';
 import Issues from './Pages/AdminPages/Master/Issues.jsx';
+import ApplyLeaveAccept from './Pages/AdminPages/ApplyLeaveAccept.jsx';
 
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
@@ -104,6 +105,11 @@ createRoot(document.getElementById('root')).render(
 
 
           <StudentProfile />
+        </ProtectedRoute>} />
+        <Route path="/teachers/ApplyLeaveAccept" element={<ProtectedRoute allowedRoles={"Teacher"}>
+
+
+          <ApplyLeaveAccept />
         </ProtectedRoute>} />
         <Route path="/attendance" element={
 
