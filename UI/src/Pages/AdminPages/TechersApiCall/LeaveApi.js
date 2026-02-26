@@ -26,3 +26,22 @@ export const GetLeavesApplyByID = async () => {
         console.error(error.message, 'error')
     }
 }
+
+
+export const getRequestEmail = async () => {
+    console.log(UserName,'UserName')
+    try {
+        const response = await axios.get('http://localhost:5001/api/LeaveApply/Requeatemail', {
+            params: {
+                Referemail: UserName.email
+            }
+            ,
+
+        })
+        console.log(response.data.message)
+
+    }
+    catch (err) {
+        console.log(err.message)
+    }
+}

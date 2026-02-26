@@ -41,4 +41,18 @@ const GetallLeavesdata = async (req, res) => {
     }
 
 }
-module.exports = { ApplyLeave, GetallLeavesdata }
+
+
+const GetleavesByrequestEmail=async(req,res)=>{
+    try {
+        // const{Referemail}=req.params
+        const Referemail='tharunravi672@gmail.com'
+        console.log(Referemail,'Referemail')
+        const response_Referemail=await ApplyToLeave.find({EmpEmailId:Referemail})
+        console.log(response_Referemail,'response_Referemail')
+
+    } catch (error) {
+        return res.status(500).json({message:"server error."})
+    }
+}
+module.exports = { ApplyLeave, GetallLeavesdata,GetleavesByrequestEmail }
