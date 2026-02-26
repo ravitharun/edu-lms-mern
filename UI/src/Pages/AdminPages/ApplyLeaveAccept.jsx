@@ -6,9 +6,20 @@ import { FaPlus } from 'react-icons/fa'
 import { TbHeadings } from '../../Components/Leaveheadings'
 import Dataloading from '../../Loaders/Dataloading'
 import ProgressLoader from '../../Loaders/Progressloader'
+import { useEffect } from 'react'
+import { getRequestEmail } from './TechersApiCall/LeaveApi'
 
 function ApplyLeaveAccept() {
-    const[loader,setloader]=useState(true)
+    const [loader, setloader] = useState(true)
+    useEffect( () => {
+        const get = async () => {
+
+            const response = await getRequestEmail()
+            console.log(response)
+        }
+        get()
+    }, [])
+
     return (
         <>
 
@@ -42,17 +53,17 @@ function ApplyLeaveAccept() {
                                     </td>
                                 </tr>)}
 
-                    </tbody>
+                        </tbody>
                     </table>
 
                 </div>
             </div>
-        
 
 
-            </>
 
-            )
+        </>
+
+    )
 }
 
 export default ApplyLeaveAccept
