@@ -29,7 +29,6 @@ export const GetLeavesApplyByID = async () => {
 
 
 export const getRequestEmail = async () => {
-    console.log(UserName,'UserName')
     try {
         const response = await axios.get('http://localhost:5001/api/LeaveApply/Requeatemail', {
             params: {
@@ -39,6 +38,7 @@ export const getRequestEmail = async () => {
 
         })
         console.log(response.data.message)
+        return response.data.message
 
     }
     catch (err) {
