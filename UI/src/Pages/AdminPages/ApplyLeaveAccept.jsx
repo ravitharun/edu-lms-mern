@@ -10,6 +10,7 @@ import Dataloading from '../../Loaders/Dataloading'
 import ProgressLoader from '../../Loaders/Progressloader'
 import { useEffect } from 'react'
 import { getRequestEmail } from './TechersApiCall/LeaveApi'
+import axios from 'axios';
 
 function ApplyLeaveAccept() {
     const [loader, setloader] = useState(false)
@@ -49,10 +50,13 @@ function ApplyLeaveAccept() {
 
             return toast.error("Something went wrong");
         }
+        if (!Status) {
+            return toast.error("Status IS required.");
+        }
         // ]
         const data = {
             id,
-            Fromdate, Todate
+            Fromdate, Todate, Status
         }
         Swal.fire({
             title: "Approve Leave?",
@@ -61,8 +65,11 @@ function ApplyLeaveAccept() {
             showCancelButton: true,
             confirmButtonText: "Approve",
             cancelButtonText: "Reject"
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
+
+                const response = await axios.patch("http://localhost:5001/api/LeaveApply/updateStatus", { data })
+                console.log(response, 'response')
                 Swal.fire("Approved!", "Leave has been approved.", "success");
             } else {
                 Swal.fire("Rejected!", "Leave has been rejected.", "error");
@@ -135,8 +142,9 @@ function ApplyLeaveAccept() {
                                                                 onChange={(e) => handleStatusChange(index, e.target.value)}
                                                                 className="px-3 py-1.5 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
                                                             >
-                                                                <option value="Inprogress">Inprogress</option>
-                                                                <option value="Approved">Approved</option>
+                                                                <option value="" selected>Select Status</option>
+                                                                <option value="Inprogress" selected>Inprogress</option>
+                                                                <option value="Accepted">Accepted</option>
                                                                 <option value="Rejected">Rejected</option>
                                                             </select>
                                                         </> : item.Application_status}
