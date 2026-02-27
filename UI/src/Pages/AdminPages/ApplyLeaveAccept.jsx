@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import App from '../../App'
+import Swal from "sweetalert2";
+
 import toast, { Toaster } from 'react-hot-toast'
 import AdminHeader from '../../Components/AdminHeader'
 import { FaPlus } from 'react-icons/fa'
@@ -14,6 +16,8 @@ function ApplyLeaveAccept() {
     const [leaves, setleaves] = useState([])
     const [edit, setEdit] = useState(false)
     const [editid, setEditid] = useState()
+
+    const [Status, setstatus] = useState("")
     useEffect(() => {
         const get = async () => {
             setloader(true)
@@ -25,47 +29,7 @@ function ApplyLeaveAccept() {
         }
         get()
     }, [])
-    const [fakeData, setFakeData] = useState([
-        {
-            EmpName: "Ravi Tharun",
-            EmpID: "Teacher-6087",
-            EmpEmailId: "tharunravi672@gmail.com",
-            Fromdate: "2026-02-26T00:00:00.000Z",
-            Todate: "2026-03-06T00:00:00.000Z",
-            leaveType: "Casual Leave",
-            TotalDays: 9,
-            Application_status: "Inprogress",
-            ReasonLeave: "Personal Work",
-            createdAt: "2026-02-25T14:19:37.806Z",
-            updatedAt: "2026-02-25T14:19:37.806Z",
-        },
-        {
-            EmpName: "Pranav Kumar",
-            EmpID: "Teacher-6090",
-            EmpEmailId: "pranavkumar@gmail.com",
-            Fromdate: "2026-03-10T00:00:00.000Z",
-            Todate: "2026-03-12T00:00:00.000Z",
-            leaveType: "Sick Leave",
-            TotalDays: 3,
-            Application_status: "Approved",
-            ReasonLeave: "Fever and Cold",
-            createdAt: "2026-03-08T10:15:22.000Z",
-            updatedAt: "2026-03-08T12:00:00.000Z",
-        },
-        {
-            EmpName: "Anjali Sharma",
-            EmpID: "Teacher-6101",
-            EmpEmailId: "anjali.sharma@gmail.com",
-            Fromdate: "2026-04-01T00:00:00.000Z",
-            Todate: "2026-04-05T00:00:00.000Z",
-            leaveType: "Earned Leave",
-            TotalDays: 5,
-            Application_status: "Rejected",
-            ReasonLeave: "Family Function",
-            createdAt: "2026-03-28T09:30:00.000Z",
-            updatedAt: "2026-03-29T11:45:10.000Z",
-        }
-    ]);
+    const [fakeData, setFakeData] = useState([]);
 
     const HandelEdit = (id) => {
         console.log(id, 'to edit')
@@ -73,13 +37,37 @@ function ApplyLeaveAccept() {
         setEdit((prev) => !prev)
     }
     const handleStatusChange = (index, value) => {
-        const updatedData = [...fakeData];
+        const updatedData = [...leaves];
         updatedData[index].Application_status = value;
-        setFakeData(updatedData);
+        setstatus(value)
+        setleaves(updatedData);
     };
-    
-    const handelUpdate = (status) => {
-        toast.success(status)
+
+    const handelUpdate = (id, Fromdate, Todate) => {
+
+        if (!id || !Fromdate || !Todate) {
+
+            return toast.error("Something went wrong");
+        }
+        // ]
+        const data = {
+            id,
+            Fromdate, Todate
+        }
+        Swal.fire({
+            title: "Approve Leave?",
+            text: "Do you want to approve this leave request?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Approve",
+            cancelButtonText: "Reject"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire("Approved!", "Leave has been approved.", "success");
+            } else {
+                Swal.fire("Rejected!", "Leave has been rejected.", "error");
+            }
+        });
         setEdit(false)
     }
     return (
@@ -113,8 +101,8 @@ function ApplyLeaveAccept() {
                                 </tr>
                             ) : (
                                 <>
-                                    {fakeData.length > 0 ? (
-                                        fakeData.map((item, index) => (
+                                    {leaves.length > 0 ? (
+                                        leaves.map((item, index) => (
                                             <tr key={index} className="border-b hover:bg-gray-50 text-center">
                                                 <td className="p-3">{index + 1}</td>
                                                 <td className="p-3">{item.leaveType}</td>
@@ -180,7 +168,7 @@ function ApplyLeaveAccept() {
                                                             className="px-4 py-1.5 rounded-lg bg-green-100 text-green-600 
              hover:bg-green-200 transition-all duration-200 
              text-sm font-medium"
-                                                            onClick={() => handelUpdate(index)}
+                                                            onClick={() => handelUpdate(item.EmpID, item.Fromdate, item.Todate)}
                                                         >
                                                             Update
                                                         </button>
