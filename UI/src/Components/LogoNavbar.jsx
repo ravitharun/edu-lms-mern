@@ -40,7 +40,7 @@ function LogoNavbar({ hide }) {
               LMS
             </div>
             <span className="hidden sm:block text-lg font-semibold text-gray-800">
-              Student Portal
+              {UserName.role} Portal
             </span>
           </Link>
 

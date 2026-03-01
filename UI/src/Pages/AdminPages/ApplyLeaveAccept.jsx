@@ -121,7 +121,7 @@ function ApplyLeaveAccept() {
                focus:border-blue-400 transition-all"
                     >
                         <option value="" selected disabled> Status</option>
-                        <option value="pending">Pending</option>
+                        <option value="Inprogress">Inprogress</option>
                         <option value="accepted">Accepted</option>
                         <option value="rejected">Rejected</option>
                     </select>
@@ -196,7 +196,7 @@ ${item.Application_status === "Accepted"
                                                     </> : item.Application_status}
 
                                                 </td>
-                                                <td className="p-3">{new Date(item.createdAt).toLocaleDateString() }</td>
+                                                <td className="p-3">{new Date(item.createdAt).toLocaleDateString()}</td>
                                                 <td className="p-3"><>
 
                                                     <button
