@@ -66,6 +66,7 @@ import { useEffect } from "react";
 import MasterAdminNavbar from "./MasterAdminNavbar";
 import MasterLogoNav from "./MasterLogoNav";
 import { fun } from "../../../Components/UserisLogin";
+import { Link } from "react-router-dom";
 
 function DashboardLayout({ children }) {
   useEffect(() => {
@@ -134,41 +135,53 @@ function DashboardLayout({ children }) {
                   👨‍🏫 Teacher Management
                 </h2>
 
-                <div className="space-y-3">
-                  <button className="w-full bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 transition">
-                    View Teachers
-                  </button>
+                <div className="flex flex-col gap-6">
 
-                  <button className="w-full bg-green-600 text-white p-3 rounded-xl hover:bg-green-700 transition">
-                    Manage Subjects
-                  </button>
+                  <Link to="/admin/Teachers">
+                    <button className="w-full bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 transition">
+                      View Teachers
+                    </button>
+                  </Link>
 
-                  <button className="w-full bg-red-600 text-white p-3 rounded-xl hover:bg-red-700 transition">
-                    Deactivate Teacher Account
-                  </button>
+                  <Link to="/Admin/AssiginSubjects">
+                    <button className="w-full bg-green-600 text-white p-3 rounded-xl hover:bg-green-700 transition">
+                      Manage Subjects
+                    </button>
+                  </Link>
+
+                  <Link to="/admin/Teachers">
+                    <button className="w-full bg-red-600 text-white p-3 rounded-xl hover:bg-red-700 transition">
+                      Deactivate Teacher Account
+                    </button>
+                  </Link>
+
                 </div>
               </div>
 
               {/* Student Management */}
-              <div className="bg-white rounded-2xl shadow p-6">
-                <h2 className="text-lg font-semibold mb-4">
-                  👨‍🎓 Student Management
-                </h2>
+            <div className="bg-white rounded-2xl shadow p-6">
 
-                <div className="space-y-3">
-                  <button className="w-full bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 transition">
-                    View Students
-                  </button>
+  <h2 className="text-lg font-semibold mb-6">
+    👨‍🎓 Student Management
+  </h2>
 
-                  <button className="w-full bg-yellow-500 text-white p-3 rounded-xl hover:bg-yellow-600 transition">
-                    Approve Requests
-                  </button>
+  <div className="flex flex-col gap-4">
 
-                  <button className="w-full bg-red-600 text-white p-3 rounded-xl hover:bg-red-700 transition">
-                    Deactivate Student Account
-                  </button>
-                </div>
-              </div>
+    <button className="w-full bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 transition">
+      View Students
+    </button>
+
+    <button className="w-full bg-yellow-500 text-white p-3 rounded-xl hover:bg-yellow-600 transition">
+      Approve Requests
+    </button>
+
+    <button className="w-full bg-red-600 text-white p-3 rounded-xl hover:bg-red-700 transition">
+      Deactivate Student Account
+    </button>
+
+  </div>
+
+</div>
 
             </div>
 
