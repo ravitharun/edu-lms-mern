@@ -21,7 +21,7 @@ function TeachersProfiles() {
             try {
                 setloading(true)
                 const response = await GetallTeacherProfile()
-                console.log(response.status,'response')
+                console.log(response.status, 'response')
                 setteacherprofile(response.data.message)
                 setloading(false)
             } catch (error) {
@@ -109,14 +109,13 @@ function TeachersProfiles() {
                     <MasterLogoNav path={page} />
                     <main className="flex-1 mt-[72px] pb-8 px-4 md:px-6 lg:px-8 overflow-y-auto">
                         {/* Header Section */}
-                        <div className="mb-6 max-w-5xl mx-auto px-2 md:px-0">
-                            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
+                        <div className="bg-white p-5 rounded-xl shadow-sm border border-gray-100">
+                            <h2 className="text-2xl font-semibold text-gray-800">
                                 Faculty Overview
                             </h2>
-                            <p className="mt-1 text-sm md:text-base text-gray-600">
+                            <p className="text-sm text-gray-600 mt-1">
                                 Manage and view details of all faculty members here.
                             </p>
-                            <div className="mt-4 border-b border-gray-200"></div>
                         </div>
                         <div className="max-w-md w-full mx-auto mb-6">
                             <input

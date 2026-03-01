@@ -56,11 +56,12 @@ function MasterAdminNavbar({ path, Active }) {
           <SidebarItem icon={<FaUserGraduate />} title="Reports" url="/admin/Reports" path={path} active={Active} />
           <SidebarItem icon={<FaChalkboardTeacher />} title="Teachers" url="/admin/Teachers" path={path} active={Active} />
           {/* <SidebarItem icon={<FaCog />} title="Settings" url="/admin/" /> */}
+          <SidebarItem icon={<FaUsers />} title="Students" url="/admin/Studenta" path={path} active={Active} />
           <SidebarItem icon={<FaUser />} title="Profile" url="/admin/Profile" path={path} active={Active} />
           <SidebarItem icon={<HiOutlineExclamationCircle />} title="Issues" url="/admin/Issues" path={path} active={Active} />
           {<>
 
-            {UserLogin && <SidebarItem icon={<FaPowerOff />} title="LogOut"  path={path} active={Active} onClick={handleLogout} /> }
+            {UserLogin && <SidebarItem icon={<FaPowerOff />} title="LogOut" path={path} active={Active} onClick={handleLogout} />}
           </>}
         </nav>
       </aside>
@@ -68,7 +69,7 @@ function MasterAdminNavbar({ path, Active }) {
   );
 }
 
-const SidebarItem = ({ icon, title, active, url, path,onClick }) => (
+const SidebarItem = ({ icon, title, active, url, path, onClick }) => (
   // console.log(path)
   <Link to={url}>
 
