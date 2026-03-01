@@ -127,63 +127,79 @@ function DashboardLayout({ children }) {
             </div>
 
             {/* Management Section */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-              {/* Teacher Management */}
-              <div className="bg-white rounded-2xl shadow p-6">
-                <h2 className="text-lg font-semibold mb-4">
-                  👨‍🏫 Teacher Management
-                </h2>
+  {/* Teacher Management */}
+  <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
 
-                <div className="flex flex-col gap-6">
+    <h2 className="text-xl font-bold mb-6 text-gray-800">
+      👨‍🏫 Teacher Management
+    </h2>
 
-                  <Link to="/admin/Teachers">
-                    <button className="w-full bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 transition">
-                      View Teachers
-                    </button>
-                  </Link>
+    <div className="space-y-4">
 
-                  <Link to="/Admin/AssiginSubjects">
-                    <button className="w-full bg-green-600 text-white p-3 rounded-xl hover:bg-green-700 transition">
-                      Manage Subjects
-                    </button>
-                  </Link>
+      <Link to="/admin/Teachers">
+        <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-blue-500 hover:shadow-md transition">
+          <span className="font-medium text-gray-700 group-hover:text-blue-600">
+            View Teachers
+          </span>
+          <span className="text-blue-500 text-lg">→</span>
+        </div>
+      </Link>
 
-                  <Link to="/admin/Teachers">
-                    <button className="w-full bg-red-600 text-white p-3 rounded-xl hover:bg-red-700 transition">
-                      Deactivate Teacher Account
-                    </button>
-                  </Link>
+      <Link to="/Admin/AssiginSubjects">
+        <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-green-500 hover:shadow-md transition">
+          <span className="font-medium text-gray-700 group-hover:text-green-600">
+            Manage Subjects
+          </span>
+          <span className="text-green-500 text-lg">→</span>
+        </div>
+      </Link>
 
-                </div>
-              </div>
+      <Link to="/admin/Teachers">
+        <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-red-500 hover:shadow-md transition">
+          <span className="font-medium text-gray-700 group-hover:text-red-600">
+            Deactivate Teacher Account
+          </span>
+          <span className="text-red-500 text-lg">→</span>
+        </div>
+      </Link>
 
-              {/* Student Management */}
-            <div className="bg-white rounded-2xl shadow p-6">
+    </div>
+  </div>
 
-  <h2 className="text-lg font-semibold mb-6">
-    👨‍🎓 Student Management
-  </h2>
+  {/* Student Management */}
+  <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
 
-  <div className="flex flex-col gap-4">
+    <h2 className="text-xl font-bold mb-6 text-gray-800">
+      👨‍🎓 Student Management
+    </h2>
 
-    <button className="w-full bg-blue-600 text-white p-3 rounded-xl hover:bg-blue-700 transition">
-      View Students
-    </button>
+    <div className="space-y-4">
 
-    <button className="w-full bg-yellow-500 text-white p-3 rounded-xl hover:bg-yellow-600 transition">
-      Approve Requests
-    </button>
+      <Link to="/admin/Studenta">
+        <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-blue-500 hover:shadow-md transition">
+          <span className="font-medium text-gray-700 group-hover:text-blue-600">
+            View Students
+          </span>
+          <span className="text-blue-500 text-lg">→</span>
+        </div>
+      </Link>
 
-    <button className="w-full bg-red-600 text-white p-3 rounded-xl hover:bg-red-700 transition">
-      Deactivate Student Account
-    </button>
+      <Link to="/admin/Studenta">
+        <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-red-500 hover:shadow-md transition">
+          <span className="font-medium text-gray-700 group-hover:text-red-600">
+            Deactivate Student Account
+          </span>
+          <span className="text-red-500 text-lg">→</span>
+        </div>
+      </Link>
+
+    </div>
 
   </div>
 
 </div>
-
-            </div>
 
             {/* Children Content */}
             <div>{children}</div>
