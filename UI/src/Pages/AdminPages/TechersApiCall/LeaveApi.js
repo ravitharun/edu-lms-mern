@@ -17,7 +17,8 @@ export const GetLeavesApplyByID = async () => {
     try {
         const response = await axios.get("http://localhost:5001/api/leaveApply/GetallLeavesdata", {
             params: {
-                EmpID: UserName.teacher_Id
+                EmpID: UserName.teacher_Id,
+                EmpEmail: UserName.email,
             }
         })
         console.log(response.data.message, 'near my api call ')
