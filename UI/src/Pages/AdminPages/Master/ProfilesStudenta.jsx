@@ -1,6 +1,8 @@
 import React from 'react'
 import MasterAdminNavbar from './MasterAdminNavbar'
 import MasterLogoNav from './MasterLogoNav'
+import Dataloading from '../../../Loaders/Dataloading'
+import ProgressLoader from '../../../Loaders/Progressloader'
 
 function ProfilesStudenta() {
     return (
@@ -29,10 +31,10 @@ function ProfilesStudenta() {
                                 <p className="text-sm text-gray-600 mt-1">
                                     Manage and view details of all students here.
                                 </p>
+                                <ProgressLoader path="Student Data Adding" />
                             </div>
 
                             {/* Faculty Overview */}
-                            
 
                         </div>
                     </main>
