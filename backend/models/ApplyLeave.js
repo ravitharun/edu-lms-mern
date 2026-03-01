@@ -11,9 +11,10 @@ const mongoose = require("mongoose");
 const LeaveApplicaltions = new mongoose.Schema({
     EmpName: { type: String, required: true },
     EmpID: { type: String, required: true },
-    EmpEmailId: { type: String, required: true },
+    EmpReq_EmailId: { type: String, required: true },
     Fromdate: { type: Date, required: true },
     Todate: { type: Date, required: true },
+    Useremail: { type: String, required: true },
     leaveType: { type: String, required: true },
     TotalDays: { type: Number, required: true },
     Application_status: { type: String, default: "Inprogress",enum:["Inprogress",'Accepted','Rejected'] },

@@ -11,6 +11,7 @@ import ProgressLoader from '../../Loaders/Progressloader'
 import { useEffect } from 'react'
 import { getRequestEmail } from './TechersApiCall/LeaveApi'
 import axios from 'axios';
+import { UserName } from '../../Apis/Islogin';
 
 function ApplyLeaveAccept() {
     const [loader, setloader] = useState(false)
@@ -77,6 +78,8 @@ function ApplyLeaveAccept() {
         });
         setEdit(false)
     }
+    console.log(leaves, 'leaves')
+    console.log(UserName, 'leaves')
     return (
         <>
 
@@ -112,7 +115,7 @@ function ApplyLeaveAccept() {
                                         leaves.map((item, index) => (
                                             <tr key={index} className="border-b hover:bg-gray-50 text-center">
                                                 <td className="p-3">{index + 1}</td>
-                                                <td className="p-3">{item.leaveType}</td>
+                                                <td className="p-3">{item.leaveType}-{item.EmpName}</td>
                                                 <td className="p-3">{item.ReasonLeave}</td>
                                                 <td className="p-3">{item.EmpEmailId}</td>
                                                 <td className="p-3">{item.EmpID}</td>
