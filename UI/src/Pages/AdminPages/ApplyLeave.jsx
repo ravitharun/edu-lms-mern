@@ -312,46 +312,47 @@ function ApplyLeave() {
                                     </td>
                                 </tr>
                             ) : (
-                                LeavesData.map((data, idx) => (
-                                    <tr key={data._id} className="border-b hover:bg-gray-50">
-                                        <td className="p-3">{idx + 1}</td>
-                                        <td className="p-3 whitespace-nowrap">{data.leaveType}</td>
-                                        <td className="p-3 min-w-[200px]">{data.ReasonLeave}</td>
-                                        <td className="p-3 break-all min-w-[220px]">
-                                            <a href={`mailto:${data.EmpEmailId}`} className="text-blue-600">
-                                                {data.EmpEmailId}
-                                            </a>
-                                        </td>
-                                        <td className="p-3 whitespace-nowrap">{data.EmpID}</td>
-                                        <td className="p-3 whitespace-nowrap">
-                                            {new Date(data.Fromdate).toLocaleDateString()}
-                                        </td>
-                                        <td className="p-3 whitespace-nowrap">
-                                            {new Date(data.Todate).toLocaleDateString()}
-                                        </td>
-                                        <td className="p-3">{data.TotalDays}</td>
-                                        <td className="p-3">
-                                            <span
-                                                className={`px-2 py-1 rounded-full text-white text-xs ${data.Application_status === "Approved"
-                                                        ? "bg-green-500"
-                                                        : data.Application_status === "Rejected"
-                                                            ? "bg-red-500"
-                                                            : "bg-blue-500"
-                                                    }`}
-                                            >
-                                                {data.Application_status}
-                                            </span>
-                                        </td>
-                                        <td className="p-3 whitespace-nowrap">
-                                            {new Date(data.createdAt).toLocaleString()}
-                                        </td>
-                                        <td className="p-3">
-                                            <button className="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700">
-                                                View
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))
+                                    
+                                    LeavesData.map((data, idx) => (
+                                        <tr key={data._id} className="border-b hover:bg-gray-50">
+                                            <td className="p-3">{idx + 1}</td>
+                                            <td className="p-3 whitespace-nowrap">{data.leaveType}</td>
+                                            <td className="p-3 min-w-[200px]">{data.ReasonLeave}</td>
+                                            <td className="p-3 break-all min-w-[220px]">
+                                                <a href={`mailto:${data.EmpEmailId}`} className="text-blue-600">
+                                                    {data.EmpReq_EmailId}
+                                                </a>
+                                            </td>
+                                            <td className="p-3 whitespace-nowrap">{data.EmpID}</td>
+                                            <td className="p-3 whitespace-nowrap">
+                                                {new Date(data.Fromdate).toLocaleDateString()}
+                                            </td>
+                                            <td className="p-3 whitespace-nowrap">
+                                                {new Date(data.Todate).toLocaleDateString()}
+                                            </td>
+                                            <td className="p-3">{data.TotalDays}</td>
+                                            <td className="p-3">
+                                                <span
+                                                    className={`px-2 py-1 rounded-full text-white text-xs ${data.Application_status === "Accepted"
+                                                            ? "bg-green-500"
+                                                            : data.Application_status === "Inprogress"
+                                                                ? "bg-yellow-500"
+                                                                : "bg-red-500"
+                                                        }`}
+                                                >
+                                                    {data.Application_status}
+                                                </span>
+                                            </td>
+                                            <td className="p-3 whitespace-nowrap">
+                                                {new Date(data.createdAt).toLocaleString()}
+                                            </td>
+                                            <td className="p-3">
+                                                <button className="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700">
+                                                    View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))
                             )}
                         </tbody>
 

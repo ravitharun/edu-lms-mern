@@ -1,14 +1,7 @@
 const mongoose = require("mongoose");
-// {
-//   EmpName: 'Ravi Tharun',
-//   EmpID: 'Teacher-6087',
-//   Fromdate: '2026-02-25',
-//   EmpEmailId: 'tharunravi672@gmail.com',
-//   Todate: '2026-02-27',
-//   leaveType: 'Casual Leave',
-//   TotalDays: 3
-// }
+
 const LeaveApplicaltions = new mongoose.Schema({
+    Leave_id: { type: String, required: true },
     EmpName: { type: String, required: true },
     EmpID: { type: String, required: true },
     EmpReq_EmailId: { type: String, required: true },
@@ -17,8 +10,8 @@ const LeaveApplicaltions = new mongoose.Schema({
     Useremail: { type: String, required: true },
     leaveType: { type: String, required: true },
     TotalDays: { type: Number, required: true },
-    Application_status: { type: String, default: "Inprogress",enum:["Inprogress",'Accepted','Rejected'] },
-    ReasonLeave: { type: String, required: 1 }  
+    Application_status: { type: String, default: "Inprogress", enum: ["Inprogress", 'Accepted', 'Rejected'] },
+    ReasonLeave: { type: String, required: 1 }
 
 
 },
