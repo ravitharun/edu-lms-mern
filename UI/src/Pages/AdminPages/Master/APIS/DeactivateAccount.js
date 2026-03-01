@@ -13,7 +13,7 @@ export const deactivateAccount = async (id, action) => {
     Swal.fire(
 
         {
-            title: "Activate Account?",
+            title: "Deactivate  Account?",
             html: `
     <p class="text-gray-600">
       Are you sure you want to activate this account?

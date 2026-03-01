@@ -6,6 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Swal from "sweetalert2";
 import { fetchAllTeacherName, GetallTeacherProfile } from "./APIS/GetAll-subjects";
 import Dataloading from "../../../Loaders/Dataloading";
+import { useNavigate } from "react-router-dom";
 
 function TeachersProfiles() {
     const page = "Teachers";
@@ -82,13 +83,21 @@ function TeachersProfiles() {
     }
 
 
-    const HandelAccountActivate = async (id,action="Update") => {
+    const HandelAccountActivate = async (id, action = "Update") => {
 
-        console.log(id, 'HandelAccountActivate',action)
-        const data = await deactivateAccount(id,action)
-        console.log(data.data,'data')
+        const data = await deactivateAccount(id, action)
 
 
+
+    }
+    const navigate = useNavigate("")
+    const handelView = (data) => {
+        navigate("/TecherProfile/Info", {
+            state: {
+                data
+            }
+        })
+        console.log(data)
     }
     return (
         <>
@@ -214,7 +223,9 @@ function TeachersProfiles() {
 
                                             {/* Buttons */}
                                             <div className="flex flex-wrap gap-3 mt-4 w-full justify-end">
-                                                <button className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 text-sm font-medium hover:bg-gray-100 transition duration-200">
+                                                <button className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-700 text-sm font-medium hover:bg-gray-100 transition duration-200"
+                                                    onClick={() => handelView(pr)}
+                                                >
                                                     View Profile
                                                 </button>
 
