@@ -21,7 +21,7 @@ function TeachersProfiles() {
             try {
                 setloading(true)
                 const response = await GetallTeacherProfile()
-                console.log(response.data.message)
+                console.log(response.status,'response')
                 setteacherprofile(response.data.message)
                 setloading(false)
             } catch (error) {
