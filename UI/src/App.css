@@ -62,3 +62,19 @@
   focus:outline-none focus:ring-2 focus:ring-blue-400 
   transition duration-200;
 } */
+@keyframes statusBlink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.blink-green {
+  animation: statusBlink 1.2s infinite;
+}
+
+.blink-red {
+  animation: statusBlink 1.2s infinite;
+}
