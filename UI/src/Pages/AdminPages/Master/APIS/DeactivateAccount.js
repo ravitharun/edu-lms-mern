@@ -25,8 +25,8 @@ export const deactivateAccount = async (id, action) => {
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#16a34a",
-            cancelButtonColor: "#6b7280",
-            confirmButtonText: "Yes, Activate",
+            cancelButtonColor: "#16a34a",
+            confirmButtonText: "Yes, Deactivate",
             cancelButtonText: "Cancel"
             // denyButtonText: ``
         })
