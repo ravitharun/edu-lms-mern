@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import App from '../../App'
 import Swal from "sweetalert2";
-
 import toast, { Toaster } from 'react-hot-toast'
 import AdminHeader from '../../Components/AdminHeader'
 import { FaPlus } from 'react-icons/fa'
-import { TbAcceptHeadings, TbHeadings } from '../../Components/Leaveheadings'
+// import { TbAcceptHeadings, TbHeadings } from '../../Components/Leaveheadings'
 import Dataloading from '../../Loaders/Dataloading'
 import ProgressLoader from '../../Loaders/Progressloader'
 import { useEffect } from 'react'
@@ -14,6 +13,32 @@ import axios from 'axios';
 import { UserName } from '../../Apis/Islogin';
 
 function ApplyLeaveAccept() {
+     const TbAcceptHeadings = [
+    "S. No",
+    "Leave Type",
+    "Reason",
+    "Reuested Email To",
+    "EmpId",
+    "From Date",
+    "To Date",
+    "Total Days",
+    "Status",
+    "Applied On",
+    "Actions"
+]
+const TbHeadings = [
+    "S. No",
+    "Leave Type",
+    "Reason",
+    "Reuested Email To",
+    "EmpId",
+    "From Date",
+    "To Date",
+    "Total Days",
+    "Status",
+    "Applied On",
+    "Actions"
+]
     const [loader, setloader] = useState(false)
     const [leaves, setleaves] = useState([])
     const [edit, setEdit] = useState(false)
