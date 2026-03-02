@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import MasterAdminNavbar from './MasterAdminNavbar'
 import MasterLogoNav from './MasterLogoNav'
-import { AssignTeacher, fetchAllSubjects, fetchAllTeacherName, GetAllSubjectsAssignedTeacher } from './APIS/GetAll-subjects'
+import { AssignTeacher, fetchAllSubjects, fetchAllTeacherName, GetAllSubjectsAssignedTeacher, HandelUnassignApi } from './APIS/GetAll-subjects'
 import toast, { Toaster } from 'react-hot-toast'
 import { FaPlus } from 'react-icons/fa'
 import Swal from "sweetalert2";
@@ -28,8 +28,7 @@ function AssiginTeacherwisesubjects() {
                 setfetchAssignedSubjects(data)
                 setLoader(0)
             }
-            catch (err) 
-            {
+            catch (err) {
                 console.log(err)
             }
         }
@@ -142,6 +141,31 @@ function AssiginTeacherwisesubjects() {
 
 
     }
+
+
+    const HandelUnassign = (id) => {
+        Swal.fire({
+            title: "Do you want to Unassign the Teacher?",
+            // showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Unassign",
+            // denyButtonText:  `
+        }).then(async(result) => {
+            if (result.isConfirmed) {
+
+                const resppnse=await HandelUnassignApi(id)
+                console.log(resppnse,'response')
+                Swal.fire({
+                    title: "Saved!",
+                    html: "<b style='color:green'>Your data</b> has been saved successfully.",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                });
+            } else if (result.isDenied) {
+                Swal.fire("Changes are not saved", "", "info");
+            }
+        }); 
+    }
     return (
         <>
             <Toaster />
@@ -238,7 +262,7 @@ function AssiginTeacherwisesubjects() {
                                             <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
                                                 classId
                                             </th>
-                                   
+
                                             <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">
                                                 year
                                             </th>
@@ -267,7 +291,7 @@ function AssiginTeacherwisesubjects() {
                                             <tr>
                                                 <td colSpan="9" className="h-64">
                                                     <div className="flex items-center justify-center h-full">
-                                                        <Dataloading  path="Assigning teacher to subject…
+                                                        <Dataloading path="Assigning teacher to subject…
 "/>
                                                     </div>
                                                 </td>
@@ -275,7 +299,7 @@ function AssiginTeacherwisesubjects() {
                                         ) : fetchAssignedSubjects.length > 0 ? (
                                             fetchAssignedSubjects.map((data, idx) => (
                                                 <tr className="hover:bg-gray-50" key={idx}>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{idx+1}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{idx + 1}</td>
                                                     <td className="px-4 py-3 text-sm text-gray-800">{data.classId}</td>
                                                     <td className="px-4 py-3 text-sm text-gray-800">{data.year}</td>
                                                     <td className="px-4 py-3 text-sm text-gray-800">{data.classId}</td>
@@ -285,7 +309,7 @@ function AssiginTeacherwisesubjects() {
                                                     <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].teacherId}</td>
                                                     <td className="px-4 py-3 text-sm text-gray-800">{data.teacher_Id}</td>
                                                     <td className="px-4 py-3 text-center">
-                                                        <button className="text-red-600 hover:text-red-800 text-sm font-medium">
+                                                        <button className="text-red-600 hover:text-red-800 text-sm font-medium" onClick={() => HandelUnassign(data._id)}>
                                                             Unassign
                                                         </button>
                                                     </td>
