@@ -25,14 +25,15 @@ export const TbAcceptHeadings = [
     "Actions"
 ]
 
-    export const StudentsProfileHeadings = [
+export const StudentsProfileHeadings = [
 
-        "Id",
-        "Student Name",
-        "Department",
-        "Status",
-        "Enorlled Date",
-        "Enorlled Time",
-        "StudentsYear",
+    "Id",
+    "Student Name",
+    "Department",
+    "Status",
+    "Enorlled Date",
+    "Enorlled Time",
+    "StudentsYear",
 
-    ]
+]
+export const  Years = ["1","2","3","4"]
