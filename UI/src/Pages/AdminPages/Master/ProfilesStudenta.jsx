@@ -32,7 +32,6 @@ function ProfilesStudenta() {
             try {
                 setLoader(true);
                 const response = await GetallStudentsProfile();
-                console.log(response, 'students')
                 setStudents(response?.data?.message || []);
                 setsearchFillterArray(response?.data?.message || []);
             } catch (error) {
@@ -121,6 +120,24 @@ function ProfilesStudenta() {
 
         setStudents(StatusFilter);
     };
+
+    const HandelDept = (data) => {
+        console.log(data, "Data Dept Wise ..")
+        if (data == "ALL") {
+            setStudents(searchFillterArray);  // original data
+            return
+        }
+        const FillterByDept = students.filter((dept) => {
+            return dept?.department.includes(data)
+        })
+        console.log(FillterByDept)
+        setStudents(FillterByDept);
+
+    }
+    const ClearFilter = () => {
+        HandelDept("")
+        setStudents(searchFillterArray);  // keep original data separately
+    }
     return (
         <>
             <Toaster></Toaster>
@@ -160,6 +177,7 @@ function ProfilesStudenta() {
                                     <button
                                         className="text-sm px-4 py-2 bg-gray-100 hover:bg-gray-200 
       rounded-lg transition-all duration-200"
+                                        onClick={ClearFilter}
                                     >
                                         Clear Filters
                                     </button>
@@ -220,7 +238,7 @@ function ProfilesStudenta() {
         transition-all duration-200"
                                             onChange={(e) => HandelFilterStatus(e.target.value)}
                                         >
-                                            <option value="">Choose Status</option>
+                                            <option value="" selected disabled>Choose Status</option>
                                             {["ALL", "Active", "Deactive"].map((sts, idx) => (
                                                 <option value={sts} key={idx}>{sts}</option>
                                             ))}
@@ -234,9 +252,11 @@ function ProfilesStudenta() {
                                             className="px-4 py-2 border border-gray-300 rounded-xl 
         focus:ring-2 focus:ring-blue-500 focus:outline-none
         transition-all duration-200"
+
+                                            onChange={(e) => HandelDept(e.target.value)}
                                         >
-                                            <option value="">Choose Department</option>
-                                            {["CSE", "MECH", "ECE", "EEE", "Civil"].map((dep, idx) => (
+                                            <option value=" " selected disabled>Choose Department</option>
+                                            {["ALL", "CSE", "MECH", "ECE", "EEE", "Civil"].map((dep, idx) => (
                                                 <option value={dep} key={idx}>{dep}</option>
                                             ))}
                                         </select>
