@@ -81,20 +81,38 @@ export const GetAllSubjectsAssignedTeacher = async () => {
 }
 
 
-export const GetallTeacherProfile = async (req, res) => {
+export const GetallTeacherProfile = async () => {
 
     try {
         const response = await axios.get("http://localhost:5001/api/subjects/get/TeachersInfo",
             Header_Token_expry
         )
-        console.log(response, '401')
+
+        console.log(response)
         return response
 
     } catch (error) {
         if (error.response.data.message === "Token expired") {
             handleLogout()
         }
-        // console.log(, 'error from api')
+
+    }
+
+}
+export const GetallStudentsProfile = async (req, res) => {
+
+    try {
+        const response = await axios.get("http://localhost:5001/api/subjects/get/StudentsInfo",
+            Header_Token_expry
+        )
+        console.log(response,)
+        
+        return response
+
+    } catch (error) {
+        if (error.response.data.message === "Token expired") {
+            handleLogout()
+        }
 
     }
 

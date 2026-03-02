@@ -71,7 +71,23 @@ const fetchTeachersInfo = async (req, res) => {
             console.log('No Subjects')
             return res.status(404).json({ message: "No Subjects." })
         }
-           console.log(data.length, "get/TeachersInfo")
+
+        return res.status(201).json({ message: data })
+
+    }
+    catch (err) {
+        console.log("err from the fetchAllSubjects", err.message)
+        return res.status(500).json({ message: "server Error" })
+    }
+}
+const StudentsInfo = async (req, res) => {
+    try {
+        const data = await User.find({ role: "student" })
+        if (data.length == 0) {
+            console.log('No Subjects')
+            return res.status(404).json({ message: "No Students." })
+        }
+
         return res.status(201).json({ message: data })
 
     }
@@ -133,4 +149,4 @@ const DeleteCourse = async (req, res) => {
     }
 }
 
-module.exports = { SubjectsSchemaController, fetchAllSubjects, fetchAllTeachers, addByOne, DeleteCourse ,fetchTeachersInfo}
+module.exports = { SubjectsSchemaController,StudentsInfo, fetchAllSubjects, fetchAllTeachers, addByOne, DeleteCourse ,fetchTeachersInfo}
