@@ -117,13 +117,16 @@ export const GetallStudentsProfile = async () => {
     }
 
 }
-export const HandelUnassignApi = async (id) => {
-    console.log(id, 'id From api Call')
+export const HandelUnassignApi = async (id, techerid) => {
+    const info = { id, techerid }
+    console.log(info, 'id From api Call')
 
     try {
-        const response = await axios.delete("http://localhost:5001/api/AssignSubjects/Delete/AssiginSubjects", {params:{
-            data:id
-        }},
+        const response = await axios.delete("http://localhost:5001/api/AssignSubjects/Delete/AssiginSubjects", {
+          
+                data: info
+            
+        },
         )
         console.log(response,)
 
