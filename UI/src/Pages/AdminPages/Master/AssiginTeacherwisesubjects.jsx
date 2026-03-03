@@ -152,8 +152,14 @@ function AssiginTeacherwisesubjects() {
             // denyButtonText:  `
         }).then(async(result) => {
             if (result.isConfirmed) {
-
+                console.log(result,'res')
                 const resppnse=await HandelUnassignApi(id)
+                console.log(resppnse,'response')
+                console.log(resppnse,'response')
+                console.log(resppnse,'response')
+                console.log(resppnse,'response')
+                console.log(resppnse,'response')
+                console.log(resppnse,'response')
                 console.log(resppnse,'response')
                 Swal.fire({
                     title: "Saved!",
