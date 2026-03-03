@@ -143,29 +143,61 @@ function AssiginTeacherwisesubjects() {
     }
 
 
-    const HandelUnassign = (id) => {
+    const HandelUnassign = (id, teacherID) => {
+
         Swal.fire({
             title: "Do you want to Unassign the Teacher?",
             // showDenyButton: true,
             showCancelButton: true,
             confirmButtonText: "Unassign",
             // denyButtonText:  `
-        }).then(async(result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                console.log(result,'res')
-                const resppnse=await HandelUnassignApi(id)
-                console.log(resppnse,'response')
-                
-                Swal.fire({
-                    title: "Saved!",
-                    html: "<b style='color:green'>Your data</b> has been saved successfully.",
-                    icon: "success",
-                    confirmButtonText: "OK"
-                });
-            } else if (result.isDenied) {
-                Swal.fire("Changes are not saved", "", "info");
+                const response = await HandelUnassignApi(id, teacherID)
+                if (response.data.message == "The teacher has been successfully unassigned from this subject.") {
+                    return Swal.fire({
+                        title: "Teacher Unassigned Successfully!",
+                        html: `
+        <p style="font-size:14px; margin-bottom:5px;">
+            The teacher has been removed from this subject.
+        </p>
+        <b style="color:#16a34a; font-size:15px;">
+            ${response.data.message}
+        </b>
+    `,
+                        icon: "success",
+                        confirmButtonText: "OK",
+                        confirmButtonColor: "#2563eb",
+                        background: "#f9fafb",
+                        timer: 3000,
+                        showConfirmButton: true
+                    });
+                }
+                else {
+                    Swal.fire("Changes are not saved", "", "info");
+
+                }
+
             }
-        }); 
+            else (result.isDenied)
+            {
+                Swal.fire({
+                    title: "Changes Not Saved",
+                    html: `
+        <p style="font-size:14px; margin-bottom:5px;">
+            You have unsaved changes.
+        </p>
+        <span style="color:#2563eb; font-weight:500;">
+            Please save your changes before leaving this page.
+        </span>
+    `,
+                    icon: "info",
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#2563eb",
+                    background: "#f9fafb"
+                });
+                }
+        });
     }
     return (
         <>
@@ -310,7 +342,7 @@ function AssiginTeacherwisesubjects() {
                                                     <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].teacherId}</td>
                                                     <td className="px-4 py-3 text-sm text-gray-800">{data.teacher_Id}</td>
                                                     <td className="px-4 py-3 text-center">
-                                                        <button className="text-red-600 hover:text-red-800 text-sm font-medium" onClick={() => HandelUnassign(data._id)}>
+                                                        <button className="text-red-600 hover:text-red-800 text-sm font-medium" onClick={() => HandelUnassign(data._id, data.subjects[0].teacherId)}>
                                                             Unassign
                                                         </button>
                                                     </td>
