@@ -85,7 +85,7 @@ const GetallAssignedSubjects = async (req, res) => {
 const GetSubjectsByclassID = async (req, res) => {
     try {
         const { id } = req.params
-        console.log(id,'id')
+        console.log(id, 'id')
 
         if (!id) {
             console.log("ID is Missing.")
@@ -93,8 +93,8 @@ const GetSubjectsByclassID = async (req, res) => {
         }
 
         const GetSubjects = await subjectWiseTeacherSchema.findOne({ classId: id })
-        console.log(GetSubjects,'GetSubjects')
-        if (GetSubjects==null) {
+        console.log(GetSubjects, 'GetSubjects')
+        if (GetSubjects == null) {
             console.log("No Subjects Found.")
             return res.status(404).json({ message: "No Subjects Found." })
         }
@@ -111,4 +111,20 @@ const GetSubjectsByclassID = async (req, res) => {
 
 
 }
-module.exports = { SubjectAddByteacher, GetallAssignedSubjects, GetSubjectsByclassID }
+
+const UnassiginTeacherBySubjetcts = async (req, res) => {
+    try {
+        const { id } = req.body
+        if (!id) return res.status(404).json({ message: "ID is Missing." })
+        const getByID = await subjectWiseTeacherSchema.findByIdAndDelete({ id })
+        console.log(getByID, 'getByID Deleted subject')
+        if (getByID) {
+            return res.status(200).json({ message: "" })
+        }
+
+    } catch (error) {
+        return res.status(500).json({ message: "server error." })
+
+    }
+}
+module.exports = { SubjectAddByteacher, GetallAssignedSubjects, GetSubjectsByclassID,UnassiginTeacherBySubjetcts }
