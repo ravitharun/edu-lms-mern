@@ -106,7 +106,7 @@ export const GetallStudentsProfile = async () => {
             Header_Token_expry
         )
         console.log(response,)
-        
+
         return response
 
     } catch (error) {
@@ -118,14 +118,15 @@ export const GetallStudentsProfile = async () => {
 
 }
 export const HandelUnassignApi = async (id) => {
-    console.log(id,'id From api Call')
+    console.log(id, 'id From api Call')
 
     try {
-        const response = await axios.delete("http://localhost:5001/api/subjects/Delete/AssiginSubjects",
-            Header_Token_expry
+        const response = await axios.delete("http://localhost:5001/api/AssignSubjects/Delete/AssiginSubjects", {params:{
+            data:id
+        }},
         )
         console.log(response,)
-        
+
         return response
 
     } catch (error) {

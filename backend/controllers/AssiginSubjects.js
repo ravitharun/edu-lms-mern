@@ -114,15 +114,17 @@ const GetSubjectsByclassID = async (req, res) => {
 
 const UnassiginTeacherBySubjetcts = async (req, res) => {
     try {
-        const { id } = req.body
-        if (!id) return res.status(404).json({ message: "ID is Missing." })
-        const getByID = await subjectWiseTeacherSchema.findByIdAndDelete({ id })
-        console.log(getByID, 'getByID Deleted subject')
-        if (getByID) {
-            return res.status(200).json({ message: "" })
-        }
+        const { data } = req.query
+        console.log(data,'id')
+        // if (!data) return res.status(404).json({ message: "ID is Missing." })
+        // const getByID = await subjectWiseTeacherSchema.findByIdAndDelete({ id })
+        // console.log(getByID, 'getByID Deleted subject')
+        // if (getByID) {
+        //     return res.status(200).json({ message: "" })
+        // }
 
     } catch (error) {
+        console.log(error.message)
         return res.status(500).json({ message: "server error." })
 
     }
