@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { UserName } from "../../../Apis/Islogin";
 import { FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Board from "./Board";
 
 function MasterLogoNav({ path }) {
   const [showPoup, setShowpoup] = useState(false)
@@ -10,6 +11,8 @@ function MasterLogoNav({ path }) {
     // console.log(url,'url')
     setShowpoup((prev) => !prev)
   }
+
+  console.log(path,'logonave')
   return (
     <>
       {/* </> */}
@@ -18,17 +21,9 @@ function MasterLogoNav({ path }) {
         {/* Left: Admin Text aligned with Sidebar */}
         <div className="hidden xl:flex absolute left-12">
           <div className="text-left leading-tight">
-            {/* <p className="text-xs text-gray-500"></p> */}
-            <div className="flex items-center text-sm text-gray-600 gap-2">
-              <Link to="/AdminDashboard">
-                <span className="font-medium text-gray-500">{path == "AdminDashboard" ? "" : "Dashboard"}</span></Link>
-              {path && (
-                <>
-                  {path == "AdminDashboard" ? "" : <FaChevronRight className="text-xs text-gray-400" />}
-                  <span className="font-semibold text-blue-600">{path}</span>
-                </>
-              )}
-            </div>
+
+            <Board path={path} />
+            {/* <Board path='AdminDashboard'/> */}
 
           </div>
         </div>
