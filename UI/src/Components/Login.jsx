@@ -6,6 +6,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import { handelLogin } from "../Apis/Signup";
 import toast, { Toaster } from 'react-hot-toast';
 import { UserRole } from "../Apis/Islogin";
+import RedirectPopup from "./RedirectPopup";
 
 export default function Login() {
   const [StudentEmail, setStudentEmail] = useState("")
@@ -15,7 +16,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const redirect = useNavigate("")
   const [loading, setloading] = useState(false)
-
+  const [redirectloadin, setredirectloading] = useState(false)
   // handel login api data
   const handelloginapi = async (e) => {
 
@@ -32,16 +33,34 @@ export default function Login() {
       StudentPassword
     }
     setloading(true)
+    setredirectloading(true)
     const get_user_valid = await handelLogin(Userdata, e)
     setloading(false)
+    setredirectloading(false)
     if (get_user_valid.data.user.role == "Teacher") {
-      return window.location.href = "/admin-dashboard"
+      setredirectloading(true)
+      toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
+      setTimeout(() => {
+        return window.location.href = "/admin-dashboard"
+      }, 3500);
     }
     else if (get_user_valid.data.user.role == 'Admin') {
-      return window.location.href = "/AdminDashboard"
+      toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
+      setredirectloading(true)
+      setTimeout(() => {
+
+        return window.location.href = "/AdminDashboard"
+      }, 3500)
+
     }
     else {
-      return window.location.href = "/"
+      toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
+      setredirectloading(true)
+      setTimeout(() => {
+
+        return window.location.href = "/"
+      }, 3500);
+
     }
   }
 
@@ -180,6 +199,12 @@ export default function Login() {
           </p>
         </div>
       </div>
+      {redirectloadin && (
+        <RedirectPopup
+          onComplete={handelloginapi}
+          type='Login '
+        />
+      )}
     </>
   )
 }
