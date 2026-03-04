@@ -33,25 +33,24 @@ export default function Login() {
     }
     setloading(true)
     const get_user_valid = await handelLogin(Userdata, e)
-    console.log(get_user_valid.status, "get_user_valid")
     setloading(false)
-
-    // console.log(get_user_valid.data.message=="The password is incorrect")
-    if (get_user_valid.status === 200) {
-      console.log('true')
-      toast.success("Account Created.")
-      if (UserRole.role == "Teacher") {
-        return redirect("/admin-dashboard")
-      } else {
-
-        return redirect("/")
-      }
+    if (get_user_valid.data.user.role == "Teacher") {
+      return window.location.href = "/admin-dashboard"
+    }
+    else if (get_user_valid.data.user.role == 'Admin') {
+      return window.location.href = "/AdminDashboard"
+    }
+    else {
+      return window.location.href = "/"
     }
   }
+
+
+
   return (
     <>
       <Toaster></Toaster>
-      <div className="flex min-h-screen items-center justify-center  px-4">
+      <div className="flex min-h-screen items-center justify-center px-4">
 
         <div className="w-full max-w-sm rounded-xl bg-gray-800 p-6 shadow-lg">
 
