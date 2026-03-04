@@ -152,6 +152,7 @@ function AssiginTeacherwisesubjects() {
             confirmButtonText: "Unassign",
             // denyButtonText:  `
         }).then(async (result) => {
+            console.log(result,'resultresultresult')
             if (result.isConfirmed) {
                 const response = await HandelUnassignApi(id, teacherID)
                 if (response.data.message == "The teacher has been successfully unassigned from this subject.") {
@@ -173,10 +174,7 @@ function AssiginTeacherwisesubjects() {
                         showConfirmButton: true
                     });
                 }
-                else {
-                    Swal.fire("Changes are not saved", "", "info");
-
-                }
+          
 
             }
             else (result.isDenied)
@@ -196,7 +194,7 @@ function AssiginTeacherwisesubjects() {
                     confirmButtonColor: "#2563eb",
                     background: "#f9fafb"
                 });
-                }
+            }
         });
     }
     return (

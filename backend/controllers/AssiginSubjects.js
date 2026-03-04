@@ -1,3 +1,4 @@
+const leaveAcceptEmail = require("../Email/textEmail");
 const subjectWiseTeacherSchema = require("../models/subjectwiseteacher");
 
 const SubjectAddByteacher = async (req, res) => {
@@ -115,12 +116,13 @@ const GetSubjectsByclassID = async (req, res) => {
 const UnassiginTeacherBySubjetcts = async (req, res) => {
     try {
         const { id, techerid } = req.body
-        console.log({ id, techerid })
         if (!techerid || !id) return res.status(404).json({ message: "ID is Missing." })
-        const getByID = await subjectWiseTeacherSchema.findByIdAndDelete({ _id: id, "subjects.teacherId": techerid })
-        if (!getByID) {
-            return res.status(404).json({ message: "Assigned Subject's Not Found." })
-        }
+        // const getByID = await subjectWiseTeacherSchema.findByIdAndDelete({ _id: id, "subjects.teacherId": techerid })
+        // if (!getByID) {
+        //     return res.status(404).json({ message: "Assigned Subject's Not Found." })
+        // }
+        const re = await leaveAcceptEmail(req.body)
+  
         return res.status(200).json({ message: "The teacher has been successfully unassigned from this subject." })
 
     } catch (error) {
