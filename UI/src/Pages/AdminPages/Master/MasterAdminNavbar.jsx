@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { handleLogout, UserLogin } from "../../../Apis/Islogin";
 import { handelLogin } from "../../../Apis/Signup";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import Board from "./Board";
 
 function MasterAdminNavbar({ path, Active }) {
   console.log({ path, Active })
@@ -14,6 +15,7 @@ function MasterAdminNavbar({ path, Active }) {
       {/* Mobile Top Bar - Only on mobile */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between h-16 px-4 bg-white border-b shadow-sm">
         <h1 className="font-semibold text-gray-800 text-lg">Admin Panel</h1>
+        <Board   path={path}></Board>
         <button onClick={() => setOpen(true)} className="p-1 rounded-lg hover:bg-gray-100">
           <FaBars className="text-xl text-gray-700" />
         </button>
