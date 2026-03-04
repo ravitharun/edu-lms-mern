@@ -121,7 +121,6 @@ const UnassiginTeacherBySubjetcts = async (req, res) => {
         if (!getByID) {
             return res.status(404).json({ message: "Assigned Subject's Not Found." })
         }
-        const re = await leaveAcceptEmail(req.body)
 
         return res.status(200).json({ message: "The teacher has been successfully unassigned from this subject." })
 

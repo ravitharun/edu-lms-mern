@@ -1,9 +1,9 @@
+const leaveAddEmail = require("../Email/textEmail");
 const { ApplyToLeave } = require("../models/ApplyLeave")
 const { v4: uuidv4 } = require("uuid");
 const ApplyLeave = async (req, res) => {
     try {
         const { ApplyLeave } = req.body
-        console.log(ApplyLeave)
         const id = uuidv4();
         if (!ApplyLeave) return res.status(404).json({ message: "Something Went Wrong." })
         const Apply = new ApplyToLeave({
@@ -18,20 +18,25 @@ const ApplyLeave = async (req, res) => {
             leaveType: ApplyLeave.leaveType,
             TotalDays: ApplyLeave.TotalDays,
         })
+        await leaveAddEmail.leaveAddEmail(ApplyLeave)
 
         await Apply.save()
         return res.json({ message: "leave application sent" })
     } catch (error) {
-        console.log(error.message)
+        console.log(error.message, 'err')
         return res.json({ message: error.message })
     }
 
 
 }
+
+
+
+
 const GetallLeavesdata = async (req, res) => {
     try {
         const { EmpID, EmpEmail } = req.query
-        console.log( req.query,' req.query')
+        console.log(req.query, ' req.query')
         if (!EmpID || !EmpEmail) return res.status(404).json({ message: "someThing went Wrong." })
         const getEmailBasedLeaves = await ApplyToLeave.find({ EmpID: EmpID })
         console.log(getEmailBasedLeaves, 'getEmailBasedLeaves')
@@ -75,7 +80,22 @@ const GetleavesByupdateStatus = async (req, res) => {
             { new: true }      // return updated document
         );
         console.log(response_Referemail, 'check the user')
+        const response_email = {
+            name: response_Referemail.EmpName,
+            EmpID: response_Referemail.EmpID,
+            to_email: response_Referemail.Useremail,
+            EmpReq_EmailId: response_Referemail.EmpReq_EmailId,
+            LeaveStatus: response_Referemail.Application_status,
+            TotalDays: response_Referemail.TotalDays,
+            leaveType: response_Referemail.leaveType,
+            updatedAt_leave: new Date(response_Referemail.updatedAt).toLocaleDateString(),
+            Fromdate: new Date(response_Referemail.Fromdate).toLocaleDateString(),
+            Todate: new Date(response_Referemail.Todate).toLocaleDateString(),
+
+
+        }
         await response_Referemail.save()
+        leaveAddEmail.Acceptleave(response_email)
         console.log('send the email to the person.', response_Referemail.Useremail)
         return res.status(200).json({ message: response_Referemail })
 
