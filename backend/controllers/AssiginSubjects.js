@@ -117,14 +117,10 @@ const UnassiginTeacherBySubjetcts = async (req, res) => {
         const { id, techerid } = req.body
         console.log({ id, techerid })
         if (!techerid || !id) return res.status(404).json({ message: "ID is Missing." })
-        // const getByID = await subjectWiseTeacherSchema.findByIdAndDelete({ _id: id, "subjects.teacherId": techerid }, { year: 1 }, { new: true })
-        // console.log(getByID, 'getByID Deleted subject')
-
-        // if (!getByID) {
-        //     return res.status(404).json({ message: "Assigned Subject's Not Found." })
-
-        // }
-
+        const getByID = await subjectWiseTeacherSchema.findByIdAndDelete({ _id: id, "subjects.teacherId": techerid })
+        if (!getByID) {
+            return res.status(404).json({ message: "Assigned Subject's Not Found." })
+        }
         return res.status(200).json({ message: "The teacher has been successfully unassigned from this subject." })
 
     } catch (error) {
