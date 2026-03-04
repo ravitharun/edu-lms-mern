@@ -6,6 +6,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import { handelLogin } from "../Apis/Signup";
 import toast, { Toaster } from 'react-hot-toast';
 import { UserRole } from "../Apis/Islogin";
+import RedirectPopup from "./RedirectPopup";
 
 export default function Login() {
   const [StudentEmail, setStudentEmail] = useState("")
@@ -15,7 +16,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const redirect = useNavigate("")
   const [loading, setloading] = useState(false)
-
+  const [redirectloadin, setredirectloading] = useState(false)
   // handel login api data
   const handelloginapi = async (e) => {
 
@@ -32,26 +33,43 @@ export default function Login() {
       StudentPassword
     }
     setloading(true)
+    setredirectloading(true)
     const get_user_valid = await handelLogin(Userdata, e)
-    console.log(get_user_valid.status, "get_user_valid")
     setloading(false)
+    setredirectloading(false)
+    if (get_user_valid.data.user.role == "Teacher") {
+      setredirectloading(true)
+      toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
+      setTimeout(() => {
+        return window.location.href = "/admin-dashboard"
+      }, 3500);
+    }
+    else if (get_user_valid.data.user.role == 'Admin') {
+      toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
+      setredirectloading(true)
+      setTimeout(() => {
 
-    // console.log(get_user_valid.data.message=="The password is incorrect")
-    if (get_user_valid.status === 200) {
-      console.log('true')
-      toast.success("Account Created.")
-      if (UserRole.role == "Teacher") {
-        return redirect("/admin-dashboard")
-      } else {
+        return window.location.href = "/AdminDashboard"
+      }, 3500)
 
-        return redirect("/")
-      }
+    }
+    else {
+      toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
+      setredirectloading(true)
+      setTimeout(() => {
+
+        return window.location.href = "/"
+      }, 3500);
+
     }
   }
+
+
+
   return (
     <>
       <Toaster></Toaster>
-      <div className="flex min-h-screen items-center justify-center  px-4">
+      <div className="flex min-h-screen items-center justify-center px-4">
 
         <div className="w-full max-w-sm rounded-xl bg-gray-800 p-6 shadow-lg">
 
@@ -181,6 +199,12 @@ export default function Login() {
           </p>
         </div>
       </div>
+      {redirectloadin && (
+        <RedirectPopup
+          onComplete={handelloginapi}
+          type='Login '
+        />
+      )}
     </>
   )
 }

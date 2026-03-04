@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
 import { UserName } from "../Apis/Islogin";
+import RedirectPopup from "./RedirectPopup";
 
 function Error() {
   const navigate = useNavigate();
@@ -10,11 +11,14 @@ function Error() {
   const name = userInfo?.name || "User";
 
   const requiredRole = "Admin";
-
+  const [redirectLogin, setredirect] = useState(false)
   const handleLogout = () => {
+    setredirect(true)
     secureLocalStorage.removeItem("token");
     secureLocalStorage.removeItem("User_info");
-    navigate("/login");
+    setTimeout(() => {
+      navigate("/login");
+    }, 3500);
   };
 
   return (
@@ -27,7 +31,7 @@ function Error() {
             Learning Management System
           </h1>
           <p className="mt-4 text-blue-100 text-sm leading-relaxed max-w-sm">
-            Secure academic platform providing role-based access 
+            Secure academic platform providing role-based access
             to courses, reports, and administrative resources.
           </p>
         </div>
@@ -45,14 +49,14 @@ function Error() {
 
           <p className="mt-3 text-gray-600 text-sm">
             Hello <span className="font-medium">{UserName
-            ?.role|| "User"}</span>, 
+              ?.role || "User"}</span>,
             your current role is <span className="font-medium text-blue-700">{UserName
-            ?.role|| "Unknown"}</span>.
+              ?.role || "Unknown"}</span>.
           </p>
 
-    <p className="mt-2 text-sm text-gray-600">
-  This resource is not available for your account.
-</p>
+          <p className="mt-2 text-sm text-gray-600">
+            This resource is not available for your account.
+          </p>
           {/* Info Box */}
           <div className="mt-5 bg-gray-50 border rounded-lg p-4 text-sm text-gray-600">
             If you believe this is a mistake, please contact your academic administrator.
@@ -82,6 +86,7 @@ function Error() {
 
         </div>
       </div>
+      {redirectLogin && <RedirectPopup onComplete={handleLogout}  type="Logout"/>}
     </div>
   );
 }
