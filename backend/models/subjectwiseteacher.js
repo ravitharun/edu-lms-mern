@@ -25,7 +25,7 @@ const subjectWiseTeacherSchema = new mongoose.Schema({
         type: String, // CS301
         required: true
       },
-
+      Assign: { type: Boolean },
       subjectName: {
         type: String, // DBMS
         // required: true

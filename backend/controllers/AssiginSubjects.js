@@ -33,7 +33,8 @@ const SubjectAddByteacher = async (req, res) => {
                         subjectName: subject,
                         name: techer_Name,
                         teacherId: id,
-                        Techer_profile: ulr
+                        Techer_profile: ulr,
+                        Assign: true
                     },
                 ]
 
@@ -51,7 +52,8 @@ const SubjectAddByteacher = async (req, res) => {
                         subjectName: subject,
                         teacherId: id,
                         name: techer_Name,
-                        Techer_profile: ulr
+                        Techer_profile: ulr,
+                        Assign:true
 
                     }
                 }
@@ -117,15 +119,24 @@ const UnassiginTeacherBySubjetcts = async (req, res) => {
     try {
         const { id, techerid } = req.body
         if (!techerid || !id) return res.status(404).json({ message: "ID is Missing." })
-        const getByID = await subjectWiseTeacherSchema.findByIdAndDelete({ _id: id, "subjects.teacherId": techerid })
+        const getByID = await subjectWiseTeacherSchema.findOneAndUpdate(
+            {
+                _id: id,
+                "subjects.teacherId": techerid
+            },
+            {
+                $set: { "subjects.$.Assign": false }
+            },
+            { new: true }
+        );
+
         if (!getByID) {
             return res.status(404).json({ message: "Assigned Subject's Not Found." })
         }
 
-        return res.status(200).json({ message: "The teacher has been successfully unassigned from this subject." })
-
+        return res.status(200).json({ message: "The teacher has been successfully unassigned from this subject.", 'getByID': getByID })
     } catch (error) {
-        console.log(error.message)
+        console.log(error.message, 'err')
         return res.status(500).json({ message: "server error." })
 
     }
