@@ -37,7 +37,7 @@ export const AssignTeacher = async (data) => {
     catch (err) {
         console.log()
         if (err.message == 'Request failed with status code 400') {
-            return alert('Course alredy ')
+            return alert('Course is already Assigned. ')
         }
 
     }
@@ -117,8 +117,8 @@ export const GetallStudentsProfile = async () => {
     }
 
 }
-export const HandelUnassignApi = async (id, techerid) => {
-    const info = { id, techerid }
+export const HandelUnassignApi = async (id, techerid,type,action) => {
+    const info = { id, techerid ,type,action}
     console.log(info, 'id From api Call')
 
     try {
@@ -128,7 +128,6 @@ export const HandelUnassignApi = async (id, techerid) => {
             
         },
         )
-        console.log(response,)
 
         return response
 

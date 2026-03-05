@@ -4,7 +4,7 @@ const subjectWiseTeacherSchema = require("../models/subjectwiseteacher");
 const SubjectAddByteacher = async (req, res) => {
     try {
         const { data } = req.body
-        console.log(data.classid)
+
         const year = data.ChooseSubjects.split("-")[2]
         const subject = data.ChooseSubjects.split("-")[0]
         const dept = data.ChooseSubjects.split("-")[1]
@@ -53,7 +53,7 @@ const SubjectAddByteacher = async (req, res) => {
                         teacherId: id,
                         name: techer_Name,
                         Techer_profile: ulr,
-                        Assign:true
+                        Assign: true
 
                     }
                 }
@@ -76,7 +76,7 @@ const GetallAssignedSubjects = async (req, res) => {
         if (GetAllAssignedSubjects.length == 0) {
             return res.status(404).json({ message: "No Subjects Assigned ." })
         }
-        console.log(GetAllAssignedSubjects, 'GetAllAssignedSubjects')
+
         return res.status(200).json({ message: GetAllAssignedSubjects })
     } catch (error) {
         console.log(error.message, "from the GetAllAssignedSubjects api call")
@@ -117,7 +117,10 @@ const GetSubjectsByclassID = async (req, res) => {
 
 const UnassiginTeacherBySubjetcts = async (req, res) => {
     try {
-        const { id, techerid } = req.body
+        const { id, techerid, action } = req.body
+        console.log(req.body, 're.body')
+        let check = action == 'assign' ? true : false
+        console.log(check, 'check', " typeofAction : ", action)
         if (!techerid || !id) return res.status(404).json({ message: "ID is Missing." })
         const getByID = await subjectWiseTeacherSchema.findOneAndUpdate(
             {
@@ -125,7 +128,7 @@ const UnassiginTeacherBySubjetcts = async (req, res) => {
                 "subjects.teacherId": techerid
             },
             {
-                $set: { "subjects.$.Assign": false }
+                $set: { "subjects.$.Assign": check }
             },
             { new: true }
         );
@@ -133,8 +136,12 @@ const UnassiginTeacherBySubjetcts = async (req, res) => {
         if (!getByID) {
             return res.status(404).json({ message: "Assigned Subject's Not Found." })
         }
+        console.log('The teacher has been successfully unassigned from this subject."')
+        if (action === 'assign') {
 
-        return res.status(200).json({ message: "The teacher has been successfully unassigned from this subject.", 'getByID': getByID })
+            return res.status(200).json({ message: `The teacher has been successfully ${action} from this subject.` })
+        }
+        return res.status(200).json({ message: `The teacher has been successfully ${action} from this subject.` })
     } catch (error) {
         console.log(error.message, 'err')
         return res.status(500).json({ message: "server error." })
