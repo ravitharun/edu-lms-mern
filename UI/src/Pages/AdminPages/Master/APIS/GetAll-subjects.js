@@ -76,7 +76,7 @@ export const HandelDeleteCourse = async (data) => {
 // get all assigned subjects from techer 
 export const GetAllSubjectsAssignedTeacher = async () => {
     const response = await axios.get("http://localhost:5001/api/AssignSubjects/assign/AllSubjects", Header_Token_expry)
-    console.log(response.data.message, 'res')
+
     return response.data.message
 }
 

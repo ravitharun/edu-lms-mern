@@ -8,9 +8,9 @@ import Board from "./Board";
 import LogoAdmin from "./LogoAdmin";
 
 function MasterAdminNavbar({ path, Active }) {
-  console.log({ path, Active })
+  // console.log({ path, Active })
   const [open, setOpen] = useState(true);
-  console.log(open, 'opn')
+    // console.log(open, 'opn')
   return (
     <>
       {/* Mobile Top Bar - Only on mobile */}
