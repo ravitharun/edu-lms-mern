@@ -106,15 +106,14 @@ function AssiginTeacherwisesubjects() {
                 try {
                     const data = await AssignTeacher(data_choose);
 
-                    console.log(data)
-                    return Swal.fire({
+                    Swal.fire({
                         title: "Assigned!",
                         text: "Teacher assigned successfully",
                         icon: "success",
                         timer: 1500,
                         showConfirmButton: false,
                     });
-
+                    return window.location.reload()
 
                 } catch (err) {
                     console.log(err.message, 'from thw assignTecher.jsx')
@@ -127,36 +126,44 @@ function AssiginTeacherwisesubjects() {
     }
 
 
-    const HandelUnassign = (id, teacherID) => {
+    const HandelUnassign = (id, teacherID, type, action) => {
 
         Swal.fire({
-            title: "Do you want to Assign the Teacher?",
-            // showDenyButton: true,
+            title: `Do you want to ${!type ? 'Assign' : 'UnAssing'} the Teacher?`,
+
             showCancelButton: true,
-            confirmButtonText: "Assign",
+            confirmButtonText: `${!type ? 'Assign' : 'UnAssing'}`,
             // denyButtonText:  `
         }).then(async (result) => {
             console.log(result, 'resultresultresult')
             if (result.isConfirmed) {
-                const response = await HandelUnassignApi(id, teacherID)
-                if (response.data.message == "The teacher has been successfully unassigned from this subject.") {
-                    return Swal.fire({
-                        title: "Teacher Assigned Successfully!",
+                const response = await HandelUnassignApi(id, teacherID, type, action)
+                console.log(response.data.message == response.data.message, 'response.data.message')
+                if (response.data.message === response.data.message) {
+
+                    Swal.fire({
+                        title: `Teacher ${action} Successfully!`,
                         html: `
-        <p style="font-size:14px; margin-bottom:5px;">
-            The teacher has been removed from this subject.
-        </p>
-        <b style="color:#16a34a; font-size:15px;">
-            ${response.data.message}
-        </b>
-    `,
+                        <p style="font-size:14px; margin-bottom:5px;">
+                          ${action == 'Unassign' ? '  The teacher has been removed from this subject.' : "  The teacher has been assigned from this subject."}
+                        </p>
+                        <b style="color:#16a34a; font-size:15px;">
+                            ${response.data.message}
+                        </b>
+                    `,
                         icon: "success",
                         confirmButtonText: "OK",
                         confirmButtonColor: "#2563eb",
                         background: "#f9fafb",
-                        timer: 3000,
+                        timer: 2000,
                         showConfirmButton: true
+                        
                     });
+
+                    return setTimeout(() => {
+                        return window.location.reload()
+                    }, 2500);
+
                 }
 
 
@@ -203,8 +210,9 @@ function AssiginTeacherwisesubjects() {
                                 {/* LEFT SIDE */}
                                 <div className="flex flex-col mt-10">
                                     <h2 className="text-xl font-semibold text-gray-800">
-                                        Assigned Teachers List
+                                        Assigned Teachers List-({fetchAssignedSubjects.length})
                                     </h2>
+                                    {/* accept only True data */}
 
                                     <p className="text-sm text-gray-500 mt-1">
                                         This table displays teachers who are currently assigned to subjects.
@@ -311,7 +319,7 @@ function AssiginTeacherwisesubjects() {
                                                     <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].teacherId}</td>
                                                     <td className="px-4 py-3 text-sm text-gray-800">{data.teacher_Id}</td>
                                                     <td className="px-4 py-3 text-center">
-                                                        <button className="text-red-600 hover:text-red-800 hover:cursor-pointer  text-sm font-medium" onClick={() => HandelUnassign(data._id, data.subjects[0].teacherId)}>
+                                                        <button className="text-red-600 hover:text-red-800 hover:cursor-pointer  text-sm font-medium" onClick={() => HandelUnassign(data._id, data.subjects[0].teacherId, true, 'Unassign')}>
                                                             Unassign
                                                         </button>
                                                     </td>
@@ -329,74 +337,79 @@ function AssiginTeacherwisesubjects() {
                                 </table>
 
                             </div>
-                            <div className="flex flex-col mt-10">
-                                <h2 className="text-xl font-semibold text-gray-800">
-                                    Unassigned Teachers List--only accept false (rejcted) ---true(Added)
-                                </h2>
+                            {Assigned.length == 0 ? "" :
+                                <>
+                                    <div className="flex flex-col mt-10">
+                                        <h2 className="text-xl font-semibold text-gray-800">
+                                            Unassigned Teachers List-({Assigned.length})
+                                            {/* accept only false data */}
+                                        </h2>
 
-                                <p className="text-sm text-gray-500 mt-1">
-                                    This table shows teachers who are currently not assigned to any subjects.
-                                    These teachers were previously unassigned from the table above.
-                                    You can click the <span className="font-medium text-green-600">Assign</span> button
-                                    to assign them again to a subject.
-                                </p>
+                                        <p className="text-sm text-gray-500 mt-1">
+                                            This table shows teachers who are currently not assigned to any subjects.
+                                            These teachers were previously unassigned from the table above.
+                                            You can click the <span className="font-medium text-green-600">Assign</span> button
+                                            to assign them again to a subject.
+                                        </p>
 
-                                <div className="mt-2 h-1 w-24 rounded-full bg-green-500" />
-                            </div>
-                            <div className="mt-8 overflow-x-auto">
-                                <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden">
+                                        <div className="mt-2 h-1 w-24 rounded-full bg-green-500" />
+                                    </div>
+                                    <div className="mt-8 overflow-x-auto">
+                                        <table className="min-w-full border border-gray-200 rounded-lg overflow-hidden">
 
-                                    {/* TABLE HEAD */}
-                                    <thead className="bg-gray-100">
-                                        <tr>
+                                            {/* TABLE HEAD */}
+                                            <thead className="bg-gray-100">
+                                                <tr>
 
-                                            {Headings.map((itm, idx) => (
-                                                <th key={idx} className='px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase'>{itm}</th>
-                                            ))}
+                                                    {Headings.map((itm, idx) => (
+                                                        <th key={idx} className='px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase'>{itm}</th>
+                                                    ))}
 
-                                        </tr>
-                                    </thead>
-                                    <tbody className="bg-white">
-                                        {loader ? (
-                                            <tr>
-                                                <td colSpan="9" className="h-64">
-                                                    <div className="flex items-center justify-center h-full">
-                                                        <Dataloading path="Assigning teacher to subject…
-"/>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ) : Assigned.length > 0 ? (
-                                            Assigned.map((data, idx) => (
-                                                <tr className="hover:bg-gray-50" key={idx}>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{idx + 1}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.classId}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.year}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.classId}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].subjectId}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].name}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.department}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].teacherId}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.teacher_Id}</td>
-                                                    <td className="px-4 py-3 text-center">
-                                                        <button className="text-blue-600 hover:text-blue-800 hover:cursor-pointer  text-sm font-medium" onClick={() => HandelUnassign(data._id, data.subjects[0].teacherId)}>
-                                                            Assign
-                                                        </button>
-                                                    </td>
                                                 </tr>
-                                            ))
-                                        ) : (
-                                            <tr>
-                                                <td colSpan="9" className="px-4 py-6 text-center text-sm text-gray-500">
-                                                    No assignments found
-                                                </td>
-                                            </tr>
-                                        )}
-                                    </tbody>
+                                            </thead>
+                                            <tbody className="bg-white">
+                                                {loader ? (
+                                                    <tr>
+                                                        <td colSpan="9" className="h-64">
+                                                            <div className="flex items-center justify-center h-full">
+                                                                <Dataloading path="Assigning teacher to subject…
+"/>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                ) : Assigned.length > 0 ? (
+                                                    Assigned.map((data, idx) => (
+                                                        <tr className="hover:bg-gray-50" key={idx}>
+                                                            <td className="px-4 py-3 text-sm text-gray-800">{idx + 1}</td>
+                                                            <td className="px-4 py-3 text-sm text-gray-800">{data.classId}</td>
+                                                            <td className="px-4 py-3 text-sm text-gray-800">{data.year}</td>
+                                                            <td className="px-4 py-3 text-sm text-gray-800">{data.classId}</td>
+                                                            <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].subjectId}</td>
+                                                            <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].name}</td>
+                                                            <td className="px-4 py-3 text-sm text-gray-800">{data.department}</td>
+                                                            <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].teacherId}</td>
+                                                            <td className="px-4 py-3 text-sm text-gray-800">{data.teacher_Id}</td>
+                                                            <td className="px-4 py-3 text-center">
+                                                                <button className="text-blue-600 hover:text-blue-800 hover:cursor-pointer  text-sm font-medium" onClick={() => HandelUnassign(data._id, data.subjects[0].teacherId, false, 'assign')}>
+                                                                    Assign
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="9" className="px-4 py-6 text-center text-sm text-gray-500">
+                                                            No assignments found
+                                                        </td>
+                                                    </tr>
+                                                )}
+                                            </tbody>
 
-                                </table>
+                                        </table>
 
-                            </div>
+                                    </div>
+                                </>
+                            }
 
                         </div>
                     </main>
