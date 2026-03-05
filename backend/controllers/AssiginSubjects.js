@@ -34,7 +34,7 @@ const SubjectAddByteacher = async (req, res) => {
                         name: techer_Name,
                         teacherId: id,
                         Techer_profile: ulr,
-                        Assign: 'true'
+                        Assign: true
                     },
                 ]
 
@@ -52,7 +52,8 @@ const SubjectAddByteacher = async (req, res) => {
                         subjectName: subject,
                         teacherId: id,
                         name: techer_Name,
-                        Techer_profile: ulr
+                        Techer_profile: ulr,
+                        Assign:true
 
                     }
                 }

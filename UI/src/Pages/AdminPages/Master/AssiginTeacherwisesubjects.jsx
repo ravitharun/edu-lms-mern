@@ -17,7 +17,7 @@ function AssiginTeacherwisesubjects() {
     const [ChooseTecherName, setChooseTecherName] = useState('')
     const [fetchAssignedSubjects, setfetchAssignedSubjects] = useState([])
     const [loader, setLoader] = useState(false)
-    const [Assigned, setAssigned] = useState(false)
+    const [Assigned, setAssigned] = useState([])
     useEffect(() => {
         fun()
     }, [])
@@ -27,10 +27,13 @@ function AssiginTeacherwisesubjects() {
                 setLoader(true)
                 const data = await GetAllSubjectsAssignedTeacher()
                 console.log(data, 'data')
-                const filterByAssign_False = data.filter((itm) => itm.subjects[0]
+                const filterByAssign_true = data.filter((itm) => itm.subjects[0]
                     .Assign == true)
-                console.log(filterByAssign_False, 'false')
-                setfetchAssignedSubjects(data)
+                const filterByAssign_false = data.filter((itm) => itm.subjects[0]
+                    .Assign == false)
+
+                setAssigned(filterByAssign_false)
+                setfetchAssignedSubjects(filterByAssign_true)
                 setLoader(0)
             }
             catch (err) {
@@ -127,10 +130,10 @@ function AssiginTeacherwisesubjects() {
     const HandelUnassign = (id, teacherID) => {
 
         Swal.fire({
-            title: "Do you want to Unassign the Teacher?",
+            title: "Do you want to Assign the Teacher?",
             // showDenyButton: true,
             showCancelButton: true,
-            confirmButtonText: "Unassign",
+            confirmButtonText: "Assign",
             // denyButtonText:  `
         }).then(async (result) => {
             console.log(result, 'resultresultresult')
@@ -138,7 +141,7 @@ function AssiginTeacherwisesubjects() {
                 const response = await HandelUnassignApi(id, teacherID)
                 if (response.data.message == "The teacher has been successfully unassigned from this subject.") {
                     return Swal.fire({
-                        title: "Teacher Unassigned Successfully!",
+                        title: "Teacher Assigned Successfully!",
                         html: `
         <p style="font-size:14px; margin-bottom:5px;">
             The teacher has been removed from this subject.
@@ -179,9 +182,6 @@ function AssiginTeacherwisesubjects() {
         });
     }
     const Headings = ["s.no", "Calss ID", "Year", "Subjects", "Course ID", "Teacher", "Department", "  Teacher ID", "Action"]
-Assigned[0]?.subjects?.map((item) => {
-   console.log(item.classId,'tm')
-})
     return (
         <>
             <Toaster />
@@ -331,7 +331,7 @@ Assigned[0]?.subjects?.map((item) => {
                             </div>
                             <div className="flex flex-col mt-10">
                                 <h2 className="text-xl font-semibold text-gray-800">
-                                    Unassigned Teachers List
+                                    Unassigned Teachers List--only accept false (rejcted) ---true(Added)
                                 </h2>
 
                                 <p className="text-sm text-gray-500 mt-1">
@@ -366,27 +366,32 @@ Assigned[0]?.subjects?.map((item) => {
                                                     </div>
                                                 </td>
                                             </tr>
-                                        ) :
-                                            <>
-                                                <tr className="hover:bg-gray-50" >
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{Assigned + 1}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{Assigned?.classId}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{Assigned?.year}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{Assigned?.classId}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{Assigned?.subjects?.subjectId}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{Assigned?.subjects?.name}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{Assigned?.department}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{Assigned?.subjects?.teacherId}</td>
-                                                    <td className="px-4 py-3 text-sm text-gray-800">{Assigned?.teacher_Id}</td>
+                                        ) : Assigned.length > 0 ? (
+                                            Assigned.map((data, idx) => (
+                                                <tr className="hover:bg-gray-50" key={idx}>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{idx + 1}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.classId}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.year}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.classId}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].subjectId}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].name}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.department}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.subjects[0].teacherId}</td>
+                                                    <td className="px-4 py-3 text-sm text-gray-800">{data.teacher_Id}</td>
                                                     <td className="px-4 py-3 text-center">
                                                         <button className="text-blue-600 hover:text-blue-800 hover:cursor-pointer  text-sm font-medium" onClick={() => HandelUnassign(data._id, data.subjects[0].teacherId)}>
                                                             Assign
                                                         </button>
                                                     </td>
                                                 </tr>
-
-                                            </>
-                                        }
+                                            ))
+                                        ) : (
+                                            <tr>
+                                                <td colSpan="9" className="px-4 py-6 text-center text-sm text-gray-500">
+                                                    No assignments found
+                                                </td>
+                                            </tr>
+                                        )}
                                     </tbody>
 
                                 </table>
