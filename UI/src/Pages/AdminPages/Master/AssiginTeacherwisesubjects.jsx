@@ -159,7 +159,6 @@ function AssiginTeacherwisesubjects() {
                         showConfirmButton: true
                         
                     });
-
                     return setTimeout(() => {
                         return window.location.reload()
                     }, 2500);

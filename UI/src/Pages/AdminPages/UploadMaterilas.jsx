@@ -347,35 +347,7 @@ function UploadMaterilas() {
                 )}
 
 
-                {/* <table border="1" cellPadding="10" cellSpacing="0">
-                    <thead>
-                        <tr>
-                            {['Section', 'Name', 'Description', 'Actions'].map((data, idx) => (
-                                <td key={idx}>{data}</td>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-
-                            {
-                                Samplejsondata.map((notes, idx) => (
-                                    <div key={idx}>
-
-                                        <td>{notes.Section}</td>
-                                        <td>{notes.Name}</td>
-                                        <td>{notes.Description}</td>
-                                        <td>
-                                            <button onClick={() => toast.success(`edit ft ${idx}`)}>Edit</button>
-                                            <button onClick={() => toast.success(`view ft ${idx}`)}>View</button>
-                                            <button onClick={() => toast.success(`delete ft ${idx}`)}>Delete</button>
-                                        </td>
-                                    </div>
-                                ))
-                            }
-                        </tr>
-                    </tbody>
-                </table> */}
+                
                 <div className="w-full bg-white shadow-lg rounded-xl p-4">
 
                     <h2 className="text-xl font-semibold mb-4 text-gray-700">
