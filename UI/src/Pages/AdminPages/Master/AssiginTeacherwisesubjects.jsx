@@ -129,7 +129,7 @@ function AssiginTeacherwisesubjects() {
     const HandelUnassign = (id, teacherID, type, action) => {
 
         Swal.fire({
-            title: `Do you want to ${!type ? 'Assign' : 'UnAssing'} the Teacher?`,
+            title: `Do you want to ${!type ? 'Assign' : 'Unassing'} the Teacher?`,
 
             showCancelButton: true,
             confirmButtonText: `${!type ? 'Assign' : 'UnAssing'}`,
