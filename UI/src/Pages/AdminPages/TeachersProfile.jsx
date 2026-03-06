@@ -65,18 +65,19 @@ function TeachersProfile() {
                         }
 
                         {
-                            
-                            Edit?"":
-                            <div className="flex-1" title={`Hey ${UserName?.name.toUpperCase()}`}>
-                            <h2 className="text-lg font-semibold text-gray-800">
-                                {UserName?.name}
-                            </h2>
+
+                            Edit ? "" :
+                                <div className="flex-1" title={`Hey ${UserName?.name.toUpperCase()}`}>
+                                    <h2 className="text-lg font-semibold text-gray-800">
+                                        {UserName?.name}
+                                    </h2>
 
 
-                            <p className="text-sm text-gray-500 mt-1" title='Role'>
-                                <span className="font-medium text-gray-700">Role:</span> {UserName?.role}
-                            </p>
-                        </div>}
+                                    <p className="text-sm text-gray-500 mt-1" title='Role'>
+                                        <span className="font-medium text-gray-700">Role:</span> {UserName?.role}
+                                    </p>
+                                </div>}
+
                         {/* SaveProfile */}
                         {Edit ?
                             <>
@@ -116,56 +117,118 @@ function TeachersProfile() {
                     </div>
 
                     {/* Form Section */}
-                    <div className="grid md:grid-cols-2 gap-6 mt-6">
+                  <div className="grid md:grid-cols-2 gap-6 mt-6">
 
-                        <div>
-                            <label className="text-sm text-gray-600">Name</label>
-                            {Edit ? <>
-                                <input
-                                    type="text"
+    {/* Name */}
+    <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-700">Name</label>
 
-                                    className="w-full mt-1 border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-gray-400"
-                                />
-                            </> :
-                                <input
-                                    type="text"
-                                    value={UserName?.name}
-                                    className="w-full mt-1 border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-gray-400"
-                                />
-                            }
+        {Edit ? (
+            <input
+                type="text"
+                placeholder="Enter full name"
+                className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
+                focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
+        ) : (
+            <input
+                type="text"
+                value={UserName?.name}
+                readOnly
+                className="w-full mt-2 border border-gray-200 rounded-lg px-3 py-2 bg-gray-50"
+            />
+        )}
+    </div>
 
-                        </div>
+    {/* Email */}
+    <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-700">Email</label>
+        <input
+            type="text"
+            value={UserName?.email}
+            readOnly
+            className="w-full mt-2 border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 cursor-not-allowed"
+        />
+    </div>
 
-                        <div>
-                            <label className="text-sm text-gray-600">Email</label>
-                            <input
-                                type="text"
-                                value={UserName?.email}
-                                className="w-full mt-1 border rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-gray-400"
-                            />
-                        </div>
+    {/* About */}
+    <div className="md:col-span-2 flex flex-col">
+        <label className="text-sm font-medium text-gray-700">About</label>
+        <textarea
+            placeholder="Write about yourself..."
+            rows={5}
+            className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
+            focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none transition"
+        />
+    </div>
 
-                        <div>
-                            <label className="text-sm text-gray-600">Teacher ID</label>
-                            <input
-                                type="text"
-                                value={UserName?.teacher_Id}
-                                readOnly
-                                className="w-full mt-1 border rounded-md p-2 bg-gray-100 cursor-not-allowed"
-                            />
-                        </div>
+    {/* Teacher ID */}
+    <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-700">Teacher ID</label>
+        <input
+            type="text"
+            value={UserName?.teacher_Id}
+            readOnly
+            className="w-full mt-2 border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 cursor-not-allowed"
+        />
+    </div>
 
-                        <div>
-                            <label className="text-sm text-gray-600">Role</label>
-                            <input
-                                type="text"
-                                value={UserName?.role}
-                                readOnly
-                                className="w-full mt-1 border rounded-md p-2 bg-gray-100 cursor-not-allowed"
-                            />
-                        </div>
+    {/* Role */}
+    <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-700">Role</label>
+        <input
+            type="text"
+            value={UserName?.role}
+            readOnly
+            className="w-full mt-2 border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 cursor-not-allowed"
+        />
+    </div>
 
-                    </div>
+    {/* Experience */}
+    <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-700">Experience</label>
+        <input
+            type="number"
+            placeholder="Years of experience"
+            className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
+            focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        />
+    </div>
+
+    {/* Phone */}
+    <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-700">Phone</label>
+        <input
+            type="tel"
+            placeholder="Phone number"
+            className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
+            focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        />
+    </div>
+
+    {/* Designation */}
+    <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-700">Designation</label>
+        <input
+            type="text"
+            placeholder="Assistant Professor"
+            className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
+            focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        />
+    </div>
+
+    {/* Qualification */}
+    <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-700">Qualification</label>
+        <input
+            type="text"
+            placeholder="M.Tech / PhD"
+            className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
+            focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+        />
+    </div>
+
+</div>
 
                 </div>
 
