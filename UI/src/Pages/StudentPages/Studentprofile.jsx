@@ -16,6 +16,8 @@ function Studentprofile() {
     const [Year, setYear] = useState("")
     const [Section, setSection] = useState("")
     const [Bio, setBio] = useState("")
+
+    const [Edit, setEdit] = useState(false)
     const fileUpdate = (e) => {
         const file = e.target.files[0]
         console.log(file)
@@ -24,9 +26,10 @@ function Studentprofile() {
         setfile(file)
     }
 
-    const handelEdit=()=>{
-        alert("hi")
-    
+    const handelEdit = () => {
+        // alert("hi")
+        setEdit((prev) => !prev)
+
     }
     return (
         <>
@@ -37,16 +40,18 @@ function Studentprofile() {
                 <div className="max-w-6xl mx-auto mb-8 flex items-center justify-between">
                     <div>
                         <h1 className="text-3xl font-bold text-gray-800">
-                            Hi, {UserName?.name} 👋
+                            Hi, <span className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent font-semibold">
+                                {UserName?.name}
+                            </span> 👋
                         </h1>
                         <p className="text-sm text-gray-500 mt-1">
                             Manage your profile information
                         </p>
                     </div>
 
-                    <button className="hidden md:block bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-medium shadow-sm transition">
+                    {Edit && <button className="hidden md:block bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg text-sm font-medium shadow-sm transition">
                         Save Changes
-                    </button>
+                    </button>}
                 </div>
 
                 {/* Main Card */}
@@ -62,8 +67,8 @@ function Studentprofile() {
                                     alt="Profile"
                                     className="w-24 h-24 rounded-full object-cover border-2 border-blue-400"
                                 />
-                                <button className="absolute bottom-0 right-0 bg-blue-600 text-white text-xs px-2 py-0.5 rounded-full" onClick={handelEdit}>
-                                    Edit
+                                <button className={`absolute bottom-0 right-0 ${Edit ? "bg-green-600" : "bg-blue-600"} text-white text-xs px-2 py-0.5 rounded-full`} onClick={handelEdit}>
+                                    {Edit ? <button onClick={() => alert("Savebtn")}>Save</button> : "Edit"}
                                 </button>
                             </div>
 
@@ -197,9 +202,9 @@ function Studentprofile() {
 
                     {/* Mobile Save Button */}
                     <div className="mt-8 md:hidden">
-                        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-medium transition">
+                        {Edit ? <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-medium transition">
                             Save Changes
-                        </button>
+                        </button> : ""}
                     </div>
 
                 </div>
