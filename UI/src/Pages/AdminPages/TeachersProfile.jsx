@@ -4,7 +4,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import AdminHeader from '../../Components/AdminHeader'
 import { FaPlus } from 'react-icons/fa'
 import ProgressLoader from '../../Loaders/Progressloader'
-import { UserName, UserProfileInfo } from '../../Apis/Islogin'
+import { UserProfileInfo } from '../../Apis/Islogin'
 import axios from 'axios'
 import GetUserProfile from './TechersApiCall/GetUserProfile'
 import { useEffect } from 'react'
@@ -12,22 +12,24 @@ import secureLocalStorage from 'react-secure-storage'
 
 function TeachersProfile() {
     const [Edit, setEdit] = useState(false)
-    const [Techername, setTEachername] = useState("")
-    const [TecherEmail, setTEacherEmail] = useState(UserName?.name)
+    const [Techername, setTEachername] = useState(UserProfileInfo?.Name)
+    const [TecherEmail, setTEacherEmail] = useState(UserProfileInfo?.Email)
     const [profile, setTeacherProfile] = useState('')
-    const [TecherId, setTeacherId] = useState(UserName?.teacher_Id)
-    const [TecheRole, setTeacherrole] = useState(UserName?.role)
-    const [About, setAbout] = useState(UserName?.About)
-    const [Experience, setExperience] = useState(UserName?.Experience)
-    const [Phone, setPhone] = useState(UserName?.Phone)
-    const [Designation, setDesignation] = useState(UserName?.Designation)
-    const [Qualification, setQualification] = useState(UserName?.Qualification)
-    const [PrivewUrlImg, setPrivewUrlImg] = useState("")
+    const [TecherId, setTeacherId] = useState(UserProfileInfo?.ID)
+    const [TecheRole, setTeacherrole] = useState(UserProfileInfo?.Role)
+    const [About, setAbout] = useState(UserProfileInfo?.About)
+    const [Experience, setExperience] = useState(UserProfileInfo?.Experience)
+    const [Phone, setPhone] = useState(UserProfileInfo?.Phone)
+    const [Designation, setDesignation] = useState(UserProfileInfo?.Designation)
+    const [Qualification, setQualification] = useState(UserProfileInfo?.Qualification)
+    const [PrivewUrlImg, setPrivewUrlImg] = useState(UserProfileInfo?.ProfileUrl)
     const [isFill, setisfill] = useState([])
 
     const [Profileloader, SetLoader] = useState(false)
 
-    console.log(UserProfileInfo, 'UserProfileInfo')
+    console.log(secureLocalStorage.getItem("userProfileInfo"), "userProfileInfo")
+    // get the profileInformartion
+
     useEffect(() => {
         const response = async () => {
             try {
@@ -59,6 +61,41 @@ function TeachersProfile() {
         response()
     }, [])
 
+    useEffect(() => {
+        const validateInformation = () => {
+            const get_Info = secureLocalStorage.getItem("userProfileInfo")
+            if (!get_Info.About || !get_Info.Designation || !get_Info.Email || !get_Info.Experience || !get_Info.ID || !get_Info.Name || !get_Info.PhoneNumber || !get_Info.ProfileUrl || !get_Info.Qualification || !get_Info.Role) {
+                setEdit(true)
+                return toast.custom((t) => (
+                    <div className="flex items-center gap-3 bg-white border border-gray-200 shadow-lg px-5 py-3 rounded-lg">
+
+                        <div className="text-yellow-500 text-lg">⚠️</div>
+
+                        <div className="flex flex-col">
+                            <span className="font-semibold text-gray-800">
+                                Profile Incomplete
+                            </span>
+                            <span className="text-sm text-gray-500">
+                                Please complete your profile before continuing.
+                            </span>
+                        </div>
+
+                        <button
+                            onClick={() => toast.dismiss(t.id)}
+                            className="ml-3 text-gray-400 hover:text-gray-600"
+                        >
+                            ✕
+                        </button>
+
+                    </div>
+                ));
+            }
+
+        }
+        validateInformation()
+    }, [])
+
+
 
     const ProfileEdit = () => {
         toast.success("Editing the Profie")
@@ -88,8 +125,8 @@ function TeachersProfile() {
         console.log(Techername, ' : Techername')
         SetLoader(true)
 
-        if (!Techername || !TecheRole || !profile || !TecherId || !TecherEmail || !About || !Phone || !Experience || !Designation || !Qualification) {
-            console.log({ Techername, TecheRole, TecherProfile, TecherId, TecherEmail, About, Phone, Experience, Designation, Qualification })
+        if (!Techername || !TecheRole || !PrivewUrlImg || !TecherId || !TecherEmail || !About || !Phone || !Experience || !Designation || !Qualification) {
+            console.log({ Techername, TecheRole, PrivewUrlImg, TecherId, TecherEmail, About, Phone, Experience, Designation, Qualification })
             return toast.error('Fill the reuired')
         }
         const formData = new FormData();
@@ -109,7 +146,33 @@ function TeachersProfile() {
             const response_update_Profile = await axios.post(
                 "http://localhost:5001/api/Profile/CreateProfile",
                 formData
-            ); console.log(response_update_Profile, 'response_update_Profile form the Profile')
+            );
+            if (response_update_Profile.data.message == "Resposne ok.") {
+                toast.custom((t) => (
+                    <div className="flex items-center gap-3 bg-white border border-gray-200 shadow-lg px-5 py-3 rounded-lg">
+
+                        <div className="text-yellow-500 text-lg">⚠️</div>
+
+                        <div className="flex flex-col">
+                            <span className="font-semibold text-gray-800">
+                                Profile Incomplete
+                            </span>
+                            <span className="text-sm text-gray-500">
+                                Please complete your profile before continuing.
+                            </span>
+                        </div>
+
+                        <button
+                            onClick={() => toast.dismiss(t.id)}
+                            className="ml-3 text-gray-400 hover:text-gray-600"
+                        >
+                            ✕
+                        </button>
+
+                    </div>
+                ));
+                return setEdit(false)
+            }
         } catch (error) {
             console.log(error.message, 'err')
         }
@@ -137,19 +200,19 @@ function TeachersProfile() {
                             {/* Profile Image */}
                             <img
                                 src={Edit ? PrivewUrlImg : UserProfileInfo?.ProfileUrl}
-                                alt={Edit ? "Image" : UserName?.name}
+                                alt={Edit ? "Image" : UserProfileInfo?.Name}
                                 className="w-16 h-16 rounded-full object-cover border"
                             />
 
                             {/* User Info */}
                             {!Edit && (
-                                <div className="flex-1" title={`Hey ${UserName?.name?.toUpperCase()}`}>
+                                <div className="flex-1" title={`Hey ${UserProfileInfo?.Name?.toUpperCase()}`}>
                                     <h2 className="text-lg font-semibold text-gray-800">
-                                        {UserName?.name}
+                                        {UserProfileInfo?.Name}
                                     </h2>
 
                                     <p className="text-sm text-gray-500 mt-1">
-                                        <span className="font-medium text-gray-700">Role:</span> {UserName?.role}
+                                        <span className="font-medium text-gray-700">Role:</span> {UserProfileInfo?.Role}
                                     </p>
                                 </div>
                             )}
@@ -223,7 +286,7 @@ function TeachersProfile() {
                                     placeholder="Enter full name"
 
                                     onChange={(e) => setTEachername(e.target.value)}
-
+                                    value={Techername}
                                     required
                                     className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
@@ -231,7 +294,7 @@ function TeachersProfile() {
                             ) : (
                                 <input
                                     type="text"
-                                    value={UserName?.name}
+                                    value={UserProfileInfo?.Name}
                                     readOnly
                                     className="w-full mt-2 border border-gray-200 rounded-lg px-3 py-2 bg-gray-50"
                                 />
@@ -243,16 +306,18 @@ function TeachersProfile() {
                             <label className="text-sm font-medium text-gray-700">Email</label>
                             {Edit ? <>
                                 <input
-                                    type="text"
+                                    type="email"
                                     onChange={(e) => setTEacherEmail(e.target.value)}
                                     placeholder='Email'
+                                    value={TecherEmail}
+
                                     className="w-full mt-2 border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 "
                                 /></> :
 
 
                                 <input
                                     type="text"
-                                    value={UserName?.email}
+                                    value={UserProfileInfo?.Email}
                                     readOnly
                                     className="w-full mt-2 border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 cursor-not-allowed"
                                 />
@@ -267,6 +332,7 @@ function TeachersProfile() {
                                 <textarea
                                     placeholder="Write about yourself..."
                                     rows={5}
+                                    value={About}
                                     onChange={(e) => setAbout(e.target.value)}
                                     className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
             focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none transition"
@@ -275,7 +341,8 @@ function TeachersProfile() {
                                 <textarea
                                     placeholder="Write about yourself..."
                                     rows={5}
-                                    value={About}
+                                    value={UserProfileInfo?.About}
+                                    readOnly
                                     className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
             focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none transition"
                                 />
@@ -287,7 +354,7 @@ function TeachersProfile() {
                             <label className="text-sm font-medium text-gray-700">Teacher ID</label>
                             <input
                                 type="text"
-                                value={UserName?.teacher_Id}
+                                value={UserProfileInfo?.ID}
                                 readOnly
                                 className="w-full mt-2 border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 cursor-not-allowed"
                             />
@@ -298,7 +365,7 @@ function TeachersProfile() {
                             <label className="text-sm font-medium text-gray-700">Role</label>
                             <input
                                 type="text"
-                                value={UserName?.role}
+                                value={UserProfileInfo?.Role}
                                 readOnly
                                 className="w-full mt-2 border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 cursor-not-allowed"
                             />
@@ -307,37 +374,41 @@ function TeachersProfile() {
                         {/* Experience */}
                         <div className="flex flex-col">
                             <label className="text-sm font-medium text-gray-700">Experience</label>
-                            {Edit ? <>
+                            {Edit ? (
                                 <input
                                     type="number"
                                     placeholder="Years of experience"
+                                    value={Experience}
                                     onChange={(e) => setExperience(e.target.value)}
                                     className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+      focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                                 />
-
-                            </> :
-
-
+                            ) : (
                                 <input
                                     type="number"
-                                    value={Experience}
+                                    value={UserProfileInfo?.Experience || ""}
                                     placeholder="Years of experience"
+                                    disabled
                                     className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
-            focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+      bg-gray-100 border-gray-200"
                                 />
-                            }
+                            )}
                         </div>
 
                         {/* Phone */}
                         <div className="flex flex-col">
                             <label className="text-sm font-medium text-gray-700">Phone</label>
                             {Edit ? <>
+                                <div>  {UserProfileInfo?.PhoneNumber == null ? <span className='text-red-500'>Missiing Mobile Number</span> : ""}</div>
+                            </> : ""}
+                            {Edit ? <>
 
                                 <input
                                     type="tel"
                                     placeholder="Phone number"
+                                    value={Phone}
                                     onChange={(e) => setPhone(e.target.value)}
+
                                     className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
             focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                                 />
@@ -348,7 +419,8 @@ function TeachersProfile() {
                                     <input
                                         type="tel"
                                         placeholder="Phone number"
-                                        value={Phone}
+                                        value={UserProfileInfo?.PhoneNumber}
+                                        readOnly
                                         className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
             focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                                     />
@@ -362,6 +434,7 @@ function TeachersProfile() {
                             {Edit ? <><input
                                 type="text"
                                 placeholder="Assistant Professor"
+                                value={Designation}
                                 onChange={(e) => setDesignation(e.target.value)}
                                 className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
             focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
@@ -369,7 +442,7 @@ function TeachersProfile() {
                                 <input
                                     type="text"
                                     placeholder="Assistant Professor"
-                                    value={Designation}
+                                    value={UserProfileInfo?.Designation}
                                     className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
 
             focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
@@ -384,6 +457,7 @@ function TeachersProfile() {
 
                                 <input
                                     type="text"
+                                    value={Qualification}
                                     onChange={(e) => setQualification(e.target.value)}
                                     placeholder="M.Tech / PhD"
                                     className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
@@ -395,7 +469,7 @@ function TeachersProfile() {
                                 <input
                                     type="text"
                                     placeholder="M.Tech / PhD"
-                                    value={Designation}
+                                    value={UserProfileInfo?.Designation}
                                     className="w-full mt-2 border border-gray-300 rounded-lg px-3 py-2 
             focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                                 />
