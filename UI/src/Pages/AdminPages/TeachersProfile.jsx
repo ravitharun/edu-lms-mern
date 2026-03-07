@@ -6,6 +6,8 @@ import { FaPlus } from 'react-icons/fa'
 import ProgressLoader from '../../Loaders/Progressloader'
 import { UserName } from '../../Apis/Islogin'
 import axios from 'axios'
+import GetUserProfile from './TechersApiCall/GetUserProfile'
+import { useEffect } from 'react'
 
 function TeachersProfile() {
     const [Edit, setEdit] = useState(false)
@@ -22,13 +24,28 @@ function TeachersProfile() {
     const [PrivewUrlImg, setPrivewUrlImg] = useState("")
 
     const [Profileloader, SetLoader] = useState(false)
+
+
+    useEffect(() => {
+        const response = async () => {
+            try {
+                const response_profile = await GetUserProfile()
+                console.log(response_profile)
+            } catch (error) {
+                console.log(error, 'error from the GetUserProfile.')
+            }
+        }
+        response()
+    }, [])
+
+
     const ProfileEdit = () => {
         toast.success("Editing the Profie")
         setEdit(true)
     }
 
     const PrivewImges = (e) => {
-        console.log(e.target.files[0],'imgurl')
+        console.log(e.target.files[0], 'imgurl')
         let fileUrl = e.target.files[0]
         const checkType = ['image/jpeg', "image/png"]
         setTeacherProfile(fileUrl)
@@ -68,10 +85,10 @@ function TeachersProfile() {
         formData.append("profile", profile);
         toast.success("saving the Profile....😊😊😊")
         try {
-const response_update_Profile = await axios.post(
-  "http://localhost:5001/api/Profile/CreateProfile",
-  formData
-);            console.log(response_update_Profile, 'response_update_Profile form the Profile')
+            const response_update_Profile = await axios.post(
+                "http://localhost:5001/api/Profile/CreateProfile",
+                formData
+            ); console.log(response_update_Profile, 'response_update_Profile form the Profile')
         } catch (error) {
             console.log(error.message, 'err')
         }
