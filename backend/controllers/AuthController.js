@@ -5,6 +5,7 @@ var jwt = require('jsonwebtoken');
 const { generateRandomId } = require("../generateRandomId");
 const cloudinary = require("../config/cloudinary");
 const { transporter } = require("../config/email");
+const CreateProfile = require("../models/ProfileSchema");
 
 cloudinary.api.ping()
 
@@ -41,36 +42,55 @@ const NewAccount = async (req, res) => {
       role: formdata.role,
       profilePreview: result.secure_url,
       StudentsYearDepartment: formdata.StudentsYearDepartment,
-      resetToken:""
+      resetToken: ""
 
     };
+
+    const UserProfile = {
+      Name: formdata.StudentName,
+      Email: formdata.StudentEmail,
+      Role: formdata.role,
+      About: "",
+      Experience: "",
+      PhoneNumber: "",
+      Designation: "",
+      Qualification: "",
+      ProfileUrl: result.secure_url,
+      StudentsYearDepartment: formdata.StudentsYearDepartment,
+    }
+    console.log(UserProfile,'UserProfile')
     console.log(formdata.StudentsYearDepartment.split(" "), 'formdata.StudentsYearDepartment.split("")')
     // 3️⃣ Role-based ID
-    console.log(formdata.role,'formdata.role')
     if (formdata.role === "student") {
       userData.Student_ID = ID;
       userData.department = formdata.StudentsYearDepartment.split(" ")[0]
+      UserProfile.ID = ID
+      UserProfile.Designation = formdata.role,
+       UserProfile. Qualification = ""
     }
 
     if (formdata.role === "Teacher") {
       userData.teacher_Id = ID;
       userData.AccountStatus;
       userData.department = formdata.department
-    }
-    if (formdata.role === "Admin") {
-      userData.Admin_Id = ID;
+      UserProfile.ID = ID
+      UserProfile.Designation = formdata.role,
+        UserProfile.Qualification = ""
     }
 
-    // 4️⃣ Save ONCE
+    if (formdata.role === "Admin") {
+      userData.Admin_Id = ID;
+      UserProfile.ID = ID
+      UserProfile.Designation = formdata.role,
+        UserProfile.Qualification = ""
+    }
+
+    // Save ONCE
     const saveData = new User(userData);
-    //    const info = await transporter.sendMail({
-    //   from: '"',
-    //   to: "bar@example.com, baz@example.com",
-    //   subject: "Hello ✔",
-    //   text: "Hello world?", // Plain-text version of the message
-    //   html: "<b>Hello world?</b>", // HTML version of the message
-    // });
+    const UserInfo = new CreateProfile(UserProfile);
+
     await saveData.save();
+    await UserInfo.save();
 
     return res.status(201).json({ message: "Account Created" });
   }

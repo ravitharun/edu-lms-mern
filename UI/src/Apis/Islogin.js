@@ -6,6 +6,8 @@ export const UserLogin = secureLocalStorage.getItem("token")
 export const UserName = secureLocalStorage.getItem("User_info")
 export const totalClass = secureLocalStorage.getItem('totalClass')
 export const ClassName_hover_btn = "hover:cursor-pointer"
+export const UserProfileInfo =secureLocalStorage.getItem("userProfileInfo")
+
 export const handleLogout = () => {
     const get = secureLocalStorage.removeItem("token")
     const UserName = secureLocalStorage.removeItem("User_info")

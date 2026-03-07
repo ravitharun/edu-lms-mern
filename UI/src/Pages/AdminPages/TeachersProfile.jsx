@@ -4,10 +4,11 @@ import toast, { Toaster } from 'react-hot-toast'
 import AdminHeader from '../../Components/AdminHeader'
 import { FaPlus } from 'react-icons/fa'
 import ProgressLoader from '../../Loaders/Progressloader'
-import { UserName } from '../../Apis/Islogin'
+import { UserName, UserProfileInfo } from '../../Apis/Islogin'
 import axios from 'axios'
 import GetUserProfile from './TechersApiCall/GetUserProfile'
 import { useEffect } from 'react'
+import secureLocalStorage from 'react-secure-storage'
 
 function TeachersProfile() {
     const [Edit, setEdit] = useState(false)
@@ -22,16 +23,36 @@ function TeachersProfile() {
     const [Designation, setDesignation] = useState(UserName?.Designation)
     const [Qualification, setQualification] = useState(UserName?.Qualification)
     const [PrivewUrlImg, setPrivewUrlImg] = useState("")
+    const [isFill, setisfill] = useState([])
 
     const [Profileloader, SetLoader] = useState(false)
 
-
+    console.log(UserProfileInfo, 'UserProfileInfo')
     useEffect(() => {
         const response = async () => {
             try {
                 const response_profile = await GetUserProfile()
-                console.log(response_profile)
+                console.log(response_profile.data.message, 'api')
+                console.log(response_profile.data)
+                if (response_profile.data.message == null) {
+                    setisfill(null)
+                    setEdit(true)
+                    return toast.error("Fill the Profile Information")
+                }
+
+                if (response_profile.data.message === "Token expired"
+                ) {
+                    toast.error("Token expired")
+                    return window.location.href = "/login"
+                }
+                secureLocalStorage.setItem("userProfileInfo", response_profile.data.message)
+                setisfill(response_profile.data.message)
             } catch (error) {
+                if (error?.message === "Request failed with status code 401") {
+                    toast.error("Token Expry")
+                    return window.location.href = "/login"
+
+                }
                 console.log(error, 'error from the GetUserProfile.')
             }
         }
@@ -115,7 +136,7 @@ function TeachersProfile() {
 
                             {/* Profile Image */}
                             <img
-                                src={Edit ? PrivewUrlImg : UserName?.profilePreview}
+                                src={Edit ? PrivewUrlImg : UserProfileInfo?.ProfileUrl}
                                 alt={Edit ? "Image" : UserName?.name}
                                 className="w-16 h-16 rounded-full object-cover border"
                             />
