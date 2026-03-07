@@ -18,7 +18,7 @@ const GetUserProfile = async () => {
     }
   );
 
-  console.log(response_UserProfile.data.message, "APi COde.")
+
   return response_UserProfile
 }
 
