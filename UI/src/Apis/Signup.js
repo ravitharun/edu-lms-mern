@@ -4,26 +4,22 @@ import secureLocalStorage from "react-secure-storage";
 
 const handelapiSigup = async (formData, e) => {
   e.preventDefault()
-  try {
-    // for (let [key, value] of formData.entries()) {
-    //   console.log("Ui form data", key, value);
-    // }
-    const response = await axios.post(
-      "http://localhost:5001/api/auth/newDataUser",
-      formData,
-      { headers: { "Content-Type": "multipart/form-data" } }
-    );
-    for (let [key, value] of formData.entries()) {
-      console.log("UI form data:", key, value);
-      // Note: `value` will be File object for profile
-    }
+
+  const response = await axios.post(
+    "http://localhost:5001/api/auth/newDataUser",
+    formData,
+    { headers: { "Content-Type": "multipart/form-data" } }
+  );
 
 
-    secureLocalStorage.setItem("Token", response.data.token)
-    return response
-  } catch (error) {
 
-  }
+  secureLocalStorage.setItem("Token", response.data.token)
+  console.log(response, 'response')
+  return response
+
+  console.log(error.message, 'err New account.')
+
+
 }
 const handelLogin = async (data, e) => {
   try {
@@ -41,7 +37,7 @@ const handelLogin = async (data, e) => {
         'Content-Type': 'application/json'
       }
     })
-  
+
     if (response.data.message == "The password is incorrect") {
       return toast.error("The password is incorrect")
     }
@@ -50,7 +46,7 @@ const handelLogin = async (data, e) => {
       token)
     secureLocalStorage.setItem("User_info", response.data.
       user)
-      secureLocalStorage.getItem("User_info")
+    secureLocalStorage.getItem("User_info")
 
     return response
     // return response

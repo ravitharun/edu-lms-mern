@@ -35,6 +35,7 @@ const ProfileCreate = async (req, res) => {
 const GetProfile = async (req, res) => {
     try {
         const { userid } = req.query;
+        console.log(userid,'userid')
         if (!userid) { return res.status(404).json({ message: "Id is missing." }) }
         const get_userProfile = await CreateProfile.findOne({ ID: userid })
         console.log(get_userProfile, 'get_userProfile')
