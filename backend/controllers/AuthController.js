@@ -13,13 +13,12 @@ cloudinary.api.ping()
 // Register new user
 const NewAccount = async (req, res) => {
   try {
-    console.log("REQ BODY:", req.body); // text fields
-    console.log("REQ FILE:", req.file); // file info from Cloudinary
     const formdata = req.body;
     const Profile = req.file?.path;
     const result = await cloudinary.uploader.upload(Profile,);
     const GetBy_email = await User.find({ email: req.body.StudentEmail })
-    if (!GetBy_email) {
+    console.log(GetBy_email,'GetBy_email')
+    if (GetBy_email) {
       return res.status(400).json({ message: "Emails is already is exits please use another email to login." })
     }
     if (!formdata.StudentEmail || !formdata.StudentName || !formdata.StudentPassword || !formdata.StudentConifrmPassword || !formdata.role) {
@@ -59,7 +58,7 @@ const NewAccount = async (req, res) => {
       StudentsYearDepartment: formdata.StudentsYearDepartment,
     }
     console.log(UserProfile,'UserProfile')
-    console.log(formdata.StudentsYearDepartment.split(" "), 'formdata.StudentsYearDepartment.split("")')
+
     // 3️⃣ Role-based ID
     if (formdata.role === "student") {
       userData.Student_ID = ID;

@@ -16,13 +16,13 @@ const CreateProfile = new mongoose.Schema({
     ProfileUrl: { type: String, require: false },
     StudentsYearDepartment: { type: String, require: false },
 }, {
-    timestamps: false
+    timestamps: true
 })
 
 // CreateProfile
 
 
 module.exports = mongoose.model(
-  "CreateProfiles",
-  CreateProfile
+    "CreateProfiles",
+    CreateProfile
 );

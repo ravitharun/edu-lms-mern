@@ -6,14 +6,7 @@ import { FaEye, FaEyeSlash, FaUserCircle } from "react-icons/fa";
 import axios from "axios";
 
 export default function Signup() {
-    // const departments = ["CSE", "ECE", "MECH", "EEE", "CIVIL"];
-    // const allDepts = [
-    //     "CSE 1", "CSE 2", "CSE 3", "CSE 4",
-    //     "ECE 1", "ECE 2", "ECE 3", "ECE 4",
-    //     "EEE 1", "EEE 2", "EEE 3", "EEE 4",
-    //     "MECH 1", "MECH 2", "MECH 3", "MECH 4",
-    //     "CIVIL 1", "CIVIL 2", "CIVIL 3", "CIVIL 4"
-    // ];
+
     const departments = ["CSE", "ECE", "EEE", "MECH", "CIVIL"];
     const years = [1, 2, 3, 4];
 
@@ -58,24 +51,49 @@ export default function Signup() {
 
 
 
-        // const data = {StudentEmail,StudentName,StudentPassword,StudentConifrmPassword,ischeck,role,profile}
         try {
             setloading(true)
             const response = await handelapiSigup(formData, e)
+            console.log(response, 'response Apicode call')
             setloading(false)
 
             if (response?.status === 201) {
                 toast.success("Account Created");
                 navigate("/login");
             }
+            if (response?.status === 400) {
+                toast.error(response.data?.message);
+
+            }
         }
         catch (err) {
-            console.log(err.message)
+            if (err?.message ===
+                "Request failed with status code 400") {
+                toast.error("Email already exists.", {
+                    style: {
+                        background: "#fee2e2",
+                        color: "#b91c1c",
+                        border: "1px solid #fecaca",
+                    },
+                    icon: "⚠️",
+                });
+                return setloading(false)
+            }
+            console.log(err, 'errr')
         }
     };
 
+
+
     const handleProfileUpload = (e) => {
-        const file = e.target.files[0];
+        const Allowed_files = ["image/jpeg", "image/png"]
+        const file = e.target.files[0]
+
+        if (!Allowed_files.includes(file.type)) {
+            return toast.error(`Only allowed file to be upload .${Allowed_files}`)
+
+        }
+        console.log(file, 'file')
 
         setProfile(file);
         setProfilePreview(URL.createObjectURL(file)); // UI preview

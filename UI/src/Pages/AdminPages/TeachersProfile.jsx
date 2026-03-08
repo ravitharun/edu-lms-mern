@@ -4,7 +4,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import AdminHeader from '../../Components/AdminHeader'
 import { FaPlus } from 'react-icons/fa'
 import ProgressLoader from '../../Loaders/Progressloader'
-import { UserProfileInfo } from '../../Apis/Islogin'
+import { UserName, UserProfileInfo } from '../../Apis/Islogin'
 import axios from 'axios'
 import GetUserProfile from './TechersApiCall/GetUserProfile'
 import { useEffect } from 'react'
@@ -15,8 +15,8 @@ function TeachersProfile() {
     const [Techername, setTEachername] = useState(UserProfileInfo?.Name)
     const [TecherEmail, setTEacherEmail] = useState(UserProfileInfo?.Email)
     const [profile, setTeacherProfile] = useState('')
-    const [TecherId, setTeacherId] = useState(UserProfileInfo?.ID)
-    const [TecheRole, setTeacherrole] = useState(UserProfileInfo?.Role)
+    const [TecherId, setTeacherId] = useState(UserName.teacher_Id )
+    const [TecheRole, setTeacherrole] = useState(UserName?.role)
     const [About, setAbout] = useState(UserProfileInfo?.About)
     const [Experience, setExperience] = useState(UserProfileInfo?.Experience)
     const [Phone, setPhone] = useState(UserProfileInfo?.Phone)
@@ -26,7 +26,6 @@ function TeachersProfile() {
     const [isFill, setisfill] = useState([])
 
     const [Profileloader, SetLoader] = useState(false)
-
     console.log(secureLocalStorage.getItem("userProfileInfo"), "userProfileInfo")
     // get the profileInformartion
 
@@ -64,6 +63,9 @@ function TeachersProfile() {
     useEffect(() => {
         const validateInformation = () => {
             const get_Info = secureLocalStorage.getItem("userProfileInfo")
+            if (get_Info == null) {
+                return console.log(UserName, 'UserName we will disply')
+            }
             if (!get_Info.About || !get_Info.Designation || !get_Info.Email || !get_Info.Experience || !get_Info.ID || !get_Info.Name || !get_Info.PhoneNumber || !get_Info.ProfileUrl || !get_Info.Qualification || !get_Info.Role) {
                 setEdit(true)
                 return toast.custom((t) => (
