@@ -15,16 +15,16 @@ function TeachersProfile() {
     const [Techername, setTEachername] = useState(UserProfileInfo?.Name)
     const [TecherEmail, setTEacherEmail] = useState(UserProfileInfo?.Email)
     const [profile, setTeacherProfile] = useState('')
-    const [TecherId, setTeacherId] = useState(UserName.teacher_Id )
+    const [TecherId, setTeacherId] = useState(UserName.teacher_Id)
     const [TecheRole, setTeacherrole] = useState(UserName?.role)
     const [About, setAbout] = useState(UserProfileInfo?.About)
     const [Experience, setExperience] = useState(UserProfileInfo?.Experience)
-    const [Phone, setPhone] = useState(UserProfileInfo?.Phone)
+    const [Phone, setPhone] = useState(UserProfileInfo?.PhoneNumber)
     const [Designation, setDesignation] = useState(UserProfileInfo?.Designation)
     const [Qualification, setQualification] = useState(UserProfileInfo?.Qualification)
     const [PrivewUrlImg, setPrivewUrlImg] = useState(UserProfileInfo?.ProfileUrl)
     const [isFill, setisfill] = useState([])
-
+    console.log(UserProfileInfo?.ProfileUrl, 'UserProfileInfo')
     const [Profileloader, SetLoader] = useState(false)
     console.log(secureLocalStorage.getItem("userProfileInfo"), "userProfileInfo")
     // get the profileInformartion
@@ -38,7 +38,7 @@ function TeachersProfile() {
                 if (response_profile.data.message == null) {
                     setisfill(null)
                     setEdit(true)
-                    return toast.error("Fill the Profile Information")
+                    return
                 }
 
                 if (response_profile.data.message === "Token expired"
@@ -126,10 +126,11 @@ function TeachersProfile() {
     const SaveProfile = async () => {
         console.log(Techername, ' : Techername')
         SetLoader(true)
+        console.log(Phone)
 
         if (!Techername || !TecheRole || !PrivewUrlImg || !TecherId || !TecherEmail || !About || !Phone || !Experience || !Designation || !Qualification) {
-            console.log({ Techername, TecheRole, PrivewUrlImg, TecherId, TecherEmail, About, Phone, Experience, Designation, Qualification })
-            return toast.error('Fill the reuired')
+            console.log({ Techername, TecheRole, PrivewUrlImg, TecherId, TecherEmail, About, Phones: Phone, Experience, Designation, Qualification })
+            return alert("issue")
         }
         const formData = new FormData();
 
@@ -143,13 +144,16 @@ function TeachersProfile() {
         formData.append("Phone", Phone);
         formData.append("Experience", Experience);
         formData.append("profile", profile);
+        formData.append("ProfileUrl", PrivewUrlImg);
         toast.success("saving the Profile....😊😊😊")
         try {
             const response_update_Profile = await axios.post(
                 "http://localhost:5001/api/Profile/CreateProfile",
                 formData
             );
-            if (response_update_Profile.data.message == "Resposne ok.") {
+            console.log(response_update_Profile, 'response_update_Profile')
+            if (response_update_Profile.data.message == "Profile Updated.") {
+
                 toast.custom((t) => (
                     <div className="flex items-center gap-3 bg-white border border-gray-200 shadow-lg px-5 py-3 rounded-lg">
 
@@ -173,10 +177,17 @@ function TeachersProfile() {
 
                     </div>
                 ));
-                return setEdit(false)
+
+                setEdit(false)
+                return SetLoader(false)
             }
-        } catch (error) {
+        }
+        catch (error) {
+            SetLoader(false)
             console.log(error.message, 'err')
+            if (err.message === 'Request failed with status code 500') {
+                return toast.error("Server Error.")
+            }
         }
 
 
@@ -223,6 +234,7 @@ function TeachersProfile() {
                             {Edit && (
                                 <div className="flex flex-col gap-2">
                                     <span className="text-sm text-red-400">Add Your Profile</span>
+                                    {Profileloader && "LOADING THE PAGE."}
 
                                     <input
                                         type="file"
@@ -255,12 +267,14 @@ function TeachersProfile() {
                                     </button>
 
                                     {/* Save */}
-                                    <button
-                                        onClick={SaveProfile}
-                                        className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
-                                    >
-                                        Save Changes
-                                    </button>
+                                    {Profileloader ?
+
+                                        "Saving the profile." : <button
+                                            onClick={SaveProfile}
+                                            className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
+                                        >
+                                            Save Changes
+                                        </button>}
                                 </>
                             ) : (
                                 <button
