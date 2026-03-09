@@ -5,37 +5,63 @@ const User = require("../models/User");
 // uodate
 const ProfileCreate = async (req, res) => {
     try {
-        // const{formdata}=req.
-        console.log(req.file, "file");
-        console.log(req.body, "body");
 
-        const result = await cloudinary.uploader.upload(req.file?.path,);
-        console.log(result.secure_url, 'result')
+        let imageUrl = req.body.ProfileUrl;
 
-        const UpdateProfile = await CreateProfile.findOneAndUpdate({ ID: req.body.TecherId }, {
-            Name: req.body.Techername,
-            Email: req.body.TecherEmail,
-            ID: req.body.TecherId,
-            Role: req.body.TecheRole,
-            About: req.body.About,
-            Experience: Number(req.body.Experience),
-            Designation: req.body.Designation,
-            Qualification: req.body.Qualification,
-            ProfileUrl: result.secure_url,
-            PhoneNumber: req.body.Phone
-        }, { new: true })
-        await UpdateProfile.save()
-        return res.status(200).json({ message: "Resposne ok." })
+        if (req.file) {
+            const result = await cloudinary.uploader.upload(req.file.path);
+            imageUrl = result.secure_url;
+        }
+
+        const UpdateProfile = await CreateProfile.findOneAndUpdate(
+            { ID: req.body.TecherId },
+            {
+                Name: req.body.Techername,
+                Email: req.body.TecherEmail,
+                ID: req.body.TecherId,
+                Role: req.body.TecheRole,
+                About: req.body.About,
+                Experience: Number(req.body.Experience),
+                Designation: req.body.Designation,
+                Qualification: req.body.Qualification,
+                ProfileUrl: imageUrl,
+                PhoneNumber: req.body.Phone
+            },
+            { new: true }
+        );
+
+        if (!UpdateProfile) {
+            const UserPR_CretateProfile = new CreateProfile({
+                Name: req.body.Techername,
+                Email: req.body.TecherEmail,
+                ID: req.body.TecherId,
+                Role: req.body.TecheRole,
+                About: req.body.About,
+                Experience: Number(req.body.Experience),
+                Designation: req.body.Designation,
+                Qualification: req.body.Qualification,
+                ProfileUrl: imageUrl,
+                PhoneNumber: req.body.Phone
+            });
+
+            await UserPR_CretateProfile.save();
+            return res.status(201).json({ message: "User Created." });
+        }
+
+        return res.status(200).json({ message: "Profile Updated." });
+
     } catch (error) {
-        console.log(error.message)
-        return res.status(500).json({ message: "Server Error." })
+        console.log(error.message);
+        return res.status(500).json({ message: "Server Error." });
     }
+};
 
-}
+
+
 const GetProfile = async (req, res) => {
     try {
         const { userid } = req.query;
-        console.log(userid,'userid')
+        console.log(userid, 'userid')
         if (!userid) { return res.status(404).json({ message: "Id is missing." }) }
         const get_userProfile = await CreateProfile.findOne({ ID: userid })
         console.log(get_userProfile, 'get_userProfile')
