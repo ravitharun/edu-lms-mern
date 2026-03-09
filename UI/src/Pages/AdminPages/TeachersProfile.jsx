@@ -9,6 +9,7 @@ import axios from 'axios'
 import GetUserProfile from './TechersApiCall/GetUserProfile'
 import { useEffect } from 'react'
 import secureLocalStorage from 'react-secure-storage'
+import ProfileLoading from '../../Loaders/ProfileLoading'
 
 function TeachersProfile() {
     const [Edit, setEdit] = useState(false)
@@ -24,17 +25,15 @@ function TeachersProfile() {
     const [Qualification, setQualification] = useState(UserProfileInfo?.Qualification)
     const [PrivewUrlImg, setPrivewUrlImg] = useState(UserProfileInfo?.ProfileUrl)
     const [isFill, setisfill] = useState([])
-    console.log(UserProfileInfo?.ProfileUrl, 'UserProfileInfo')
+
     const [Profileloader, SetLoader] = useState(false)
-    console.log(secureLocalStorage.getItem("userProfileInfo"), "userProfileInfo")
-    // get the profileInformartion
+
 
     useEffect(() => {
         const response = async () => {
             try {
                 const response_profile = await GetUserProfile()
-                console.log(response_profile.data.message, 'api')
-                console.log(response_profile.data)
+
                 if (response_profile.data.message == null) {
                     setisfill(null)
                     setEdit(true)
@@ -59,7 +58,7 @@ function TeachersProfile() {
         }
         response()
     }, [])
-
+    // vallidation toast-check
     useEffect(() => {
         const validateInformation = () => {
             const get_Info = secureLocalStorage.getItem("userProfileInfo")
@@ -105,17 +104,17 @@ function TeachersProfile() {
     }
 
     const PrivewImges = (e) => {
-        console.log(e.target.files[0], 'imgurl')
+
         let fileUrl = e.target.files[0]
         const checkType = ['image/jpeg', "image/png"]
         setTeacherProfile(fileUrl)
-        console.log(fileUrl, 'imgurl.target.files[0]')
+
         if (!checkType.includes(fileUrl.type)) {
             return toast.error(`only Accept these Format :${checkType}`)
         }
         if (e) {
             const url = URL.createObjectURL(fileUrl);
-            console.log(url, 'url')
+
             setPrivewUrlImg(url);
         }
 
@@ -123,17 +122,18 @@ function TeachersProfile() {
 
     }
 
+
+
+
     const SaveProfile = async () => {
-        console.log(Techername, ' : Techername')
-        SetLoader(true)
-        console.log(Phone)
+
+
+
 
         if (!Techername || !TecheRole || !PrivewUrlImg || !TecherId || !TecherEmail || !About || !Phone || !Experience || !Designation || !Qualification) {
-            console.log({ Techername, TecheRole, PrivewUrlImg, TecherId, TecherEmail, About, Phones: Phone, Experience, Designation, Qualification })
             return alert("issue")
         }
         const formData = new FormData();
-
         formData.append("Techername", Techername);
         formData.append("TecheRole", TecheRole);
         formData.append("TecherId", TecherId);
@@ -145,27 +145,22 @@ function TeachersProfile() {
         formData.append("Experience", Experience);
         formData.append("profile", profile);
         formData.append("ProfileUrl", PrivewUrlImg);
-        toast.success("saving the Profile....😊😊😊")
         try {
-            const response_update_Profile = await axios.post(
-                "http://localhost:5001/api/Profile/CreateProfile",
-                formData
-            );
-            console.log(response_update_Profile, 'response_update_Profile')
-            if (response_update_Profile.data.message == "Profile Updated.") {
+            SetLoader(true)
+            const response_update_Profile = await axios.post("http://localhost:5001/api/Profile/CreateProfile", formData);
 
+            if (response_update_Profile.data.message === "Profile Updated.") {
+                SetLoader(false)
                 toast.custom((t) => (
                     <div className="flex items-center gap-3 bg-white border border-gray-200 shadow-lg px-5 py-3 rounded-lg">
 
-                        <div className="text-yellow-500 text-lg">⚠️</div>
+                        <div className="text-yellow-500 text-lg">✅</div>
 
                         <div className="flex flex-col">
                             <span className="font-semibold text-gray-800">
-                                Profile Incomplete
+                                Profile Updated.
                             </span>
-                            <span className="text-sm text-gray-500">
-                                Please complete your profile before continuing.
-                            </span>
+
                         </div>
 
                         <button
@@ -179,13 +174,14 @@ function TeachersProfile() {
                 ));
 
                 setEdit(false)
-                return SetLoader(false)
+                return
             }
+
         }
         catch (error) {
             SetLoader(false)
-            console.log(error.message, 'err')
-            if (err.message === 'Request failed with status code 500') {
+
+            if (error.message === 'Request failed with status code 500') {
                 return toast.error("Server Error.")
             }
         }
@@ -496,13 +492,16 @@ function TeachersProfile() {
 
                 </div>
 
-                {true && <ProgressLoader />}
+
 
             </div>
 
             {Profileloader && <>
-                Loding
+                <ProfileLoading checkResponse={Profileloader}></ProfileLoading>
             </>}
+
+      
+
         </>
     )
 }
