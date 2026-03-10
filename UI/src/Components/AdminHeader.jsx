@@ -8,6 +8,7 @@ function AdminHeader({ pathname }) {
     const [showNotifications, setShowNotifications] = useState(false);
     return (
         <>
+        
             <div className="flex justify-between items-center mb-4">
                 <h1 className="text-2xl font-semibold text-gray-800">{pathname == "" ? "empyt" : pathname}</h1>
                 <div className="flex items-center gap-4">

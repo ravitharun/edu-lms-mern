@@ -6,6 +6,7 @@ import MasterAdmin from "./Master/MasterAdmin";
 import toast from "react-hot-toast";
 import { GetClassList } from "./TechersApiCall/FetchApicall";
 import secureLocalStorage from "react-secure-storage";
+import Tablecomponets from "../../Components/Tablecomponets";
 
 function Classes() {
   const [Action, SetActon] = useState("");
@@ -24,7 +25,7 @@ function Classes() {
       try {
         const response_class = await GetClassList()
         console.log(response_class.data.message.classId)
-        secureLocalStorage.setItem("totalClass",response_class.data.message.length)
+        secureLocalStorage.setItem("totalClass", response_class.data.message.length)
         setAssignedClasses(response_class.data.message)
         setinof({
           classId: response_class.data.message[0].classId,
@@ -65,7 +66,7 @@ function Classes() {
         break;
       case "Students":
         navigate("/students", { state: dataID })
- 
+
         break;
       case "Add assigment":
         navigate("/assignments", { state: dataID })
@@ -116,27 +117,7 @@ function Classes() {
             </thead>
             <tbody>
               {assignedClasses.length === 0 ? (
-                <tr>
-                  <td colSpan="6" className="py-16">
-                    <div className="flex flex-col items-center justify-center bg-white border border-gray-200 rounded-lg p-10 shadow-sm">
-                      <div className="w-14 h-14 flex items-center justify-center rounded-full bg-gray-100 mb-4">
-                        <svg
-                          className="w-6 h-6 text-gray-500"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.5"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 17v-6a3 3 0 016 0v6M5 21h14" />
-                        </svg>
-                      </div>
-                      <h2 className="text-lg font-semibold text-gray-800">No Classes Available</h2>
-                      <p className="text-sm text-gray-500 mt-2 text-center max-w-sm">
-                        There are currently no classes assigned. Once a class is created or assigned, it will appear here.
-                      </p>
-                    </div>
-                  </td>
-                </tr>
+                <Tablecomponets col={6}  text="There is no AssignedClasses Found"/>
               ) : (
                 assignedClasses.map((data, idx) => (
                   <tr className="border-b hover:bg-gray-50" key={idx}>

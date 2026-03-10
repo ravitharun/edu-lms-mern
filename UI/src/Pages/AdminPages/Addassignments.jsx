@@ -7,6 +7,8 @@ import { useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import { UserName } from '../../Apis/Islogin';
+import Tablecomponets from '../../Components/Tablecomponets';
+
 function Addassignments() {
     const [showNotifications, setShowNotifications] = useState(false);
     const location = useLocation()
@@ -25,7 +27,7 @@ function Addassignments() {
                         teacher_Id: UserName.teacher_Id
                     }
                 })
-                console.log(reonse.data.message)
+                console.log(reonse.data.message == "NO Classes Found.", 'response')
                 setClassList(reonse.data.message)
 
             } catch (error) {
@@ -191,79 +193,78 @@ function Addassignments() {
                             </thead>
 
                             <tbody>
-                                {Assignments.map((item, idx) => (
-                                    <tr
-                                        key={idx}
-                                        className="border-b hover:bg-gray-50 transition"
-                                    >
-                                        <td className="p-3 font-medium">{item.id}</td>
+                                {!classList || classList.length === 0 ? (
+                                    <Tablecomponets col={10} text="There is no Assignment Found" />
+                                ) : (
+                                    classList.map((item) => (
+                                        <tr
+                                            key={item.id}
+                                            className="border-b hover:bg-gray-50 transition"
+                                        >
+                                            <td className="p-3 font-medium">{item.id}</td>
 
-                                        <td className="p-3 font-semibold text-gray-800">
-                                            {item.assignmentName}
-                                        </td>
+                                            <td className="p-3 font-semibold text-gray-800">
+                                                {item.assignmentName}
+                                            </td>
 
-                                        <td className="p-3 text-gray-600 max-w-xs truncate">
-                                            {item.description}
-                                        </td>
+                                            <td className="p-3 text-gray-600 max-w-xs truncate">
+                                                {item.description}
+                                            </td>
 
-                                        <td className="p-3 text-center">{item.dueDate}</td>
+                                            <td className="p-3 text-center">{item.dueDate}</td>
 
-                                        <td className="p-3 text-center">{item.dueTime}</td>
+                                            <td className="p-3 text-center">{item.dueTime}</td>
 
-                                        <td className="p-3 text-center font-medium">
-                                            {item.marks}
-                                        </td>
+                                            <td className="p-3 text-center font-medium">
+                                                {item.marks}
+                                            </td>
 
-                                        {/* View PDF */}
-                                        <td className="p-3 text-center">
-                                            <a
-                                                href={item.pdfUrl}
-                                                className="text-blue-600 hover:underline font-medium"
-                                                target="_blank"
-                                                rel="noreferrer"
-                                            >
-                                                View
-                                            </a>
-                                        </td>
-
-                                        {/* Status Badge */}
-                                        <td className="p-3 text-center">
-                                            <span
-                                                className={`px-3 py-1 rounded-full text-xs font-semibold
-                ${item.submissionStatus === "Open"
-                                                        ? "bg-green-100 text-green-700"
-                                                        : "bg-red-100 text-red-700"
-                                                    }`}
-                                            >
-                                                {item.submissionStatus}
-                                            </span>
-                                        </td>
-
-                                        {/* Submission Count */}
-                                        <td className="p-3 text-center font-medium">
-                                            {item.totalSubmissions}
-                                        </td>
-
-                                        {/* Actions */}
-                                        <td className="p-3">
-                                            <div className="flex items-center justify-center gap-2">
-                                                <button className="px-3 py-1 text-xs rounded-md bg-blue-500 text-white hover:bg-blue-600">
+                                            <td className="p-3 text-center">
+                                                <a
+                                                    href={item.pdfUrl}
+                                                    className="text-blue-600 hover:underline font-medium"
+                                                    target="_blank"
+                                                    rel="noreferrer"
+                                                >
                                                     View
-                                                </button>
-                                                <button className="px-3 py-1 text-xs rounded-md bg-yellow-500 text-white hover:bg-yellow-600">
-                                                    Edit
-                                                </button>
-                                                <button className="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-600">
-                                                    Delete
-                                                </button>
-                                                <button className="px-3 py-1 text-xs rounded-md bg-purple-500 text-white hover:bg-purple-600">
-                                                    Reminder
-                                                </button>
-                                            </div>
-                                        </td>
+                                                </a>
+                                            </td>
 
-                                    </tr>
-                                ))}
+                                            <td className="p-3 text-center">
+                                                <span
+                                                    className={`px-3 py-1 rounded-full text-xs font-semibold
+                                    ${item.submissionStatus === "Open"
+                                                            ? "bg-green-100 text-green-700"
+                                                            : "bg-red-100 text-red-700"
+                                                        }`}
+                                                >
+                                                    {item.submissionStatus}
+                                                </span>
+                                            </td>
+
+                                            <td className="p-3 text-center font-medium">
+                                                {item.totalSubmissions}
+                                            </td>
+
+                                            <td className="p-3">
+                                                <div className="flex items-center justify-center gap-2">
+                                                    <button className="px-3 py-1 text-xs rounded-md bg-blue-500 text-white hover:bg-blue-600">
+                                                        View
+                                                    </button>
+                                                    <button className="px-3 py-1 text-xs rounded-md bg-yellow-500 text-white hover:bg-yellow-600">
+                                                        Edit
+                                                    </button>
+                                                    <button className="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-600">
+                                                        Delete
+                                                    </button>
+                                                    <button className="px-3 py-1 text-xs rounded-md bg-purple-500 text-white hover:bg-purple-600">
+                                                        Reminder
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))
+                                )}
                             </tbody>
 
                         </table>
@@ -293,11 +294,11 @@ function Addassignments() {
                                     Choose Section
                                     {section && (
                                         <span className="ml-2 text-blue-600 font-semibold">
-                                            {section} 
+                                            {section}
                                         </span>
                                     )}
                                 </label>
-                               
+
                                 <select
                                     id="section"
                                     onChange={(e) => setsection(e.target.value)}
