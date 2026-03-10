@@ -1,8 +1,8 @@
 import React from "react";
 import { FiInbox } from "react-icons/fi";
 
-function Tablecomponets({ sizeTb, col,text }) {
-  if (sizeTb !== 0) return null;
+function Tablecomponets({  col,text }) {
+
 
   return (
     <tr>

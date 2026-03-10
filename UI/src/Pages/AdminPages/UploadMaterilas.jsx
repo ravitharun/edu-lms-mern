@@ -35,7 +35,7 @@ function UploadMaterilas() {
 
             } catch (error) {
                 console.log(error.message, 'from the Fetching Teacher Pages Api Call.')
-                toast.error(error.message)
+                toast.error(error.message==="Request failed with status code 404"?"No UploadMaterilas Found":"")
             }
         }
         Fetch_Assignment()
@@ -68,38 +68,6 @@ function UploadMaterilas() {
         setfile(null)
     }
 
-    const Samplejsondata = [
-        {
-
-            Section: "Cse-1",
-            UploadedDate: 1771477439702,
-            Name: "Java",
-            Description: "java basics.",
-            file: ""
-        }
-
-        , {
-
-            Section: "Cse-1",
-            UploadedDate: 1771477439702,
-            Name: "Java",
-            Description: "java basics.",
-            file: ""
-        }, {
-
-            Section: "Cse-1",
-            Name: "Java", UploadedDate: 1771477439702,
-            Description: "java basics.",
-            file: ""
-        }, {
-
-            Section: "Cse-1",
-            // UploadedDate:'1771477439702',
-            Name: "Java", UploadedDate: 1771477439702,
-            Description: "java basics.",
-            file: ""
-        }
-    ]
     return (
         <>
             <App></App>
@@ -375,7 +343,7 @@ function UploadMaterilas() {
                             <tbody className="divide-y divide-gray-200">
 
                                 {classList.length === 0 && (
-                                    <Tablecomponets sizeTb={classList.length} col={5} text="There is no table data available" />
+                                    <Tablecomponets sizeTb={classList.length} col={5} text="There is no Upload Material Found." />
                                 )}
 
                                 {/* Your table rows will go here */}
