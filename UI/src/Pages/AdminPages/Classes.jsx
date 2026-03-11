@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { GetClassList } from "./TechersApiCall/FetchApicall";
 import secureLocalStorage from "react-secure-storage";
 import Tablecomponets from "../../Components/Tablecomponets";
+import AdminHeader from "../../Components/AdminHeader";
 
 function Classes() {
   const [Action, SetActon] = useState("");
@@ -84,7 +85,8 @@ function Classes() {
       <App></App>
       <div className="md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
         {/* ================= HEADER ================= */}
-        <h1 className="text-2xl font-semibold text-gray-800 mb-4">Classes</h1>
+
+        <AdminHeader pathname="Classes" ></AdminHeader>
 
         {/* ================= QUICK ACTION CARDS ================= */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-6">
