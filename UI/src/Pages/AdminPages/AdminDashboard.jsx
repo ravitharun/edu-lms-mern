@@ -41,6 +41,7 @@ function AdminDashboard() {
     return true
   }
   // const Check=handleLogout()
+  console.log(totalClass,'totalClass')
   return (
     <>
       <App></App>
@@ -80,10 +81,10 @@ function AdminDashboard() {
 
         {/* ================= STATS CARDS ================= */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <DashboardCard title="Classes" value={totalClass} icon={<FaChalkboardTeacher />} color="bg-blue-500" />
-          <DashboardCard title="Students" value={totalClass == 0 ? "no" : totalClass} icon={<FaUserGraduate />} color="bg-green-500" />
-          {/* <DashboardCard title="Assignments" value="12" icon={<FaTasks />} color="bg-purple-500" />
-          <DashboardCard title="Attendance" value="92%" icon={<FaCalendarCheck />} color="bg-orange-500" /> */}
+          <DashboardCard title="Classes" value={totalClass ==null?0:totalClass} icon={<FaChalkboardTeacher />} color="bg-blue-500" />
+          <DashboardCard title="Students" value={totalClass == null ? 0 : totalClass} icon={<FaUserGraduate />} color="bg-green-500" />
+          <DashboardCard title="Assignments" value="12" icon={<FaTasks />} color="bg-purple-500" />
+          <DashboardCard title="Attendance" value="92%" icon={<FaCalendarCheck />} color="bg-orange-500" ></DashboardCard>
         </div>
 
         {/* ================= MAIN CONTENT GRID ================= */}
@@ -125,7 +126,7 @@ function AdminDashboard() {
             </div>
             {redirectloadin && (
               <RedirectPopup
-              type="Logout"
+                type="Logout"
                 onComplete={handleLogout}
               />
             )}
