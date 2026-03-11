@@ -3,11 +3,12 @@ import App from '../../App'
 import AdminHeader from '../../Components/AdminHeader'
 import ProgressLoader from '../../Loaders/Progressloader'
 import { FaCalendarAlt, FaPlus } from 'react-icons/fa'
-import { UserName } from '../../Apis/Islogin'
+import { ClassName_hover_btn, dt, UserName } from '../../Apis/Islogin'
 import toast, { Toaster } from 'react-hot-toast'
 import { ApplyLeaveRequest, GetLeavesApplyByID } from './TechersApiCall/LeaveApi'
 import Dataloading from '../../Loaders/Dataloading'
 import HandelshowPoupLeave from './HandelshowPoupLeave'
+import DownloadReports from './Master/DownloadReports'
 // import { TbHeadings } from '../../Components/Leaveheadings'
 
 
@@ -27,16 +28,19 @@ function ApplyLeave() {
     ]
     const [handelpoup, sethandelPoup] = useState(false)
     const [handelshowPoup, sethandelshowPoup] = useState(false)
+    const [PoupData, setPoupData] = useState(null)
+    const [id, setid] = useState(null)
     let progress = false
     const [LeavesData, setLeavesData] = useState([])
     const [Fromdate, setFromdate] = useState("")
     const [Todate, setTodate] = useState("")
+
     const [TotalDays, setTotalDays] = useState("0")
     const [leaveType, setleavetype] = useState("")
     const [ReasonLeave, setLeaveReason] = useState("")
     const [EmpEmailId, setEmpEmailId] = useState("")
     const [Loader, setLoader] = useState(false)
-    const [PoupData, setPoupData] = useState([])
+
 
     useEffect(() => {
         const getApplyedLeaves = async () => {
@@ -125,16 +129,13 @@ function ApplyLeave() {
     }
 
     const handelPoup = (data) => {
-        if (!handelshowPoup) {
-
-            return sethandelshowPoup(true)
-
-        }
-        sethandelshowPoup(false)
+        setid(data._id)
+        sethandelshowPoup((prev) => !prev)
         setPoupData(data)
         console.log(data)
     }
-    return (
+
+        return (
         <>
             <App />
             <Toaster />
@@ -148,7 +149,7 @@ function ApplyLeave() {
                 >
                     <FaPlus /> Apply Leave
                 </button>
-
+                <DownloadReports data={LeavesData} fileName={dt} buttonName="Leave"></DownloadReports>
                 {/* ================= MODAL ================= */}
                 {handelpoup && (
 
@@ -305,7 +306,7 @@ function ApplyLeave() {
                             ) : (
 
                                 LeavesData?.map((data, idx) => (
-                                    <tr key={data._id} className="border-b hover:bg-gray-50" onClick={() => handelPoup(data)}>
+                                    <tr key={data._id} className="border-b hover:bg-gray-50" >
                                         <td className="p-3">{idx + 1}</td>
                                         <td className="p-3 whitespace-nowrap">{data.leaveType}</td>
                                         <td className="p-3 min-w-[200px]">{data.ReasonLeave}</td>
@@ -338,12 +339,29 @@ function ApplyLeave() {
                                             {new Date(data.createdAt).toLocaleString()}
                                         </td>
                                         <td className="p-3">
+                                            {handelshowPoup
+                                                ?
+                                                data._id === id ?
+                                                    <button className={`px-3 py-1 bg-red-600 text-white text-xs rounded hover:bg-red-700 hover:cursor-pointer`} onClick={() => sethandelshowPoup(false)}>
 
-                                            {data._id == data._id ?
+                                                        Close
+
+                                                    </button>
+                                                    :
+
+                                                    <button className="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700" oonClick={() => handelPoup(data)}>
+                                                        View
+
+
+                                                    </button>
+
+                                                :
                                                 <button className="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700" onClick={() => handelPoup(data)}>
-                                                    {handelshowPoup ? "Close" : "View"}
+
+                                                    View
                                                 </button>
-                                                : ""}
+
+                                            }
                                         </td>
                                     </tr>
                                 ))
