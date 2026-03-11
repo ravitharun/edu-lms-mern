@@ -10,7 +10,7 @@ import {
   FiChevronUp,
 } from "react-icons/fi";
 import secureLocalStorage from "react-secure-storage";
-import { UserLogin, UserName } from "../Apis/Islogin";
+import { UserLogin, UserName, userRoutingDashboard, userRoutingProfilePage } from "../Apis/Islogin";
 function LogoNavbar({ hide }) {
   const [openProfile, setOpenProfile] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
@@ -35,7 +35,7 @@ function LogoNavbar({ hide }) {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
 
           {/* LEFT: Logo */}
-          <Link to="/" className="flex items-center gap-2">
+          <Link to={userRoutingDashboard} className="flex items-center gap-2">
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-indigo-600 text-white font-bold">
               LMS
             </div>
@@ -70,7 +70,7 @@ function LogoNavbar({ hide }) {
             {openProfile && (
               <div className="absolute right-0 top-12 w-44 rounded-lg bg-white shadow-lg">
                 <Link
-                  to="/profile"
+                  to={userRoutingProfilePage}
                   className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50"
                 >
                   <FiUser /> Profile

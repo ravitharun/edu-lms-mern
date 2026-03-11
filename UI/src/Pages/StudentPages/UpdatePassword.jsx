@@ -43,7 +43,6 @@ function UpdatePassword() {
       <App></App>
       <Toaster />
       <div>
-
         <form className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6 sm:p-8 space-y-5 mt-10">
           <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 text-center">
             Update Password
