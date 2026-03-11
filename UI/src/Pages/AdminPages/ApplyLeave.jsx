@@ -7,64 +7,27 @@ import { UserName } from '../../Apis/Islogin'
 import toast, { Toaster } from 'react-hot-toast'
 import { ApplyLeaveRequest, GetLeavesApplyByID } from './TechersApiCall/LeaveApi'
 import Dataloading from '../../Loaders/Dataloading'
+import HandelshowPoupLeave from './HandelshowPoupLeave'
 // import { TbHeadings } from '../../Components/Leaveheadings'
 
 
 function ApplyLeave() {
     const TbHeadings = [
-    "S. No",
-    "Leave Type",
-    "Reason",
-    "Reuested Email To",
-    "EmpId",
-    "From Date",
-    "To Date",
-    "Total Days",
-    "Status",
-    "Applied On",
-    "Actions"
-]
+        "S. No",
+        "Leave Type",
+        "Reason",
+        "Reuested Email To",
+        "EmpId",
+        "From Date",
+        "To Date",
+        "Total Days",
+        "Status",
+        "Applied On",
+        "Actions"
+    ]
     const [handelpoup, sethandelPoup] = useState(false)
+    const [handelshowPoup, sethandelshowPoup] = useState(false)
     let progress = false
-
-    // const TbHeadings = [
-    //     "S. No",
-    //     "Leave Type",
-    //     "Reason",
-    //     "Email",
-    //     "EmpId",
-    //     "From Date",
-    //     "To Date",
-    //     "Total Days",
-    //     "Status",
-    //     "Applied On",
-    //     "Actions"
-    // ]
-
-    // const LeavesData = [
-    //     {
-    //         id: 1,
-    //         leaveType: "Casual Leave",
-    //         reason: "Family function",
-    //         fromDate: "2026-02-05",
-    //         toDate: "2026-02-06",
-    //         email: "arjun@college.edu",
-    //         totalDays: 2,
-    //         status: "Pending",
-    //         appliedOn: "2026-01-30",
-    //     },
-    //     {
-    //         id: 2,
-    //         leaveType: "Sick Leave",
-    //         reason: "Fever and cold",
-    //         fromDate: "2026-02-01",
-    //         toDate: "2026-02-02",
-    //         email: "arjun@college.edu",
-    //         totalDays: 2,
-    //         status: "Approved",
-    //         appliedOn: "2026-01-28",
-    //     }
-    // ]
     const [LeavesData, setLeavesData] = useState([])
     const [Fromdate, setFromdate] = useState("")
     const [Todate, setTodate] = useState("")
@@ -73,6 +36,7 @@ function ApplyLeave() {
     const [ReasonLeave, setLeaveReason] = useState("")
     const [EmpEmailId, setEmpEmailId] = useState("")
     const [Loader, setLoader] = useState(false)
+    const [PoupData, setPoupData] = useState([])
 
     useEffect(() => {
         const getApplyedLeaves = async () => {
@@ -86,7 +50,6 @@ function ApplyLeave() {
     }, [])
 
 
-    console.log(LeavesData, 'LeavesData')
 
     const handelTodate = (date) => {
         if (!Fromdate) return alert("Fill From Date first")
@@ -104,64 +67,78 @@ function ApplyLeave() {
     }
 
     const HandelLeave = async () => {
-        if (!Fromdate || !Todate || !leaveType || !ReasonLeave || !EmpEmailId) {
-            console.log(ReasonLeave, 'ReasonLeave')
-            return toast.error("Please fill the required filed's")
-        }
-        // make json data to send server
-        const data = {
-            ReasonLeave: ReasonLeave,
-            EmpName: UserName.name,
-            EmpID: UserName.teacher_Id,
-            Fromdate: Fromdate,
-            Emp_req_EmailId: EmpEmailId,
-            EmpEmail: UserName.email,
-            Todate: Todate,
-            leaveType: leaveType,
-            TotalDays: TotalDays
+        try {
+            if (!Fromdate || !Todate || !leaveType || !ReasonLeave || !EmpEmailId) {
+                console.log(ReasonLeave, 'ReasonLeave')
+                return toast.error("Please fill the required filed's")
+            }
+            // make json data to send server
+            const data = {
+                ReasonLeave: ReasonLeave,
+                EmpName: UserName.name,
+                EmpID: UserName.teacher_Id,
+                Fromdate: Fromdate,
+                Emp_req_EmailId: EmpEmailId,
+                EmpEmail: UserName.email,
+                Todate: Todate,
+                leaveType: leaveType,
+                TotalDays: TotalDays
 
-        }
+            }
 
-        const response = await ApplyLeaveRequest(data)
-        console.log(response.data.message == "leave application sent")
-        if (response.data.message == "leave application sent") {
-            toast.success(" Leave Application Sent Successfully!", {
-                style: {
-                    border: "1px solid #4CAF50",
-                    padding: "12px",
-                    color: "#155724",
-                    background: "#E6FFFA",
-                    borderRadius: "8px",
-                },
-                iconTheme: {
-                    primary: "#4CAF50",
-                    secondary: "#fff",
-                },
-            });
-            return sethandelPoup(false)
-        }
-        else {
-            toast.error("❌ Failed to Send Leave Application!", {
-                style: {
-                    border: "1px solid #f44336",
-                    padding: "12px",
-                    color: "#721c24",
-                    background: "#fdecea",
-                    borderRadius: "8px",
-                },
-                iconTheme: {
-                    primary: "#f44336",
-                    secondary: "#fff",
-                },
-            });
+            const response = await ApplyLeaveRequest(data)
+            console.log(response.data.message == "leave application sent")
+            if (response.data.message == "leave application sent") {
+                toast.success(" Leave Application Sent Successfully!", {
+                    style: {
+                        border: "1px solid #4CAF50",
+                        padding: "12px",
+                        color: "#155724",
+                        background: "#E6FFFA",
+                        borderRadius: "8px",
+                    },
+                    iconTheme: {
+                        primary: "#4CAF50",
+                        secondary: "#fff",
+                    },
+                });
+                return sethandelPoup(false)
+            }
+            else {
+                toast.error("❌ Failed to Send Leave Application!", {
+                    style: {
+                        border: "1px solid #f44336",
+                        padding: "12px",
+                        color: "#721c24",
+                        background: "#fdecea",
+                        borderRadius: "8px",
+                    },
+                    iconTheme: {
+                        primary: "#f44336",
+                        secondary: "#fff",
+                    },
+                });
+            }
+        } catch (error) {
+            toast.error(error.message)
         }
     }
 
+    const handelPoup = (data) => {
+        if (!handelshowPoup) {
+
+            return sethandelshowPoup(true)
+
+        }
+        sethandelshowPoup(false)
+        setPoupData(data)
+        console.log(data)
+    }
     return (
         <>
             <App />
             <Toaster />
-            <div className="md:ml-64 p-4 md:p-6 min-h-screen bg-gray-100 space-y-6">
+            <div className="md:ml-64 p-4 md:p-6 min-h-screen bg-gray-100 space-y-6" >
                 <AdminHeader pathname="ApplyLeave" />
 
                 {/* Apply Button */}
@@ -319,54 +296,57 @@ function ApplyLeave() {
                                         </div>
                                     </td>
                                 </tr>
-                            ) : LeavesData.length === 0 ? (
+                            ) : LeavesData === "No Leave Applications Yet" ? (
                                 <tr>
                                     <td colSpan={TbHeadings.length} className="text-center p-5">
                                         No Leave Applications Yet
                                     </td>
                                 </tr>
                             ) : (
-                                    
-                                    LeavesData.map((data, idx) => (
-                                        <tr key={data._id} className="border-b hover:bg-gray-50">
-                                            <td className="p-3">{idx + 1}</td>
-                                            <td className="p-3 whitespace-nowrap">{data.leaveType}</td>
-                                            <td className="p-3 min-w-[200px]">{data.ReasonLeave}</td>
-                                            <td className="p-3 break-all min-w-[220px]">
-                                                <a href={`mailto:${data.EmpEmailId}`} className="text-blue-600">
-                                                    {data.EmpReq_EmailId}
-                                                </a>
-                                            </td>
-                                            <td className="p-3 whitespace-nowrap">{data.EmpID}</td>
-                                            <td className="p-3 whitespace-nowrap">
-                                                {new Date(data.Fromdate).toLocaleDateString()}
-                                            </td>
-                                            <td className="p-3 whitespace-nowrap">
-                                                {new Date(data.Todate).toLocaleDateString()}
-                                            </td>
-                                            <td className="p-3">{data.TotalDays}</td>
-                                            <td className="p-3">
-                                                <span
-                                                    className={`px-2 py-1 rounded-full text-white text-xs ${data.Application_status === "Accepted"
-                                                            ? "bg-green-500"
-                                                            : data.Application_status === "Inprogress"
-                                                                ? "bg-yellow-500"
-                                                                : "bg-red-500"
-                                                        }`}
-                                                >
-                                                    {data.Application_status}
-                                                </span>
-                                            </td>
-                                            <td className="p-3 whitespace-nowrap">
-                                                {new Date(data.createdAt).toLocaleString()}
-                                            </td>
-                                            <td className="p-3">
-                                                <button className="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700">
-                                                    View
+
+                                LeavesData?.map((data, idx) => (
+                                    <tr key={data._id} className="border-b hover:bg-gray-50" onClick={() => handelPoup(data)}>
+                                        <td className="p-3">{idx + 1}</td>
+                                        <td className="p-3 whitespace-nowrap">{data.leaveType}</td>
+                                        <td className="p-3 min-w-[200px]">{data.ReasonLeave}</td>
+                                        <td className="p-3 break-all min-w-[220px]">
+                                            <a href={`mailto:${data.EmpEmailId}`} className="text-blue-600">
+                                                {data.EmpReq_EmailId}
+                                            </a>
+                                        </td>
+                                        <td className="p-3 whitespace-nowrap">{data.EmpID}</td>
+                                        <td className="p-3 whitespace-nowrap">
+                                            {new Date(data.Fromdate).toLocaleDateString()}
+                                        </td>
+                                        <td className="p-3 whitespace-nowrap">
+                                            {new Date(data.Todate).toLocaleDateString()}
+                                        </td>
+                                        <td className="p-3">{data.TotalDays}</td>
+                                        <td className="p-3">
+                                            <span
+                                                className={`px-2 py-1 rounded-full text-white text-xs ${data.Application_status === "Accepted"
+                                                    ? "bg-green-500"
+                                                    : data.Application_status === "Inprogress"
+                                                        ? "bg-yellow-500"
+                                                        : "bg-red-500"
+                                                    }`}
+                                            >
+                                                {data.Application_status}
+                                            </span>
+                                        </td>
+                                        <td className="p-3 whitespace-nowrap">
+                                            {new Date(data.createdAt).toLocaleString()}
+                                        </td>
+                                        <td className="p-3">
+
+                                            {data._id == data._id ?
+                                                <button className="px-3 py-1 bg-blue-600 text-white text-xs rounded hover:bg-blue-700" onClick={() => handelPoup(data)}>
+                                                    {handelshowPoup ? "Close" : "View"}
                                                 </button>
-                                            </td>
-                                        </tr>
-                                    ))
+                                                : ""}
+                                        </td>
+                                    </tr>
+                                ))
                             )}
                         </tbody>
 
@@ -376,6 +356,7 @@ function ApplyLeave() {
 
                 {progress && <ProgressLoader />}
             </div>
+            {handelshowPoup && <HandelshowPoupLeave PoupData={PoupData} click={handelPoup} />}
         </>
     )
 }
