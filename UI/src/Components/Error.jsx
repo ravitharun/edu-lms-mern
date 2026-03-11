@@ -21,6 +21,22 @@ function Error() {
     }, 3500);
   };
 
+
+  // handelPageRoute
+  const handelPageRoute = () => {
+    if (UserName?.role == "student") {
+      navigate("/")
+
+    }
+    else if (UserName?.role == "Teacher") {
+      navigate("/admin-dashboard")
+
+    }
+    else {
+
+      navigate("/AdminDashboard")
+    }
+  }
   return (
     <div className="min-h-screen flex bg-gray-100">
 
@@ -65,7 +81,7 @@ function Error() {
           {/* Buttons */}
           <div className="mt-6 flex flex-col gap-3">
             <button
-              onClick={() => navigate("/")}
+              onClick={handelPageRoute}
               className="w-full py-2 rounded-md bg-blue-700 text-white hover:bg-blue-800 transition"
             >
               Back to Dashboard
@@ -86,7 +102,7 @@ function Error() {
 
         </div>
       </div>
-      {redirectLogin && <RedirectPopup onComplete={handleLogout}  type="Logout"/>}
+      {redirectLogin && <RedirectPopup onComplete={handleLogout} type="Logout" />}
     </div>
   );
 }
