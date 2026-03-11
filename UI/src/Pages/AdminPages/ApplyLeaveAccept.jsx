@@ -13,32 +13,32 @@ import axios from 'axios';
 import { UserName } from '../../Apis/Islogin';
 
 function ApplyLeaveAccept() {
-     const TbAcceptHeadings = [
-    "S. No",
-    "Leave Type",
-    "Reason",
-    "Reuested Email To",
-    "EmpId",
-    "From Date",
-    "To Date",
-    "Total Days",
-    "Status",
-    "Applied On",
-    "Actions"
-]
-const TbHeadings = [
-    "S. No",
-    "Leave Type",
-    "Reason",
-    "Reuested Email To",
-    "EmpId",
-    "From Date",
-    "To Date",
-    "Total Days",
-    "Status",
-    "Applied On",
-    "Actions"
-]
+    const TbAcceptHeadings = [
+        "S. No",
+        "Leave Type",
+        "Reason",
+        "Reuested Email To",
+        "EmpId",
+        "From Date",
+        "To Date",
+        "Total Days",
+        "Status",
+        "Applied On",
+        "Actions"
+    ]
+    const TbHeadings = [
+        "S. No",
+        "Leave Type",
+        "Reason",
+        "Reuested Email To",
+        "EmpId",
+        "From Date",
+        "To Date",
+        "Total Days",
+        "Status",
+        "Applied On",
+        "Actions"
+    ]
     const [loader, setloader] = useState(false)
     const [leaves, setleaves] = useState([])
     const [edit, setEdit] = useState(false)
@@ -104,7 +104,6 @@ const TbHeadings = [
         setEdit(false)
     }
     console.log(leaves, 'leaves')
-    console.log(UserName, 'leaves')
     return (
         <>
 
@@ -176,8 +175,15 @@ const TbHeadings = [
                                 </tr>
                             ) : (
                                 <>
-                                    {leaves.length > 0 ? (
-                                        leaves.map((item, index) => (
+                                    {leaves ==="No leaves Apply." ? (
+
+                                        <tr>
+                                            <td colSpan={TbHeadings.length} className="text-center p-6">
+                                                No Leave Applications Found
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                        leaves?.map((item, index) => (
                                             <tr key={index} className="border-b hover:bg-gray-50 text-center">
                                                 <td className="p-3">{index + 1}</td>
                                                 <td className="p-3">{item.leaveType}-{item.EmpName}</td>
@@ -266,12 +272,6 @@ ${item.Application_status === "Accepted"
 
                                             </tr>
                                         ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan={TbHeadings.length} className="text-center p-6">
-                                                No Leave Applications Found
-                                            </td>
-                                        </tr>
                                     )}
                                 </>
                             )}
