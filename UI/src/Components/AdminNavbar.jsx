@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import {
     FaHome,
     FaChalkboardTeacher,
@@ -37,9 +37,10 @@ function AdminSidebar() {
         <>
             {/* ================= MOBILE TOP BAR ================= */}
             <div className="md:hidden flex items-center justify-between h-14 px-4 bg-white border-b">
-                <h1 className="text-lg font-semibold text-blue-600">
-                    Teacher Panel
-                </h1>
+                <Link to="/admin-dashboard">
+                    <h1 className="text-lg font-semibold text-blue-600 hover:text-black">
+                        Teacher Panel
+                    </h1></Link>
                 <button
                     onClick={() => setMenuOpen(true)}
                     className="text-2xl text-gray-600"
