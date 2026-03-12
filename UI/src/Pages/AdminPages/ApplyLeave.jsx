@@ -3,12 +3,13 @@ import App from '../../App'
 import AdminHeader from '../../Components/AdminHeader'
 import ProgressLoader from '../../Loaders/Progressloader'
 import { FaCalendarAlt, FaPlus } from 'react-icons/fa'
-import { ClassName_hover_btn, dt, UserName } from '../../Apis/Islogin'
+import { ClassName_hover_btn, dt, UserLogin, UserName } from '../../Apis/Islogin'
 import toast, { Toaster } from 'react-hot-toast'
 import { ApplyLeaveRequest, GetLeavesApplyByID } from './TechersApiCall/LeaveApi'
 import Dataloading from '../../Loaders/Dataloading'
 import HandelshowPoupLeave from './HandelshowPoupLeave'
 import DownloadReports from './Master/DownloadReports'
+import PoupLogin from '../../Components/PoupLogin'
 // import { TbHeadings } from '../../Components/Leaveheadings'
 
 
@@ -34,13 +35,12 @@ function ApplyLeave() {
     const [LeavesData, setLeavesData] = useState([])
     const [Fromdate, setFromdate] = useState("")
     const [Todate, setTodate] = useState("")
-
     const [TotalDays, setTotalDays] = useState("0")
     const [leaveType, setleavetype] = useState("")
     const [ReasonLeave, setLeaveReason] = useState("")
     const [EmpEmailId, setEmpEmailId] = useState("")
     const [Loader, setLoader] = useState(false)
-
+    const [userlogin, setuserlogin] = useState(false)
 
     useEffect(() => {
         const getApplyedLeaves = async () => {
@@ -72,6 +72,7 @@ function ApplyLeave() {
 
     const HandelLeave = async () => {
         try {
+
             if (!Fromdate || !Todate || !leaveType || !ReasonLeave || !EmpEmailId) {
                 console.log(ReasonLeave, 'ReasonLeave')
                 return toast.error("Please fill the required filed's")
@@ -134,17 +135,25 @@ function ApplyLeave() {
         setPoupData(data)
         console.log(data)
     }
-
-        return (
+    const handelPoupLeave = () => {
+        if (UserLogin == null) {
+            console.log("hey")
+            setuserlogin(true);
+            return
+        }
+        sethandelPoup(true)
+    }
+    return (
         <>
             <App />
             <Toaster />
+            <PoupLogin check={userlogin}></PoupLogin>
             <div className="md:ml-64 p-4 md:p-6 min-h-screen bg-gray-100 space-y-6" >
                 <AdminHeader pathname="ApplyLeave" />
 
                 {/* Apply Button */}
                 <button
-                    onClick={() => sethandelPoup(true)}
+                    onClick={handelPoupLeave}
                     className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700"
                 >
                     <FaPlus /> Apply Leave
