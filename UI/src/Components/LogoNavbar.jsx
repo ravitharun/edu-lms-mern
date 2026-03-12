@@ -16,7 +16,6 @@ function LogoNavbar({ hide }) {
   const [openMobile, setOpenMobile] = useState(false);
   const navigate = useNavigate("")
   const Logout = () => {
-    console.log("first")
     let tkn = secureLocalStorage.removeItem("token")
 
     if (tkn == null) {

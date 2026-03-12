@@ -4,7 +4,6 @@ import { UserName } from '../Apis/Islogin';
 import { Link } from 'react-router-dom';
 
 function AdminHeader({ pathname }) {
-    console.log(pathname, 'pathname')
     const [showNotifications, setShowNotifications] = useState(false);
     return (
         <>
