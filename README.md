@@ -124,8 +124,7 @@ UI and real-world LMS functionalities.
 
 📌 Future Improvements ⚡ Real-Time System
 
-Implement WebSockets (Socket.io) for real-time communication
-
+-- Implement WebSockets (Socket.io) for real-time communication
 Live attendance updates
 
 Instant notifications for students and instructors
