@@ -56,13 +56,13 @@ function ApplyLeaveAccept() {
         }
         get()
     }, [])
-    const [fakeData, setFakeData] = useState([]);
 
     const HandelEdit = (id) => {
         console.log(id, 'to edit')
         setEditid(id)
         setEdit((prev) => !prev)
     }
+
     const handleStatusChange = (index, value) => {
         const updatedData = [...leaves];
         updatedData[index].Application_status = value;
@@ -85,25 +85,35 @@ function ApplyLeaveAccept() {
             Fromdate, Todate, Status, Leave_id
         }
         Swal.fire({
-            title: "Approve Leave?",
-            text: "Do you want to approve this leave request?",
+            title: `${Status} Leave?`,
+            text: `Do you want to ${Status} this leave request?`,
             icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Approve",
+
+            confirmButtonText: Status == "Rejected" ? "" : "Approve"
+            ,
             cancelButtonText: "Reject"
         }).then(async (result) => {
             if (result.isConfirmed) {
 
                 const response = await axios.patch("http://localhost:5001/api/LeaveApply/updateStatus", { data })
-                console.log(response, 'response')
-                Swal.fire("Approved!", "Leave has been approved.", "success");
-            } else {
-                Swal.fire("Rejected!", "Leave has been rejected.", "error");
+                Swal.fire({
+                    title: `${Status}!`,
+                    text: `Leave has been ${Status}.`,
+                    icon: "success",
+                    confirmButtonText: "OK",
+                    confirmButtonColor: "#4f46e5",
+                    background: "#f9fafb",
+                    color: "#111827",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                } else {
+                Swal.fire(`${Status}!`, `Leave has been ${Status}.`, "error");
             }
         });
         setEdit(false)
     }
-    console.log(leaves, 'leaves')
     return (
         <>
 
@@ -175,7 +185,7 @@ function ApplyLeaveAccept() {
                                 </tr>
                             ) : (
                                 <>
-                                    {leaves ==="No leaves Apply." ? (
+                                    {leaves === "No leaves Apply." ? (
 
                                         <tr>
                                             <td colSpan={TbHeadings.length} className="text-center p-6">
@@ -217,7 +227,7 @@ ${item.Application_status === "Accepted"
                                                                 onChange={(e) => handleStatusChange(index, e.target.value)}
                                                                 className="px-3 py-1.5 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
                                                             >
-                                                                <option value="" selected>Select Status</option>
+                                                                <option value="" selected disabled>Select Status</option>
                                                                 <option value="Inprogress" selected>Inprogress</option>
                                                                 <option value="Accepted">Accepted</option>
                                                                 <option value="Rejected">Rejected</option>
