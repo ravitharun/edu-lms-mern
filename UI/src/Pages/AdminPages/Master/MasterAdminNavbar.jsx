@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaBars, FaTimes, FaTachometerAlt, FaBook, FaChalkboardTeacher, FaUsers, FaUserGraduate, FaCog, FaUser, FaCheck, FaUserCheck, FaPowerOff } from "react-icons/fa";
+import { FaBars, FaTimes, FaTachometerAlt, FaBook, FaChalkboardTeacher, FaUsers, FaUserGraduate, FaCog, FaUser, FaCheck, FaUserCheck, FaPowerOff, FaBullhorn } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { handleLogout, UserLogin } from "../../../Apis/Islogin";
 import { handelLogin } from "../../../Apis/Signup";
@@ -94,6 +94,7 @@ function MasterAdminNavbar({ path, Active }) {
           <SidebarItem icon={<FaUsers />} title="Students" url="/admin/Studenta" path={path} active={Active} />
           <SidebarItem icon={<FaUser />} title="Profile" url="/admin/Profile" path={path} active={Active} />
           <SidebarItem icon={<HiOutlineExclamationCircle />} title="Issues" url="/admin/Issues" path={path} active={Active} />
+          <SidebarItem icon={<FaBullhorn  />} title="Annoncement" url="/admin/Issues" path={path} active={Active} />
           {<>
 
             {UserLogin && <SidebarItem icon={<FaPowerOff />} title="LogOut" path={path} active={Active} onClick={handleLogout} />}
