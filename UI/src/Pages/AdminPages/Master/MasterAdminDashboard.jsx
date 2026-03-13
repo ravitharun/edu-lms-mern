@@ -67,6 +67,7 @@ import MasterAdminNavbar from "./MasterAdminNavbar";
 import MasterLogoNav from "./MasterLogoNav";
 import { fun } from "../../../Components/UserisLogin";
 import { Link } from "react-router-dom";
+import WelcomeMessage from "../../../Components/WelcomeMessage";
 
 function DashboardLayout({ children }) {
   useEffect(() => {
@@ -97,16 +98,9 @@ function DashboardLayout({ children }) {
         <main className="flex-1 pt-16 pb-8 px-4 md:px-8 lg:px-12 overflow-y-auto">
 
           <div className="max-w-7xl mx-auto space-y-8">
-
+            <WelcomeMessage></WelcomeMessage>
             {/* Dashboard Banner */}
-            <div className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white p-6 rounded-2xl shadow">
-              <h1 className="text-2xl font-bold">
-                Admin Management Dashboard 🚀
-              </h1>
-              <p className="text-sm mt-1 opacity-90">
-                Manage Teachers, Students, Subjects & Account Status.
-              </p>
-            </div>
+
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -127,79 +121,80 @@ function DashboardLayout({ children }) {
             </div>
 
             {/* Management Section */}
-<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-  {/* Teacher Management */}
-  <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+              {/* Teacher Management */}
+              <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
 
-    <h2 className="text-xl font-bold mb-6 text-gray-800">
-      👨‍🏫 Teacher Management
-    </h2>
+                <h2 className="text-xl font-bold mb-6 text-gray-800">
+                  👨‍🏫 Teacher Management
+                </h2>
 
-    <div className="space-y-4">
+                <div className="flex flex-col gap-5">
 
-      <Link to="/admin/Teachers">
-        <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-blue-500 hover:shadow-md transition">
-          <span className="font-medium text-gray-700 group-hover:text-blue-600">
-            View Teachers
-          </span>
-          <span className="text-blue-500 text-lg">→</span>
-        </div>
-      </Link>
+                  <Link to="/admin/Teachers">
+                    <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-blue-500 hover:shadow-md transition">
+                      <span className="font-medium text-gray-700 group-hover:text-blue-600">
+                        View Teachers
+                      </span>
+                      <span className="text-blue-500 text-lg">→</span>
+                    </div>
+                  </Link>
 
-      <Link to="/Admin/AssiginSubjects">
-        <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-green-500 hover:shadow-md transition">
-          <span className="font-medium text-gray-700 group-hover:text-green-600">
-            Manage Subjects
-          </span>
-          <span className="text-green-500 text-lg">→</span>
-        </div>
-      </Link>
+                  <Link to="/Admin/AssiginSubjects">
+                    <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-green-500 hover:shadow-md transition">
+                      <span className="font-medium text-gray-700 group-hover:text-green-600">
+                        Manage Subjects
+                      </span>
+                      <span className="text-green-500 text-lg">→</span>
+                    </div>
+                  </Link>
 
-      <Link to="/admin/Teachers">
-        <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-red-500 hover:shadow-md transition">
-          <span className="font-medium text-gray-700 group-hover:text-red-600">
-            Deactivate Teacher Account
-          </span>
-          <span className="text-red-500 text-lg">→</span>
-        </div>
-      </Link>
+                  <Link to="/admin/Teachers">
+                    <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-red-500 hover:shadow-md transition">
+                      <span className="font-medium text-gray-700 group-hover:text-red-600">
+                        Deactivate Teacher Account
+                      </span>
+                      <span className="text-red-500 text-lg">→</span>
+                    </div>
+                  </Link>
 
-    </div>
-  </div>
+                </div>
+              </div>
 
-  {/* Student Management */}
-  <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
 
-    <h2 className="text-xl font-bold mb-6 text-gray-800">
-      👨‍🎓 Student Management
-    </h2>
+              {/* Student Management */}
+              <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
 
-    <div className="space-y-4">
+                <h2 className="text-xl font-bold mb-6 text-gray-800">
+                  👨‍🎓 Student Management
+                </h2>
 
-      <Link to="/admin/Studenta">
-        <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-blue-500 hover:shadow-md transition">
-          <span className="font-medium text-gray-700 group-hover:text-blue-600">
-            View Students
-          </span>
-          <span className="text-blue-500 text-lg">→</span>
-        </div>
-      </Link>
+                <div className="flex flex-col gap-6">
 
-      <Link to="/admin/Studenta">
-        <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-red-500 hover:shadow-md transition">
-          <span className="font-medium text-gray-700 group-hover:text-red-600">
-            Deactivate Student Account
-          </span>
-          <span className="text-red-500 text-lg">→</span>
-        </div>
-      </Link>
+                  <Link to="/admin/Studenta">
+                    <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-blue-500 hover:shadow-md transition">
+                      <span className="font-medium text-gray-700 group-hover:text-blue-600">
+                        View Students
+                      </span>
+                      <span className="text-blue-500 text-lg">→</span>
+                    </div>
+                  </Link>
 
-    </div>
+                  <Link to="/admin/Studenta">
+                    <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-red-500 hover:shadow-md transition">
+                      <span className="font-medium text-gray-700 group-hover:text-red-600">
+                        Deactivate Student Account
+                      </span>
+                      <span className="text-red-500 text-lg">→</span>
+                    </div>
+                  </Link>
 
-  </div>
+                </div>
 
-</div>
+              </div>
+
+            </div>
 
             {/* Children Content */}
             <div>{children}</div>
