@@ -61,7 +61,7 @@ This project demonstrates a **role-based dashboard system** with modern UI and r
 ## 📂 Project Structure
 
 ```
-![Project Folder](LMS/images/image-2.png)
+![Project Structure](https://raw.githubusercontent.com/ravitharun/edu-lms-mern/3accf745b6792d4adf0ea856cd32a2028ad93b31/images/image-2.png)
 ```
 
 ---
