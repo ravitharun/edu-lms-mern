@@ -58,7 +58,6 @@ This project demonstrates a **role-based dashboard system** with modern UI and r
 
 ---
 
-## 📂 Project Structure
 
 ## 📂 Project Structure
 
