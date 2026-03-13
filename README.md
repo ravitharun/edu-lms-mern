@@ -61,7 +61,7 @@ This project demonstrates a **role-based dashboard system** with modern UI and r
 ## 📂 Project Structure
 
 ```
-![alt text](image.png)
+![Project Folder](LMS/images/image-2.png)
 ```
 
 ---
