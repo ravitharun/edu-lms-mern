@@ -36,4 +36,8 @@ export const StudentsProfileHeadings = [
     "StudentsYear",
 
 ]
-export const  Years = ["1","2","3","4"]
+export const Years = ["1", "2", "3", "4"]
+
+// roles
+
+// export const Roles = ["Students", "Teacher", "Both"]
