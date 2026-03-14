@@ -14,6 +14,7 @@ const { classlist } = require("./routes/GetallClasslistrouter");
 const AccountDeactivateRouter = require("./routes/AccountDeactivateRouter");
 const { leaveRouter } = require("./routes/ApplyleaveRouter");
 const ProfileRouter = require("./routes/ProfileRoute");
+const AnnouncementRouter = require("./routes/Announcement");
 
 const app = express();
 const server = http.createServer(app);
@@ -43,6 +44,7 @@ app.use("/api/classlist", classlist);
 app.use("/api/Account", AccountDeactivateRouter);
 app.use("/api/LeaveApply", leaveRouter);
 app.use("/api/Profile", ProfileRouter);
+app.use("/api/Announcement", AnnouncementRouter);
 
 // Test root
 app.get("/", (req, res) => {
