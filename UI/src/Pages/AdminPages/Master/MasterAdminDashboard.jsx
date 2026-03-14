@@ -68,6 +68,7 @@ import MasterLogoNav from "./MasterLogoNav";
 import { fun } from "../../../Components/UserisLogin";
 import { Link } from "react-router-dom";
 import WelcomeMessage from "../../../Components/WelcomeMessage";
+import Announcement from "../../../Components/Announcement";
 
 function DashboardLayout({ children }) {
   useEffect(() => {
@@ -84,7 +85,7 @@ function DashboardLayout({ children }) {
 
   return (
     <div className="min-h-screen flex bg-gray-50">
-
+<Announcement></Announcement>
       {/* Sidebar */}
       <MasterAdminNavbar path="Dashboard" />
 
