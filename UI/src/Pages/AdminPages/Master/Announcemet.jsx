@@ -1,13 +1,71 @@
 import React, { useState } from 'react'
 import MasterLogoNav from './MasterLogoNav'
 import MasterAdminNavbar from './MasterAdminNavbar'
-import { Toaster } from 'react-hot-toast'
+import toast, { Toaster } from 'react-hot-toast'
 import { FiX, FiCalendar, FiUpload, FiTag, FiPlus } from "react-icons/fi";
-import GetAnnouncement from '../GetAnnouncement';
+import axios from 'axios';
+import GetAnnouncement from './GetAnnouncement';
 function Annoncement() {
     const page = "Annoncement"
     const [openPoup, setopenPoup] = useState(false)
     const Roles = ["Students", "Teacher", "Both"]
+    const [Title, setTitle] = useState("")
+    const [AnnouncementType, setAnnouncementType] = useState("")
+    const [StartDate, setStartDate] = useState("")
+    const [EndDate, setEndDate] = useState("")
+    const [Banner, setBanner] = useState(null)
+    const [TargetAudience, setTargetAudience] = useState('')
+    const HandelFile = (e) => {
+        const file = e.target.files[0]
+        console.log(file)
+        const FileUploadType = ["image/png", "image/jpeng"]
+        if (!FileUploadType.includes(file.type)) {
+
+            toast.error("Allowed Fiels to Uplaod Only ", FileUploadType)
+            return setBanner(null)
+        }
+        if (!file) {
+            return toast.error("File is reuired.")
+        }
+        setBanner(file)
+    }
+
+    
+    const HandelAnnoncement = async () => {
+
+
+        try {
+            if (!isNaN(Title)) {
+                return toast.error(`"${Title}" is not valid. Title should contain only characters.`);
+            }
+            if (!Title || !AnnouncementType || !StartDate || !EndDate || !TargetAudience || !Banner) {
+                return toast.error("Fill all required Feilds.")
+            }
+            const formdata = new FormData()
+            formdata.append("Title", Title)
+            formdata.append("AnnouncementType", AnnouncementType)
+            formdata.append("StartDate", StartDate)
+            formdata.append("EndDate", EndDate)
+            formdata.append("profile", Banner)
+            formdata.append("TargetAudience", TargetAudience)
+            const response = await axios.post("http://localhost:5001/api/Announcement/addAnnouncement", formdata, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            if (response.data.message == 'Announcement Published') {
+                toast.success(response.data.message)
+                return setopenPoup(false)
+            }
+            console.log(response, 'response')
+            console.log({ Title, AnnouncementType, StartDate, EndDate, TargetAudience, Banner })
+        } catch (error) {
+            console.log(error)
+            return toast.error("error")
+        }
+
+
+    }
     return (
         <div className="min-h-screen flex bg-gray-50">
             <MasterAdminNavbar path={page} />
@@ -69,6 +127,8 @@ function Annoncement() {
                                                     type="text"
                                                     placeholder="Enter announcement title"
                                                     className="w-full py-2 outline-none"
+                                                    onChange={(e) => setTitle(e.target.value)}
+                                                    required
                                                 />
                                             </div>
                                         </div>
@@ -78,7 +138,7 @@ function Annoncement() {
                                             <label className="text-sm font-medium text-gray-700">
                                                 Announcement Type
                                             </label>
-                                            <select className="w-full border rounded-lg mt-1 px-3 py-2 outline-none">
+                                            <select className="w-full border rounded-lg mt-1 px-3 py-2 outline-none" onChange={(e) => setAnnouncementType(e.target.value)}>
                                                 <option disabled selected>Select announcement type</option>
                                                 <option value="exam">Exam</option>
                                                 <option value="result">Exam Result</option>
@@ -101,6 +161,8 @@ function Annoncement() {
                                                     <input
                                                         type="datetime-local"
                                                         className="w-full py-2 outline-none"
+                                                        required
+                                                        onChange={(e) => setStartDate(e.target.value)}
                                                     />
                                                 </div>
                                             </div>
@@ -112,8 +174,10 @@ function Annoncement() {
                                                 <div className="flex items-center border rounded-lg mt-1 px-3">
                                                     <FiCalendar className="text-gray-400 mr-2" />
                                                     <input
-                                                        type="datetime-local"
+                                                        type="datetime-local" required
                                                         className="w-full py-2 outline-none"
+                                                        onChange={(e) => setEndDate(e.target.value)}
+
                                                     />
                                                 </div>
                                             </div>
@@ -126,7 +190,7 @@ function Annoncement() {
                                             </label>
                                             <div className="flex items-center border rounded-lg mt-1 px-3 py-2">
                                                 <FiUpload className="text-gray-400 mr-2" />
-                                                <input type="file" className="w-full text-sm" />
+                                                <input type="file" className="w-full text-sm" onChange={(e) => HandelFile(e)} required />
                                             </div>
                                         </div>
 
@@ -135,7 +199,8 @@ function Annoncement() {
                                             <label className="text-sm font-medium text-gray-700">
                                                 Target Audience
                                             </label>
-                                            <select className="w-full border rounded-lg mt-1 px-3 py-2">
+
+                                            <select className="w-full border rounded-lg mt-1 px-3 py-2" onChange={(e) => setTargetAudience(e.target.value)} >
                                                 <option disabled selected>
                                                     Choose Target Role
                                                 </option>
@@ -158,7 +223,7 @@ function Annoncement() {
                                             Cancel
                                         </button>
 
-                                        <button className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
+                                        <button className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700" onClick={HandelAnnoncement}>
                                             Publish
                                         </button>
                                     </div>
@@ -166,7 +231,7 @@ function Annoncement() {
                                 </div>
                             </div>
                         )}
-                        <GetAnnouncement></GetAnnouncement>
+                        <GetAnnouncement   ></GetAnnouncement>
 
                     </div>
                 </main>
