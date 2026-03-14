@@ -32,6 +32,7 @@ import ApplyLeaveAccept from './Pages/AdminPages/ApplyLeaveAccept.jsx';
 import TeacherProfileInfo from './Pages/AdminPages/Master/TeacherProfileInfo.jsx';
 import ProfilesStudenta from './Pages/AdminPages/Master/ProfilesStudenta.jsx';
 import TeachersProfile from './Pages/AdminPages/TeachersProfile.jsx';
+import Annoncement from './Pages/AdminPages/Master/Announcemet.jsx';
 
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
@@ -195,6 +196,14 @@ createRoot(document.getElementById('root')).render(
           element={
             <ProtectedRoute allowedRoles={["Admin"]}>
               <ProfilesStudenta />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/Annoncement"
+          element={
+            <ProtectedRoute allowedRoles={["Admin"]}>
+              <Annoncement />
             </ProtectedRoute>
           }
         />
