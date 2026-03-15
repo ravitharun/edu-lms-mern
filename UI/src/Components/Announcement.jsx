@@ -79,8 +79,8 @@ function Announcement() {
     useEffect(() => {
         (async () => {
             const res = await Hnadlefetechannouncements();
-            const filtterbyrole = res.filter((data) => data.TargetAudience == "Both" ? res : data.TargetAudience == UserName.role)
-            console.log("filtterbyrole", filtterbyrole)
+            const filtterbyrole = res.filter((data) => data.TargetAudience == "Both" ? res : data.TargetAudience.toLowerCase()==UserName.role+"s"  )
+            console.log("filtterbyrole", filtterbyrole,UserName.role)
             setData(filtterbyrole);
         })();
 
