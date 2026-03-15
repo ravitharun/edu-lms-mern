@@ -13,8 +13,6 @@ import { GetallSubjects } from './StudentsApi';
 import ProgressLoader from '../../Loaders/Progressloader';
 import { Link } from 'react-router-dom';
 import Announcement from '../../Components/Announcement';
-import Calendar from './Calendar';
-import AcademiCalendar from './Calendar';
 function Dashboard() {
 
   const [Profile, setprofile] = useState(UserRole.profilePreview)
@@ -663,7 +661,6 @@ hover:to-blue-400"
       </div >
 
       {/* <Error></Error> */}
-      <AcademiCalendar></AcademiCalendar>
       {/* Footer */}
       <Footer />
     </>

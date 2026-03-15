@@ -33,6 +33,7 @@ import TeacherProfileInfo from './Pages/AdminPages/Master/TeacherProfileInfo.jsx
 import ProfilesStudenta from './Pages/AdminPages/Master/ProfilesStudenta.jsx';
 import TeachersProfile from './Pages/AdminPages/TeachersProfile.jsx';
 import Annoncement from './Pages/AdminPages/Master/Announcemet.jsx';
+import AcademiCalendar from './Pages/StudentPages/AcademiCalendar.jsx';
 
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
@@ -79,6 +80,16 @@ createRoot(document.getElementById('root')).render(
             <ProtectedRoute allowedRoles={"students"}>
 
               <Studentprofile />
+            </ProtectedRoute>
+
+          </Suspense>}
+
+        />
+        <Route path="/Class-Timings"
+          element={<Suspense fallback={<BackgroungImgLoader />}>
+            <ProtectedRoute allowedRoles={"students"}>
+
+              <AcademiCalendar />
             </ProtectedRoute>
 
           </Suspense>}
