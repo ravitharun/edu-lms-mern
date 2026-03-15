@@ -1,0 +1,36 @@
+/* Academic Calendar Custom Styles */
+
+#calendar {
+  width: 100%;
+  max-width: 1000px;
+  margin: auto;
+  background: white;
+  border-radius: 12px;
+  padding: 10px;
+}
+
+/* calendar header */
+.cc-header {
+  font-weight: 600;
+  font-size: 18px;
+  color: #1f2937;
+}
+
+/* calendar days */
+.cc-day {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cc-day:hover {
+  background-color: #f3f4f6;
+  border-radius: 6px;
+}
+
+/* event style */
+.cc-event {
+  border-radius: 6px;
+  padding: 3px 6px;
+  font-size: 12px;
+  color: white;
+}
