@@ -65,6 +65,7 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                       <div className="absolute top-full mt-2 w-56 rounded-lg bg-gray-700/90 backdrop-blur-md border border-white/20 shadow-lg">
                         <DropdownItem to="/Exam-Schedule" title="Exam Schedule" />
                         <DropdownItem to="/Class-Timings" title="Class Timings" />
+                        <DropdownItem to="/Class-Timings" title="AcademiCalendar" />
                         <DropdownItem to="/Schedule-Timetable" title="Timetable" />
                       </div>
                     )}
@@ -114,6 +115,8 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                         <div className="ml-4 flex flex-col gap-1">
                           <MobileItem to="/Exam-Schedule" title="Exam Schedule" />
                           <MobileItem to="/Class-Timings" title="Class Timings" />
+                          <DropdownItem to="/Class-Timings" title="AcademiCalendar" />
+
                           <MobileItem to="/Schedule-Timetable" title="Timetable" />
                         </div>
                       )}
