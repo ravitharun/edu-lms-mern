@@ -17,6 +17,7 @@ import MasterAdmin from "./Master/MasterAdmin";
 import { fun } from "../../Components/UserisLogin";
 import RedirectPopup from "../../Components/RedirectPopup";
 import PoupLogin from "../../Components/PoupLogin";
+import Announcement from "../../Components/Announcement";
 // import UserisLogin from "../../Components/UserisLogin";
 
 function AdminDashboard() {
@@ -46,7 +47,7 @@ function AdminDashboard() {
   return (
     <>
       <App></App>
-
+      <Announcement></Announcement>
       {/* <UserisLogin></UserisLogin> */}
       <div className="flex flex-col md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
         {/* ================= HEADER ================= */}

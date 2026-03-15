@@ -8,6 +8,7 @@ import {
     AiOutlineCalendar,
     AiOutlineDownload,
 } from "react-icons/ai";
+import { UserName } from "../Apis/Islogin";
 
 const AUTO_CLOSE_MS = 7000;
 
@@ -78,7 +79,9 @@ function Announcement() {
     useEffect(() => {
         (async () => {
             const res = await Hnadlefetechannouncements();
-            setData(res);
+            const filtterbyrole = res.filter((data) => data.TargetAudience == "Both" ? res : data.TargetAudience == UserName.role)
+            console.log("filtterbyrole", filtterbyrole)
+            setData(filtterbyrole);
         })();
 
         const step = 50;
@@ -248,8 +251,10 @@ function Announcement() {
                                                 }}>
                                                     {item.Title}
                                                 </p>
-                                                <p style={{ margin: "2px 0 0", fontSize: 12, color: "#718096" }}>
-                                                    For: <b style={{ color: "#4a5568" }}>{item.TargetAudience}</b>
+                                                <p style={{ margin: "2px 0 0", fontSize: 12, color: "#6B7280" }}>
+                                                    For: <b style={{ color: "#1F2937" }}>
+                                                        {item.TargetAudience === "Both" ? <b>Students + Teachers</b> : ""}
+                                                    </b>
                                                 </p>
                                             </div>
                                         </div>

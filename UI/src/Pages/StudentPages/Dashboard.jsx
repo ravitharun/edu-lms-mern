@@ -12,6 +12,7 @@ import Error from '../../Components/Error';
 import { GetallSubjects } from './StudentsApi';
 import ProgressLoader from '../../Loaders/Progressloader';
 import { Link } from 'react-router-dom';
+import Announcement from '../../Components/Announcement';
 function Dashboard() {
 
   const [Profile, setprofile] = useState(UserRole.profilePreview)
@@ -159,7 +160,7 @@ function Dashboard() {
 
       {/* <Toaster></Toaster> */}
       <Toaster></Toaster>
-
+      <Announcement></Announcement>
       {/* Navbar Section */}
       <App />
       <br />
