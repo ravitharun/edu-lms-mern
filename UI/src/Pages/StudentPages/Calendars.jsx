@@ -12,12 +12,12 @@ import { MdAssignment, MdClear, MdEvent } from "react-icons/md";
 import { GiPartyPopper } from "react-icons/gi";
 import { UserName } from "../../Apis/Islogin";
 
-function Calendars({examData}) {
-
+function Calendars({ examData }) {
   const [data, setData] = useState([]);
   const [getEvent, setEventtype] = useState("")
   const [eventForm, seteventForm] = useState(false)
   const [Displaydate, setdate] = useState()
+  // fake json data
   const events = [
     {
       start: "2026-09-15T09:00:00",
