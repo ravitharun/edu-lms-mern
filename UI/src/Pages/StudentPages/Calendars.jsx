@@ -12,7 +12,8 @@ import { MdAssignment, MdClear, MdEvent } from "react-icons/md";
 import { GiPartyPopper } from "react-icons/gi";
 import { UserName } from "../../Apis/Islogin";
 
-function Calendars({ role = "student" }) {
+function Calendars({examData}) {
+
   const [data, setData] = useState([]);
   const [getEvent, setEventtype] = useState("")
   const [eventForm, seteventForm] = useState(false)

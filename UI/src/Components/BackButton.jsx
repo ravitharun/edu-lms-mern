@@ -1,26 +1,56 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { MdArrowLeft } from "react-icons/md";
+import React from "react";
+import { Link } from "react-router-dom";
+import { MdArrowBack } from "react-icons/md";
+import { FiHome } from "react-icons/fi";
 
-function BackButton({page}) {
-    console.log(page,'page')
-    let pagered=page=="my-course"?"/my-course":"/"
+function BackButton({ page, currentPage }) {
+    console.log({ page, currentPage })
+
+    const pagered = page === "my-course" ? "/my-course" : "/";
+
     return (
-        <>
+        <div className="w-full mt-6">
+            <div className="flex items-center gap-3 bg-white rounded-xl border border-gray-200 px-5 py-3 shadow-sm">
 
-            <Link to={pagered}>
-                <div className="flex justify-start mt-6">
-                    <button className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-blue-600 rounded-full shadow-md 
-                     hover:bg-blue-500 hover:shadow-lg transition-all duration-300">
-                        <MdArrowLeft className="text-lg" />
-                       {page}
-                    </button>
+                {/* Back Button (Hide on Dashboard) */}
+                {page !== "dashboard" && (
+                    <>
+                        <Link to={pagered}>
+                            <button className="flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition">
+                                <MdArrowBack className="text-lg" />
+                                Back
+                            </button>
+                        </Link>
+
+                        <span className="text-gray-300">/</span>
+                    </>
+                )}
+
+                {/* Breadcrumb */}
+                <div className="flex items-center gap-2 text-sm">
+
+                    <FiHome className="text-gray-400" />
+
+                    <Link to="/" className="text-gray-500 hover:text-blue-600">
+                       {page
+  .split(" ")
+  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+  .join(" ")}
+                    </Link>
+
+
+                    {currentPage ?
+                        <>
+                            <span className="text-gray-400">›</span>
+                            <span className="text-gray-800 font-semibold">{currentPage}</span>
+                        </>
+                        : "no"}
+
                 </div>
 
-            </Link>
-
-        </>
-    )
+            </div>
+        </div>
+    );
 }
 
-export default BackButton
+export default BackButton;
