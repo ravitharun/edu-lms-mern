@@ -28,6 +28,7 @@ function AdminSidebar() {
         { name: "Attendance", link: "/attendance", icon: FaCalendarCheck },
         { name: "Students", link: "/students", icon: FaUserGraduate },
         { name: "Profile", link: "/teachers/profile", icon: FaUser },
+        { name: "Manage Academic Calendar", link: "/teacher/Academic-Calendar", icon: FaCalendarCheck },
         { name: "ApplyLeave", link: "/teachers/ApplyLeave", icon: FaRegCalendarTimes },
         { name: "Leave Requests", link: "/teachers/ApplyLeaveAccept", icon: FaRegCalendarAlt },
         { name: "Logout", icon: FaSignOutAlt },

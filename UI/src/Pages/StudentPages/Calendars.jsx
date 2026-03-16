@@ -12,7 +12,7 @@ import { MdAssignment, MdClear, MdEvent } from "react-icons/md";
 import { GiPartyPopper } from "react-icons/gi";
 import { UserName } from "../../Apis/Islogin";
 
-function Calendars({ examData }) {
+function Calendars({ examData, role }) {
   const [ShowExamData, setexamData] = useState({})
   const [data, setData] = useState([]);
   const [getEvent, setEventtype] = useState("")
@@ -119,7 +119,6 @@ function Calendars({ examData }) {
   return (
     <>
       {examData && <>
-
         <div>data is prsent </div>
       </>}
 
@@ -128,16 +127,19 @@ function Calendars({ examData }) {
 
           {/* Header */}
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-blue-500 rounded-xl">
-                <FaCalendarAlt className="text-white text-lg" />
-              </div>
+            {
+              role === "teacher" ? "" :
 
-              <div>
-                <h2 className="text-2xl font-bold text-gray-800">Academic Calendar </h2>
-                <p className="text-sm text-gray-500">Stay organized with upcoming events</p>
-              </div>
-            </div>
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-blue-500 rounded-xl">
+                    <FaCalendarAlt className="text-white text-lg" />
+                  </div>
+
+                  <div>
+                    <h2 className="text-2xl font-bold text-gray-800">Academic Calendar </h2>
+                    <p className="text-sm text-gray-500">Stay organized with upcoming events</p>
+                  </div>
+                </div>}
 
             {(UserName.role === "admin" || UserName.role === "teacher") && (
               <button
