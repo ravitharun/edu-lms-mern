@@ -53,10 +53,9 @@ function MyCourses() {
   console.log(UserName)
   return (
     <>
-    <Toaster></Toaster>
+      <Toaster></Toaster>
       <App />
-      <BackButton page="dashboard" />
-      <div className="px-4 mt-8">
+      <BackButton page="dashboard" currentPage="Course" />      <div className="px-4 mt-8">
 
         {/* HEADER ROW */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">

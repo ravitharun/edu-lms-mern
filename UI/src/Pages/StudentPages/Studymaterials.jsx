@@ -9,13 +9,10 @@ import LMSLoader from '../../Loaders/BackgroungImgLoader'
 
 function Studymaterials() {
   const location = useLocation()
-  console.log(location,'locationlocationlocationlocations')
+  console.log(location, 'locationlocationlocationlocations')
   const course = location.state.data
   const Subject_info = location.state.info
-  console.log(Subject_info,'Subject_info')
-
-  console.log(course, 'course')
-
+  console.log({ page: "my-course", currentPage: "my-course" },"my-course")
   if (!course) {
     return (
       <>
@@ -30,7 +27,7 @@ function Studymaterials() {
   return (
     <>
       <App />
-      <BackButton page="my-course" />
+      <BackButton page="dashboard" currentPage="my-course" />
 
       <div className="max-w-6xl mx-auto p-4">
 
