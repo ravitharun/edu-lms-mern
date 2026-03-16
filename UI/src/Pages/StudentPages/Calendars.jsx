@@ -16,6 +16,7 @@ function Calendars({ role = "student" }) {
   const [data, setData] = useState([]);
   const [getEvent, setEventtype] = useState("")
   const [eventForm, seteventForm] = useState(false)
+  const [Displaydate, setdate] = useState()
   const events = [
     {
       start: "2026-09-15T09:00:00",
@@ -68,7 +69,17 @@ function Calendars({ role = "student" }) {
       eventBulletMode: "multiple",
       eventsData: events,
       onSelectedDateChange: (date, events) => {
+        console.log(events, 'events')
+        if (events.length == 0) {
+          console.log("No eevents")
+
+          setdate(date)
+          setData(events);
+          return setEventtype([])
+
+        }
         setData(events);
+
       }
     });
   }, []);
@@ -88,7 +99,8 @@ function Calendars({ role = "student" }) {
     filterbyEvent()
   }, [getEvent])
 
-
+  console.log(data, "data")
+  const datatype = ["Exam", "Holiday", "Workshop"]
   return (
     <div className="w-full p-6 bg-gray-50">
       <div className="bg-white rounded-2xl shadow-lg border p-6 max-w-7xl mx-auto">
@@ -101,7 +113,7 @@ function Calendars({ role = "student" }) {
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold text-gray-800">Academic Calendar</h2>
+              <h2 className="text-2xl font-bold text-gray-800">Academic Calendar </h2>
               <p className="text-sm text-gray-500">Stay organized with upcoming events</p>
             </div>
           </div>
@@ -167,16 +179,38 @@ function Calendars({ role = "student" }) {
             <div className="flex-1 bg-white border rounded-xl p-4">
               <div id="color-calendar" className="w-full h-[420px]"></div>
             </div>
-
             {/* Event Cards */}
             <div className="lg:w-80 bg-gray-50 border rounded-xl p-4">
 
               {data.length === 0 ? (
 
-                <div className="flex flex-col items-center justify-center h-[350px] text-center">
-                  <FaCalendarAlt className="text-gray-300 text-4xl mb-3" />
-                  <h3 className="text-lg font-semibold text-gray-600">No Event Selected</h3>
-                  <p className="text-sm text-gray-500">Click a date to view events</p>
+                <div className="flex flex-col items-center justify-center h-[350px] text-center bg-gray-50 rounded-xl border border-gray-200">
+
+                  {/* Icon */}
+                  <div className="bg-blue-50 p-4 rounded-full mb-4">
+                    <FaCalendarAlt className="text-blue-500 text-3xl" />
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-lg font-semibold text-gray-700">
+                    {datatype.includes(getEvent) ? `No ${getEvent} Selected` : "No Schedule Available"}
+                  </h3>
+
+                  {/* Selected Date */}
+                  <p className="text-sm text-gray-500 mt-1">
+                    On Selected Date
+                  </p>
+                  <span className="text-md font-medium text-gray-800 bg-white px-3 py-1 rounded-md shadow-sm mt-1">
+                    {new Date(Displaydate).toDateString()}
+                  </span>
+
+                  {/* Helper Text */}
+                  {(UserName.Role === "Admin" || UserName.Role === "Teacher") && (
+                    <p className="text-sm text-gray-500 mt-3">
+                      Click a date on the calendar to view or manage <b>events</b>.
+                    </p>
+                  )}
+
                 </div>
 
               ) : (
@@ -247,6 +281,7 @@ function Calendars({ role = "student" }) {
                 </div>
 
               )}
+
             </div>
           </div>
         </div>
