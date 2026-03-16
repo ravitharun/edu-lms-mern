@@ -46,63 +46,148 @@ function TeacherAcademicCalendar() {
                         <p className="text-sm text-gray-500">Stay organized with upcoming events</p>
                     </div>
                 </div>
+                {Event && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+                        {/* Overlay */}
+                        <div
+                            className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+                            onClick={() => seteventForm(false)}
+                        />
 
-            {Event && (
-  <div className="fixed inset-0 flex items-center justify-center z-50">
-    {/* Overlay */}
-    <div
-      className="absolute inset-0 bg-black/30"
-      onClick={() => seteventForm(false)}
-    ></div>
+                        {/* Modal content */}
+                        <div className="relative bg-white p-6 rounded-2xl w-full max-w-2xl shadow-2xl max-h-[90vh] overflow-y-auto">
+                            {/* Header with Close Button on RIGHT SIDE */}
+                            <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-blue-500 rounded-xl">
+                                        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                                        </svg>
+                                    </div>
+                                    <h2 className="text-2xl font-bold text-gray-900">Add New Event</h2>
+                                </div>
 
-    {/* Modal content */}
-    <div className="relative bg-gray-50 p-6 rounded-2xl w-full max-w-md z-50 pointer-events-auto">
-      <h2 className="text-xl font-semibold mb-4">Add Event</h2>
+                                {/* CLOSE BUTTON - TOP RIGHT */}
+                                <button
+                                    onClick={() => setAddEvent(false)}
+                                    className="p-2 hover:bg-gray-100 rounded-full transition-colors group"
+                                    title="Close"
+                                >
+                                    <svg
+                                        className="w-6 h-6 text-gray-500 group-hover:text-gray-700 transition-colors"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
 
-      <div className="flex flex-col gap-3">
-        <label className="font-medium">Event Name</label>
-        <input type="text" className="border rounded-md p-2 w-full" />
+                            <form className="space-y-4">
+                                {/* ROW 1: Event Name + Event Type */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Event Name *</label>
+                                        <input
+                                            type="text"
+                                            required
+                                            className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                            placeholder="Enter event name"
+                                        />
+                                    </div>
 
-        <label className="font-medium">Event Start</label>
-        <input type="datetime-local" className="border rounded-md p-2 w-full" />
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Event Type *</label>
+                                        <select
+                                            required
+                                            className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                        >
+                                            <option value="">Select type</option>
+                                            <option value="Exam">Exam</option>
+                                            <option value="Workshop">Workshop</option>
+                                            <option value="Holiday">Holiday</option>
+                                            <option value="Assignment">Assignment</option>
+                                        </select>
+                                    </div>
+                                </div>
 
-        <label className="font-medium">Event End Date</label>
-        <input type="datetime-local" className="border rounded-md p-2 w-full" />
+                                {/* ROW 2: Start Date + End Date */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Event Start *</label>
+                                        <input
+                                            type="datetime-local"
+                                            required
+                                            className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                        />
+                                    </div>
 
-        <label className="font-medium">Your ID</label>
-        <input
-          type="text"
-          value={UserName?.teacher_Id}
-          readOnly
-          className="border rounded-md p-2 w-full bg-gray-100 cursor-not-allowed"
-        />
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Event End *</label>
+                                        <input
+                                            type="datetime-local"
+                                            required
+                                            className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                        />
+                                    </div>
+                                </div>
 
-        <label className="font-medium">Role</label>
-        <input
-          type="text"
-          value={UserName?.role}
-          readOnly
-          className="border rounded-md p-2 w-full bg-gray-100 cursor-not-allowed"
-        />
-      </div>
+                                {/* ROW 3: Your ID + Role */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Your ID</label>
+                                        <input
+                                            type="text"
+                                            value={UserName?.teacher_Id || ""}
+                                            readOnly
+                                            className="w-full border border-gray-300 rounded-lg p-3 bg-gray-50 cursor-not-allowed"
+                                        />
+                                    </div>
 
-      {/* Buttons */}
-      <div className="flex justify-end gap-2 mt-4">
-        <button
-          onClick={() => seteventForm(false)}
-          className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition"
-        >
-          Close
-        </button>
-        <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-          Save
-        </button>
-      </div>
-    </div>
-  </div>
-)}
-                <Calendars role="teacher"></Calendars>
-            </div>
+                                    <div>
+                                        <label className="block text-sm font-semibold text-gray-700 mb-2">Role</label>
+                                        <input
+                                            type="text"
+                                            value={UserName?.role || ""}
+                                            readOnly
+                                            className="w-full border border-gray-300 rounded-lg p-3 bg-gray-50 cursor-not-allowed"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Description */}
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                                    <textarea
+                                        rows={3}
+                                        className="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                        placeholder="Add event description (optional)..."
+                                    />
+                                </div>
+                            </form>
+
+                            {/* Bottom Action Buttons */}
+                            <div className="flex justify-end gap-3 pt-6 border-t border-gray-200 mt-6">
+                                <button
+                                    type="button"
+                                    className="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-medium transition-all duration-200"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    type="submit"
+                                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold shadow-sm hover:shadow-md transition-all duration-200"
+                                >
+                                    Save Event
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {Event ? "" : <Calendars role="teacher"></Calendars>
+                }            </div>
         </>
     )
 }
