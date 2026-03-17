@@ -36,6 +36,7 @@ import Annoncement from './Pages/AdminPages/Master/Announcemet.jsx';
 import AcademiCalendar from './Pages/StudentPages/AcademiCalendar.jsx';
 import ExamSchedule from './Pages/StudentPages/ExamSchedule.jsx';
 import TeacherAcademicCalendar from './Pages/AdminPages/TeacherAcademicCalendar.jsx';
+import { UserName } from './Apis/Islogin.js';
 
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
@@ -112,14 +113,14 @@ createRoot(document.getElementById('root')).render(
         <Route path="/AccountDeactivate" element={<AccountDeactivate />} />
         <Route path="/siginup" element={<Siginup />} />
         {/* teacher routes */}
-        <Route path="/admin-dashboard" element={
+ {UserName.role=="Teacher"&&       <Route path="/admin-dashboard" element={
           <Suspense fallback={<Loaders />}>
             <ProtectedRoute allowedRoles={"Teacher"}>
 
               <AdminDashboard />
             </ProtectedRoute>
           </Suspense>
-        } />
+        } />}
 
         {/* <Route path="/admin-dashboard" element={<AdminDashboard />} /> */}
         <Route path="/change-password" element={<UpdatePassword />} />
