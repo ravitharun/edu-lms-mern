@@ -33,10 +33,16 @@ function TeacherAcademicCalendar() {
                 EventName, Eventsatert, Eventend, Eventtype, Addbyname, Addbyid, addbrole, Descprition
             }
             console.log(eventData)
-            const responseAddEvent = await axios.post("", eventData)
-            console.log(responseAddEvent, ": responseAddEvent")
-        } catch (error) {
+            const responseAddEvent = await axios.post("http://localhost:5001/api/Academic/addAcademic", { eventData: eventData })
+            console.log(responseAddEvent.data.message, ": responseAddEvent")
+            if (responseAddEvent.data.message === "DATA ADDED INTO DB.") {
+                toast.success("DATA ADDED ")
+                return setAddEvent(false)
+            }
 
+
+        } catch (error) {
+            console.log(error, "ERROR")
         }
     }
     return (
