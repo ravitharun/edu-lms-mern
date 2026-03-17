@@ -202,7 +202,6 @@ function TeacherAcademicCalendar() {
                                     />
                                 </div>
                             </form>
-
                             {/* Bottom Action Buttons */}
                             <div className="flex justify-end gap-3 pt-6 border-t border-gray-200 mt-6">
                                 <button

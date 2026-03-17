@@ -111,7 +111,7 @@
 
 //       <div className="w-full p-6 bg-gray-50">
 //         <div className="bg-white rounded-2xl shadow-lg border p-6 max-w-7xl mx-auto">
-          
+
 //           {/* Header */}
 //           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 gap-4">
 //             {role !== "teacher" && (
@@ -137,7 +137,7 @@
 //           </div>
 
 //           <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-            
+
 //             {/* Event Types Filter */}
 //             <div className="bg-gray-50 rounded-xl p-5 border">
 //               <h3 className="font-semibold text-gray-700 mb-4 flex items-center gap-2">
@@ -200,7 +200,7 @@
 
 //             {/* Calendar + Events */}
 //             <div className="lg:col-span-3 flex flex-col lg:flex-row gap-6">
-              
+
 //               {/* Calendar */}
 //               <div className="flex-1 bg-white border rounded-xl p-4">
 //                 <div id="color-calendar" className="w-full h-[420px]"></div>
@@ -213,16 +213,16 @@
 //                     <div className="bg-blue-50 p-6 rounded-2xl mb-6 shadow-sm">
 //                       <FaCalendarAlt className="text-blue-500 text-4xl mx-auto" />
 //                     </div>
-                    
+
 //                     <h3 className="text-xl font-semibold text-gray-700 mb-2">
 //                       {datatype.includes(getEventtype) 
 //                         ? `No ${getEventtype}s on this date` 
 //                         : "No events scheduled"
 //                       }
 //                     </h3>
-                    
+
 //                     <p className="text-sm text-gray-500 mb-3">On Selected Date</p>
-                    
+
 //                     <div className="text-lg font-semibold text-gray-800 bg-blue-50 px-4 py-2 rounded-xl shadow-sm mb-4">
 //                       {Displaydate ? new Date(Displaydate).toDateString() : "Click a date"}
 //                     </div>
@@ -280,7 +280,7 @@
 //                               })}
 //                             </span>
 //                           </div>
-                          
+
 //                           <div className="flex items-center gap-2 text-xs text-gray-600">
 //                             <span className="w-2 h-2 bg-red-400 rounded-full"></span>
 //                             <span>End:</span>
@@ -326,6 +326,9 @@ import {
 import { MdAssignment, MdClear, MdEvent } from "react-icons/md";
 import { GiPartyPopper } from "react-icons/gi";
 import { UserName } from "../../Apis/Islogin";
+import { useEffectEvent } from "react";
+import { Getdata } from "./GetdataAcademic";
+import { FiMoreHorizontal } from "react-icons/fi";
 
 function Calendars({ examData, role, onAddEvent, userData = UserName }) {
   const [data, setData] = useState([]);
@@ -333,49 +336,6 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
   const [Displaydate, setdate] = useState(null);
   const calendarRef = useRef(null);
   const containerRef = useRef(null);
-
-  const events = [
-    {
-      start: "2026-09-15T09:00:00",
-      end: "2026-09-15T17:00:00",
-      name: "Blockchain Workshop",
-      color: "#22c55e",
-      desc: "Introduction to Blockchain Technology",
-      type: "Workshop"
-    },
-    {
-      start: "2026-09-20T10:00:00",
-      end: "2026-09-20T14:00:00",
-      name: "Mid Semester Exam",
-      color: "#ef4444",
-      desc: "CSE Mid Semester Examination",
-      type: "Exam"
-    },
-    {
-      start: "2026-09-25T23:59:00",
-      end: "2026-09-25T23:59:59",
-      name: "Assignment Deadline",
-      color: "#3b82f6",
-      desc: "Submit React LMS Assignment",
-      type: "Assignment"
-    },
-    {
-      start: "2026-09-28T00:00:00",
-      end: "2026-09-28T23:59:59",
-      name: "College Holiday",
-      color: "#f59e0b",
-      desc: "Festival Holiday",
-      type: "Holiday"
-    }
-  ];
-
-  const getEventType = (color) => {
-    if (color?.includes("#ef")) return "Exam";
-    if (color?.includes("#3b")) return "Assignment";
-    if (color?.includes("#22")) return "Workshop";
-    if (color?.includes("#f5")) return "Holiday";
-    return "Other";
-  };
 
   // Simple CSS fix for calendar
   useEffect(() => {
@@ -385,7 +345,7 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
       #color-calendar { font-family: inherit !important; }
     `;
     document.head.appendChild(style);
-    
+
     return () => {
       if (document.head.contains(style)) {
         document.head.removeChild(style);
@@ -393,19 +353,38 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
     };
   }, []);
 
+  // get all events
+  useEffect(() => {
+    const FetchtheSchedukeData = async () => {
+      try {
+        const response = await Getdata()
+        console.log(response.data.message, "response")
+        setData(response.data.message)
+      } catch (error) {
+        console.log(error, "Error")
+
+
+      }
+    }
+    FetchtheSchedukeData()
+  }, [])
+
+
   const handleDateChange = useCallback((date, selectedEvents) => {
     setdate(date);
-    if (getEventtype) {
-      const filtered = events.filter(evt => 
-        evt.type === getEventtype && 
-        new Date(evt.start).toDateString() === new Date(date).toDateString()
-      );
-      setData(filtered);
-    } else {
-      setData(selectedEvents || []);
-    }
-  }, [getEventtype, events]);
+    // if (getEventtype) {
+    const filtered = data.filter((evt) =>
+      evt.Eventtype === getEventtype &&
+      new Date(evt.eventsData).toDateString() === new Date(date).toDateString()
+    );
+    console.log(filtered, ":filtered by date")
+    setData(filtered);
 
+    // } else {
+    //   setData(selectedEvents || []);
+    // }
+  }, [getEventtype]);
+  // calendar by date change
   useEffect(() => {
     if (calendarRef.current || !containerRef.current) return;
 
@@ -414,19 +393,21 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
       calendarSize: "large",
       theme: "basic",
       eventBulletMode: "multiple",
-      eventsData: events,
+      eventsData: data,
       onSelectedDateChange: handleDateChange
     });
-    
+
     calendarRef.current = calendar;
   }, []);
-
+  // filter
   useEffect(() => {
     if (!getEventtype) {
       setData([]);
       return;
     }
-    const filtered = events.filter(evt => evt.type === getEventtype);
+
+    const filtered = data.filter((evt) => evt.Eventtype == getEventtype);
+    console.log(filtered, "filtered")
     setData(filtered);
   }, [getEventtype]);
 
@@ -478,48 +459,52 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
             </h3>
 
             <div className="space-y-3 text-sm">
-              <div 
+              <div
                 onClick={() => setEventtype("Exam")}
-                className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-gray-100 border ${
-                  getEventtype === "Exam" ? "bg-red-50 border-red-200" : "border-transparent"
-                }`}
+                className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-gray-100 border ${getEventtype === "Exam" ? "bg-red-50 border-red-200" : "border-transparent"
+                  }`}
               >
                 <FaBook className="text-red-500" />
                 <span>Exams</span>
               </div>
 
-              <div 
+              <div
                 onClick={() => setEventtype("Workshop")}
-                className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-gray-100 border ${
-                  getEventtype === "Workshop" ? "bg-green-50 border-green-200" : "border-transparent"
-                }`}
+                className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-gray-100 border ${getEventtype === "Workshop" ? "bg-green-50 border-green-200" : "border-transparent"
+                  }`}
               >
                 <FaChalkboardTeacher className="text-green-500" />
                 <span>Workshops</span>
               </div>
 
-              <div 
+              <div
                 onClick={() => setEventtype("Holiday")}
-                className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-gray-100 border ${
-                  getEventtype === "Holiday" ? "bg-yellow-50 border-yellow-200" : "border-transparent"
-                }`}
+                className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-gray-100 border ${getEventtype === "Holiday" ? "bg-yellow-50 border-yellow-200" : "border-transparent"
+                  }`}
               >
                 <GiPartyPopper className="text-yellow-500" />
                 <span>Holidays</span>
               </div>
 
-              <div 
+              <div
                 onClick={() => setEventtype("Assignment")}
-                className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-gray-100 border ${
-                  getEventtype === "Assignment" ? "bg-blue-50 border-blue-200" : "border-transparent"
-                }`}
+                className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-gray-100 border ${getEventtype === "Assignment" ? "bg-blue-50 border-blue-200" : "border-transparent"
+                  }`}
               >
                 <MdAssignment className="text-blue-500" />
                 <span>Assignments</span>
               </div>
+              <div
+                onClick={() => setEventtype("Other")}
+                className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-gray-100 border ${getEventtype === "Other" ? "bg-blue-50 border-blue-200" : "border-transparent"
+                  }`}
+              >
+                <FiMoreHorizontal className="text-red-500" />
+                <span>Other</span>
+              </div>
 
               {getEventtype && (
-                <div 
+                <div
                   onClick={clearFilter}
                   className="flex items-center gap-2 p-2 rounded-lg cursor-pointer hover:bg-gray-100 border border-red-200 bg-red-50"
                 >
@@ -544,13 +529,13 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
                   <div className="bg-blue-50 p-4 rounded-full mb-4">
                     <FaCalendarAlt className="text-blue-500 text-3xl" />
                   </div>
-                  
+
                   <h3 className="text-lg font-semibold text-gray-700 mb-2">
                     {getEventtype ? `No ${getEventtype}s found` : "No events selected"}
                   </h3>
-                  
+
                   <p className="text-sm text-gray-500 mb-4">Click a date on calendar</p>
-                  
+
                   <div className="bg-white px-4 py-2 rounded-md border shadow-sm">
                     <div className="font-medium text-gray-800">
                       {Displaydate ? new Date(Displaydate).toDateString() : "Select a date"}
@@ -568,37 +553,36 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
                   <h4 className="font-semibold text-lg text-gray-800 mb-4 border-b pb-2">
                     {getEventtype ? `${getEventtype}s (${data.length})` : `Events (${data.length})`}
                   </h4>
-                  
+
                   {data.map((item, idx) => (
                     <div key={idx} className="bg-white border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
                       <div className="flex gap-2 mb-2">
                         <span
-                          className="text-xs text-white px-2 py-1 rounded-full font-bold"
-                          style={{ backgroundColor: item.color }}
+                          className={`text-xs  px-2 py-1 rounded-full font-bold ${item.Eventtype == "Exam" ? "bg-red-500 text-white" : item.Eventtype == "Workshops" ? "bg-blue-500 text-white" : item.Eventtype == "Holidays" ? "bg-green-500 text-black" : item.Eventtype == "Assignments" ? "bg-gray-500 text-white" : "bg-amber-500 text-black "}`}
+                        // style={{ backgroundColor: item?.color||'Background:"red' }}
                         >
-                          {getEventType(item.color)}
+                          {item.Eventtype}
                         </span>
-                        <span className="text-xs bg-gray-600 text-white px-2 py-1 rounded-full">Event</span>
                       </div>
-                      
-                      <h5 className="font-semibold text-gray-800 mb-1">{item.name}</h5>
-                      
-                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{item.desc}</p>
-                      
+
+                      <h5 className="font-semibold text-gray-800 mb-1">{item.EventName}</h5>
+
+                      <p className="text-sm text-gray-600 mb-3 line-clamp-2">{item.Descprition}</p>
+
                       <div className="space-y-1 text-xs text-gray-600">
                         <div className="flex items-center gap-2">
                           <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-                          <span className="font-medium">{new Date(item.start).toLocaleDateString("en-IN")}</span>
-                          <span>{new Date(item.start).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}</span>
+                          <span className="font-medium">{new Date(item.EventstartDate).toLocaleDateString("en-IN")}</span>
+                          <span>{new Date(item.EventstartDate).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}</span>
                         </div>
-                        
+
                         <div className="flex items-center gap-2">
                           <span className="w-2 h-2 bg-red-400 rounded-full"></span>
-                          <span className="font-medium">{new Date(item.end).toLocaleDateString("en-IN")}</span>
-                          <span>{new Date(item.end).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}</span>
+                          <span className="font-medium">{new Date(item.EventendDate).toLocaleDateString("en-IN")}</span>
+                          <span>{new Date(item.EventendDate).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}</span>
                         </div>
                       </div>
-                      
+
                       <button className="mt-3 w-full bg-emerald-500 hover:bg-emerald-600 text-white text-xs py-2 rounded-lg font-medium transition-colors">
                         View Details
                       </button>
