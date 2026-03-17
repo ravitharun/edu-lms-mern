@@ -34,4 +34,16 @@ const add = async (req, res) => {
     }
 
 }
-module.exports = { add }
+const getData = async (req, res) => {
+    try {
+        const getdata = await AddAcademicSchema.find({})
+        return res.status(200).json({ message: getdata })
+    } catch (error) {
+        console.log("error : ", error)
+        return res.status(500).json({ message: 'server Error' })
+
+
+    }
+
+}
+module.exports = { add, getData }
