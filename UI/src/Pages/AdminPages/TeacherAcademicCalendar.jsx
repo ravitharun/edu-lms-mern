@@ -211,13 +211,13 @@ function TeacherAcademicCalendar() {
                                 >
                                     Cancel
                                 </button>
-                                <button
+                                {EventName && <button
                                     type="submit"
                                     onClick={HandelEvent}
                                     className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold shadow-sm hover:shadow-md transition-all duration-200"
                                 >
                                     Save Event
-                                </button>
+                                </button>}
                             </div>
                         </div>
                     </div>
