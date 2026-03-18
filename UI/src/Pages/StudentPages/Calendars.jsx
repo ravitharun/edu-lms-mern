@@ -370,14 +370,13 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
   }, [])
 
 
-  const handleDateChange = useCallback((date, selectedEvents) => {
+  const handleDateChange = useCallback((date) => {
+    console.log({ date })
     setdate(date);
     // if (getEventtype) {
     const filtered = data.filter((evt) =>
-      evt.Eventtype === getEventtype &&
-      new Date(evt.eventsData).toDateString() === new Date(date).toDateString()
-    );
-    console.log(filtered, ":filtered by date")
+      new Date(evt.EventstartDate).toISOString().slice(0, 19) == new Date(date).toISOString().slice(0, 19));
+    console.log(filtered,"filteredCHwdk")
     setData(filtered);
 
     // } else {
@@ -385,6 +384,7 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
     // }
   }, [getEventtype]);
   // calendar by date change
+
   useEffect(() => {
     if (calendarRef.current || !containerRef.current) return;
 
@@ -399,6 +399,7 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
 
     calendarRef.current = calendar;
   }, []);
+
   // filter
   useEffect(() => {
     if (!getEventtype) {
@@ -407,7 +408,7 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
     }
 
     const filtered = data.filter((evt) => evt.Eventtype == getEventtype);
-    console.log(filtered, "filtered")
+    console.log(filtered, "filtered by option")
     setData(filtered);
   }, [getEventtype]);
 
