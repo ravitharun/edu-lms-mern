@@ -113,14 +113,14 @@ createRoot(document.getElementById('root')).render(
         <Route path="/AccountDeactivate" element={<AccountDeactivate />} />
         <Route path="/siginup" element={<Siginup />} />
         {/* teacher routes */}
- {UserName.role=="Teacher"&&       <Route path="/admin-dashboard" element={
+        <Route path="/admin-dashboard" element={
           <Suspense fallback={<Loaders />}>
             <ProtectedRoute allowedRoles={"Teacher"}>
 
               <AdminDashboard />
             </ProtectedRoute>
           </Suspense>
-        } />}
+        } />
 
         {/* <Route path="/admin-dashboard" element={<AdminDashboard />} /> */}
         <Route path="/change-password" element={<UpdatePassword />} />
