@@ -4,10 +4,18 @@ import MasterAdminNavbar from './MasterAdminNavbar'
 import { MdSchedule } from 'react-icons/md'
 import { Day, departments, Semester_year } from '../AdminExport'
 import { fetchAllSubjects } from './APIS/GetAll-subjects'
+import toast, { Toaster } from 'react-hot-toast'
+import DisplyTimetabel from './DisplyTimetabel'
 
 function AddTimeTable() {
     const [Isopen, setopen] = useState(false)
     const [GetSubjects, setsubjects] = useState([])
+    const [Department, setdept] = useState("")
+    const [SemesterByyear, setSemesterByyear] = useState("")
+    const [AddByDay, setDay] = useState("")
+    const [StartTime, setStartTime] = useState("")
+    const [AddSubject, SetSubject] = useState("")
+    const [EndTime, setEndTime] = useState("")
     useEffect(() => {
         const getSubjects = async () => {
             const rsdata = await fetchAllSubjects();
@@ -21,13 +29,22 @@ function AddTimeTable() {
     const handelTimetable = () => {
         setopen(true)
     }
+
+    const SubmitTimetable = async () => {
+        // const TTData={
+        toast.success("hey");
+
+        // }
+        // console.log(TTData)
+    }
     return (
 
 
         <>
+            <Toaster></Toaster>
             <div className="min-h-screen flex bg-gray-50">
                 {/* Sidebar */}
-                <MasterAdminNavbar path="Dashboard" />
+                <MasterAdminNavbar path="dashboard" />
 
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col min-w-0 w-full">
@@ -41,9 +58,10 @@ function AddTimeTable() {
                         <div className="max-w-7xl mx-auto space-y-8">
                             <button className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-sm transition" onClick={handelTimetable}>
                                 <MdSchedule />
-                                {Isopen ? "close" : "Add"} Timetable
+                                {Isopen ? "Close" : "Add"} Timetable
                             </button>
                         </div>
+
                         {Isopen && (
                             <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50 px-3">
 
@@ -69,7 +87,7 @@ function AddTimeTable() {
                                         {/* Department */}
                                         <div>
                                             <label className="block mb-1 text-gray-600">Department</label>
-                                            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                                            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none" onChange={(e)=>setdept}>
                                                 <option disabled selected>Select Dept</option>
                                                 {departments.map((yr, idx) => (
                                                     <option key={idx}>{yr}</option>
@@ -132,13 +150,14 @@ function AddTimeTable() {
                                     </div>
 
                                     {/* Button */}
-                                    <button className="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg transition font-medium">
+                                    <button className="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg transition font-medium" onClick={SubmitTimetable}>
                                         Add Timetable
                                     </button>
 
                                 </div>
                             </div>
                         )}
+                        <DisplyTimetabel Addfunction={handelTimetable} isclose={Isopen}></DisplyTimetabel>
                     </main>
 
                 </div>
