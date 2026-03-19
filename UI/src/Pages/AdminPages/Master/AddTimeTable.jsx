@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import MasterLogoNav from './MasterLogoNav'
 import MasterAdminNavbar from './MasterAdminNavbar'
 import { MdSchedule } from 'react-icons/md'
+import { Day, departments, Semester_year } from '../AdminExport'
 
 function AddTimeTable() {
     const [Isopen, setopen] = useState(false)
@@ -50,7 +51,60 @@ function AddTimeTable() {
                                     <p className="text-sm text-gray-500 mb-4">
                                         Create a new timetable entry
                                     </p>
+                                    <div>
 
+                                        <label htmlFor="">Departments</label>
+                                        <select name="" id="">
+                                            <option value="Chhose Dept" disabled selected>Select Dept</option>
+                                            {departments.map((yr, idx) => (
+                                                <option value={yr} key={idx}>{yr}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div>
+
+                                        <label htmlFor="">Semester_year</label>
+                                        <select name="" id="">
+                                            <option value="Chhose Dept" disabled selected>Select Semester_year</option>
+                                            {Semester_year.map((yr, idx) => (
+                                                <option value={yr} key={idx}>{yr}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div>
+
+                                        <label htmlFor="">Day</label>
+                                        <select name="" id="">
+                                            <option value="Chhose Dept" disabled selected>Select Day</option>
+                                            {Day.map((day, idx) => (
+                                                <option value={day} key={idx}>{day}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div>
+
+                                        <label htmlFor="">Start Time</label>
+                                        <input type="datetime-local" />
+                                    </div>
+                                    <div>
+
+                                        <label htmlFor="">End Time</label>
+                                        <input type="datetime-local" />
+                                    </div>
+                                    <div>
+
+                                <select name="" id="">
+
+                                    <option value=""></option>
+                                </select>
+                                    </div>
+                                    <div>
+
+                                        <label htmlFor="">End Time</label>
+                                        <input type="datetime-local" />
+                                    </div>
+
+                                    <br />
                                     <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition">
                                         Add
                                     </button>
