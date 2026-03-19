@@ -16,6 +16,8 @@ function AddTimeTable() {
     const [StartTime, setStartTime] = useState("")
     const [AddSubject, SetSubject] = useState("")
     const [EndTime, setEndTime] = useState("")
+    const [PropsStarttime, setpropsStartTime] = useState("")
+    const [propsEndTime, setpropsEndTime] = useState("")
     useEffect(() => {
         const getSubjects = async () => {
             const rsdata = await fetchAllSubjects();
@@ -26,7 +28,8 @@ function AddTimeTable() {
         getSubjects()
     }, [])
 
-    const handelTimetable = () => {
+    const handelTimetable = (start, end) => {
+        console.log({ start, end })
         setopen(true)
     }
 
@@ -87,7 +90,7 @@ function AddTimeTable() {
                                         {/* Department */}
                                         <div>
                                             <label className="block mb-1 text-gray-600">Department</label>
-                                            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none" onChange={(e)=>setdept}>
+                                            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none" onChange={(e) => setdept}>
                                                 <option disabled selected>Select Dept</option>
                                                 {departments.map((yr, idx) => (
                                                     <option key={idx}>{yr}</option>
@@ -157,7 +160,10 @@ function AddTimeTable() {
                                 </div>
                             </div>
                         )}
-                        <DisplyTimetabel Addfunction={handelTimetable} isclose={Isopen}></DisplyTimetabel>
+                        <div className='mt-10'>
+
+                            <DisplyTimetabel Addfunction={handelTimetable} isclose={Isopen}></DisplyTimetabel>
+                        </div>
                     </main>
 
                 </div>
