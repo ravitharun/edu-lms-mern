@@ -32,14 +32,33 @@ function AddTimeTable() {
                                 {Isopen ? "close" : "Add"} Timetable
                             </button>
                         </div>
-                        {Isopen && <>
+                        {Isopen && (
+                            <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50">
 
+                                <div className="bg-white shadow-xl rounded-2xl p-6 w-80 border pointer-events-auto">
 
-                            <div>
-                                <button onClick={() => setopen(false)}>Close</button>
+                                    <div className="flex justify-between items-center mb-4">
+                                        <h2 className="text-lg font-semibold">Add Timetable</h2>
+                                        <button
+                                            onClick={() => setopen(false)}
+                                            className="text-gray-500 hover:text-red-500 text-lg"
+                                        >
+                                            ✕
+                                        </button>
+                                    </div>
+
+                                    <p className="text-sm text-gray-500 mb-4">
+                                        Create a new timetable entry
+                                    </p>
+
+                                    <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition">
+                                        Add
+                                    </button>
+
+                                </div>
 
                             </div>
-                        </>}
+                        )}
                     </main>
 
                 </div>
