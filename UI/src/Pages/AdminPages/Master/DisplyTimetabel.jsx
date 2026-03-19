@@ -40,13 +40,33 @@ function DisplyTimetabel({ Addfunction, isclose, role = "student" }) {
   // ];
   const events = [
     {
-      title: "DBMS - Dr. Rao",
-      // start: new Date(2026, 2, 16, 9, 0),
-      start: new Date(2026, 2, 19, 18, 30),
-      end: new Date(2026, 2, 19, 22, 30)
-      // start: new Date(2026, 3, 19, 18, 30),
-      // end: new Date(2026, 3, 19, 20, 30)
+      title: "New Check - Dr. Rao",
+
+      start: new Date("2026-03-19T22:51"),
+      end: new Date("2026-03-19T23:51")
+
     },
+    {
+      title: "New Check - Dr. Rao",
+
+      start: new Date("2026-03-19T12:51"),
+      end: new Date("2026-03-19T13:51")
+
+    },
+    {
+      title: "OS - Dr. Rao",
+
+      start: new Date(2026, 2, 21, 18, 30),
+      end: new Date(2026, 2, 21, 22, 30)
+
+    },
+    {
+      title: "DBMS - Dr. Rao",
+      start: new Date(2026, 4, 19, 13, 30),
+      end: new Date(2026, 4, 19, 14, 30)
+
+    },
+
   ];
   const locales = {
     'en-US': enUS,
@@ -67,12 +87,8 @@ function DisplyTimetabel({ Addfunction, isclose, role = "student" }) {
     console.log("shandleSelectSlot")
   }
   const handleSelect = ({ start, end }) => {
-    const title = prompt("Enter Subject");
-    console.log({
-      title,
-      start,
-      end,
-    },)
+
+    return Addfunction(start, end)
   };
   return (
     <>
@@ -84,7 +100,6 @@ function DisplyTimetabel({ Addfunction, isclose, role = "student" }) {
           startAccessor="start"
           endAccessor="end"
           style={{ height: 500 }}
-
           onSelectEvent={handleSelectEvent}
           // onSelectSlot={() => Addfunction(start, end)}
           onSelectSlot={handleSelect}

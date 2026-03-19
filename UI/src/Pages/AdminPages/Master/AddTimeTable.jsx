@@ -29,7 +29,9 @@ function AddTimeTable() {
     }, [])
 
     const handelTimetable = (start, end) => {
-        console.log({ start, end })
+        setpropsStartTime(start)
+        setpropsEndTime(end)
+        console.log({ start, end }, "Ture Data")
         setopen(true)
     }
 
@@ -40,6 +42,7 @@ function AddTimeTable() {
         // }
         // console.log(TTData)
     }
+    console.log({ PropsStarttime, propsEndTime })
     return (
 
 
@@ -125,7 +128,9 @@ function AddTimeTable() {
                                             <div>
                                                 <label className="block mb-1 text-gray-600">Start Time</label>
                                                 <input
-                                                    type="time"
+                                                    type="datetime-local"
+                                                    // value={new Date(PropsStarttime)?.slice(17).toString()}
+                                                    onChange={(e) => setpropsStartTime(e.target.value)}
                                                     className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
                                                 />
                                             </div>
@@ -133,7 +138,9 @@ function AddTimeTable() {
                                             <div>
                                                 <label className="block mb-1 text-gray-600">End Time</label>
                                                 <input
-                                                    type="time"
+                                                    type="datetime-local"
+                                                    // value={new Date(propsEndTime)?.slice(17).toString()}
+                                                    onChange={(e) => setpropsEndTime(e.target.value)}
                                                     className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
                                                 />
                                             </div>
