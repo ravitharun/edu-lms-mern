@@ -46,7 +46,7 @@ function AdminDashboard() {
   console.log(totalClass,'totalClass')
   return (
     <>
-      {/* <App></App> */}
+      <App></App> 
       <Announcement></Announcement>
       {/* <UserisLogin></UserisLogin> */}
       <div className="flex flex-col md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
