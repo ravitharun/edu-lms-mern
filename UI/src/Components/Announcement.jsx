@@ -79,8 +79,9 @@ function Announcement() {
     useEffect(() => {
         (async () => {
             const res = await Hnadlefetechannouncements();
-            const filtterbyrole = res.filter((data) => data.TargetAudience == "Both" ? res : data.TargetAudience.toLowerCase()==UserName.role+"s"  )
-            console.log("filtterbyrole", filtterbyrole,UserName.role)
+            const filtterbyrole = res.filter((data) => data.TargetAudience == "Both" ? res : data.TargetAudience.toLowerCase() == UserName.role + "s")
+            console.log("filtterbyrole", filtterbyrole, UserName.role)
+            if (UserName.role == "Admin") { return setData([]) }
             setData(filtterbyrole);
         })();
 
@@ -105,232 +106,235 @@ function Announcement() {
     if (!open) return null;
 
     return (
-        <div
-            onClick={close}
-            style={{
-                position: "fixed", inset: 0,
-                background: "rgba(0,0,0,0.40)",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                zIndex: 9999, padding: 16,
-            }}
-        >
-            <div
-                onClick={e => e.stopPropagation()}
+        <>
+
+            {data.length == 0 ? "" : <div
+                onClick={close}
                 style={{
-                    background: "#f7f8fa",
-                    borderRadius: 12,
-                    width: "100%",
-                    maxWidth: 520,
-                    maxHeight: "85vh",
-                    display: "flex",
-                    flexDirection: "column",
-                    overflow: "hidden",
-                    boxShadow: "0 12px 40px rgba(0,0,0,0.15)",
+                    position: "fixed", inset: 0,
+                    background: "rgba(0,0,0,0.40)",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    zIndex: 9999, padding: 16,
                 }}
             >
-                {/* Progress bar */}
-                <div style={{ height: 3, background: "#e2e8f0" }}>
-                    <div style={{
-                        height: "100%",
-                        width: `${progress}%`,
-                        background: "#3b82f6",
-                        transition: "width 0.05s linear",
-                    }} />
-                </div>
-
-                {/* Header */}
-                <div style={{
-                    display: "flex", alignItems: "center", justifyContent: "space-between",
-                    padding: "14px 18px",
-                    background: "#fff",
-                    borderBottom: "1px solid #e8edf2",
-                }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <AiOutlineInfoCircle size={18} color="#3b82f6" />
-                        <p style={{ margin: 0, fontWeight: 700, fontSize: 15, color: "#1a202c" }}>
-                            Announcements
-                        </p>
-                        <span style={{
-                            background: "#ebf4ff", color: "#3b82f6",
-                            fontSize: 11, fontWeight: 600,
-                            borderRadius: 20, padding: "1px 8px",
-                            border: "1px solid #bfdbfe",
-                        }}>
-                            {data.length}
-                        </span>
+                <div
+                    onClick={e => e.stopPropagation()}
+                    style={{
+                        background: "#f7f8fa",
+                        borderRadius: 12,
+                        width: "100%",
+                        maxWidth: 520,
+                        maxHeight: "85vh",
+                        display: "flex",
+                        flexDirection: "column",
+                        overflow: "hidden",
+                        boxShadow: "0 12px 40px rgba(0,0,0,0.15)",
+                    }}
+                >
+                    {/* Progress bar */}
+                    <div style={{ height: 3, background: "#e2e8f0" }}>
+                        <div style={{
+                            height: "100%",
+                            width: `${progress}%`,
+                            background: "#3b82f6",
+                            transition: "width 0.05s linear",
+                        }} />
                     </div>
-                    <button
-                        onClick={close}
-                        style={{
-                            border: "1px solid #e2e8f0", background: "#fff",
-                            borderRadius: 8, width: 28, height: 28,
-                            cursor: "pointer", fontSize: 16, color: "#9ca3af",
-                            display: "flex", alignItems: "center", justifyContent: "center",
-                        }}
-                    >
-                        ×
-                    </button>
-                </div>
 
-                {/* Cards List */}
-                <div style={{ overflowY: "auto", flex: 1, padding: "14px 14px 4px" }}>
-                    {data.length === 0 ? (
-                        <p style={{ textAlign: "center", color: "#9ca3af", padding: "32px 0", fontSize: 14 }}>
-                            No announcements right now.
-                        </p>
-                    ) : (
-                        data.map((item, idx) => {
-                            const s = getStyle(item.AnnouncementType);
-                            return (
-                                <div
-                                    key={item.id ?? idx}
-                                    style={{
-                                        background: "#fff",
-                                        border: "1px solid #e8edf2",
-                                        borderRadius: 10,
-                                        marginBottom: 12,
-                                        overflow: "visible",
-                                        position: "relative",
-                                        paddingTop: 14,
-                                    }}
-                                >
-                                    {/* ── Folded corner label (like image) ── */}
-                                    <div style={{
-                                        position: "absolute",
-                                        top: -1,
-                                        left: 16,
-                                        background: s.labelBg,
-                                        color: "#fff",
-                                        fontSize: 11,
-                                        fontWeight: 700,
-                                        padding: "4px 12px 4px 10px",
-                                        borderRadius: "0 0 6px 6px",
-                                        letterSpacing: "0.03em",
-                                        display: "flex",
-                                        alignItems: "center",
-                                        gap: 5,
-                                        boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-                                        // Folded notch effect
-                                        clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%)",
-                                        paddingBottom: 10,
-                                        minWidth: 80,
-                                        justifyContent: "center",
-                                    }}>
-                                        {s.icon &&
-                                            React.cloneElement(s.icon, { color: "#fff", size: 13 })
-                                        }
-                                        {item.AnnouncementType
-                                            ? item.AnnouncementType.charAt(0).toUpperCase() + item.AnnouncementType.slice(1)
-                                            : "General"}
-                                    </div>
+                    {/* Header */}
+                    <div style={{
+                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                        padding: "14px 18px",
+                        background: "#fff",
+                        borderBottom: "1px solid #e8edf2",
+                    }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                            <AiOutlineInfoCircle size={18} color="#3b82f6" />
+                            <p style={{ margin: 0, fontWeight: 700, fontSize: 15, color: "#1a202c" }}>
+                                Announcements
+                            </p>
+                            <span style={{
+                                background: "#ebf4ff", color: "#3b82f6",
+                                fontSize: 11, fontWeight: 600,
+                                borderRadius: 20, padding: "1px 8px",
+                                border: "1px solid #bfdbfe",
+                            }}>
+                                {data.length}
+                            </span>
+                        </div>
+                        <button
+                            onClick={close}
+                            style={{
+                                border: "1px solid #e2e8f0", background: "#fff",
+                                borderRadius: 8, width: 28, height: 28,
+                                cursor: "pointer", fontSize: 16, color: "#9ca3af",
+                                display: "flex", alignItems: "center", justifyContent: "center",
+                            }}
+                        >
+                            ×
+                        </button>
+                    </div>
 
-                                    {/* Card body */}
-                                    <div style={{ padding: "8px 14px 12px", marginTop: 18 }}>
-
-                                        {/* Title row */}
-                                        <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                                            {/* Circular icon */}
-                                            <div style={{
-                                                width: 36, height: 36,
-                                                borderRadius: "50%",
-                                                background: s.iconBg,
-                                                border: `1.5px solid ${s.border}`,
-                                                display: "flex", alignItems: "center", justifyContent: "center",
-                                                flexShrink: 0,
-                                            }}>
-                                                {s.icon}
-                                            </div>
-
-                                            <div style={{ flex: 1, minWidth: 0 }}>
-                                                <p style={{
-                                                    margin: 0,
-                                                    fontWeight: 600,
-                                                    fontSize: 14,
-                                                    color: "#1a202c",
-                                                    lineHeight: 1.4,
-                                                }}>
-                                                    {item.Title}
-                                                </p>
-                                                <p style={{ margin: "2px 0 0", fontSize: 12, color: "#6B7280" }}>
-                                                    For: <b style={{ color: "#1F2937" }}>
-                                                        {item.TargetAudience === "Both" ? <b>Students + Teachers</b> : ""}
-                                                    </b>
-                                                </p>
-                                            </div>
-                                        </div>
-
-                                        {/* Banner image */}
-                                        {item.Banner_url && (
-                                            <img
-                                                src={item.Banner_url}
-                                                alt={item.Title}
-                                                style={{
-                                                    width: "100%", height: 90, objectFit: "cover",
-                                                    borderRadius: 6, marginTop: 10,
-                                                }}
-                                            />
-                                        )}
-
-                                        {/* Date row — styled like the reference image */}
+                    {/* Cards List */}
+                    <div style={{ overflowY: "auto", flex: 1, padding: "14px 14px 4px" }}>
+                        {data.length === 0 ? (
+                            <p style={{ textAlign: "center", color: "#9ca3af", padding: "32px 0", fontSize: 14 }}>
+                                No announcements right now.
+                            </p>
+                        ) : (
+                            data.map((item, idx) => {
+                                const s = getStyle(item.AnnouncementType);
+                                return (
+                                    <div
+                                        key={item.id ?? idx}
+                                        style={{
+                                            background: "#fff",
+                                            border: "1px solid #e8edf2",
+                                            borderRadius: 10,
+                                            marginBottom: 12,
+                                            overflow: "visible",
+                                            position: "relative",
+                                            paddingTop: 14,
+                                        }}
+                                    >
+                                        {/* ── Folded corner label (like image) ── */}
                                         <div style={{
+                                            position: "absolute",
+                                            top: -1,
+                                            left: 16,
+                                            background: s.labelBg,
+                                            color: "#fff",
+                                            fontSize: 11,
+                                            fontWeight: 700,
+                                            padding: "4px 12px 4px 10px",
+                                            borderRadius: "0 0 6px 6px",
+                                            letterSpacing: "0.03em",
                                             display: "flex",
                                             alignItems: "center",
-                                            justifyContent: "space-between",
-                                            marginTop: 10,
-                                            paddingTop: 10,
-                                            borderTop: "1px dashed #e8edf2",
-                                            flexWrap: "wrap",
-                                            gap: 6,
+                                            gap: 5,
+                                            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+                                            // Folded notch effect
+                                            clipPath: "polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%)",
+                                            paddingBottom: 10,
+                                            minWidth: 80,
+                                            justifyContent: "center",
                                         }}>
-                                            {/* Start date */}
-                                            <div style={{
-                                                display: "flex", alignItems: "center", gap: 5,
-                                                fontSize: 12, color: "#718096",
-                                            }}>
-                                                <AiOutlineCalendar size={14} color="#3b82f6" />
-                                                <span style={{ color: "#4a5568", fontWeight: 500 }}>
-                                                    {formatDate(item.StartDate)}
-                                                </span>
-                                            </div>
-
-                                            {/* End date with download icon */}
-                                            <div style={{
-                                                display: "flex", alignItems: "center", gap: 5,
-                                                fontSize: 12, color: "#3b82f6", fontWeight: 500,
-                                            }}>
-                                                <AiOutlineDownload size={14} color="#3b82f6" />
-                                                <span>Until {formatDate(item.EndDate)}</span>
-                                            </div>
+                                            {s.icon &&
+                                                React.cloneElement(s.icon, { color: "#fff", size: 13 })
+                                            }
+                                            {item.AnnouncementType
+                                                ? item.AnnouncementType.charAt(0).toUpperCase() + item.AnnouncementType.slice(1)
+                                                : "General"}
                                         </div>
 
-                                    </div>
-                                </div>
-                            );
-                        })
-                    )}
-                </div>
+                                        {/* Card body */}
+                                        <div style={{ padding: "8px 14px 12px", marginTop: 18 }}>
 
-                {/* Footer */}
-                <div style={{
-                    padding: "12px 14px",
-                    background: "#fff",
-                    borderTop: "1px solid #e8edf2",
-                    display: "flex", justifyContent: "flex-end",
-                }}>
-                    <button
-                        onClick={close}
-                        style={{
-                            fontSize: 13, fontWeight: 500,
-                            color: "#fff", background: "#3b82f6",
-                            border: "none", borderRadius: 7,
-                            padding: "7px 20px", cursor: "pointer",
-                        }}
-                    >
-                        Dismiss
-                    </button>
+                                            {/* Title row */}
+                                            <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                                                {/* Circular icon */}
+                                                <div style={{
+                                                    width: 36, height: 36,
+                                                    borderRadius: "50%",
+                                                    background: s.iconBg,
+                                                    border: `1.5px solid ${s.border}`,
+                                                    display: "flex", alignItems: "center", justifyContent: "center",
+                                                    flexShrink: 0,
+                                                }}>
+                                                    {s.icon}
+                                                </div>
+
+                                                <div style={{ flex: 1, minWidth: 0 }}>
+                                                    <p style={{
+                                                        margin: 0,
+                                                        fontWeight: 600,
+                                                        fontSize: 14,
+                                                        color: "#1a202c",
+                                                        lineHeight: 1.4,
+                                                    }}>
+                                                        {item.Title}
+                                                    </p>
+                                                    <p style={{ margin: "2px 0 0", fontSize: 12, color: "#6B7280" }}>
+                                                        For: <b style={{ color: "#1F2937" }}>
+                                                            {item.TargetAudience === "Both" ? <b>Students + Teachers</b> : ""}
+                                                        </b>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            {/* Banner image */}
+                                            {item.Banner_url && (
+                                                <img
+                                                    src={item.Banner_url}
+                                                    alt={item.Title}
+                                                    style={{
+                                                        width: "100%", height: 90, objectFit: "cover",
+                                                        borderRadius: 6, marginTop: 10,
+                                                    }}
+                                                />
+                                            )}
+
+                                            {/* Date row — styled like the reference image */}
+                                            <div style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "space-between",
+                                                marginTop: 10,
+                                                paddingTop: 10,
+                                                borderTop: "1px dashed #e8edf2",
+                                                flexWrap: "wrap",
+                                                gap: 6,
+                                            }}>
+                                                {/* Start date */}
+                                                <div style={{
+                                                    display: "flex", alignItems: "center", gap: 5,
+                                                    fontSize: 12, color: "#718096",
+                                                }}>
+                                                    <AiOutlineCalendar size={14} color="#3b82f6" />
+                                                    <span style={{ color: "#4a5568", fontWeight: 500 }}>
+                                                        {formatDate(item.StartDate)}
+                                                    </span>
+                                                </div>
+
+                                                {/* End date with download icon */}
+                                                <div style={{
+                                                    display: "flex", alignItems: "center", gap: 5,
+                                                    fontSize: 12, color: "#3b82f6", fontWeight: 500,
+                                                }}>
+                                                    <AiOutlineDownload size={14} color="#3b82f6" />
+                                                    <span>Until {formatDate(item.EndDate)}</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        )}
+                    </div>
+                    {/* Footer */}
+                    <div style={{
+                        padding: "12px 14px",
+                        background: "#fff",
+                        borderTop: "1px solid #e8edf2",
+                        display: "flex", justifyContent: "flex-end",
+                    }}>
+                        <button
+                            onClick={close}
+                            style={{
+                                fontSize: 13, fontWeight: 500,
+                                color: "#fff", background: "#3b82f6",
+                                border: "none", borderRadius: 7,
+                                padding: "7px 20px", cursor: "pointer",
+                            }}
+                        >
+                            Dismiss
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </div>}
+        </>
+
     );
 }
 
