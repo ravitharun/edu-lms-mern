@@ -1,11 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MasterLogoNav from './MasterLogoNav'
 import MasterAdminNavbar from './MasterAdminNavbar'
 import { MdSchedule } from 'react-icons/md'
 import { Day, departments, Semester_year } from '../AdminExport'
+import { fetchAllSubjects } from './APIS/GetAll-subjects'
 
 function AddTimeTable() {
     const [Isopen, setopen] = useState(false)
+    const [GetSubjects, setsubjects] = useState([])
+    useEffect(() => {
+        const getSubjects = async () => {
+            const rsdata = await fetchAllSubjects();
+            console.log(rsdata.data.message, 'rsdata')
+            setsubjects(rsdata.data.message, 'rsdata')
+
+        }
+        getSubjects()
+    }, [])
 
     const handelTimetable = () => {
         setopen(true)
@@ -34,83 +45,98 @@ function AddTimeTable() {
                             </button>
                         </div>
                         {Isopen && (
-                            <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50">
+                            <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50 px-3">
 
-                                <div className="bg-white shadow-xl rounded-2xl p-6 w-80 border pointer-events-auto">
+                                <div className="w-full max-w-md bg-white shadow-2xl rounded-2xl border pointer-events-auto 
+                    p-5 sm:p-6 animate-[scaleIn_0.2s_ease]">
 
+                                    {/* Header */}
                                     <div className="flex justify-between items-center mb-4">
-                                        <h2 className="text-lg font-semibold">Add Timetable</h2>
+                                        <h2 className="text-base sm:text-lg font-semibold text-gray-800">
+                                            Add Timetable
+                                        </h2>
                                         <button
                                             onClick={() => setopen(false)}
-                                            className="text-gray-500 hover:text-red-500 text-lg"
+                                            className="text-gray-400 hover:text-red-500 text-lg"
                                         >
                                             ✕
                                         </button>
                                     </div>
 
-                                    <p className="text-sm text-gray-500 mb-4">
-                                        Create a new timetable entry
-                                    </p>
-                                    <div>
+                                    {/* Form */}
+                                    <div className="space-y-4 text-sm">
 
-                                        <label htmlFor="">Departments</label>
-                                        <select name="" id="">
-                                            <option value="Chhose Dept" disabled selected>Select Dept</option>
-                                            {departments.map((yr, idx) => (
-                                                <option value={yr} key={idx}>{yr}</option>
-                                            ))}
-                                        </select>
+                                        {/* Department */}
+                                        <div>
+                                            <label className="block mb-1 text-gray-600">Department</label>
+                                            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                                                <option disabled selected>Select Dept</option>
+                                                {departments.map((yr, idx) => (
+                                                    <option key={idx}>{yr}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        {/* Semester */}
+                                        <div>
+                                            <label className="block mb-1 text-gray-600">Semester / Year</label>
+                                            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                                                <option disabled selected>Select Semester</option>
+                                                {Semester_year.map((yr, idx) => (
+                                                    <option key={idx}>{yr}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        {/* Day */}
+                                        <div>
+                                            <label className="block mb-1 text-gray-600">Day</label>
+                                            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                                                <option disabled selected>Select Day</option>
+                                                {Day.map((day, idx) => (
+                                                    <option key={idx}>{day}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        {/* Time Row */}
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                            <div>
+                                                <label className="block mb-1 text-gray-600">Start Time</label>
+                                                <input
+                                                    type="time"
+                                                    className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                                                />
+                                            </div>
+
+                                            <div>
+                                                <label className="block mb-1 text-gray-600">End Time</label>
+                                                <input
+                                                    type="time"
+                                                    className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Subject */}
+                                        <div>
+                                            <label className="block mb-1 text-gray-600">Subject</label>
+                                            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
+                                                <option disabled selected>Select Subject</option>
+                                                {GetSubjects.map((subj, idx) => (
+                                                    <option value={subj.subject} key={idx}>{subj.subject}-{subj.department}-{subj.courseId}-({subj?.year})</option>
+                                                ))}
+                                            </select>
+                                        </div>
+
                                     </div>
-                                    <div>
 
-                                        <label htmlFor="">Semester_year</label>
-                                        <select name="" id="">
-                                            <option value="Chhose Dept" disabled selected>Select Semester_year</option>
-                                            {Semester_year.map((yr, idx) => (
-                                                <option value={yr} key={idx}>{yr}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div>
-
-                                        <label htmlFor="">Day</label>
-                                        <select name="" id="">
-                                            <option value="Chhose Dept" disabled selected>Select Day</option>
-                                            {Day.map((day, idx) => (
-                                                <option value={day} key={idx}>{day}</option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                    <div>
-
-                                        <label htmlFor="">Start Time</label>
-                                        <input type="datetime-local" />
-                                    </div>
-                                    <div>
-
-                                        <label htmlFor="">End Time</label>
-                                        <input type="datetime-local" />
-                                    </div>
-                                    <div>
-
-                                <select name="" id="">
-
-                                    <option value=""></option>
-                                </select>
-                                    </div>
-                                    <div>
-
-                                        <label htmlFor="">End Time</label>
-                                        <input type="datetime-local" />
-                                    </div>
-
-                                    <br />
-                                    <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg transition">
-                                        Add
+                                    {/* Button */}
+                                    <button className="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg transition font-medium">
+                                        Add Timetable
                                     </button>
 
                                 </div>
-
                             </div>
                         )}
                     </main>
