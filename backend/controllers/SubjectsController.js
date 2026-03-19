@@ -104,12 +104,12 @@ const StudentsInfo = async (req, res) => {
 const addByOne = async (req, res) => {
     try {
         const { data } = req.body
-        console.log(data)
-        // { subjectName: 'efk', subjectCode: '212', year: '12', dept: 'rfmr' }
+        console.log(data,"Check Date From Ui")
+
 
         const check_isSubjects = await subject.find({ courseId: data.subjectCode })
         console.log(check_isSubjects)
-        if (check_isSubjects) {
+        if (!check_isSubjects) {
             console.log('hi')
             return res.status(401).json( "These Course ID is already Exits.")
         } else {
