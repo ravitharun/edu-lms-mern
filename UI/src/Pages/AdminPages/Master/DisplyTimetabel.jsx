@@ -1,92 +1,112 @@
 import React from "react";
+import { FaClock, FaPlus } from "react-icons/fa";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
-function DisplyTimetabel({ Addfunction, isclose }) {
-  const fakejsonTT = [
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
+import format from 'date-fns/format'
+import parse from 'date-fns/parse'
+import startOfWeek from 'date-fns/startOfWeek'
+import getDay from 'date-fns/getDay'
+import enUS from 'date-fns/locale/en-US'
+
+function DisplyTimetabel({ Addfunction, isclose, role = "student" }) {
+  const today = new Date().toLocaleString("en-US", { weekday: "long" });
+
+  // const fakejsonTT = [
+  //   {
+  //     id: 1,
+  //     className: "CSE 3rd Year",
+  //     section: "A",
+  //     day: "Monday",
+  //     slots: [
+  //       { time: "9:00 - 10:00", subject: "DBMS", faculty: "Dr. Rao" },
+  //       { time: "10:00 - 11:00", subject: "OS", faculty: "Mr. Kumar" },
+  //       { time: "11:15 - 12:15", subject: "CN", faculty: "Ms. Priya" },
+  //       { time: "1:00 - 2:00", subject: "AI", faculty: "Dr. Sharma" },
+  //     ],
+  //   },
+  //   {
+  //     id: 2,
+  //     className: "CSE 3rd Year",
+  //     section: "A",
+  //     day: "Tuesday",
+  //     slots: [
+  //       { time: "9:00 - 10:00", subject: "ML", faculty: "Dr. Reddy" },
+  //       { time: "10:00 - 11:00", subject: "DBMS", faculty: "Dr. Rao" },
+  //       { time: "11:15 - 12:15", subject: "OS Lab", faculty: "Mr. Kumar" },
+  //       { time: "1:00 - 2:00", subject: "CN", faculty: "Ms. Priya" },
+  //     ],
+  //   },
+  // ];
+  const events = [
     {
-      id: 1,
-      className: "CSE 3rd Year",
-      section: "A",
-      day: "Monday",
-      slots: [
-        { time: "9:00 - 10:00", subject: "DBMS", faculty: "Dr. Rao" },
-        { time: "10:00 - 11:00", subject: "OS", faculty: "Mr. Kumar" },
-        { time: "11:15 - 12:15", subject: "CN", faculty: "Ms. Priya" },
-        { time: "1:00 - 2:00", subject: "AI", faculty: "Dr. Sharma" },
-      ],
+      title: "New Check - Dr. Rao",
+
+      start: new Date("2026-03-19T22:51"),
+      end: new Date("2026-03-19T23:51")
+
     },
     {
-      id: 2,
-      className: "CSE 3rd Year",
-      section: "A",
-      day: "Tuesday",
-      slots: [
-        { time: "9:00 - 10:00", subject: "ML", faculty: "Dr. Reddy" },
-        { time: "10:00 - 11:00", subject: "DBMS", faculty: "Dr. Rao" },
-        { time: "11:15 - 12:15", subject: "OS Lab", faculty: "Mr. Kumar" },
-        { time: "1:00 - 2:00", subject: "CN", faculty: "Ms. Priya" },
-      ],
+      title: "New Check - Dr. Rao",
+
+      start: new Date("2026-03-19T12:51"),
+      end: new Date("2026-03-19T13:51")
+
     },
+    {
+      title: "OS - Dr. Rao",
+
+      start: new Date(2026, 2, 21, 18, 30),
+      end: new Date(2026, 2, 21, 22, 30)
+
+    },
+    {
+      title: "DBMS - Dr. Rao",
+      start: new Date(2026, 4, 19, 13, 30),
+      end: new Date(2026, 4, 19, 14, 30)
+
+    },
+
   ];
+  const locales = {
+    'en-US': enUS,
+  }
+  console.log(locales, "locales")
+  const localizer = dateFnsLocalizer({
+    format,
+    parse,
+    startOfWeek,
+    getDay,
+    locales,
+  })
+  console.log(localizer, "localizer")
+  const handleSelectEvent = () => {
+    console.log("handleSelectEvent")
+  }
+  const handleSelectSlot = () => {
+    console.log("shandleSelectSlot")
+  }
+  const handleSelect = ({ start, end }) => {
 
+    return Addfunction(start, end)
+  };
   return (
-    <div className="p-4 md:p-8 bg-gray-100 min-h-screen">
+    <>
 
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-        <h1 className="text-2xl font-bold">Admin Timetable</h1>
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700" onClick={Addfunction}>
-          {isclose ? "Close" : " Add"} Timetable
-        </button>
+      <div>
+        <Calendar
+          localizer={localizer}
+          events={events}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: 500 }}
+          onSelectEvent={handleSelectEvent}
+          // onSelectSlot={() => Addfunction(start, end)}
+          onSelectSlot={handleSelect}
+          selectable
+        />
       </div>
-
-      {/* Cards */}
-      <div className="grid gap-6 md:grid-cols-2">
-        {fakejsonTT.map((dayData) => (
-          <div
-            key={dayData.id}
-            className="bg-white rounded-2xl shadow-md p-5 border"
-          >
-            {/* Top */}
-            <div className="flex justify-between items-center mb-4">
-              <div>
-                <h2 className="text-lg font-semibold">{dayData.day}</h2>
-                <p className="text-sm text-gray-500">
-                  {dayData.className} - {dayData.section}
-                </p>
-              </div>
-
-              {/* Actions */}
-              <div className="flex gap-2">
-                <button className="px-3 py-1 text-sm bg-yellow-400 rounded-md hover:bg-yellow-500">
-                  Edit
-                </button>
-                <button className="px-3 py-1 text-sm bg-red-500 text-white rounded-md hover:bg-red-600">
-                  Delete
-                </button>
-              </div>
-            </div>
-
-            {/* Slots */}
-            <div className="space-y-3">
-              {dayData.slots.map((slot, index) => (
-                <div
-                  key={index}
-                  className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-50 p-3 rounded-lg border"
-                >
-                  <div>
-                    <p className="font-medium">{slot.subject}</p>
-                    <p className="text-sm text-gray-500">{slot.faculty}</p>
-                  </div>
-                  <span className="text-sm text-gray-600 mt-1 sm:mt-0">
-                    {slot.time}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    </>
   );
 }
 
