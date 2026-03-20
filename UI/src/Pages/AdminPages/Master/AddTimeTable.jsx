@@ -12,7 +12,7 @@ function AddTimeTable() {
     const [GetSubjects, setsubjects] = useState([])
     const [Department, setdept] = useState("")
     const [SemesterByyear, setSemesterByyear] = useState("")
-    const [AddByDay, setDay] = useState("")
+    // const [AddByDay, setDay] = useState("")
     const [StartTime, setStartTime] = useState("")
     const [AddSubject, SetSubject] = useState("")
     const [EndTime, setEndTime] = useState("")
@@ -35,14 +35,18 @@ function AddTimeTable() {
         setopen(true)
     }
 
-    const SubmitTimetable = async () => {
-        // const TTData={
-        toast.success("hey");
 
-        // }
-        // console.log(TTData)
+    const SubmitTimetable = async () => {
+        if (!Department || !SemesterByyear || !StartTime || !EndTime || !AddSubject || !StartTime || !EndTime) {
+            return toast.error("Fill the required Inputs")
+
+        }
+        const TTData = {
+            Department, SemesterByyear, StartTime, EndTime, AddSubject, StartTime, EndTime
+        }
+        console.log(TTData)
     }
-    console.log({ PropsStarttime, propsEndTime })
+
     return (
 
 
@@ -88,32 +92,42 @@ function AddTimeTable() {
                                     </div>
 
                                     {/* Form */}
-                                    <div className="space-y-4 text-sm">
+                                    <form>
 
-                                        {/* Department */}
-                                        <div>
-                                            <label className="block mb-1 text-gray-600">Department</label>
-                                            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none" onChange={(e) => setdept}>
-                                                <option disabled selected>Select Dept</option>
-                                                {departments.map((yr, idx) => (
-                                                    <option key={idx}>{yr}</option>
-                                                ))}
-                                            </select>
-                                        </div>
+                                        <div className="space-y-4 text-sm">
 
-                                        {/* Semester */}
-                                        <div>
-                                            <label className="block mb-1 text-gray-600">Semester / Year</label>
-                                            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
-                                                <option disabled selected>Select Semester</option>
-                                                {Semester_year.map((yr, idx) => (
-                                                    <option key={idx}>{yr}</option>
-                                                ))}
-                                            </select>
-                                        </div>
+                                            {/* Department */}
+                                            <div>
+                                                <label className="block mb-1 text-gray-600">Department</label>
+                                                <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none" onChange={(e) => setdept(e.target.value)}
 
-                                        {/* Day */}
-                                        <div>
+                                                    required
+                                                >
+
+                                                    <option disabled selected>Select Dept</option>
+                                                    {departments.map((yr, idx) => (
+                                                        <option key={idx}>{yr}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+
+                                            {/* Semester */}
+                                            <div>
+                                                <label className="block mb-1 text-gray-600">Semester / Year</label>
+                                                <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+
+                                                    onClick={(e) => setSemesterByyear(e.target.value)}
+                                                    required
+                                                >
+                                                    <option disabled selected>Select Semester</option>
+                                                    {Semester_year.map((yr, idx) => (
+                                                        <option key={idx}>{yr.toUpperCase().replace("YR", "YEAR")}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+
+                                            {/* Day */}
+                                            {/* <div>
                                             <label className="block mb-1 text-gray-600">Day</label>
                                             <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
                                                 <option disabled selected>Select Day</option>
@@ -121,48 +135,67 @@ function AddTimeTable() {
                                                     <option key={idx}>{day}</option>
                                                 ))}
                                             </select>
-                                        </div>
+                                        </div> */}
 
-                                        {/* Time Row */}
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                            <div>
-                                                <label className="block mb-1 text-gray-600">Start Time</label>
-                                                <input
-                                                    type="datetime-local"
-                                                    // value={new Date(PropsStarttime)?.slice(17).toString()}
-                                                    onChange={(e) => setpropsStartTime(e.target.value)}
-                                                    className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                                                />
+                                            {/* Time Row */}
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                <div>
+                                                    <label className="block mb-1 text-gray-600">Start Time</label>
+                                                    <input
+                                                        type="datetime-local"
+                                                        required
+                                                        // value={new Date(PropsStarttime)?.slice(17).toString()}
+                                                        onChange={(e) => setStartTime(e.target.value)}
+                                                        className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                                                    />
+                                                </div>
+
+                                                <div>
+                                                    <label className="block mb-1 text-gray-600">End Time</label>
+                                                    <input
+                                                        type="datetime-local"
+                                                        required
+                                                        onChange={(e) => setEndTime(e.target.value)}
+                                                        className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                                                    />
+                                                </div>
                                             </div>
 
+                                            {/* Subject */}
                                             <div>
-                                                <label className="block mb-1 text-gray-600">End Time</label>
-                                                <input
-                                                    type="datetime-local"
-                                                    // value={new Date(propsEndTime)?.slice(17).toString()}
-                                                    onChange={(e) => setpropsEndTime(e.target.value)}
-                                                    className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
-                                                />
+                                                <label className="block mb-1 text-gray-600">Subject</label>
+                                                <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                                                    onClick={(e) => SetSubject(e.target.value)}
+                                                    required
+                                                >
+                                                    <option disabled selected>Select Subject</option>
+                                                    {GetSubjects?.map((subj, idx) => (
+                                                        <option value={subj.subject} key={idx}>{subj.subject}-{subj.department}-{subj.courseId}-({subj?.year})</option>
+                                                    ))}
+                                                </select>
                                             </div>
-                                        </div>
 
-                                        {/* Subject */}
-                                        <div>
-                                            <label className="block mb-1 text-gray-600">Subject</label>
-                                            <select className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none">
-                                                <option disabled selected>Select Subject</option>
-                                                {GetSubjects.map((subj, idx) => (
-                                                    <option value={subj.subject} key={idx}>{subj.subject}-{subj.department}-{subj.courseId}-({subj?.year})</option>
-                                                ))}
-                                            </select>
                                         </div>
+                                        <button
+                                            onClick={SubmitTimetable}
+                                            disabled={!Department || !SemesterByyear || !StartTime || !EndTime || !AddSubject}
+                                            className={`
+    mt-5 w-full flex items-center justify-center gap-2
+    py-3 rounded-xl font-semibold tracking-wide
+    transition-all duration-300 shadow-md
 
-                                    </div>
+    ${!Department || !SemesterByyear || !StartTime || !EndTime || !AddSubject
+                                                    ? "bg-gray-200 text-gray-500 cursor-not-allowed shadow-none"
+                                                    : "bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:scale-[1.02] hover:shadow-lg active:scale-95"}
+  `}
+                                        >
+                                            📅 Create Timetable
+                                        </button>
+                                    </form>
+
 
                                     {/* Button */}
-                                    <button className="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg transition font-medium" onClick={SubmitTimetable}>
-                                        Add Timetable
-                                    </button>
+
 
                                 </div>
                             </div>
