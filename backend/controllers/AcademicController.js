@@ -71,8 +71,11 @@ const AddTimeTable = async (req, res) => {
 const GetTimeTableBySemester = async (req, res) => {
 
     try {
-        const input = req.parmas
-        if (!input) return res.status(404).json({ message: "Some thing Went Wrong." })
+        const { input } = req.query
+        if (!input) {
+            console.log(input, 'in')
+            return res.status(404).json({ message: "Some thing Went Wrong." })
+        }
         console.log("input  By SemesterByyear Get JSon Data: ", input)
         const ResponseData = await AddTimetableSchema.find({ SemesterByyear: input })
         if (ResponseData.length == 0) {
