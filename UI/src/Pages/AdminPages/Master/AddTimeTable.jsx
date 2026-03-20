@@ -6,7 +6,7 @@ import { Day, departments, Semester_year } from '../AdminExport'
 import { fetchAllSubjects } from './APIS/GetAll-subjects'
 import toast, { Toaster } from 'react-hot-toast'
 import DisplyTimetabel from './DisplyTimetabel'
-import { AddTimetable } from './APIS/HandelTimeTable'
+import { AddTimetable, FetchTimeTableByYear } from './APIS/HandelTimeTable'
 import { UserName } from '../../../Apis/Islogin'
 
 function AddTimeTable() {
@@ -21,6 +21,8 @@ function AddTimeTable() {
     const [AssignedClass, setClassRoomNumber] = useState("")
     const [PropsStarttime, setpropsStartTime] = useState("")
     const [propsEndTime, setpropsEndTime] = useState("")
+    const [GetTimeTableByYear, SetGetTimeTableByYear] = useState("SEM1-1YEAR")
+    const [filterBysem, setfilterbysem] = useState([])
     useEffect(() => {
         const getSubjects = async () => {
             const rsdata = await fetchAllSubjects();
@@ -30,6 +32,27 @@ function AddTimeTable() {
         }
         getSubjects()
     }, [])
+
+
+    // Get Data By the GetTimeTableByYear
+    useEffect(() => {
+        const HandelGetTimeTableByYear = async () => {
+            try {
+                console.log("HandelGetTimeTableByYear", GetTimeTableByYear)
+                const responseGetTimeTableByYear = await FetchTimeTableByYear(GetTimeTableByYear)
+                if (responseGetTimeTableByYear.data.message == `No data.`) {
+
+                    toast.error(`No Time Table Found For these ${GetTimeTableByYear} `)
+                    return setfilterbysem([])
+
+                }
+                setfilterbysem(responseGetTimeTableByYear.data.message)
+            } catch (error) {
+
+            }
+        }
+        HandelGetTimeTableByYear()
+    }, [GetTimeTableByYear])
 
     const handelTimetable = (start, end) => {
         setpropsStartTime(start)
@@ -87,7 +110,27 @@ function AddTimeTable() {
                                 {Isopen ? "Close" : "Add"} Timetable
                             </button>
                         </div>
+                        <div className="flex flex-col gap-2 max-w-xs">
 
+                            <label className="text-sm font-medium text-gray-600">
+                                Semester / Year
+                            </label>
+
+                            <select
+                                onChange={(e) => SetGetTimeTableByYear(e.target.value)}
+                                className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            >
+                                {Semester_year.map((yr, idx) => {
+                                    const value = yr.toUpperCase().replace("YR", "YEAR");
+                                    return (
+                                        <option value={value} key={idx}>
+                                            {value}
+                                        </option>
+                                    );
+                                })}
+                            </select>
+
+                        </div>
                         {Isopen && (
                             <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50 px-3">
 
@@ -228,7 +271,7 @@ function AddTimeTable() {
                         )}
                         <div className='mt-10'>
 
-                            <DisplyTimetabel Addfunction={handelTimetable} isclose={Isopen}></DisplyTimetabel>
+                            <DisplyTimetabel Addfunction={handelTimetable} isclose={Isopen} events={filterBysem} handelYear={GetTimeTableByYear}></DisplyTimetabel>
                         </div>
                     </main>
 
