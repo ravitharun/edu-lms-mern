@@ -16,6 +16,7 @@ const { leaveRouter } = require("./routes/ApplyleaveRouter");
 const ProfileRouter = require("./routes/ProfileRoute");
 const AnnouncementRouter = require("./routes/Announcement");
 const { HandelAcademicRouter } = require("./routes/AcandemicRouter");
+const { HandelFetchTimeTableRouter } = require("./routes/FetchTimetableRouter");
 
 const app = express();
 const server = http.createServer(app);
@@ -47,6 +48,7 @@ app.use("/api/LeaveApply", leaveRouter);
 app.use("/api/Profile", ProfileRouter);
 app.use("/api/Announcement", AnnouncementRouter);
 app.use("/api/Academic", HandelAcademicRouter);
+app.use("/api/FetchStudentsTimeTabel", HandelFetchTimeTableRouter);
 
 // Test root
 app.get("/", (req, res) => {

@@ -35,6 +35,7 @@ function DisplyTimetabel({ Addfunction, role = "student", events = [], handelYea
 
   const handleSelectEvent = (event) => {
     console.log("Clicked Event:", event);
+    Addfunction(event);
   };
 
   const handleSelectSlot = ({ start, end }) => {
