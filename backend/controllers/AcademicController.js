@@ -1,4 +1,5 @@
 const { AddAcademicSchema } = require("../models/AddAcademics")
+const { AddTimetableSchema } = require("../models/TimeTableModel")
 
 
 // handelAdd the Data 
@@ -46,4 +47,46 @@ const getData = async (req, res) => {
     }
 
 }
-module.exports = { add, getData }
+
+// ADD TimeTable
+const AddTimeTable = async (req, res) => {
+    try {
+
+        const { data } = req.body
+        console.log(data)
+        if (!data.Department || !data.SemesterByyear || !data.StartTime || !data.EndTime || !data.AddSubject || !data.AddedByID) {
+            return res.status(404).json({ messsage: "All Feilds are rquired." })
+        }
+        await AddTimetableSchema.create(data)
+
+        return res.status(201).json({ message: "Data Saved" })
+
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).json({ message: "server Error" })
+
+    }
+}
+
+const GetTimeTableBySemester = async (req, res) => {
+
+    try {
+        const { input } = req.query
+        if (!input) {
+            console.log(input, 'in')
+            return res.status(404).json({ message: "Some thing Went Wrong." })
+        }
+        console.log("input  By SemesterByyear Get JSon Data: ", input)
+        const ResponseData = await AddTimetableSchema.find({ SemesterByyear: input })
+        if (ResponseData.length == 0) {
+            return res.status(200).json({ message: `Not Add the Time Tabel For the ${input} Class.` })
+        }
+        return res.status(200).json({ message: ResponseData })
+
+    } catch (error) {
+        console.log(error.message)
+        return res.status(200).json({ message: "Server Error." })
+
+    }
+}
+module.exports = { add, getData, AddTimeTable, GetTimeTableBySemester }

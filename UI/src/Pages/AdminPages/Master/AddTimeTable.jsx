@@ -6,6 +6,8 @@ import { Day, departments, Semester_year } from '../AdminExport'
 import { fetchAllSubjects } from './APIS/GetAll-subjects'
 import toast, { Toaster } from 'react-hot-toast'
 import DisplyTimetabel from './DisplyTimetabel'
+import { AddTimetable } from './APIS/HandelTimeTable'
+import { UserName } from '../../../Apis/Islogin'
 
 function AddTimeTable() {
     const [Isopen, setopen] = useState(false)
@@ -16,6 +18,7 @@ function AddTimeTable() {
     const [StartTime, setStartTime] = useState("")
     const [AddSubject, SetSubject] = useState("")
     const [EndTime, setEndTime] = useState("")
+    const [AssignedClass, setClassRoomNumber] = useState("")
     const [PropsStarttime, setpropsStartTime] = useState("")
     const [propsEndTime, setpropsEndTime] = useState("")
     useEffect(() => {
@@ -36,15 +39,28 @@ function AddTimeTable() {
     }
 
 
-    const SubmitTimetable = async () => {
-        if (!Department || !SemesterByyear || !StartTime || !EndTime || !AddSubject || !StartTime || !EndTime) {
+    const SubmitTimetable = async (e) => {
+        e.preventDefault()
+        if (!Department || !SemesterByyear || !StartTime || !EndTime || !AddSubject || !StartTime || !EndTime || !AssignedClass) {
             return toast.error("Fill the required Inputs")
 
         }
         const TTData = {
-            Department, SemesterByyear, StartTime, EndTime, AddSubject, StartTime, EndTime
+            Department, AssignedClass, SemesterByyear, StartTime, EndTime, AddSubject, StartTime, EndTime, AddedByID: UserName?.Admin_Id
         }
-        console.log(TTData)
+        try {
+            const response = await AddTimetable(TTData, e)
+            console.log(response?.data?.message)
+            if (response?.data?.message == "Data Saved") {
+                toast.success("Time Table Added")
+
+                return setopen(false)
+            }
+            return response
+        } catch (error) {
+            console.log(error)
+
+        }
     }
 
     return (
@@ -139,6 +155,16 @@ function AddTimeTable() {
 
                                             {/* Time Row */}
                                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                <div>
+                                                    <label className="block mb-1 text-gray-600">Class Room Number *</label>
+                                                    <input
+                                                        type="text"
+                                                        required
+                                                        // value={new Date(PropsStarttime)?.slice(17).toString()}
+                                                        onChange={(e) => setClassRoomNumber(e.target.value)}
+                                                        className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 outline-none"
+                                                    />
+                                                </div>
                                                 <div>
                                                     <label className="block mb-1 text-gray-600">Start Time</label>
                                                     <input
