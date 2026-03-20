@@ -10,34 +10,9 @@ import getDay from 'date-fns/getDay'
 import enUS from 'date-fns/locale/en-US'
 
 function DisplyTimetabel({ Addfunction, isclose, role = "student" }) {
-  const today = new Date().toLocaleString("en-US", { weekday: "long" });
 
-  // const fakejsonTT = [
-  //   {
-  //     id: 1,
-  //     className: "CSE 3rd Year",
-  //     section: "A",
-  //     day: "Monday",
-  //     slots: [
-  //       { time: "9:00 - 10:00", subject: "DBMS", faculty: "Dr. Rao" },
-  //       { time: "10:00 - 11:00", subject: "OS", faculty: "Mr. Kumar" },
-  //       { time: "11:15 - 12:15", subject: "CN", faculty: "Ms. Priya" },
-  //       { time: "1:00 - 2:00", subject: "AI", faculty: "Dr. Sharma" },
-  //     ],
-  //   },
-  //   {
-  //     id: 2,
-  //     className: "CSE 3rd Year",
-  //     section: "A",
-  //     day: "Tuesday",
-  //     slots: [
-  //       { time: "9:00 - 10:00", subject: "ML", faculty: "Dr. Reddy" },
-  //       { time: "10:00 - 11:00", subject: "DBMS", faculty: "Dr. Rao" },
-  //       { time: "11:15 - 12:15", subject: "OS Lab", faculty: "Mr. Kumar" },
-  //       { time: "1:00 - 2:00", subject: "CN", faculty: "Ms. Priya" },
-  //     ],
-  //   },
-  // ];
+
+
   const events = [
     {
       title: "New Check - Dr. Rao",
