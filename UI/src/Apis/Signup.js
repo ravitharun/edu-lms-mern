@@ -37,22 +37,19 @@ const handelLogin = async (data, e) => {
         'Content-Type': 'application/json'
       }
     })
-    console.log(response?.data?.message, "response?.data?.message")
-    // console.log(response.data.message == "The password is incorrect")
-    if (response?.data?.message == "The password is incorrect") {
-      return console.log("The password is incorrect")
-    }
+
+
 
     secureLocalStorage.setItem("token", response.data.
       token)
     secureLocalStorage.setItem("User_info", response.data.
       user)
-    secureLocalStorage.getItem("User_info")
+
 
     return response
     // return response
   } catch (error) {
-
+    console.log("ERRR: ", error.message)
     return error
 
   }
