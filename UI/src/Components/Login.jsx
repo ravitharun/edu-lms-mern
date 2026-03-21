@@ -20,47 +20,57 @@ export default function Login() {
   // handel login api data
   const handelloginapi = async (e) => {
 
-    if (!StudentEmail || !StudentPassword || !role) {
-      toast.error("Fill the required field's to login.")
+    try {
+      if (!StudentEmail || !StudentPassword || !role) {
+        toast.error("Fill the required field's to login.")
 
-    }
-    if (!ischeck) {
-      return toast.error("U Not agree to the Terms & Conditions. ")
-    }
-    const Userdata = {
-      StudentEmail,
-      role,
-      StudentPassword
-    }
-    setloading(true)
-    setredirectloading(true)
-    const get_user_valid = await handelLogin(Userdata, e)
-    setloading(false)
-    setredirectloading(false)
-    if (get_user_valid.data.user.role == "Teacher") {
+      }
+      if (!ischeck) {
+        return toast.error("U Not agree to the Terms & Conditions. ")
+      }
+      const Userdata = {
+        StudentEmail,
+        role,
+        StudentPassword
+      }
+      setloading(true)
       setredirectloading(true)
-      toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
-      setTimeout(() => {
-        return window.location.href = "/admin-dashboard"
-      }, 3500);
+      const get_user_valid = await handelLogin(Userdata, e)
+      console.log(get_user_valid.data,"get_user_valid")
+      setloading(false)
+      setredirectloading(false)
+      if (get_user_valid.data.message == "The password is incorrect"
+      ) {
+        return toast.error(get_user_valid.response.data.message)
+      }
+      if (get_user_valid.data.user.role == "Teacher") {
+        setredirectloading(true)
+        toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
+        setTimeout(() => {
+          return window.location.href = "/admin-dashboard"
+        }, 3500);
+      }
+      else if (get_user_valid.data.user.role == 'Admin') {
+        toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
+        setredirectloading(true)
+        setTimeout(() => {
+
+          return window.location.href = "/AdminDashboard"
+        }, 3500)
+
+      }
+      else {
+        toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
+        setredirectloading(true)
+        setTimeout(() => {
+
+          return window.location.href = "/"
+        }, 3500);
+
+      }
     }
-    else if (get_user_valid.data.user.role == 'Admin') {
-      toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
-      setredirectloading(true)
-      setTimeout(() => {
-
-        return window.location.href = "/AdminDashboard"
-      }, 3500)
-
-    }
-    else {
-      toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
-      setredirectloading(true)
-      setTimeout(() => {
-
-        return window.location.href = "/"
-      }, 3500);
-
+    catch (error) {
+      console.log("Err", error)
     }
   }
 

@@ -37,9 +37,10 @@ const handelLogin = async (data, e) => {
         'Content-Type': 'application/json'
       }
     })
-
-    if (response.data.message == "The password is incorrect") {
-      return toast.error("The password is incorrect")
+    console.log(response?.data?.message, "response?.data?.message")
+    // console.log(response.data.message == "The password is incorrect")
+    if (response?.data?.message == "The password is incorrect") {
+      return console.log("The password is incorrect")
     }
 
     secureLocalStorage.setItem("token", response.data.
@@ -51,8 +52,8 @@ const handelLogin = async (data, e) => {
     return response
     // return response
   } catch (error) {
-    // console.log(error.message)
-    toast.error(error?.message)
+
+    return error
 
   }
 }
