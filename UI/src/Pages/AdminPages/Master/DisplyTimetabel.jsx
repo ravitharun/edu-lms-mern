@@ -36,12 +36,18 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
 
   const handleSelectEvent = (event) => {
     console.log("Clicked Event:", event);
-    Addfunction(event);
+    // Addfunction(event);
+    if (role == "Teacher" || role == "Admin") {
+      return Addfunction(event);
+    }
   };
 
   const handleSelectSlot = ({ start, end }) => {
     console.log(start, end);
-    Addfunction(start, end);
+    if (role == "Teacher" || role == "Admin") {
+      return Addfunction(start, end);
+    }
+
   };
 
   return (

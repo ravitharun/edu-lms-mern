@@ -13,8 +13,28 @@ function ClassTimings() {
     useEffect(() => {
         const HandelGetTimeTableByYear = async () => {
             try {
+                // console.log(UserName.StudentsYearDepartment + "" + UserName.department + "dept")
+                // 'SEM1-1YEAR'
+                // SEM11YEAR 
+                // CSE 1--Yrdpet
+                // CSE--dept
+                // "CSE 1".replace("CSE","SEM").split(" ").join("")
+                let StudentsYearDepartment = UserName?.StudentsYearDepartment || "";
+                let department = UserName?.department;
+        
+                let base = StudentsYearDepartment.slice(0, -1);
 
-                const responseGetTimeTableByYear = await FetchTimeTableByYear('SEM1-1YEAR')
+        
+                let sem = StudentsYearDepartment.replace(base, "SEM").replace(/\s+/g, "");
+
+
+                let newrs = `${sem} ${StudentsYearDepartment.split(" ")[1]}YEAR`.replace(/\s+/g, "-");
+
+                console.log(newrs);
+
+
+
+                const responseGetTimeTableByYear = await FetchTimeTableByYear(newrs )
                 setate(responseGetTimeTableByYear.data.message)
                 if (responseGetTimeTableByYear.data.message == `No data.`) {
                     toast.error(`No Time Table Found For these ${GetTimeTableByYear} `)
