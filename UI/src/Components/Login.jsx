@@ -19,7 +19,6 @@ export default function Login() {
   const [redirectloadin, setredirectloading] = useState(false)
   // handel login api data
   const handelloginapi = async (e) => {
-
     try {
       if (!StudentEmail || !StudentPassword || !role) {
         toast.error("Fill the required field's to login.")
@@ -33,25 +32,48 @@ export default function Login() {
         role,
         StudentPassword
       }
-      setloading(true)
-      setredirectloading(true)
+
+      // setloading(true)
+      // setredirectloading(true)
       const get_user_valid = await handelLogin(Userdata, e)
-      console.log(get_user_valid.data,"get_user_valid")
-      setloading(false)
+
+
+      // setloading(false)
       setredirectloading(false)
-      if (get_user_valid.data.message == "The password is incorrect"
-      ) {
-        return toast.error(get_user_valid.response.data.message)
+      console.log(get_user_valid.status == 403)
+      if (get_user_valid.status == 400 && get_user_valid.response.data.message == "all inputs are required") {
+        return toast.error("all inputs are required")
       }
-      if (get_user_valid.data.user.role == "Teacher") {
+      // password is incorrect Check 
+      if (get_user_valid.status == 403 && get_user_valid.response.data.message == "The password is incorrect") {
+        return toast.error("Incorrect password", {
+          style: {
+            background: "#fff1f0",
+            color: "#cf1322",
+            borderLeft: "4px solid #ff4d4f",
+            borderRadius: "10px",
+            padding: "12px",
+            fontSize: "14px",
+          }
+        });
+      }
+
+      if (get_user_valid?.data?.user?.role == "Teacher") {
         setredirectloading(true)
-        toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
+        toast.success(
+          `Login successfully - Hey! ${get_user_valid?.data?.user?.name} (${get_user_valid?.data?.user?.role})`,
+
+        );
         setTimeout(() => {
           return window.location.href = "/admin-dashboard"
         }, 3500);
       }
-      else if (get_user_valid.data.user.role == 'Admin') {
-        toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
+      // Admin Route
+      else if (get_user_valid?.data?.user?.role == 'Admin') {
+        toast.success(
+          `Login successfully - Hey! ${get_user_valid?.data?.user?.name} (${get_user_valid?.data?.user?.role})`,
+
+        );
         setredirectloading(true)
         setTimeout(() => {
 
@@ -59,8 +81,12 @@ export default function Login() {
         }, 3500)
 
       }
+      // Student Route
       else {
-        toast.success(`Login successfully - Hey ! ${get_user_valid.data.user.name}- ${get_user_valid.data.user.role}`)
+        console.log("hey")
+        toast.success(
+          `Login successfully - Hey! ${get_user_valid?.data?.user?.name || ""} (${get_user_valid.data.user.role || ""})`,
+        );
         setredirectloading(true)
         setTimeout(() => {
 
@@ -70,7 +96,10 @@ export default function Login() {
       }
     }
     catch (error) {
-      console.log("Err", error)
+      // console.log(error.status)
+      console.log(error)
+
+
     }
   }
 
@@ -198,7 +227,7 @@ export default function Login() {
           </form>
 
           {/* OR */}
-          <div className="my-4 flex items-center gap-2">
+          {/* <div className="my-4 flex items-center gap-2">
             <div className="h-px flex-1 bg-gray-600" />
             <span className="text-xs text-gray-400">OR</span>
             <div className="h-px flex-1 bg-gray-600" />
@@ -206,7 +235,7 @@ export default function Login() {
 
           <p className="text-center text-xs text-gray-400">
             Sign In with Google (coming soon)
-          </p>
+          </p> */}
         </div>
       </div>
       {redirectloadin && (
