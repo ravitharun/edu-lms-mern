@@ -74,7 +74,7 @@ const GetTimeTableBySemester = async (req, res) => {
         const { data } = req.query
         console.log( req.query," req.query")
         if (!data) {
-            console.log(data, 'in')
+          
             return res.status(404).json({ message: "Some thing Went Wrong." })
         }
         console.log("input  By SemesterByyear Get JSon Data: ", data)
@@ -82,6 +82,7 @@ const GetTimeTableBySemester = async (req, res) => {
         if (ResponseData.length == 0) {
             return res.status(200).json({ message: `No data.` })
         }
+        console.log(ResponseData,"ResponseData")
         return res.status(200).json({ message: ResponseData })
 
     } catch (error) {
