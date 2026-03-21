@@ -8,7 +8,8 @@ import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import enUS from "date-fns/locale/en-US";
 
-function DisplyTimetabel({ Addfunction, role = "student", events = [], handelYear }) {
+function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
+  console.log(role)
   console.log(events.length, "events from events")
   const locales = {
     "en-US": enUS,
@@ -71,15 +72,17 @@ function DisplyTimetabel({ Addfunction, role = "student", events = [], handelYea
           <div className="flex flex-col items-center justify-center h-[400px] text-center">
 
             <p className="text-gray-500 mb-3">
-              No events available
+              No {role == "Teacher" || role == "Admin" ? "events" : "Time Table"} available
             </p>
 
-            <button
+            {role == "Teacher" || role == "Admin" ? <button
               onClick={() => Addfunction()}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition"
             >
               + Add Timetable
-            </button>
+            </button> :
+              ""
+            }
 
           </div>
         ) : (
