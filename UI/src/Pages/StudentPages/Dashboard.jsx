@@ -117,6 +117,8 @@ function Dashboard() {
 
 
   const [imgurlChoosed, setimgurlChoosed] = useState(imgechooserurl[0].imgUrl);
+
+
   const navItems = [
     { label: "Notification", key: "Notification" },
     { label: "Student Announcement", key: "Studentannocement" },
@@ -142,13 +144,11 @@ function Dashboard() {
     if (!choosedurl) {
       return toast.error("We hit a snag. Please refresh and try again.")
     }
-    if (type === "Vid") {
+    // if (type === "Vid") {
 
-      return setimgurlChoosed({ choosedurl, type })
-    }
+    //   return setimgurlChoosed({ choosedurl, type })
+    // }
     setimgurlChoosed(choosedurl)
-    toast.success("Updated ...")
-    console.log(imgurlChoosed)
   }
 
 
