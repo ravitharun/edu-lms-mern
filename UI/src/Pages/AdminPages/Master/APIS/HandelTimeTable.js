@@ -17,8 +17,8 @@ export const AddTimetable = async (data) => {
 export const FetchTimeTableByYear = async (Semester) => {
     try {
         console.log(Semester,"Semester")
-        const reponse = await axios.get(`http://localhost:5001/api/academic/TimeTable?data=SEM1-1YEAR`)
-        // const reponse = await axios.get(`http://localhost:5001/api/academic/TimeTable?data=${Semester}`)
+        // const reponse = await axios.get(`http://localhost:5001/api/academic/TimeTable?data=SEM1-1YEAR`)
+        const reponse = await axios.get(`http://localhost:5001/api/academic/TimeTable?data=${Semester}`)
 
         return reponse;
     } catch (error) {
