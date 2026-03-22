@@ -69,7 +69,7 @@ function AddTimeTable() {
 
         }
         const TTData = {
-            Department, AssignedClass, SemesterByyear, StartTime, EndTime, AddSubject, StartTime, EndTime, AddedByID: UserName?.Admin_Id
+            Department, AssignedClass, SemesterByyear, AddSubject, StartTime, EndTime, AddedByID: UserName?.Admin_Id
         }
         try {
             const response = await AddTimetable(TTData, e)
