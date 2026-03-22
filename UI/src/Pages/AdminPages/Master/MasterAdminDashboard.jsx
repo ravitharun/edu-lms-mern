@@ -62,13 +62,14 @@
 // }
 
 // export default DashboardLayout;
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import MasterAdminNavbar from "./MasterAdminNavbar";
 import MasterLogoNav from "./MasterLogoNav";
 import { fun } from "../../../Components/UserisLogin";
 import { Link } from "react-router-dom";
 import WelcomeMessage from "../../../Components/WelcomeMessage";
 import Announcement from "../../../Components/Announcement";
+import axios from "axios";
 
 function DashboardLayout({ children }) {
   useEffect(() => {
@@ -76,16 +77,31 @@ function DashboardLayout({ children }) {
   }, []);
 
   // System Stats (Teachers + Students)
-  const Data = [
-    { heading: "Total Teachers", total: 86 },
-    { heading: "Total Students", total: 1240 },
-    { heading: "Active Accounts", total: 1120 },
-    { heading: "Deactivated Accounts", total: 120 },
-  ];
 
+  const [Count, setcount] = useState([])
+  useEffect(() => {
+    const Getdata = async () => {
+      try {
+        const response = await axios.get("http://localhost:5001/api/UsersCount/user")
+        console.log(response.data, "Count")
+        setcount(response.data)
+        // const Data = [
+        //   { heading: "Total Teachers", total: 86 },
+        //   { heading: "Total Students", total: response.data.message },
+        //   { heading: "Active Accounts", total: 1120 },
+        //   { heading: "Deactivated Accounts", total: 120 },
+        // ];
+
+        // return Data 
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+    Getdata()
+  }, [])
   return (
     <div className="min-h-screen flex bg-gray-50">
-<Announcement></Announcement>
+      <Announcement></Announcement>
       {/* Sidebar */}
       <MasterAdminNavbar path="Dashboard" />
 
@@ -105,20 +121,59 @@ function DashboardLayout({ children }) {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {Data.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white rounded-2xl shadow hover:shadow-lg transition p-6 border border-gray-100"
-                >
-                  <p className="text-sm text-gray-500">
-                    {item.heading}
-                  </p>
-                  <h2 className="text-3xl font-bold text-gray-800 mt-2">
-                    {item.total}
-                  </h2>
-                  <div className="mt-4 h-1 w-12 bg-indigo-500 rounded-full"></div>
-                </div>
-              ))}
+
+              <div
+
+                className="bg-white rounded-2xl shadow hover:shadow-lg transition p-6 border border-gray-100"
+              >
+                <p className="text-sm text-gray-500">
+                  Total Teachers
+                </p>
+                <h2 className="text-3xl font-bold text-gray-800 mt-2">
+                  {Count.TotalTeachers}
+                </h2>
+                <div className="mt-4 h-1 w-12 bg-indigo-500 rounded-full"></div>
+              </div>
+              {/* Total Students */}
+              <div
+
+                className="bg-white rounded-2xl shadow hover:shadow-lg transition p-6 border border-gray-100"
+              >
+                <p className="text-sm text-gray-500">
+                  Total Students
+                </p>
+                <h2 className="text-3xl font-bold text-gray-800 mt-2">
+                  {Count.message}
+                </h2>
+                <div className="mt-4 h-1 w-12 bg-indigo-500 rounded-full"></div>
+              </div>
+              {/* Active Accounts */}
+              <div
+
+                className="bg-white rounded-2xl shadow hover:shadow-lg transition p-6 border border-gray-100"
+              >
+                <p className="text-sm text-gray-500">
+                  Active Accounts
+                </p>
+                <h2 className="text-3xl font-bold text-gray-800 mt-2">
+                  {Count.ActiveAccounts}
+                </h2>
+                <div className="mt-4 h-1 w-12 bg-indigo-500 rounded-full"></div>
+              </div>
+              {/* Deactivated Accounts */}
+              <div
+
+                className="bg-white rounded-2xl shadow hover:shadow-lg transition p-6 border border-gray-100"
+              >
+                <p className="text-sm text-gray-500">
+                  Deactivated Accounts
+                </p>
+                <h2 className="text-3xl font-bold text-gray-800 mt-2">
+                  {Count.TotalDeActiveAccount}
+                </h2>
+                <div className="mt-4 h-1 w-12 bg-indigo-500 rounded-full"></div>
+              </div>
+
             </div>
 
             {/* Management Section */}
