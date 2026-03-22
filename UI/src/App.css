@@ -1,8 +1,10 @@
 @import "tailwindcss";
-.title{
+
+.title {
   background-color: red;
   font-family: 'Courier New', Courier, monospace;
 }
+
 .nav-btn {
   display: flex;
   align-items: center;
@@ -20,6 +22,7 @@
   backdrop-filter: blur(8px);
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
+
 /* hide scrollbar but keep scroll */
 /* .scrollbar-hide::-webkit-scrollbar {
   display: none;
@@ -33,6 +36,7 @@
     transform: scale(1.05);
     opacity: 0;
   }
+
   to {
     transform: scale(0.95);
     opacity: 1;
@@ -42,13 +46,16 @@
 .animate-popupZoomOut {
   animation: popupZoomOut 0.25s ease-out;
 }
+
 @keyframes gradientMove {
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -57,15 +64,19 @@
 .animate-gradient {
   animation: gradientMove 3s ease infinite;
 }
+
 /* .input {
   @apply w-full border border-gray-300 rounded-xl p-3 bg-white/70 
   focus:outline-none focus:ring-2 focus:ring-blue-400 
   transition duration-200;
 } */
 @keyframes statusBlink {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.4;
   }
@@ -78,8 +89,22 @@
 .blink-red {
   animation: statusBlink 1.2s infinite;
 }
+
 ::-webkit-scrollbar {
   width: 6px;
+}
+
+/* Hide scrollbar but allow scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari */
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE, Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 ::-webkit-scrollbar-thumb {
