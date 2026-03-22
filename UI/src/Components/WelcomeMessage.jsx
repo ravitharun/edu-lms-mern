@@ -1,58 +1,13 @@
-// import React from "react";
-// import { UserName } from "../Apis/Islogin";
-
-// function WelcomeMessage() {
-//   const name = UserName?.name || "Tharun Kumar";
-//   const role = UserName?.role || "Teacher";
-
-//   return (
-//     <div className="w-full bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-lg flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-
-//       {/* Left Section */}
-//       <div>
-//         <h1 className="text-3xl font-bold">
-//           Welcome back, {name} 👋
-//         </h1>
-
-//         <p className="mt-2 text-sm text-indigo-100">
-//           {role === "Admin"
-//             ? "Manage teachers, students, subjects and platform activities."
-//             : "Manage your courses, track students and upload materials."}
-//         </p>
-
-//         <div className="mt-4">
-//           <span className="bg-white/20 px-4 py-1 rounded-full text-sm">
-//             {role}
-//           </span>
-//         </div>
-//       </div>
-
-//       {/* Right Section */}
-//       <div className="flex gap-3 flex-wrap">
-
-//         <button className="bg-white text-indigo-700 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition">
-//           View Courses
-//         </button>
-
-//         {role === "Admin" && (
-//           <button className="bg-indigo-900 px-4 py-2 rounded-lg font-medium hover:bg-indigo-800 transition">
-//             Manage Users
-//           </button>
-//         )}
-
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default WelcomeMessage;
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { UserName } from "../Apis/Islogin";
 import { Link } from "react-router-dom";
-
+import toast from "react-hot-toast";
+import axios from "axios"
 function WelcomeMessage() {
     const name = UserName?.name || "Tharun Kumar";
     const role = UserName?.role || "Teacher";
+    
+
 
     return (
         <div className="bg-white rounded-2xl shadow-md p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between transition hover:shadow-lg">
