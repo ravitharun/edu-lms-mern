@@ -30,7 +30,6 @@ function ClassTimings() {
 
                 let newrs = `${sem} ${StudentsYearDepartment.split(" ")[1]}YEAR`.replace(/\s+/g, "-");
 
-                console.log(newrs);
 
 
 

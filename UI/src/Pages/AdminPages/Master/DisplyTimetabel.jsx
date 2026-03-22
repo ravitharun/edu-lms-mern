@@ -14,7 +14,6 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
   const locales = {
     "en-US": enUS,
   };
-
   const localizer = dateFnsLocalizer({
     format,
     parse,
@@ -22,9 +21,7 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
     getDay,
     locales,
   });
-
-  // ✅ Convert backend data → calendar format
-  // if(events.length>=1){}
+  console.log(localizer)
   const formattedEvents = useMemo(() => {
     return events.map((evt) => ({
       title: evt.AddSubject + " " + (evt.SemesterByyear), // required
@@ -33,10 +30,8 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
       allDay: false,
     }));
   }, [events]);
-
   const handleSelectEvent = (event) => {
     console.log("Clicked Event:", event);
-    // Addfunction(event);
     if (UserName.role == "Teacher" || UserName.role == "Admin") {
       return Addfunction(event);
     }
@@ -50,68 +45,122 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
     }
 
   };
-
+  const now = new Date()
+  console.log(formattedEvents[0]?.end, "formattedEvents")
+  console.log(formattedEvents[0]?.start, "formattedEvents")
   return (
-    <div className="p-4 space-y-6">
+    <>
 
-      {/* Section Header */}
-      {handelYear && (
-        <div className="flex justify-center">
-          <div className="bg-gradient-to-r from-blue-50 to-blue-100 shadow-sm rounded-xl px-6 py-4 text-center border w-full max-w-md">
 
-            <h2 className="text-lg font-semibold text-blue-700">
-              {handelYear}
-            </h2>
+      <div className="p-4 space-y-6">
 
-            {events.length === 0 && (
-              <p className="text-sm text-gray-600 mt-1">
-                No timetable added for this section
-              </p>
-            )}
+        {/* Section Header */}
+        {handelYear && (
+          <div className="flex justify-center">
+            <div className="bg-gradient-to-r from-blue-50 to-blue-100 shadow-sm rounded-xl px-6 py-4 text-center border w-full max-w-md">
+
+              <h2 className="text-lg font-semibold text-blue-700">
+                {handelYear}
+              </h2>
+
+              {events.length === 0 && (
+                <p className="text-sm text-gray-600 mt-1">
+                  No timetable added for this section
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-      )}
-
-      {/* Calendar Container */}
-      <div className="bg-white rounded-2xl shadow-lg p-4 border">
-
-        {events.length ==0  ? (
-          <div className="flex flex-col items-center justify-center h-[400px] text-center">
-
-            <p className="text-gray-500 mb-3">
-              No {UserName.role == "Teacher" || UserName.role == "Admin" ? "events" : "Time Table"} available
-            </p>
-
-            {UserName.role == "Teacher" || UserName.role == "Admin" ? <button
-              onClick={() => Addfunction()}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition"
-            >
-              + Add Timetable
-            </button> :
-              ""
-            }
-
-          </div>
-        ) : (
-          <Calendar
-            localizer={localizer}
-            events={formattedEvents}   // ✅ always array
-            startAccessor="start"
-            endAccessor="end"
-            style={{ height: 500 }}
-            selectable
-            onSelectEvent={handleSelectEvent}
-            onSelectSlot={handleSelectSlot}
-            className="rounded-lg"
-            // defaultView="Week
-            //  defaultView={Views.WEEK}"
-             defaultView={UserName?.role=="students"?Views.AGENDA:Views.MONTH}
-            
-          />
         )}
 
+        {/* Calendar Container */}
+        <div className="bg-white rounded-2xl shadow-lg p-4 border">
+
+          {events.length == 0 ? (
+            <div className="flex flex-col items-center justify-center h-[400px] text-center">
+
+              <p className="text-gray-500 mb-3">
+                No {UserName.role == "Teacher" || UserName.role == "Admin" ? "events" : "Time Table"} available
+              </p>
+
+              {UserName.role == "Teacher" || UserName.role == "Admin" ? <button
+                onClick={() => Addfunction()}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition"
+              >
+                + Add Timetable
+              </button> :
+                ""
+              }
+
+            </div>
+          ) : (
+            <>
+
+
+
+              <span
+                className={`inline-block px-3 py-1 rounded-lg font-semibold text-white ${new Date().getDay() === 0 ? "bg-red-500" : "bg-green-400"
+                  }`}
+              >
+                Today Status: {new Date().getDay() === 0 ? "Holiday" : "Working Day"}
+              </span>
+              <Calendar
+                localizer={localizer}
+                events={formattedEvents}   // ✅ always array
+                startAccessor="start"
+                endAccessor="end"
+                style={{ height: 500 }}
+                selectable
+                onSelectEvent={handleSelectEvent}
+                onSelectSlot={handleSelectSlot}
+                dayPropGetter={(date) => {
+                  // 0 = Sunday
+                  // title="i"
+                  const isSunday = date.getDay() === 0;
+
+                  return {
+                    style: {
+                      backgroundColor: isSunday ? "#f87171" : "transparent", // red for Sunday
+                      borderRadius: "0.5rem",
+                      color: isSunday ? "white" : "black", // text color for visibility
+                      fontWeight: "bold",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    },
+                    // Add a label inside the day cell
+                    title: isSunday ? "Holiday" : "", // shows tooltip on hover
+                  };
+                }}
+
+                eventPropGetter={(event) => {
+                  const now = new Date();
+                  const isRunning =
+                    new Date(event.start) <= now && new Date(event.end) >= now;
+
+                  return {
+                    style: {
+                      backgroundColor: isRunning ? "#34d399" : "#d1d5db", // green / gray
+                      color: "white",
+                      borderRadius: "0.5rem",
+                      border: "none",
+                      padding: "2px 4px",
+                      transition: "transform 0.6s ease, opacity 0.6s ease",
+                      transform: isRunning ? "scale(3.05)" : "scale(1)",
+                      opacity: isRunning ? 0.8 : 1,
+                    },
+                  };
+                }}
+                defaultView={UserName?.role == "students" ? Views.AGENDA : Views.MONTH}
+
+              />
+            </>
+
+          )}
+
+        </div>
       </div>
-    </div>
+    </>
+
   );
 }
 
