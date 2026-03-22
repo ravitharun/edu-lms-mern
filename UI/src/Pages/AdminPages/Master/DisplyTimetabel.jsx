@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import { Calendar, dateFnsLocalizer, Views } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import format from "date-fns/format";
@@ -7,10 +7,10 @@ import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import enUS from "date-fns/locale/en-US";
+import { UserName } from "../../../Apis/Islogin";
 
 function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
-  console.log(role)
-  console.log(events.length, "events from events")
+
   const locales = {
     "en-US": enUS,
   };
@@ -37,14 +37,15 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
   const handleSelectEvent = (event) => {
     console.log("Clicked Event:", event);
     // Addfunction(event);
-    if (role == "Teacher" || role == "Admin") {
+    if (UserName.role == "Teacher" || UserName.role == "Admin") {
       return Addfunction(event);
     }
   };
 
   const handleSelectSlot = ({ start, end }) => {
     console.log(start, end);
-    if (role == "Teacher" || role == "Admin") {
+    console.log(UserName?.role)
+    if (UserName.role == "Teacher" || UserName.role == "Admin") {
       return Addfunction(start, end);
     }
 
@@ -74,14 +75,14 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
       {/* Calendar Container */}
       <div className="bg-white rounded-2xl shadow-lg p-4 border">
 
-        {events.length === 0 ? (
+        {events.length ==0  ? (
           <div className="flex flex-col items-center justify-center h-[400px] text-center">
 
             <p className="text-gray-500 mb-3">
-              No {role == "Teacher" || role == "Admin" ? "events" : "Time Table"} available
+              No {UserName.role == "Teacher" || UserName.role == "Admin" ? "events" : "Time Table"} available
             </p>
 
-            {role == "Teacher" || role == "Admin" ? <button
+            {UserName.role == "Teacher" || UserName.role == "Admin" ? <button
               onClick={() => Addfunction()}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition"
             >
@@ -102,6 +103,10 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
             onSelectEvent={handleSelectEvent}
             onSelectSlot={handleSelectSlot}
             className="rounded-lg"
+            // defaultView="Week
+            //  defaultView={Views.WEEK}"
+             defaultView={UserName?.role=="students"?Views.AGENDA:Views.MONTH}
+            
           />
         )}
 
