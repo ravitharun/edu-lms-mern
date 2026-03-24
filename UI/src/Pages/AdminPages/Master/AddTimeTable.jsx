@@ -131,6 +131,8 @@ function AddTimeTable() {
                             </select>
 
                         </div>
+
+
                         {Isopen && (
                             <div className="fixed inset-0 flex items-center justify-center pointer-events-none z-50 px-3">
 
@@ -273,6 +275,7 @@ function AddTimeTable() {
 
                             <DisplyTimetabel Addfunction={handelTimetable} isclose={Isopen} events={filterBysem} handelYear={GetTimeTableByYear}></DisplyTimetabel>
                         </div>
+                        
                     </main>
 
                 </div>

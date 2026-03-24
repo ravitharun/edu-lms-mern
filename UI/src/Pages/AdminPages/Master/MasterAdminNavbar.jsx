@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaBars, FaTimes, FaTachometerAlt, FaBook, FaChalkboardTeacher, FaUsers, FaUserGraduate, FaCog, FaUser, FaCheck, FaUserCheck, FaPowerOff, FaBullhorn, FaCalendarAlt } from "react-icons/fa";
+import { FaBars, FaTimes, FaTachometerAlt, FaBook, FaChalkboardTeacher, FaUsers, FaUserGraduate, FaCog, FaUser, FaCheck, FaUserCheck, FaPowerOff, FaBullhorn, FaCalendarAlt, FaRegCalendarAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { handleLogout, UserLogin } from "../../../Apis/Islogin";
 import { handelLogin } from "../../../Apis/Signup";
@@ -8,9 +8,9 @@ import Board from "./Board";
 import LogoAdmin from "./LogoAdmin";
 
 function MasterAdminNavbar({ path, Active }) {
-  // console.log({ path, Active })
+  console.log({ path, Active })
   const [open, setOpen] = useState(true);
-    // console.log(open, 'opn')
+  // console.log(open, 'opn')
   return (
     <>
       {/* Mobile Top Bar - Only on mobile */}
@@ -90,13 +90,13 @@ function MasterAdminNavbar({ path, Active }) {
           <SidebarItem icon={<FaChalkboardTeacher />} title="Assign Teachers" url="/admin/Assign-Teachers" active={Active} path={path} />
           <SidebarItem icon={<FaUserGraduate />} title="Reports" url="/admin/Reports" path={path} active={Active} />
           <SidebarItem icon={<FaChalkboardTeacher />} title="Teachers" url="/admin/Teachers" path={path} active={Active} />
-          {/* <SidebarItem icon={<FaCog />} title="Settings" url="/admin/" /> */}
+          <SidebarItem icon={<FaRegCalendarAlt />} title=" Add Holidays" url="/admin/Uploadholidays" />
 
           <SidebarItem icon={<FaUsers />} title="Students" url="/admin/Studenta" path={path} active={Active} />
-          <SidebarItem icon={<FaCalendarAlt  />} title="TimeTable" url="/admin/AddTimeTable" path={path} active={Active} />
+          <SidebarItem icon={<FaCalendarAlt />} title="TimeTable" url="/admin/AddTimeTable" path={path} active={Active} />
           <SidebarItem icon={<FaUser />} title="Profile" url="/admin/Profile" path={path} active={Active} />
           <SidebarItem icon={<HiOutlineExclamationCircle />} title="Issues" url="/admin/Issues" path={path} active={Active} />
-          <SidebarItem icon={<FaBullhorn  />} title="Annoncement" url="/admin/Annoncement" path={path} active={Active} />
+          <SidebarItem icon={<FaBullhorn />} title="Annoncement" url="/admin/Annoncement" path={path} active={Active} />
           {<>
 
             {UserLogin && <SidebarItem icon={<FaPowerOff />} title="LogOut" path={path} active={Active} onClick={handleLogout} />}

@@ -39,6 +39,7 @@ import TeacherAcademicCalendar from './Pages/AdminPages/TeacherAcademicCalendar.
 import { UserName } from './Apis/Islogin.js';
 import AddTimeTable from './Pages/AdminPages/Master/AddTimeTable.jsx';
 import ClassTimings from './Pages/StudentPages/ClassTimings.jsx';
+import AdminMangeholidays from './Pages/AdminPages/Master/AdminMangeholidays.jsx';
 
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
@@ -254,6 +255,14 @@ createRoot(document.getElementById('root')).render(
           element={
             <ProtectedRoute allowedRoles={["Admin"]}>
               <AddTimeTable />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/Uploadholidays"
+          element={
+            <ProtectedRoute allowedRoles={["Admin"]}>
+              <AdminMangeholidays />
             </ProtectedRoute>
           }
         />

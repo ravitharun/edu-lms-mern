@@ -20,8 +20,9 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
     startOfWeek,
     getDay,
     locales,
+
   });
-  console.log(localizer)
+
   const formattedEvents = useMemo(() => {
     return events.map((evt) => ({
       title: evt.AddSubject + " " + (evt.SemesterByyear), // required
@@ -46,8 +47,11 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
 
   };
   const now = new Date()
-  console.log(formattedEvents[0]?.end, "formattedEvents")
-  console.log(formattedEvents[0]?.start, "formattedEvents")
+  const holidays = [
+    "2026-03-25",
+    "2026-03-29",
+    "2026-04-01"
+  ];
   return (
     <>
 
@@ -113,10 +117,18 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
                 onSelectEvent={handleSelectEvent}
                 onSelectSlot={handleSelectSlot}
                 dayPropGetter={(date) => {
-                  // 0 = Sunday
-                  // title="i"
-                  const isSunday = date.getDay() === 0;
 
+                  // console.log(holidays, "holidays")
+                  const isSunday = date.getDay() === 0;
+                  const formatted = format(date, "yyyy-MM-dd");
+                  if (holidays.includes(formatted)) {
+                    console.log("first")
+                    return{
+                      style:{
+                        backgroundColor:"green"
+                      }
+                    }
+                  }
                   return {
                     style: {
                       backgroundColor: isSunday ? "#f87171" : "transparent", // red for Sunday
@@ -133,6 +145,7 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
                 }}
 
                 eventPropGetter={(event) => {
+                  // console.log(holidays,"holidaysss")
                   const now = new Date();
                   const isRunning =
                     new Date(event.start) <= now && new Date(event.end) >= now;
