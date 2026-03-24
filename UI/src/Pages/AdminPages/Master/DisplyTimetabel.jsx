@@ -8,6 +8,7 @@ import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import enUS from "date-fns/locale/en-US";
 import { UserName } from "../../../Apis/Islogin";
+import { number, string } from "prop-types";
 
 function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
 
@@ -20,8 +21,9 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
     startOfWeek,
     getDay,
     locales,
+
   });
-  console.log(localizer)
+
   const formattedEvents = useMemo(() => {
     return events.map((evt) => ({
       title: evt.AddSubject + " " + (evt.SemesterByyear), // required
@@ -46,8 +48,24 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
 
   };
   const now = new Date()
-  console.log(formattedEvents[0]?.end, "formattedEvents")
-  console.log(formattedEvents[0]?.start, "formattedEvents")
+  console.log(now)
+  const holidays = [
+    { text: "Holiday 1", start: "2026-03-25" },
+    { text: "Holiday 1", start: "2026-03-24" },
+    { text: "Holiday 2", start: "2026-03-29" },
+    { text: "Holiday 3", start: "2026-04-01" },
+  ];
+  const holidaysDate = holidays.map((pe) => pe.start)
+  //  ['2026-03-25', '2026-03-24', '2026-03-29', '2026-04-01']
+  const todayHolidays = holidaysDate.filter(
+    (checkdt) => new Date(checkdt).toLocaleDateString() === now.toLocaleDateString()
+  );
+
+  const isToday =
+    new Date(todayHolidays[0]).toDateString() === now.toDateString();
+  console.log(isToday, "todayHolidays")
+
+
   return (
     <>
 
@@ -98,10 +116,11 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
 
 
               <span
-                className={`inline-block px-3 py-1 rounded-lg font-semibold text-white ${new Date().getDay() === 0 ? "bg-red-500" : "bg-green-400"
+                className={`inline-block px-3 py-1 rounded-lg font-semibold text-white ${new Date().getDay() === 0 ? "bg-red-500" : isToday ? "bg-red-500" : "bg-green-400"
                   }`}
               >
-                Today Status: {new Date().getDay() === 0 ? "Holiday" : "Working Day"}
+                Today Status : {new Date().getDay() === 0 ? "Holiday" : isToday ? "Holiday" : "Working Day"}
+
               </span>
               <Calendar
                 localizer={localizer}
@@ -112,11 +131,20 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
                 selectable
                 onSelectEvent={handleSelectEvent}
                 onSelectSlot={handleSelectSlot}
-                dayPropGetter={(date) => {
-                  // 0 = Sunday
-                  // title="i"
-                  const isSunday = date.getDay() === 0;
 
+                dayPropGetter={(date) => {
+
+                  // console.log(holidays, "holidays")
+                  const isSunday = date.getDay() === 0;
+                  const formatted = format(date, "yyyy-MM-dd");
+                  if (holidaysDate?.includes(formatted)) {
+                    console.log("first")
+                    return {
+                      style: {
+                        backgroundColor: "green"
+                      }
+                    }
+                  }
                   return {
                     style: {
                       backgroundColor: isSunday ? "#f87171" : "transparent", // red for Sunday
@@ -133,6 +161,7 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
                 }}
 
                 eventPropGetter={(event) => {
+                  // console.log(holidays,"holidaysss")
                   const now = new Date();
                   const isRunning =
                     new Date(event.start) <= now && new Date(event.end) >= now;
