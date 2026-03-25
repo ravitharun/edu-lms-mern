@@ -9,12 +9,15 @@ import * as XLSX from "xlsx";
 import axios from 'axios'
 import DownloadReports from './DownloadReports'
 import { FaCloudDownloadAlt } from "react-icons/fa";
+import FetechHoliday from './FetechHoliday'
 function AdminMangeholidays() {
     const [date, setdata] = useState([])
     const [File, setfile] = useState(null)
     const handelFileUpload = (e) => {
+        toast.success("hey")
         const file = e.target.files[0]
-        const typeAccept = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]
+        console.log(file, "file")
+        const typeAccept = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "text/csv"]
         if (!typeAccept.includes(file.type)) {
             return toast.error("only Accept CSV or Excel  Fromat")
         }
@@ -26,19 +29,18 @@ function AdminMangeholidays() {
     }
     const upload = () => {
         if (!File) { return toast.error("File is required") }
+
         const reader = new FileReader();
         reader.onload = async (evt) => {
             const bstr = evt.target.result;
             const workbook = XLSX.read(bstr, { type: "binary" });
-
             // Get first sheet
             const sheetName = workbook.SheetNames[0];
             const sheet = workbook.Sheets[sheetName];
 
 
             // Convert to JSON
-            const jsonData = XLSX.utils.sheet_to_json(sheet, { defval: "", header: 1 });
-
+            const jsonData = XLSX.utils.sheet_to_json(sheet, { defval: "" });
             // const CheckHeader = [
             //     "Sr. No.",
             //     "USN",
@@ -57,9 +59,23 @@ function AdminMangeholidays() {
             //     return toast.error("Some required headings are missing. Please check the file.");
             // }
             // console.log("Headers are correct!");
-            const response = await axios.post("http://localhost:5001/api/Manageholiday/AddHolidays", { data: jsonData })
-            console.log(response, "response holidya")
-            console.log(jsonData, "data");
+            try {
+                const response = await axios.post("http://localhost:5001/api/Manageholiday/AddHolidays", { data: jsonData })
+                console.log(response, "response holidya")
+                if (response.status == 201) {
+
+                    return toast.success("Data Saved.")
+
+                }
+
+            } catch (error) {
+                console.log(error, "err")
+                if (error.status == 409) {
+                    return toast.error(
+                        "All holidays already exist in database")
+                }
+            }
+
         };
 
 
@@ -131,11 +147,14 @@ function AdminMangeholidays() {
                                 </div> : ""
 
                             }
+                            <FetechHoliday></FetechHoliday>
                         </div>
                     </main>
                 </div>
             </div>
-        </>)
+        </>
+
+    )
 }
 
 export default AdminMangeholidays
