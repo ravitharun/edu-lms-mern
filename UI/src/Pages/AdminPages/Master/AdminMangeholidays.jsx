@@ -41,6 +41,9 @@ function AdminMangeholidays() {
 
             // Convert to JSON
             const jsonData = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+            console.log(
+
+                jsonData)
             // const CheckHeader = [
             //     "Sr. No.",
             //     "USN",
@@ -83,7 +86,7 @@ function AdminMangeholidays() {
 
     }
     const data = [
-        { text: "Holiday Name", start: "2026-03-25", type: "Govt Holiday/College Holiadys" },
+        { text: "Holiday Name", start: new Date("2026-03-25").toLocaleDateString(), type: "Govt Holiday/College Holiadys" },
 
     ];
     return (
