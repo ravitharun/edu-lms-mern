@@ -161,7 +161,6 @@ function AdminMangeholidays() {
                                                         </span>{" "}
                                                         include all required fields. Fill in your data and upload it using the button below.
                                                     </p>
-
                                                     <div className="mt-2">
                                                         <DownloadReports
                                                             data={data}
