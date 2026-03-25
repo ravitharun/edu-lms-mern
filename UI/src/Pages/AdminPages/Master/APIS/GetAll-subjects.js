@@ -3,9 +3,14 @@ import { handleLogout, UserLogin, Header_Token_expry } from "../../../../Apis/Is
 import toast from "react-hot-toast"
 import { useNavigate } from "react-router-dom"
 
-export const fetchAllSubjects = async () => {
+export const fetchAllSubjects = async (page) => {
     try {
-        const response = await axios.get("http://localhost:5001/api/subjects/get/subjects", Header_Token_expry)
+        console.log(page, "page")
+        const response = await axios.get("http://localhost:5001/api/subjects/get/subjects", Header_Token_expry, {
+            params: {
+                page: page
+            }
+        },)
         return response
     }
     catch (err) {
@@ -117,15 +122,15 @@ export const GetallStudentsProfile = async () => {
     }
 
 }
-export const HandelUnassignApi = async (id, techerid,type,action) => {
-    const info = { id, techerid ,type,action}
+export const HandelUnassignApi = async (id, techerid, type, action) => {
+    const info = { id, techerid, type, action }
     console.log(info, 'id From api Call')
 
     try {
         const response = await axios.delete("http://localhost:5001/api/AssignSubjects/Delete/AssiginSubjects", {
-          
-                data: info
-            
+
+            data: info
+
         },
         )
 

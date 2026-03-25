@@ -20,16 +20,16 @@ function AssiginSubject() {
     const [year, setYear] = useState("");
     const [dept, setDept] = useState("");
     const [fillterdeletd, seflltes] = useState([])
-
-    useEffect(() => {
-        fun()
-    }, [])
+    const [page, setpage] = useState(1)
+    // useEffect(() => {
+    //     fun()
+    // }, [])
 
     useEffect(() => {
         const get = async () => {
             try {
                 setloader(true);
-                const rsdata = await fetchAllSubjects();
+                const rsdata = await fetchAllSubjects(page);
                 setallData(rsdata.data?.message);
                 setOriginalData(rsdata.data?.message);
                 setloader(false);
@@ -38,7 +38,7 @@ function AssiginSubject() {
             }
         };
         get();
-    }, []);
+    }, [page]);
 
     const handleSearch = (e) => {
         const search = e.target.value.toLowerCase();
@@ -264,7 +264,7 @@ function AssiginSubject() {
                                         <tr>
                                             <td colSpan={4} className="py-16">
                                                 <div className="flex items-center justify-center">
-                                                    <Dataloading path="Subjects are "/>
+                                                    <Dataloading path="Subjects are " />
                                                 </div>
                                             </td>
                                         </tr>
