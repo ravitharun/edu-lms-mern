@@ -13,9 +13,11 @@ import FetechHoliday from './FetechHoliday'
 function AdminMangeholidays() {
     const [date, setdata] = useState([])
     const [File, setfile] = useState(null)
+    const [cancelFileUpload, setcancelFileUpload] = useState(false)
     const handelFileUpload = (e) => {
         toast.success("hey")
         const file = e.target.files[0]
+
         console.log(file, "file")
         const typeAccept = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "text/csv"]
         if (!typeAccept.includes(file.type)) {
@@ -24,10 +26,12 @@ function AdminMangeholidays() {
         else {
 
             setfile(file)
+            setcancelFileUpload(true)
 
         }
     }
-    const upload = () => {
+    const upload = (e) => {
+        e.preventDefault()
         if (!File) { return toast.error("File is required") }
 
         const reader = new FileReader();
@@ -66,7 +70,6 @@ function AdminMangeholidays() {
                 const response = await axios.post("http://localhost:5001/api/Manageholiday/AddHolidays", { data: jsonData })
                 console.log(response, "response holidya")
                 if (response.status == 201) {
-
                     return toast.success("Data Saved.")
 
                 }
@@ -85,10 +88,20 @@ function AdminMangeholidays() {
         reader.readAsBinaryString(File);
 
     }
+
+
     const data = [
         { text: "Holiday Name", start: new Date("2026-03-25").toLocaleDateString(), type: "Govt Holiday/College Holiadys" },
 
     ];
+
+
+    const handelCancelUpload = () => {
+        console.log("first")
+        setcancelFileUpload(false);
+        setfile(null)
+    }
+
     return (
         <>
             <div className="min-h-screen flex bg-gray-50">
@@ -111,45 +124,67 @@ function AdminMangeholidays() {
                                     Upload holiday dates via CSV or Excel <strong className='text-red-500'>YYYY-MM-DD</strong> to update the calendar for everyone.
                                 </p>
                             </div>
-                            {UserName?.role == "Admin" || UserName?.role == "teacher" ?
-                                <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg border border-gray-200">
-                                    <label
-                                        htmlFor="holiday-upload"
-                                        className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all duration-200"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12v9m0 0l-3-3m3 3l3-3M12 3v9" />
-                                        </svg>
-                                        <span className="text-gray-600 font-medium">Drag & Drop or Click to Upload</span>
-                                        <span className="text-gray-400 text-sm mt-1">Supported: CSV, Excel</span>
-                                        <input id="holiday-upload" type="file" className="hidden" accept=".csv,.xlsx" onChange={(e) => handelFileUpload(e)} />
-                                    </label>
-                                    <p className="flex items-center text-sm text-gray-600 mt-2">
-                                        <AiOutlineInfoCircle className='text-red-500 mr-1 ' size={22}   ></AiOutlineInfoCircle>
-                                        <span>
-                                            Note: Include all required fields in your upload (e.g., date in <strong className='text-gray-900'>YYYY-MM-DD</strong> format).
-                                        </span>
-                                    </p>
-                                    <p className="flex items-center text-sm text-gray-600 mt-2">
-                                        <FaCloudDownloadAlt className="text-blue-500 mr-2" size={22} />
-                                        <span>
-                                            <strong className='text-gray-900'>Default Templates</strong>: These include all the required fields. Fill in your data and upload it using the button below.{" "}
-                                            <DownloadReports
-                                                data={data}
-                                                buttonName="Default Templates"
-                                                fileName="Default Templates Bulk Holiday"
-                                            />
-                                        </span>
-                                    </p>
-                                    <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+                            <form >
+                                {UserName?.role == "Admin" || UserName?.role == "teacher" ?
+                                    <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg border border-gray-200">
+                                        <label
+                                            htmlFor="holiday-upload"
+                                            className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all duration-200"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M12 12v9m0 0l-3-3m3 3l3-3M12 3v9" />
+                                            </svg>
+                                            <span className="text-gray-600 font-medium">Drag & Drop or Click to Upload</span>
+                                            <span className="text-gray-400 text-sm mt-1">Supported: CSV, Excel</span>
+                                            <input id="holiday-upload" type="file" className="hidden" accept=".csv,.xlsx" onChange={(e) => handelFileUpload(e)} required />
+                                        </label>
 
-                                        onClick={upload}
-                                    >
-                                        Upload
-                                    </button>
-                                </div> : ""
+                                        <div className="mt-3 p-3 rounded-lg bg-gray-50 border border-gray-200 space-y-3">
 
-                            }
+                                            {/* Note Section */}
+                                            <div className="flex items-start gap-2 text-sm text-gray-600">
+                                                <AiOutlineInfoCircle className="text-red-500 mt-0.5" size={20} />
+                                                <p>
+                                                    <span className="font-medium text-gray-900">Note:</span> Include all required fields in your upload (e.g., date in{" "}
+                                                    <strong className="text-gray-900">YYYY-MM-DD</strong> format).
+                                                </p>
+                                            </div>
+
+                                            {/* Download Section */}
+                                            <div className="flex items-start gap-3">
+                                                <FaCloudDownloadAlt className="text-blue-500 mt-1" size={20} />
+
+                                                <div className="text-sm text-gray-600 leading-relaxed">
+                                                    <p>
+                                                        <span className="font-semibold text-gray-900">
+                                                            Default Templates
+                                                        </span>{" "}
+                                                        include all required fields. Fill in your data and upload it using the button below.
+                                                    </p>
+
+                                                    <div className="mt-2">
+                                                        <DownloadReports
+                                                            data={data}
+                                                            show_type="linktype"
+                                                            buttonName="Default Templates"
+                                                            fileName="Default Templates Bulk Holiday"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        {cancelFileUpload && <button className="mt-4 w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200" onClick={handelCancelUpload}>Cancel Upload</button>}
+                                        <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
+
+                                            onClick={upload}
+                                        >
+                                            Upload
+                                        </button>
+                                    </div> : ""
+
+                                }
+                            </form>
                             <FetechHoliday></FetechHoliday>
                         </div>
                     </main>
