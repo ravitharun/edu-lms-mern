@@ -50,20 +50,23 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
   const now = new Date()
   console.log(now)
   const holidays = [
-    { text: "Holiday 1", start: "2026-03-25" },
-    { text: "Holiday 1", start: "2026-03-24" },
-    { text: "Holiday 2", start: "2026-03-29" },
-    { text: "Holiday 3", start: "2026-04-01" },
+    { text: "Holiday 1", start: "2026-03-25", type: "Govt Holiday" },
+    { text: "Holiday 1", start: "2026-03-24", type: "college Holiday" },
+    { text: "Holiday 2", start: "2026-03-29", type: "college Holiday" },
+    { text: "Holiday 3", start: "2026-04-01", type: "Govt Holiday" },
   ];
   const holidaysDate = holidays.map((pe) => pe.start)
   //  ['2026-03-25', '2026-03-24', '2026-03-29', '2026-04-01']
   const todayHolidays = holidaysDate.filter(
     (checkdt) => new Date(checkdt).toLocaleDateString() === now.toLocaleDateString()
   );
+  const typeholiday = holidays.map((Type) => Type)
+  const Filter_typeholiday = typeholiday.filter((Type) => Type)
+  console.log(Filter_typeholiday, "Filter_typeholiday")
+
 
   const isToday =
     new Date(todayHolidays[0]).toDateString() === now.toDateString();
-  console.log(isToday, "todayHolidays")
 
 
   return (
@@ -89,7 +92,26 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
             </div>
           </div>
         )}
+        {/* label */}
+        <div className="flex flex-col gap-2 p-4">
+          {/* Sunday */}
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-red-500 rounded"></div>
+            <span>Sunday</span>
+          </div>
 
+          {/* Normal/Festival holidays */}
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-green-500 rounded"></div>
+            <span>Normal/Festival holidays</span>
+          </div>
+
+          {/* College holidays */}
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 bg-yellow-400 rounded"></div>
+            <span>College holidays</span>
+          </div>
+        </div>
         {/* Calendar Container */}
         <div className="bg-white rounded-2xl shadow-lg p-4 border">
 
@@ -137,14 +159,17 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
                   // console.log(holidays, "holidays")
                   const isSunday = date.getDay() === 0;
                   const formatted = format(date, "yyyy-MM-dd");
+                  const holidaytypes = ["Govt Holiday", "college holiday"]
                   if (holidaysDate?.includes(formatted)) {
-                    console.log("first")
                     return {
                       style: {
-                        backgroundColor: "green"
+                        backgroundColor: holidaysDate ? "green" : "yellow"
                       }
                     }
                   }
+
+
+
                   return {
                     style: {
                       backgroundColor: isSunday ? "#f87171" : "transparent", // red for Sunday
@@ -155,7 +180,6 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
                       justifyContent: "center",
                       alignItems: "center",
                     },
-                    // Add a label inside the day cell
                     title: isSunday ? "Holiday" : "", // shows tooltip on hover
                   };
                 }}

@@ -6,6 +6,9 @@ import { UserName } from '../../../Apis/Islogin'
 import { IoMdInformationCircle } from "react-icons/io";
 import { AiOutlineInfoCircle } from "react-icons/ai"; // info icon
 import * as XLSX from "xlsx";
+import axios from 'axios'
+import DownloadReports from './DownloadReports'
+import { FaCloudDownloadAlt } from "react-icons/fa";
 function AdminMangeholidays() {
     const [date, setdata] = useState([])
     const [File, setfile] = useState(null)
@@ -24,7 +27,7 @@ function AdminMangeholidays() {
     const upload = () => {
         if (!File) { return toast.error("File is required") }
         const reader = new FileReader();
-        reader.onload = (evt) => {
+        reader.onload = async (evt) => {
             const bstr = evt.target.result;
             const workbook = XLSX.read(bstr, { type: "binary" });
 
@@ -36,29 +39,37 @@ function AdminMangeholidays() {
             // Convert to JSON
             const jsonData = XLSX.utils.sheet_to_json(sheet, { defval: "", header: 1 });
 
-            const CheckHeader = [
-                "Sr. No.",
-                "USN",
-                "College Name",
-                "Fulll Name (as per Aadhar card )",
-                "Email ID (Primary)"
-            ];
+            // const CheckHeader = [
+            //     "Sr. No.",
+            //     "USN",
+            //     "College Name",
+            //     "Fulll Name (as per Aadhar card )",
+            //     "Email ID (Primary)"
+            // ];
 
-            const uploadedHeaders = jsonData[0] || [];
+            // const uploadedHeaders = jsonData[0] || [];
 
-            const allHeadersExist = CheckHeader.every(header =>
-                uploadedHeaders.includes(header)
-            );
+            // const allHeadersExist = CheckHeader.every(header =>
+            //     uploadedHeaders.includes(header)
+            // );
 
-            if (!allHeadersExist) {
-                return toast.error("Some required headings are missing. Please check the file.");
-            }
-            console.log("Headers are correct!");
-            console.log(jsonData);
+            // if (!allHeadersExist) {
+            //     return toast.error("Some required headings are missing. Please check the file.");
+            // }
+            // console.log("Headers are correct!");
+            const response = await axios.post("http://localhost:5001/api/Manageholiday/AddHolidays", { data: jsonData })
+            console.log(response, "response holidya")
+            console.log(jsonData, "data");
         };
+
+
         reader.readAsBinaryString(File);
 
     }
+    const data = [
+        { text: "Holiday Name", start: "2026-03-25", type: "Govt Holiday/College Holiadys" },
+
+    ];
     return (
         <>
             <div className="min-h-screen flex bg-gray-50">
@@ -98,6 +109,17 @@ function AdminMangeholidays() {
                                         <AiOutlineInfoCircle className='text-red-500 mr-1 ' size={22}   ></AiOutlineInfoCircle>
                                         <span>
                                             Note: Include all required fields in your upload (e.g., date in <strong className='text-gray-900'>YYYY-MM-DD</strong> format).
+                                        </span>
+                                    </p>
+                                    <p className="flex items-center text-sm text-gray-600 mt-2">
+                                        <FaCloudDownloadAlt className="text-blue-500 mr-2" size={22} />
+                                        <span>
+                                            <strong className='text-gray-900'>Default Templates</strong>: These include all the required fields. Fill in your data and upload it using the button below.{" "}
+                                            <DownloadReports
+                                                data={data}
+                                                buttonName="Default Templates"
+                                                fileName="Default Templates Bulk Holiday"
+                                            />
                                         </span>
                                     </p>
                                     <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
