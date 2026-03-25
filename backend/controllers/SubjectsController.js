@@ -33,13 +33,19 @@ const SubjectsSchemaController = async (req, res) => {
 };
 const fetchAllSubjects = async (req, res) => {
     try {
-        const data = await subject.find({})
-        const authorizationToken = req.headers['authorization'];
-        // const data=[]
+        
+        let { page } = req.query
+        if (!page) {
+            page = Number(page) || 1;
+        }
+        const limit = 4
+        let skip = (page - 1) * limit
+        const data = await subject.find({}).skip(skip).limit(limit)
+        const totalLength = await subject.countDocuments();
         if (data.length == 0) {
             return res.status(404).json({ message: "No Subjects." })
         }
-        return res.status(201).json({ message: data })
+        return res.status(201).json({ message: data, length: Math.ceil(totalLength / limit), currentPgae: page })
 
     }
     catch (err) {
@@ -104,14 +110,14 @@ const StudentsInfo = async (req, res) => {
 const addByOne = async (req, res) => {
     try {
         const { data } = req.body
-        console.log(data,"Check Date From Ui")
+        console.log(data, "Check Date From Ui")
 
 
         const check_isSubjects = await subject.find({ courseId: data.subjectCode })
         console.log(check_isSubjects)
         if (!check_isSubjects) {
             console.log('hi')
-            return res.status(401).json( "These Course ID is already Exits.")
+            return res.status(401).json("These Course ID is already Exits.")
         } else {
 
 
@@ -149,4 +155,4 @@ const DeleteCourse = async (req, res) => {
     }
 }
 
-module.exports = { SubjectsSchemaController,StudentsInfo, fetchAllSubjects, fetchAllTeachers, addByOne, DeleteCourse ,fetchTeachersInfo}
+module.exports = { SubjectsSchemaController, StudentsInfo, fetchAllSubjects, fetchAllTeachers, addByOne, DeleteCourse, fetchTeachersInfo }
