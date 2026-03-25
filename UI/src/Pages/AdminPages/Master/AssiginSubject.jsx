@@ -20,7 +20,8 @@ function AssiginSubject() {
     const [year, setYear] = useState("");
     const [dept, setDept] = useState("");
     const [fillterdeletd, seflltes] = useState([])
-
+    const [page, setpage] = useState(1)
+    const [length, setlength] = useState(0)
     useEffect(() => {
         fun()
     }, [])
@@ -29,16 +30,17 @@ function AssiginSubject() {
         const get = async () => {
             try {
                 setloader(true);
-                const rsdata = await fetchAllSubjects();
+                const rsdata = await fetchAllSubjects(Number(page));
                 setallData(rsdata.data?.message);
                 setOriginalData(rsdata.data?.message);
+                setlength(rsdata.data?.length)
                 setloader(false);
             } catch (err) {
                 console.log(err.message);
             }
         };
         get();
-    }, []);
+    }, [page]);
 
     const handleSearch = (e) => {
         const search = e.target.value.toLowerCase();
@@ -264,7 +266,7 @@ function AssiginSubject() {
                                         <tr>
                                             <td colSpan={4} className="py-16">
                                                 <div className="flex items-center justify-center">
-                                                    <Dataloading path="Subjects are "/>
+                                                    <Dataloading path="Subjects are " />
                                                 </div>
                                             </td>
                                         </tr>
@@ -310,6 +312,40 @@ function AssiginSubject() {
                             </table>
                         </div>
                     </main>
+
+                    <div className="flex flex-col items-center mt-6 gap-3">
+
+                        {/* Page Info */}
+                        {page && (
+                            <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 border rounded-full shadow-sm">
+                                <span className="text-sm text-gray-600">Page</span>
+                                <span className="px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full">
+                                    {page} / {length}
+                                </span>
+                            </div>
+                        )}
+
+                        {/* Pagination Buttons */}
+                        <div className="flex flex-wrap justify-center gap-2">
+                            {[...Array(length)].map((_, i) => (
+                                <button
+                                    key={i}
+                                    onClick={() => setpage(i + 1)}
+                                    className={`px-3 py-1 text-sm rounded-md border transition-all duration-200
+        ${page === i + 1
+                                            ? "bg-blue-500 text-white border-blue-500 scale-105 shadow"
+                                            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100 hover:scale-105"
+                                        }`}
+                                >
+                                    {i + 1 == length ? "last" : i + 1}
+                                </button>
+                            ))}
+                            {/* {length >= 5 ? [...Array(length)].map((_, i) => (
+                                <button>{i + 1}</button>
+                            )) : "normal 1,2,3,4"} */}
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </>

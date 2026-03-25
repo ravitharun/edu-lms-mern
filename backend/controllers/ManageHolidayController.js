@@ -14,7 +14,6 @@ const AddholidaysBulk = async (req, res) => {
         const addedHolidays = await AddHolidays.insertMany(data, {
             ordered: false,
         });
-
         return res.status(201).json({
             message: "Holidays added successfully",
             addedCount: addedHolidays.length,
@@ -31,4 +30,41 @@ const AddholidaysBulk = async (req, res) => {
     }
 };
 
-module.exports = { AddholidaysBulk };
+const GetHolidays = async (req, res) => {
+    try {
+        let { page } = req.query;
+
+        if (!page) {
+            page = Number(page) || 1;
+        }
+        const limit = 2;
+
+
+
+        const skip = (page - 1) * limit;
+        console.log(skip, "skip")
+
+        const Holidays = await AddHolidays.find({})
+            .skip(skip)
+            .limit(limit);
+        console.log(Holidays, "Holidays")
+        const total = await AddHolidays.countDocuments();
+
+        if (Holidays.length === 0) {
+            return res.status(404).json({ message: "No holidays Added Yet." });
+        }
+
+        return res.status(200).json({
+            data: Holidays,
+            total: total,
+            totalPages: Math.ceil(total / limit),
+            currentPage: page
+        });
+
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ message: "server error." });
+    }
+};
+
+module.exports = { AddholidaysBulk, GetHolidays };
