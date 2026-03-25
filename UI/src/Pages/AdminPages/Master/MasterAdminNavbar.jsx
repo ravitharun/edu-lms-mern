@@ -90,7 +90,7 @@ function MasterAdminNavbar({ path, Active }) {
           <SidebarItem icon={<FaChalkboardTeacher />} title="Assign Teachers" url="/admin/Assign-Teachers" active={Active} path={path} />
           <SidebarItem icon={<FaUserGraduate />} title="Reports" url="/admin/Reports" path={path} active={Active} />
           <SidebarItem icon={<FaChalkboardTeacher />} title="Teachers" url="/admin/Teachers" path={path} active={Active} />
-          <SidebarItem icon={<FaRegCalendarAlt />} title=" Add Holidays" url="/admin/Uploadholidays" />
+          <SidebarItem icon={<FaRegCalendarAlt />} title="Add Holiday" url="/admin/Uploadholidays"path={path}  active={Active}/>
 
           <SidebarItem icon={<FaUsers />} title="Students" url="/admin/Studenta" path={path} active={Active} />
           <SidebarItem icon={<FaCalendarAlt />} title="TimeTable" url="/admin/AddTimeTable" path={path} active={Active} />

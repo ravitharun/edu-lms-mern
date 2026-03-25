@@ -62,7 +62,7 @@ function AdminMangeholidays() {
     return (
         <>
             <div className="min-h-screen flex bg-gray-50">
-                <MasterAdminNavbar path=" Add Holidays" />
+                <MasterAdminNavbar path="Add Holiday" />
                 <Toaster />
 
                 <div className="flex-1 flex flex-col min-w-0">
