@@ -19,6 +19,7 @@ const { HandelAcademicRouter } = require("./routes/AcandemicRouter");
 const { HandelFetchTimeTableRouter } = require("./routes/FetchTimetableRouter");
 const { apiLimiter } = require("./Middleware/ReateLimeter");
 const { Admin_UserInfo } = require("./routes/AdminUserRouter");
+const { Manageholiday } = require("./routes/AddHolidaysRouter");
 
 const app = express();
 const server = http.createServer(app);
@@ -53,6 +54,7 @@ app.use("/api/Academic", HandelAcademicRouter);
 app.use("/api/FetchStudentsTimeTabel", HandelFetchTimeTableRouter);
 app.use("/api/FetchStudentsTimeTabel", HandelFetchTimeTableRouter);
 app.use("/api/UsersCount", Admin_UserInfo);
+app.use("/api/Manageholiday", Manageholiday);
 app.use(apiLimiter)
 
 // Test root
