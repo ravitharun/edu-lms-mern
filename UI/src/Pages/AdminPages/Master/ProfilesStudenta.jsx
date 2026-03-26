@@ -351,18 +351,40 @@ function ProfilesStudenta() {
 
                         </div>
                     </main>
-                    <div className="flex justify-center items-center gap-2 mt-6">
+                    <div className="flex justify-center items-center gap-2  mb-5 mt-5">
 
                         {/* Previous Button */}
-                        <button
+                        {Page <= 1 ? <button
+                            onClick={() => setPage(prev => Math.min(prev + 1, length))}
+                            className={`px-3 py-1 text-sm font-medium rounded-md  transition ${Page==Page && 'bg-blue-500 hover:bg-blue-400 text-white '}`}
+                        >
+                            Next
+                        </button> : <>
+
+                            <button
+                                onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+                                className={`px-3 py-1 text-sm font-medium rounded-md  transition ${Page == Page && 'bg-blue-500 hover:bg-blue-400 text-white'}`}
+                            >
+                                Prev
+                            </button>
+
+                            <button
+                                onClick={() => setPage(prev => Math.min(prev + 1, length))}
+                                className={`px-3 py-1 text-sm font-medium bg-gray-200 rounded-md hover:bg-gray-300 transition ${Page == length && 'cursor-not-allowed'} `}
+                                disabled={Page == length}
+                            >
+                                Next
+                            </button>
+                        </>}
+                        {/* <button
                             onClick={() => setPage(prev => Math.max(prev - 1, 1))}
                             className="px-3 py-1 text-sm font-medium bg-gray-200 rounded-md hover:bg-gray-300 transition"
                         >
                             Prev
-                        </button>
+                        </button> */}
 
                         {/* Page Numbers */}
-                        {[...Array(length)].map((_, i) => {
+                        {/* {[...Array(length)].map((_, i) => {
                             const pageNum = i + 1;
                             const isActive = Page === pageNum;
 
@@ -379,17 +401,18 @@ function ProfilesStudenta() {
                                     {pageNum === length ? "Last" : pageNum}
                                 </button>
                             );
-                        })}
+                        })} */}
 
                         {/* Next Button */}
-                        <button
+                        {/* <button
                             onClick={() => setPage(prev => Math.min(prev + 1, length))}
                             className="px-3 py-1 text-sm font-medium bg-gray-200 rounded-md hover:bg-gray-300 transition"
                         >
                             Next
-                        </button>
+                        </button> */}
 
                     </div>
+
                 </div>
             </div>
         </>
