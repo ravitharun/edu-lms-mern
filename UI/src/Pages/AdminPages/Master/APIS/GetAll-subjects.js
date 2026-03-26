@@ -5,8 +5,8 @@ import { useNavigate, useParams } from "react-router-dom"
 
 export const fetchAllSubjects = async (page) => {
     try {
-        const response = await axios.get(`http://localhost:5001/api/subjects/get/subjects?page=${(page)}`,Header_Token_expry)
-        console.log(response,"response")
+        const response = await axios.get(`http://localhost:5001/api/subjects/get/subjects?page=${(page)}`, Header_Token_expry)
+        console.log(response, "response")
         return response
     }
     catch (err) {
@@ -82,14 +82,14 @@ export const GetAllSubjectsAssignedTeacher = async () => {
 }
 
 
-export const GetallTeacherProfile = async () => {
+export const GetallTeacherProfile = async (Page) => {
 
     try {
-        const response = await axios.get("http://localhost:5001/api/subjects/get/TeachersInfo",
+        console.log(Page, "Page")
+        const response = await axios.get(`http://localhost:5001/api/subjects/get/TeachersInfo?Page=${Page}`,
             Header_Token_expry
         )
 
-        console.log(response)
         return response
 
     } catch (error) {

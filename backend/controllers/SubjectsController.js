@@ -33,7 +33,7 @@ const SubjectsSchemaController = async (req, res) => {
 };
 const fetchAllSubjects = async (req, res) => {
     try {
-        
+
         let { page } = req.query
         if (!page) {
             page = Number(page) || 1;
@@ -72,13 +72,24 @@ const fetchAllTeachers = async (req, res) => {
 }
 const fetchTeachersInfo = async (req, res) => {
     try {
-        const data = await User.find({ role: "Teacher" })
+        const { Page } = req.query;
+        console.log(Page, "new Page")
+        if (!Page) {
+            Page = Number(Page) || 1
+        }
+        const limit = 4;
+        let skip = (Page - 1) * limit
+        const TotalDocuments = await User.find({ role: "Teacher" }).countDocuments()
+        const data = await User.find({ role: "Teacher" }).skip(skip).limit(limit)
+        console.log(Math.ceil(TotalDocuments / limit), ":TotalDocuments")
+
+
         if (data.length == 0) {
             console.log('No Subjects')
             return res.status(404).json({ message: "No Subjects." })
         }
 
-        return res.status(201).json({ message: data })
+        return res.status(201).json({ message: data, length: Math.ceil(TotalDocuments / limit), currentpage: Number(Page) })
 
     }
     catch (err) {
