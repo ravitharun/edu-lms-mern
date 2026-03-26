@@ -326,6 +326,29 @@ function AssiginSubject() {
                         )}
 
                         {/* Pagination Buttons */}
+                          {/* {page <= 1 ? <button
+                            onClick={() => setpage(prev => Math.min(prev + 1, length))}
+                            className={`px-3 py-1 text-sm font-medium rounded-md  transition ${page==page && 'bg-blue-500 hover:bg-blue-400 text-white '}`}
+                        >
+                            Next
+                        </button> : <>
+
+                            <button
+                                onClick={() => setpage(prev => Math.max(prev - 1, 1))}
+                                className={`px-3 py-1 text-sm font-medium rounded-md  transition ${page == page && 'bg-blue-500 hover:bg-blue-400 text-white'}`}
+                            >
+                                Prev
+                            </button>
+
+                            <button
+                                onClick={() => setpage(prev => Math.min(prev + 1, length))}
+                                className={`px-3 py-1 text-sm font-medium bg-gray-200 rounded-md hover:bg-gray-300 transition ${page == length && 'cursor-not-allowed'} `}
+                                disabled={page == length}
+                            >
+                                Next
+                            </button>
+                        </>} */}
+
                         <div className="flex flex-wrap justify-center gap-2">
                             {[...Array(length)].map((_, i) => (
                                 <button
