@@ -138,12 +138,13 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
 
 
               <span
-                className={`inline-block px-3 py-1 rounded-lg font-semibold text-white ${new Date().getDay() === 0 ? "bg-red-500" : isToday ? "bg-red-500" : "bg-green-400"
+                className={`inline-block px-3 py-1 rounded-lg font-semibold mb-10 text-white ${new Date().getDay() === 0 ? "bg-red-500" : isToday ? "bg-red-500" : "bg-cyan-500 "
                   }`}
               >
                 Today Status : {new Date().getDay() === 0 ? "Holiday" : isToday ? "Holiday" : "Working Day"}
 
               </span>
+
               <Calendar
                 localizer={localizer}
                 events={formattedEvents}   // ✅ always array
@@ -155,7 +156,6 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
                 onSelectSlot={handleSelectSlot}
 
                 dayPropGetter={(date) => {
-
                   // console.log(holidays, "holidays")
                   const isSunday = date.getDay() === 0;
                   const formatted = format(date, "yyyy-MM-dd");
@@ -169,10 +169,13 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
                   }
 
 
-
                   return {
                     style: {
-                      backgroundColor: isSunday ? "#f87171" : "transparent", // red for Sunday
+                      backgroundColor: isSunday
+                        ? "#f87171"
+                        : date.toDateString() === new Date().toDateString()
+                          ? "#ABDADC"
+                          : "",
                       borderRadius: "0.5rem",
                       color: isSunday ? "white" : "black", // text color for visibility
                       fontWeight: "bold",
@@ -182,7 +185,10 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
                     },
                     title: isSunday ? "Holiday" : "", // shows tooltip on hover
                   };
-                }}
+
+
+                }
+                }
 
                 eventPropGetter={(event) => {
                   // console.log(holidays,"holidaysss")
