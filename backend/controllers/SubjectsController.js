@@ -99,13 +99,22 @@ const fetchTeachersInfo = async (req, res) => {
 }
 const StudentsInfo = async (req, res) => {
     try {
-        const data = await User.find({ role: "student" })
+        const { Page } = req.query;
+        console.log(Page, "Page")
+        if (!Page) {
+            Page = Number(Page) || 1
+        }
+        const limit = 5;
+        let skip = (Page - 1) * limit
+
+        const TotalDocument = await User.find({ role: "student" }).countDocuments()
+        const data = await User.find({ role: "student" }).skip(skip).limit(limit)
         if (data.length == 0) {
             console.log('No Subjects')
             return res.status(404).json({ message: "No Students." })
         }
 
-        return res.status(201).json({ message: data })
+        return res.status(201).json({ message: data, TotalDocument: Math.ceil(TotalDocument / limit), currentpage: Number(Page) })
 
     }
     catch (err) {
