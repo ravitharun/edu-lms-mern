@@ -25,14 +25,16 @@ function ProfilesStudenta() {
     const [SearchFilters, setsearchFilters] = useState("")
     const [SearchError, setsearchError] = useState("")
 
-
+    const [length, setlength] = useState(1)
+    const [Page, setPage] = useState(1)
 
     useEffect(() => {
         const getStudents = async () => {
             try {
                 setLoader(true);
-                const response = await GetallStudentsProfile();
+                const response = await GetallStudentsProfile(Page);
                 setStudents(response?.data?.message || []);
+                setlength(response?.data?.TotalDocument || 1);
                 setsearchFillterArray(response?.data?.message || []);
             } catch (error) {
                 console.log("Error fetching students:", error);
@@ -43,7 +45,7 @@ function ProfilesStudenta() {
         };
 
         getStudents();
-    }, []);
+    }, [Page]);
 
 
 
@@ -349,6 +351,45 @@ function ProfilesStudenta() {
 
                         </div>
                     </main>
+                    <div className="flex justify-center items-center gap-2 mt-6">
+
+                        {/* Previous Button */}
+                        <button
+                            onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+                            className="px-3 py-1 text-sm font-medium bg-gray-200 rounded-md hover:bg-gray-300 transition"
+                        >
+                            Prev
+                        </button>
+
+                        {/* Page Numbers */}
+                        {[...Array(length)].map((_, i) => {
+                            const pageNum = i + 1;
+                            const isActive = Page === pageNum;
+
+                            return (
+                                <button
+                                    key={i}
+                                    onClick={() => setPage(pageNum)}
+                                    className={`px-3 py-1 text-sm font-medium rounded-md transition-all duration-200
+          ${isActive
+                                            ? "bg-blue-500 text-white shadow-md scale-105"
+                                            : "bg-gray-100 text-gray-700 hover:bg-blue-100"
+                                        }`}
+                                >
+                                    {pageNum === length ? "Last" : pageNum}
+                                </button>
+                            );
+                        })}
+
+                        {/* Next Button */}
+                        <button
+                            onClick={() => setPage(prev => Math.min(prev + 1, length))}
+                            className="px-3 py-1 text-sm font-medium bg-gray-200 rounded-md hover:bg-gray-300 transition"
+                        >
+                            Next
+                        </button>
+
+                    </div>
                 </div>
             </div>
         </>

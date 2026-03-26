@@ -100,10 +100,11 @@ export const GetallTeacherProfile = async (Page) => {
     }
 
 }
-export const GetallStudentsProfile = async () => {
+export const GetallStudentsProfile = async (Page) => {
 
     try {
-        const response = await axios.get("http://localhost:5001/api/subjects/get/StudentsInfo",
+     
+        const response = await axios.get(`http://localhost:5001/api/subjects/get/StudentsInfo?Page=${Page}`,
             Header_Token_expry
         )
         console.log(response,)
