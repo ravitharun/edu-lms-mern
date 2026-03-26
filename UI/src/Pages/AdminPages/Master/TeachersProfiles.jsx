@@ -14,15 +14,17 @@ function TeachersProfiles() {
     const [searchTeacher, setSerchteacherprofile] = useState([])
     const [Errormessage, seterror] = useState('')
     const [loading, setloading] = useState(false)
-
+    const [Page, setpage] = useState(1);
+    const [length, setlength] = useState(1);
 
     useEffect(() => {
         const GetallTechers = async () => {
             try {
                 setloading(true)
-                const response = await GetallTeacherProfile()
-                console.log(response.status, 'response')
+                const response = await GetallTeacherProfile(Page)
+                console.log(response.data.message, "response.data.message")
                 setteacherprofile(response.data.message)
+                setlength(response.data.length)
                 setloading(false)
             } catch (error) {
                 toast.error(error)
@@ -31,7 +33,7 @@ function TeachersProfiles() {
 
         }
         GetallTechers()
-    }, [])
+    }, [Page])
 
     const handelSerach = (e) => {
         let search = e
@@ -97,7 +99,7 @@ function TeachersProfiles() {
                 data
             }
         })
-        console.log(data)
+
     }
     return (
         <>
@@ -255,8 +257,48 @@ function TeachersProfiles() {
                         </div>
 
                     </main>
+                    <div className="flex justify-center items-center gap-2 mt-6">
+                        {/* Previous Button */}
+                        <button
+                            onClick={() => setpage(prev => Math.max(prev - 1, 1))}
+                            className={`px-3 py-1 text-sm font-medium bg-gray-200 rounded-md hover:bg-gray-300 transition ${Page == 1 ? "cursor-not-allowed" : ""}`}
+                        >
+                            Prev
+                        </button>
+
+                        {/* Page Numbers */}
+                        {[...Array(length)].map((_, i) => {
+                            const pageNum = i + 1;
+                            const isActive = Page === pageNum;
+
+                            return (
+                                <button
+                                    key={i}
+                                    onClick={() => setpage(pageNum)}
+                                    className={`px-3 py-1 text-sm font-medium rounded-md transition-all duration-200
+          ${isActive
+                                            ? "bg-blue-500 text-white shadow-md scale-105"
+                                            : "bg-gray-100 text-gray-700 hover:bg-blue-100"
+                                        }`}
+                                >
+                                    {pageNum === length ? "Last" : pageNum}
+                                </button>
+                            );
+                        })}
+
+                        {/* Next Button */}
+                        <button
+                            onClick={() => setpage(prev => Math.min(prev + 1, length))}
+                            className={`px-3 py-1 text-sm font-medium bg-gray-200 rounded-md hover:bg-gray-300 transition ${length == Page ? "cursor-not-allowed" : ""}`}
+                        >
+                            Next
+                        </button>
+
+                    </div>
                 </div>
+
             </div>
+
         </>
 
     );

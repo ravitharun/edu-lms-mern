@@ -25,21 +25,20 @@ function TeachersProfile() {
     const [Qualification, setQualification] = useState(UserProfileInfo?.Qualification)
     const [PrivewUrlImg, setPrivewUrlImg] = useState(UserProfileInfo?.ProfileUrl)
     const [isFill, setisfill] = useState([])
-
+    const [page, setpage] = useState(1);
     const [Profileloader, SetLoader] = useState(false)
 
 
     useEffect(() => {
         const response = async () => {
             try {
-                const response_profile = await GetUserProfile()
+                const response_profile = await GetUserProfile(page)
 
                 if (response_profile.data.message == null) {
                     setisfill(null)
                     setEdit(true)
                     return
                 }
-
                 if (response_profile.data.message === "Token expired"
                 ) {
                     toast.error("Token expired")
