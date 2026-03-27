@@ -1,3 +1,4 @@
+const { redisClient } = require("../Expose/redis")
 const { AddAcademicSchema } = require("../models/AddAcademics")
 const { AddTimetableSchema } = require("../models/TimeTableModel")
 
@@ -37,7 +38,13 @@ const add = async (req, res) => {
 }
 const getData = async (req, res) => {
     try {
+        const CacheData = redisClient.get("AcademicDetails")
+        if (CacheData) {
+            return res.status(200).json({ message: CacheData })
+        }
         const getdata = await AddAcademicSchema.find({})
+
+        await redisClient.SETEX("AcademicDetails", 500, getData)
         return res.status(200).json({ message: getdata })
     } catch (error) {
         console.log("error : ", error)
@@ -72,17 +79,15 @@ const GetTimeTableBySemester = async (req, res) => {
 
     try {
         const { data } = req.query
-        console.log( req.query," req.query")
         if (!data) {
-          
             return res.status(404).json({ message: "Some thing Went Wrong." })
         }
-        console.log("input  By SemesterByyear Get JSon Data: ", data)
+        const CacheTimeTable = redisClient.get("TimeTable")
+        if (CacheTimeTable) { return res.status(200).json({ message: CacheTimeTable }) }
         const ResponseData = await AddTimetableSchema.find({ SemesterByyear: data })
         if (ResponseData.length == 0) {
             return res.status(200).json({ message: `No data.` })
         }
-        console.log(ResponseData,"ResponseData")
         return res.status(200).json({ message: ResponseData })
 
     } catch (error) {

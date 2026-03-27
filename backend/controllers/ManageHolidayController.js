@@ -1,3 +1,5 @@
+
+const { redisClient } = require("../Expose/redis");
 const { AddHolidays } = require("../models/Holidays");
 
 const AddholidaysBulk = async (req, res) => {
@@ -6,7 +8,7 @@ const AddholidaysBulk = async (req, res) => {
     if (!data || !Array.isArray(data) || data.length === 0) {
         return res.status(400).json({ message: "No holiday data provided" });
     }
-
+    await redisClient.del('Holidays')
     try {
 
 
@@ -38,22 +40,25 @@ const GetHolidays = async (req, res) => {
             page = Number(page) || 1;
         }
         const limit = 2;
-
-
-
         const skip = (page - 1) * limit;
-        console.log(skip, "skip")
-
         const Holidays = await AddHolidays.find({})
             .skip(skip)
             .limit(limit);
-        console.log(Holidays, "Holidays")
         const total = await AddHolidays.countDocuments();
-
         if (Holidays.length === 0) {
             return res.status(404).json({ message: "No holidays Added Yet." });
         }
-
+        const Data = {
+            data: Holidays,
+            total: total,
+            totalPages: Math.ceil(total / limit),
+            currentPage: page
+        }
+        const cacheKey = `Holidays:page${page}`;
+        // await redisClient.del(cacheKey)
+        const CacheHolidays = await redisClient.get(cacheKey)
+        if (CacheHolidays) { return res.status(200).json({ data: JSON.parse(CacheHolidays) }) }
+        await redisClient.setEx(cacheKey, 300, JSON.stringify(Data))
         return res.status(200).json({
             data: Holidays,
             total: total,

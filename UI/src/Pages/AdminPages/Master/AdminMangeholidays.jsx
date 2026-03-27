@@ -10,6 +10,7 @@ import axios from 'axios'
 import DownloadReports from './DownloadReports'
 import { FaCloudDownloadAlt } from "react-icons/fa";
 import FetechHoliday from './FetechHoliday'
+import ProgressLoader from '../../../Loaders/Progressloader'
 function AdminMangeholidays() {
     const [date, setdata] = useState([])
     const [File, setfile] = useState(null)
@@ -104,6 +105,7 @@ function AdminMangeholidays() {
 
     return (
         <>
+         {true && <ProgressLoader path="FetechHoliday is in Progress...Please wait any hour"></ProgressLoader>}
             <div className="min-h-screen flex bg-gray-50">
                 <MasterAdminNavbar path="Add Holiday" />
                 <Toaster />

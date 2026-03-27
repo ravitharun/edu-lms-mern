@@ -1,10 +1,12 @@
 const User = require("../models/User")
 // const DeactivateModel
 const { ModelReasonDeactivate } = require("../models/AccountDeactivates");
+const { redisClient } = require("../Expose/redis");
 
 const AccountDeactivate = async (req, res) => {
     try {
         const { id } = req.body
+        await redisClient.del("GetallIssues");
         if (!id) {
             console.log({ message: "ID is missing for AccountDeactivate." })
             return res.status(404).json({ message: "ID is missing for AccountDeactivate." })
@@ -22,6 +24,7 @@ const AccountDeactivate = async (req, res) => {
 const UpdateDeactivate = async (req, res) => {
     try {
         const { id } = req.body
+        await redisClient.del("GetallIssues");
         console.log(id, 'UpdateDeactivate')
         if (!id) {
             console.log({ message: "ID is missing for AccountDeactivate." })
@@ -41,6 +44,7 @@ const UpdateDeactivate = async (req, res) => {
 const AccountDeactivateUpdateReason = async (req, res) => {
     try {
         console.log(req.body)
+        await redisClient.del("GetallIssues");
         if (!req.body.name || !req.body.email || !req.body.empid || !req.body.issuetype || !req.body.priorty) {
             console.log({ message: "Some data are missing." })
             return res.status(404).json({ message: "Some data are missing." })
@@ -74,10 +78,11 @@ const AccountDeactivateUpdateReason = async (req, res) => {
 const GetAccountDeactivateUpdateReason = async (req, res) => {
     try {
 
+        const CacheGetallIssues = redisClient.get("GetallIssues");
+        if (CacheGetallIssues) { return res.status(200).json({ message: CacheGetallIssues }) }
         const GetallIssues = await ModelReasonDeactivate.find({})
-
-        console.log("GetallIssues",GetallIssues)
-        return res.status(200).json({ message:GetallIssues })
+        await redisClient.setEx("GetallIssues", 500, GetallIssues)
+        return res.status(200).json({ message: GetallIssues })
     }
     catch (err) {
         console.log(err.message, 'from get all issues from db')
@@ -85,4 +90,4 @@ const GetAccountDeactivateUpdateReason = async (req, res) => {
     }
 }
 
-module.exports = { AccountDeactivate, UpdateDeactivate, AccountDeactivateUpdateReason,GetAccountDeactivateUpdateReason }
+module.exports = { AccountDeactivate, UpdateDeactivate, AccountDeactivateUpdateReason, GetAccountDeactivateUpdateReason }
