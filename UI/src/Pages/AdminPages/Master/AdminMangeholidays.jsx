@@ -105,7 +105,7 @@ function AdminMangeholidays() {
 
     return (
         <>
-         {true && <ProgressLoader path="FetechHoliday is in Progress...Please wait any hour"></ProgressLoader>}
+            {0 && <ProgressLoader path="FetechHoliday is in Progress...Please wait any hour"></ProgressLoader>}
             <div className="min-h-screen flex bg-gray-50">
                 <MasterAdminNavbar path="Add Holiday" />
                 <Toaster />
