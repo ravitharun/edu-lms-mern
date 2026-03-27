@@ -48,7 +48,8 @@ function AssiginTeacherwisesubjects() {
     useEffect(() => {
         const getSubjects = async () => {
             try {
-                const response_sudjects = await fetchAllSubjects()
+                const page=0;
+                const response_sudjects = await fetchAllSubjects(page)
 
                 Setsubjects(response_sudjects.data?.message)
                 // console.log(response_sudjects.status==401,'response ')
@@ -261,7 +262,7 @@ function AssiginTeacherwisesubjects() {
                                             <option value="" disabled>-- Teacher --</option>
                                             {subjectsName.map((sub, idx) => (
                                                 <option key={idx} value={`${sub.name}@${sub.teacher_Id}@${sub.profilePreview}`}>
-                                                    {sub.name}
+                                                    {sub.name}-{sub.teacher_Id}
                                                 </option>
                                             ))}
                                         </select>
