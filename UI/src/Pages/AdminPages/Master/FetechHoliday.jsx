@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FetchHolidays } from "./APIS/Holidays";
+import ProgressLoader from "../../../Loaders/Progressloader";
 
 function FetechHoliday() {
   const [data, setdata] = useState([])
@@ -11,8 +12,8 @@ function FetechHoliday() {
 
         const response = await FetchHolidays(page)
         console.log(response, "response.data")
-        setdata(response.data.data)
-        setlength(response.data.totalPages)
+        setdata(response?.data?.data)
+        setlength(response?.data?.totalPages)
       } catch (error) {
         console.log(error)
       }
@@ -45,11 +46,11 @@ function FetechHoliday() {
           </thead>
 
           <tbody>
-            {data?.map((item, index) => (
+            {holidays?.map((item, index) => (
               <tr key={index} className="text-center hover:bg-gray-100">
                 <td className="p-3 border">{index + 1}</td>
-                <td className="p-3 border">{item.text}</td>
-                <td className="p-3 border">{item.start}</td>
+                <td className="p-3 border">{item?.text}</td>
+                <td className="p-3 border">{item?.start}</td>
               </tr>
             ))}
           </tbody>

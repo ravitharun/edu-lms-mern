@@ -84,15 +84,7 @@ function DashboardLayout({ children }) {
       try {
         const response = await axios.get("http://localhost:5001/api/UsersCount/user")
         console.log(response.data, "Count")
-        setcount(response.data)
-        // const Data = [
-        //   { heading: "Total Teachers", total: 86 },
-        //   { heading: "Total Students", total: response.data.message },
-        //   { heading: "Active Accounts", total: 1120 },
-        //   { heading: "Deactivated Accounts", total: 120 },
-        // ];
-
-        // return Data 
+        setcount(response.data.message)
       } catch (error) {
         console.log(error.message)
       }
@@ -130,7 +122,7 @@ function DashboardLayout({ children }) {
                   Total Teachers
                 </p>
                 <h2 className="text-3xl font-bold text-gray-800 mt-2">
-                  {Count.TotalTeachers}
+                  {Count?.GetuserInfo_user_Teacher}
                 </h2>
                 <div className="mt-4 h-1 w-12 bg-indigo-500 rounded-full"></div>
               </div>
@@ -143,7 +135,7 @@ function DashboardLayout({ children }) {
                   Total Students
                 </p>
                 <h2 className="text-3xl font-bold text-gray-800 mt-2">
-                  {Count.message}
+                  {Count?.GetuserInfo_user_student}
                 </h2>
                 <div className="mt-4 h-1 w-12 bg-indigo-500 rounded-full"></div>
               </div>
@@ -156,7 +148,7 @@ function DashboardLayout({ children }) {
                   Active Accounts
                 </p>
                 <h2 className="text-3xl font-bold text-gray-800 mt-2">
-                  {Count.ActiveAccounts}
+                  {Count?.GetuserInfo_user_ActiveAccounts}
                 </h2>
                 <div className="mt-4 h-1 w-12 bg-indigo-500 rounded-full"></div>
               </div>
@@ -169,7 +161,7 @@ function DashboardLayout({ children }) {
                   Deactivated Accounts
                 </p>
                 <h2 className="text-3xl font-bold text-gray-800 mt-2">
-                  {Count.TotalDeActiveAccount}
+                  {Count?.GetuserInfo_user_DeActiveAccounts}
                 </h2>
                 <div className="mt-4 h-1 w-12 bg-indigo-500 rounded-full"></div>
               </div>
