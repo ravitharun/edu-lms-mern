@@ -1,3 +1,4 @@
+const { redisClient } = require("../Expose/redis");
 const { subject } = require("../models/Master");
 const User = require("../models/User");
 
@@ -35,11 +36,21 @@ const fetchAllSubjects = async (req, res) => {
     try {
 
         let { page } = req.query
-        if (!page) {
-            page = Number(page) || 1;
+        // console.log(page, "page")
+        let limit = 4
+        let skip = 0;
+        if (page == 0) {
+            limit = 0;
+            skip = 0;
         }
-        const limit = 4
-        let skip = (page - 1) * limit
+        else {
+
+            skip = (page - 1) * limit
+        }
+
+        // if (!page) {
+        //     page = Number(page) || 1;
+        // }
         const data = await subject.find({}).skip(skip).limit(limit)
         const totalLength = await subject.countDocuments();
         if (data.length == 0) {
@@ -54,22 +65,45 @@ const fetchAllSubjects = async (req, res) => {
     }
 }
 
+
+
+
+
 const fetchAllTeachers = async (req, res) => {
     try {
-        const data = await User.find({ role: "Teacher" }).select("name teacher_Id profilePreview")
-        console.log(data.length, "data")
-        if (data.length == 0) {
-            console.log('No Subjects')
-            return res.status(404).json({ message: "No Subjects." })
+        // 1️ Try to get cached data from Redis
+        const cachedData = await redisClient.get("teachers");
+        console.log(JSON.parse(cachedData)?.length || 0, "cachedData")
+        if (cachedData) {
+            // If exists in cache, return it
+            return res.status(200).json({
+                message: JSON.parse(cachedData),
+                source: "cache"
+            });
         }
-        return res.status(201).json({ message: data })
 
+        // 2️ If not in cache, fetch from DB
+        const data = await User.find({ role: "Teacher" }).select("name teacher_Id profilePreview");
+
+        if (data.length === 0) {
+            console.log('No Teachers found');
+            return res.status(404).json({ message: "No Teachers found." });
+        }
+
+        // 3️ Store in Redis for future requests (500 seconds)
+        await redisClient.setEx("teachers", 500, JSON.stringify(data));
+
+        // 4️ Return fresh data
+        return res.status(200).json({
+            message: data,
+            source: "database"
+        });
+
+    } catch (err) {
+        console.log("Error:", err.message);
+        return res.status(500).json({ message: "Server Error" });
     }
-    catch (err) {
-        console.log("err from the fetchAllSubjects", err.message)
-        return res.status(500).json({ message: "server Error" })
-    }
-}
+};
 const fetchTeachersInfo = async (req, res) => {
     try {
         const { Page } = req.query;
@@ -80,16 +114,21 @@ const fetchTeachersInfo = async (req, res) => {
         const limit = 4;
         let skip = (Page - 1) * limit
         const TotalDocuments = await User.find({ role: "Teacher" }).countDocuments()
-        const data = await User.find({ role: "Teacher" }).skip(skip).limit(limit)
-        console.log(Math.ceil(TotalDocuments / limit), ":TotalDocuments")
 
+        const data = await User.find({ role: "Teacher" }).skip(skip).limit(limit)
+        console.log(cachedData, "cachedData")
 
         if (data.length == 0) {
             console.log('No Subjects')
             return res.status(404).json({ message: "No Subjects." })
         }
+        if (cachedData) {
 
+            return res.status(201).json({ message: cachedData, length: Math.ceil(TotalDocuments / limit), currentpage: Number(Page) })
+        }
+        await redisClient.setEx("myKey", 500, data);
         return res.status(201).json({ message: data, length: Math.ceil(TotalDocuments / limit), currentpage: Number(Page) })
+
 
     }
     catch (err) {

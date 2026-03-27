@@ -6,6 +6,7 @@ const { generateRandomId } = require("../generateRandomId");
 const cloudinary = require("../config/cloudinary");
 const { transporter } = require("../config/email");
 const CreateProfile = require("../models/ProfileSchema");
+const { redisClient } = require("../Expose/redis");
 
 cloudinary.api.ping()
 
@@ -14,11 +15,12 @@ cloudinary.api.ping()
 const NewAccount = async (req, res) => {
   try {
     const formdata = req.body;
+    console.log(formdata,"formdata")
     const Profile = req.file?.path;
     const result = await cloudinary.uploader.upload(Profile,);
     const GetBy_email = await User.find({ email: req.body.StudentEmail })
     console.log(GetBy_email,'GetBy_email')
-    if (GetBy_email) {
+    if (!GetBy_email) {
       return res.status(400).json({ message: "Emails is already is exits please use another email to login." })
     }
     if (!formdata.StudentEmail || !formdata.StudentName || !formdata.StudentPassword || !formdata.StudentConifrmPassword || !formdata.role) {
@@ -32,7 +34,6 @@ const NewAccount = async (req, res) => {
     // generate the id users/teachers both
 
     const ID = generateRandomId(formdata.role, 4)
-
     const userData = {
       name: formdata.StudentName,
       email: formdata.StudentEmail,
@@ -69,6 +70,7 @@ const NewAccount = async (req, res) => {
     }
 
     if (formdata.role === "Teacher") {
+      await redisClient.del("teachers")
       userData.teacher_Id = ID;
       userData.AccountStatus;
       userData.department = formdata.department
@@ -121,7 +123,6 @@ const LoginAccount = async (req, res) => {
     console.log({ email, Password, role })
 
     const token = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
-    console.log(token)
     if (!email || !Password || !role) {
       return res.status(400).json({ message: "all inputs are required" })
     }
@@ -131,14 +132,12 @@ const LoginAccount = async (req, res) => {
     }
     // password we will compare now Password input to db Password
     const check_password = await bcrypt.compare(Password, Check_userAccount.password);
-    console.log(Check_userAccount, 'check_password')
     if (!check_password) {
       return res.status(403).json({ message: "The password is incorrect" })
     }
 
     // main level to say user data are same
     if (Check_userAccount.email == email || Check_userAccount.role == role || check_password) {
-      console.log("first")
       return res.status(200).json({ message: "Logedin", token: token, user: Check_userAccount });
     }
 

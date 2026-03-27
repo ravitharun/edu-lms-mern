@@ -2,6 +2,8 @@ console.log("Server updated at " + new Date().toLocaleTimeString());
 
 require("dotenv").config();  // MUST be first l
 const express = require("express");
+const redis = require("redis");
+
 const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
@@ -20,6 +22,7 @@ const { HandelFetchTimeTableRouter } = require("./routes/FetchTimetableRouter");
 const { apiLimiter } = require("./Middleware/ReateLimeter");
 const { Admin_UserInfo } = require("./routes/AdminUserRouter");
 const { Manageholiday } = require("./routes/AddHolidaysRouter");
+const { redisClient } = require("./Expose/redis");
 
 const app = express();
 const server = http.createServer(app);
@@ -61,7 +64,10 @@ app.use(apiLimiter)
 app.get("/", (req, res) => {
     res.send("Server is running!");
 });
-
+// Connect to Redis
+redisClient.connect()
+    .then(() => console.log("Connected to Redis"))
+    .catch((err) => console.error("Redis connection error:", err));
 // Socket.io
 const io = new Server(server, { cors: { origin: "*" } });
 io.on("connection", (socket) => {
