@@ -39,7 +39,7 @@ const GetHolidays = async (req, res) => {
         if (!page) {
             page = Number(page) || 1;
         }
-        const limit = 2;
+        const limit = 7;
         const skip = (page - 1) * limit;
         const Holidays = await AddHolidays.find({})
             .skip(skip)
@@ -54,16 +54,14 @@ const GetHolidays = async (req, res) => {
             totalPages: Math.ceil(total / limit),
             currentPage: page
         }
+
         const cacheKey = `Holidays:page${page}`;
-        // await redisClient.del(cacheKey)
+
         const CacheHolidays = await redisClient.get(cacheKey)
         if (CacheHolidays) { return res.status(200).json({ data: JSON.parse(CacheHolidays) }) }
         await redisClient.setEx(cacheKey, 300, JSON.stringify(Data))
         return res.status(200).json({
-            data: Holidays,
-            total: total,
-            totalPages: Math.ceil(total / limit),
-            currentPage: page
+            data: Data
         });
 
     } catch (error) {
