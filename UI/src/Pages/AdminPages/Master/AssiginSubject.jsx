@@ -326,7 +326,7 @@ function AssiginSubject() {
                         )}
 
                         {/* Pagination Buttons */}
-                          {/* {page <= 1 ? <button
+                        {/* {page <= 1 ? <button
                             onClick={() => setpage(prev => Math.min(prev + 1, length))}
                             className={`px-3 py-1 text-sm font-medium rounded-md  transition ${page==page && 'bg-blue-500 hover:bg-blue-400 text-white '}`}
                         >
@@ -350,6 +350,12 @@ function AssiginSubject() {
                         </>} */}
 
                         <div className="flex flex-wrap justify-center gap-2">
+                            <button onClick={() => setpage((prev) => prev - 1)} className={`px-4 py-2 rounded-md font-medium transition 
+      ${page === 1
+                                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    : "bg-blue-500 text-white hover:bg-blue-600"}`} disabled={page == 1}>
+                                prev
+                            </button>
                             {[...Array(length)].map((_, i) => (
                                 <button
                                     key={i}
@@ -363,6 +369,13 @@ function AssiginSubject() {
                                     {i + 1 == length ? "last" : i + 1}
                                 </button>
                             ))}
+                            <button onClick={() => setpage(page + 1)} className={`px-4 py-2 rounded-md font-medium transition 
+      ${page === length
+                                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                                    : "bg-blue-500 text-white hover:bg-blue-600"}`}
+                                disabled={page == length}>
+                                next
+                            </button>
                             {/* {length >= 5 ? [...Array(length)].map((_, i) => (
                                 <button>{i + 1}</button>
                             )) : "normal 1,2,3,4"} */}
@@ -370,7 +383,7 @@ function AssiginSubject() {
 
                     </div>
                 </div>
-            </div>
+            </div >
         </>
     );
 }
