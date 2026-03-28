@@ -8,6 +8,8 @@ import Dataloading from '../../../Loaders/Dataloading';
 import toast, { Toaster } from 'react-hot-toast';
 import Swal from "sweetalert2";
 import { fun } from '../../../Components/UserisLogin';
+import { GrFormNextLink } from "react-icons/gr";
+import { GrFormPreviousLink } from "react-icons/gr";
 
 function AssiginSubject() {
     const [getAllData, setallData] = useState([]);
@@ -125,6 +127,7 @@ function AssiginSubject() {
 
 
     }
+    console.log("page", page)
     return (
         <>
             <Toaster />
@@ -313,74 +316,60 @@ function AssiginSubject() {
                         </div>
                     </main>
 
-                    <div className="flex flex-col items-center mt-6 gap-3">
+                    <div className="flex flex-col items-center mt-8 gap-4">
 
-                        {/* Page Info */}
+                        {/* Page Info Badge */}
                         {page && (
-                            <div className="flex items-center gap-2 px-4 py-2 bg-gray-100 border rounded-full shadow-sm">
-                                <span className="text-sm text-gray-600">Page</span>
+                            <div className="flex items-center gap-2 px-5 py-2 bg-white border border-gray-200 rounded-full shadow">
+                                <span className="text-sm text-gray-500">Page</span>
                                 <span className="px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full">
                                     {page} / {length}
                                 </span>
                             </div>
                         )}
 
-                        {/* Pagination Buttons */}
-                        {/* {page <= 1 ? <button
-                            onClick={() => setpage(prev => Math.min(prev + 1, length))}
-                            className={`px-3 py-1 text-sm font-medium rounded-md  transition ${page==page && 'bg-blue-500 hover:bg-blue-400 text-white '}`}
-                        >
-                            Next
-                        </button> : <>
+                        {/* Controls */}
+                        <div className="flex items-center gap-3 bg-white p-3 rounded-xl shadow-md border">
 
+                            {/* Prev Button */}
                             <button
-                                onClick={() => setpage(prev => Math.max(prev - 1, 1))}
-                                className={`px-3 py-1 text-sm font-medium rounded-md  transition ${page == page && 'bg-blue-500 hover:bg-blue-400 text-white'}`}
+                                onClick={() => setpage((prev) => prev - 1)}
+                                disabled={page === 1}
+                                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200
+        ${page === 1
+                                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                        : "bg-blue-500 text-white hover:bg-blue-600 hover:scale-105"
+                                    }`}
                             >
-                                Prev
+                                <GrFormPreviousLink></GrFormPreviousLink>
                             </button>
 
+                            {/* Dropdown */}
+                            <select
+                                value={page}
+                                onChange={(e) => setpage(Number(e.target.value))}
+                                className="px-3 py-2 border rounded-lg bg-gray-50 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                            >
+                                {[...Array(length)].map((_, i) => (
+                                    <option key={i} value={i + 1}>
+                                        Page {i + 1}
+                                    </option>
+                                ))}
+                            </select>
+
+                            {/* Next Button */}
                             <button
-                                onClick={() => setpage(prev => Math.min(prev + 1, length))}
-                                className={`px-3 py-1 text-sm font-medium bg-gray-200 rounded-md hover:bg-gray-300 transition ${page == length && 'cursor-not-allowed'} `}
-                                disabled={page == length}
+                                onClick={() => setpage((prev) => prev + 1)}
+                                disabled={page === length}
+                                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200
+        ${page === length
+                                        ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                        : "bg-blue-500 text-white hover:bg-blue-600 hover:scale-105"
+                                    }`}
                             >
-                                Next
-                            </button>
-                        </>} */}
+                                <GrFormNextLink />                            </button>
 
-                        <div className="flex flex-wrap justify-center gap-2">
-                            <button onClick={() => setpage((prev) => prev - 1)} className={`px-4 py-2 rounded-md font-medium transition 
-      ${page === 1
-                                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                    : "bg-blue-500 text-white hover:bg-blue-600"}`} disabled={page == 1}>
-                                prev
-                            </button>
-                            {[...Array(length)].map((_, i) => (
-                                <button
-                                    key={i}
-                                    onClick={() => setpage(i + 1)}
-                                    className={`px-3 py-1 text-sm rounded-md border transition-all duration-200
-        ${page === i + 1
-                                            ? "bg-blue-500 text-white border-blue-500 scale-105 shadow"
-                                            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100 hover:scale-105"
-                                        }`}
-                                >
-                                    {i + 1 == length ? "last" : i + 1}
-                                </button>
-                            ))}
-                            <button onClick={() => setpage(page + 1)} className={`px-4 py-2 rounded-md font-medium transition 
-      ${page === length
-                                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                                    : "bg-blue-500 text-white hover:bg-blue-600"}`}
-                                disabled={page == length}>
-                                next
-                            </button>
-                            {/* {length >= 5 ? [...Array(length)].map((_, i) => (
-                                <button>{i + 1}</button>
-                            )) : "normal 1,2,3,4"} */}
                         </div>
-
                     </div>
                 </div>
             </div >

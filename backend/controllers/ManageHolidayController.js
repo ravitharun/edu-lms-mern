@@ -54,7 +54,7 @@ const GetHolidays = async (req, res) => {
             totalPages: Math.ceil(total / limit),
             currentPage: page
         }
-
+      
         const cacheKey = `Holidays:page${page}`;
 
         const CacheHolidays = await redisClient.get(cacheKey)

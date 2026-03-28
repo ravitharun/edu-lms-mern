@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { FetchHolidays } from "./APIS/Holidays";
 import ProgressLoader from "../../../Loaders/Progressloader";
+import Dataloading from "../../../Loaders/Dataloading";
 
 function FetechHoliday() {
   const [data, setdata] = useState([])
   const [length, setlength] = useState(0);
   const [page, setpage] = useState(1)
+  const [Loader, setLoader] = useState(false)
   useEffect(() => {
     const getHolidays = async () => {
       try {
-
+        setLoader(true)
+        setLoader(true)
         const response = await FetchHolidays(page)
         console.log(response.data.data, "Orginal")
         console.log(response.data.data.data, "response.data")
         console.log(response?.data.data.totalPages, "totalPages")
         setdata(response.data.data.data)
+        setLoader(false)
         // // // console.log(first)
         setlength(response?.data.data.totalPages)
       } catch (error) {
@@ -25,13 +29,7 @@ function FetechHoliday() {
     getHolidays()
   }, [page])
 
-  const holidays = [
-    { date: "2026-01-01", name: "New Year" },
-    { date: "2026-01-14", name: "Makar Sankranti" },
-    { date: "2026-03-25", name: "Ugadi" },
-    { date: "2026-08-15", name: "Independence Day" },
-    { date: "2026-10-02", name: "Gandhi Jayanti" }
-  ];
+
 
   return (
     <>
@@ -49,13 +47,23 @@ function FetechHoliday() {
           </thead>
 
           <tbody>
-            {data?.map((item, index) => (
-              <tr key={index} className="text-center hover:bg-gray-100">
-                <td className="p-3 border">{index + 1}</td>
-                <td className="p-3 border">{item?.text}</td>
-                <td className="p-3 border">{item?.start}</td>
+            {Loader ? (
+              <tr>
+                <td colSpan="3" className="p-6 text-center">
+                  <div className="flex justify-center items-center">
+                    <Dataloading path="Fetching the Holiday List" />
+                  </div>
+                </td>
               </tr>
-            ))}
+            ) : (
+              data?.map((item, index) => (
+                <tr key={index} className="text-center hover:bg-gray-100">
+                  <td className="p-3 border">{index + 1}</td>
+                  <td className="p-3 border">{item?.text}</td>
+                  <td className="p-3 border">{item?.start}</td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
