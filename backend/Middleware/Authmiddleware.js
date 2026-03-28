@@ -5,7 +5,6 @@ const authMiddleware = (req, res, next) => {
   try {
     //  Getting  token from Authorization header
     const authHeader = req.headers.authorization;
-    console.log(authHeader, "authHeader")
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       console.log({ message: "No token provided" })
@@ -13,12 +12,9 @@ const authMiddleware = (req, res, next) => {
     }
 
     const token = authHeader.split(" ")[1];
-    console.log(token, "tkn")
-
 
     //  Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
 
     req.user = decoded; // { userId, role }
 

@@ -23,7 +23,7 @@ const { apiLimiter } = require("./Middleware/ReateLimeter");
 const { Admin_UserInfo } = require("./routes/AdminUserRouter");
 const { Manageholiday } = require("./routes/AddHolidaysRouter");
 const { redisClient } = require("./Expose/redis");
-
+const { initSocket } = require("./socket");
 const app = express();
 const server = http.createServer(app);
 require('dotenv').config();
@@ -33,11 +33,7 @@ connectDB();
 
 // Middleware
 app.use(cors());
-console.log("first")
-console.log("first")
-console.log("first")
-console.log("Server updated at " + new Date().toLocaleTimeString());
-
+initSocket(server);
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 console.log("CLOUD_NAME:", process.env.CLOUD_NAME);
@@ -69,12 +65,7 @@ redisClient.connect()
     .then(() => console.log("Connected to Redis"))
     .catch((err) => console.error("Redis connection error:", err));
 // Socket.io
-const io = new Server(server, { cors: { origin: "*" } });
-io.on("connection", (socket) => {
-    console.log("New user connected:", socket.id);
-    socket.on("update", (data) => io.emit("update", data));
-    socket.on("disconnect", () => console.log("User disconnected:", socket.id));
-});
+
 
 // Start server
 const PORT = process.env.PORT || 5000;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FetchHolidays } from "./APIS/Holidays";
 import ProgressLoader from "../../../Loaders/Progressloader";
 import Dataloading from "../../../Loaders/Dataloading";
+import { socket } from "../../../Socket";
 
 function FetechHoliday() {
   const [data, setdata] = useState([])
@@ -9,14 +10,20 @@ function FetechHoliday() {
   const [page, setpage] = useState(1)
   const [Loader, setLoader] = useState(false)
   useEffect(() => {
+    socket.on("update", (data) => {
+      console.log("🔥 UPDATE:", data);
+      alert(data);
+    });
+    return () => {
+      socket.off("update");
+    };
+  }, []);
+  useEffect(() => {
     const getHolidays = async () => {
       try {
         setLoader(true)
         setLoader(true)
         const response = await FetchHolidays(page)
-        console.log(response.data.data, "Orginal")
-        console.log(response.data.data.data, "response.data")
-        console.log(response?.data.data.totalPages, "totalPages")
         setdata(response.data.data.data)
         setLoader(false)
         // // // console.log(first)

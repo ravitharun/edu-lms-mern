@@ -1,5 +1,6 @@
 const subjectwiseteacher = require("../models/subjectwiseteacher");
 const User = require("../models/User");
+const { getIO } = require("../socket");
 
 // These is used to get the class list assigned by the teachersID reference
 const getClasslist = async (req, res) => {
@@ -50,6 +51,7 @@ const getClasslist = async (req, res) => {
 // This is used to get the class section assigned by the teachersID reference
 const GetClassSection = async (req, res) => {
     try {
+     
         const { teacher_Id } = req.query;
         console.log(teacher_Id, 'teacher_Id from the GetClassSection Api Call.')
 

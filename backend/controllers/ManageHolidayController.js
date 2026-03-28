@@ -1,6 +1,7 @@
 
 const { redisClient } = require("../Expose/redis");
 const { AddHolidays } = require("../models/Holidays");
+const { getIO } = require("../socket");
 
 const AddholidaysBulk = async (req, res) => {
     const { data } = req.body;
@@ -33,9 +34,11 @@ const AddholidaysBulk = async (req, res) => {
 };
 
 const GetHolidays = async (req, res) => {
+
     try {
         let { page } = req.query;
-
+        const io = getIO();
+        io.emit("update", "Password updated");
         if (!page) {
             page = Number(page) || 1;
         }
@@ -54,7 +57,7 @@ const GetHolidays = async (req, res) => {
             totalPages: Math.ceil(total / limit),
             currentPage: page
         }
-      
+
         const cacheKey = `Holidays:page${page}`;
 
         const CacheHolidays = await redisClient.get(cacheKey)
