@@ -23,6 +23,7 @@ function AddTimeTable() {
     const [propsEndTime, setpropsEndTime] = useState("")
     const [GetTimeTableByYear, SetGetTimeTableByYear] = useState("SEM1-1YEAR")
     const [filterBysem, setfilterbysem] = useState([])
+    console.log(filterBysem)
     useEffect(() => {
         const getSubjects = async () => {
             const rsdata = await fetchAllSubjects();

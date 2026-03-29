@@ -22,6 +22,7 @@ const add = async (req, res) => {
             Descprition: eventData.Descprition,
         })
         await addData.save();
+        await redisClient.del("AcademicDetails")
         if (addData) {
             console.log(addData, 'return AddData')
             return res.status(200).json({ message: "DATA ADDED INTO DB." })
@@ -38,18 +39,20 @@ const add = async (req, res) => {
 }
 const getData = async (req, res) => {
     try {
-        const CacheData = redisClient.get("AcademicDetails")
+        const CacheData = await redisClient.get("AcademicDetails")
+        console.log(CacheData, 'CacheData')
         if (CacheData) {
-            return res.status(200).json({ message: CacheData })
+            return res.status(200).json({ message: JSON.parse(CacheData) })
         }
         const getdata = await AddAcademicSchema.find({})
 
-        await redisClient.SETEX("AcademicDetails", 500, getData)
+        await redisClient.SETEX("AcademicDetails", 500, JSON.stringify(getdata)
+        )
         return res.status(200).json({ message: getdata })
+
     } catch (error) {
         console.log("error : ", error)
         return res.status(500).json({ message: 'server Error' })
-
 
     }
 

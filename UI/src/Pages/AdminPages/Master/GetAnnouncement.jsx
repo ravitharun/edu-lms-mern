@@ -54,7 +54,7 @@ function GetAnnouncement() {
 
                             NO
                         </div>
-                    </> : announcements.length >= 1 ? <>
+                    </> : announcements.length <= 1 ? <>
 
                         <tr className="border-t">
                             <td className="p-3">{announcements[0]?.Title}</td>
