@@ -1,0 +1,88 @@
+name: MERN Project CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  frontend:
+    name: Frontend Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Cache NodeModules (UI)
+        uses: actions/cache@v3
+        with:
+          path: UI/node_modules
+          key: frontend-dev-${{ hashFiles('UI/package-lock.json') }}
+
+      - name: Install frontend dependencies
+        run: npm install
+        working-directory: UI
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: UI
+
+      - name: Upload Build Files
+        uses: actions/upload-artifact@v4
+        with:
+          name: Buildfiles
+          path: UI/dist
+
+      - name: Frontend done
+        run: echo "Frontend build completed"
+
+  backend:
+    needs: frontend
+    name: Backend Setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Cache NodeModules (Backend)
+        uses: actions/cache@v3
+        with:
+          path: backend/node_modules
+          key: backend-dev-${{ hashFiles('backend/package-lock.json') }}
+
+      - name: Install backend dependencies
+        run: npm install
+        working-directory: backend
+
+      - name: Backend ready
+        run: echo "Backend dependencies installed successfully"
+
+  deploy:
+    needs: backend
+    name: Deployment
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Build Files
+        uses: actions/download-artifact@v4
+        with:
+          name: Buildfiles
+
+      - name: Show build files
+        run: ls -R
+
+      - name: Deployment started
+        run: echo "Deployment started"
+

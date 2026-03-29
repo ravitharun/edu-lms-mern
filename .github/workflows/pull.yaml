@@ -1,0 +1,24 @@
+name: Pull Request to Main
+
+on:
+  pull_request:
+    branches:
+      - Tharun-dev
+
+jobs:
+  ui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: UI Pulling
+        run: echo "Pulling from UI"
+      - name: UI Pulled
+        run: echo "Pulled from UI Done."
+
+  server:
+    needs: ui
+    runs-on: ubuntu-latest
+    steps:
+      - name: Server Pulling
+        run: echo "Pulling from Server"
+      - name: Server Pulled
+        run: echo "Pulled from Server Done."

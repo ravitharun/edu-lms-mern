@@ -1,3 +1,8 @@
 const ToastPostion = "top-center"
 const reverseOrder = true
-export  { ToastPostion, reverseOrder }
+const ToastType ={
+    loading: 'Saving...',
+    success: 'Settings saved!',
+    error: 'Could not save.',
+}
+export{ ToastPostion, reverseOrder, ToastType }

@@ -1,0 +1,224 @@
+
+import React, { useEffect, useState } from "react";
+import {
+  FaChalkboardTeacher,
+  FaUserGraduate,
+  FaTasks,
+  FaCalendarCheck,
+  FaBell,
+  FaSignOutAlt,
+  FaUserEdit,
+} from "react-icons/fa";
+import secureLocalStorage from "react-secure-storage";
+import App from "../../App";
+import { handleLogout, totalClass, UserName } from "../../Apis/Islogin";
+import { Link } from "react-router-dom";
+import MasterAdmin from "./Master/MasterAdmin";
+import { fun } from "../../Components/UserisLogin";
+import RedirectPopup from "../../Components/RedirectPopup";
+import PoupLogin from "../../Components/PoupLogin";
+import Announcement from "../../Components/Announcement";
+// import UserisLogin from "../../Components/UserisLogin";
+
+function AdminDashboard() {
+  const [showNotifications, setShowNotifications] = useState(false);
+  useEffect(() => {
+
+    const check_token = () => {
+      fun()
+    }
+    check_token()
+  }, [])
+  const [redirectloadin, setredirectlogin] = useState(false)
+
+  const handleLogout = () => {
+    setredirectlogin(true)
+    const get = secureLocalStorage.removeItem("token")
+    const UserName = secureLocalStorage.removeItem("User_info")
+    if (!get) {
+      setTimeout(() => {
+        return window.location.href = "/login";
+      }, 1500);
+    }
+    return true
+  }
+  // const Check=handleLogout()
+  console.log(totalClass,'totalClass')
+  return (
+    <>
+      <App></App> 
+      <Announcement></Announcement>
+      {/* <UserisLogin></UserisLogin> */}
+      <div className="flex flex-col md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
+        {/* ================= HEADER ================= */}
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="text-sm text-gray-500">
+              Hello, <span className="font-medium">Mr.</span>
+            </p>
+            <h1 className="text-2xl font-semibold text-gray-800">{UserName?.name}</h1>
+          </div>
+
+          {/* Bell notifications */}
+          <div className="relative">
+            <FaBell
+              className="text-xl text-gray-600 cursor-pointer"
+              onClick={() => setShowNotifications(!showNotifications)}
+            />
+            {showNotifications && (
+              <div className="absolute right-0 mt-2 w-72 bg-white shadow-lg rounded-xl z-50 border border-gray-100">
+                <div className="p-3 border-b font-semibold text-sm text-gray-700 bg-gray-50">
+                  Notifications
+                </div>
+                <div className="max-h-64 overflow-y-auto">
+                  <NotificationItem text="New assignment submitted" />
+                  <NotificationItem text="Attendance marked for CSE 2nd Year" />
+                  <NotificationItem text="Student sent a doubt" />
+                  <NotificationItem text="Material uploaded for CSE 3rd Year" />
+                  <NotificationItem text="Exam schedule updated" />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* ================= STATS CARDS ================= */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <DashboardCard title="Classes" value={totalClass ==null?0:totalClass} icon={<FaChalkboardTeacher />} color="bg-blue-500" />
+          <DashboardCard title="Students" value={totalClass == null ? 0 : totalClass} icon={<FaUserGraduate />} color="bg-green-500" />
+          <DashboardCard title="Assignments" value="12" icon={<FaTasks />} color="bg-purple-500" />
+          <DashboardCard title="Attendance" value="92%" icon={<FaCalendarCheck />} color="bg-orange-500" ></DashboardCard>
+        </div>
+
+        {/* ================= MAIN CONTENT GRID ================= */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Today's Classes */}
+          <div className="bg-white rounded-xl shadow p-4 md:col-span-2">
+            <h2 className="text-lg font-semibold mb-4">Today's Classes</h2>
+            <ul className="space-y-3">
+              <ClassItem title="CSE 3rd Year - Web Development" time="10:00 AM" />
+              <ClassItem title="CSE 2nd Year - DBMS" time="12:00 PM" />
+              <ClassItem title="Final Year - Project Lab" time="2:30 PM" />
+            </ul>
+          </div>
+
+          {/* Profile */}
+          <div className="bg-white rounded-xl shadow p-4">
+            <h2 className="text-lg font-semibold mb-4">My Profile</h2>
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-14 h-14 rounded-full bg-blue-500 text-white flex items-center justify-center text-xl font-bold  gap-3">
+                <img className="w-10 h-10 rounded-full object-cover" src={`${`https://ui-avatars.com/api/?name=${UserName?.name}`}`} alt={UserName?.name} />
+              </div>
+              <div>
+                <p className="font-medium">Mr. {UserName?.name}</p>
+                <p className="text-sm text-gray-500">Computer Science</p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <Link to="/teachers/profile">
+                <button className="flex items-center gap-2 px-3 py-1 text-sm bg-gray-200 rounded hover:cursor-pointer">
+                  <FaUserEdit /> Edit
+                </button>
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 px-3 py-1 text-sm bg-red-500 text-white rounded hover:cursor-pointer"
+              >
+                <FaSignOutAlt /> Logout
+              </button>
+            </div>
+            {redirectloadin && (
+              <RedirectPopup
+                type="Logout"
+                onComplete={handleLogout}
+              />
+            )}
+          </div>
+        </div>
+
+        {/* ================= EVENTS & ASSIGNMENTS ================= */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Upcoming Events */}
+          <div className="bg-white rounded-xl shadow p-4">
+            <h2 className="text-lg font-semibold mb-3">Upcoming Events</h2>
+            <ul className="space-y-2 text-sm">
+              <li>📅 Faculty Meeting – Jan 30</li>
+              <li>📅 Internal Exams – Feb 2</li>
+            </ul>
+          </div>
+
+          {/* Pending Assignments */}
+          <div className="bg-white rounded-xl shadow p-4">
+            <h2 className="text-lg font-semibold mb-4">Pending Assignments</h2>
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-gray-500 border-b">
+                  <th className="py-2">Class</th>
+                  <th>Assignment</th>
+                  <th>Due Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <AssignmentRow cls="CSE 3rd Year" task="React Mini Project" date="28 Jan" />
+                <AssignmentRow cls="CSE 2nd Year" task="SQL Queries" date="30 Jan" />
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </>
+  );
+}
+
+/* ---------- COMPONENTS ---------- */
+
+const DashboardCard = ({ title, value, icon, color }) => (
+  <div className="bg-white rounded-xl shadow p-4 flex items-center gap-4">
+    <div className={`w-12 h-12 rounded-lg ${color} text-white flex items-center justify-center text-xl`}>
+      {icon}
+    </div>
+    <div>
+      <p className="text-sm text-gray-500">{title}</p>
+      <h3 className="text-xl font-semibold">{value}</h3>
+    </div>
+  </div>
+);
+
+const ClassItem = ({ title, time }) => (
+  <li className="flex justify-between items-center bg-gray-50 p-3 rounded-lg">
+    <span className="font-medium">{title}</span>
+    <span className="text-sm text-gray-500">{time}</span>
+  </li>
+);
+
+const AssignmentRow = ({ cls, task, date }) => (
+  <tr className="border-b">
+    <td className="py-2">{cls}</td>
+    <td>{task}</td>
+    <td>{date}</td>
+    <td>
+      <span className="px-2 py-1 bg-red-100 text-red-600 rounded text-xs">
+        Pending
+      </span>
+    </td>
+  </tr>
+);
+
+const NotificationItem = ({ text, time = "Just now", unread = true }) => (
+  <div className="flex items-start gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer border-b last:border-b-0">
+    <div className="mt-1 text-blue-500">
+      <FaBell />
+    </div>
+    <div className="flex-1">
+      <p className="text-sm text-gray-700">{text}</p>
+      <span className="text-xs text-gray-400">{time}</span>
+    </div>
+    {unread && (
+      <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 animate-pulse"></span>
+    )}
+  </div>
+);
+
+export default AdminDashboard;

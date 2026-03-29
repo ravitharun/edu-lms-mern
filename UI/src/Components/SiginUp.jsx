@@ -1,122 +1,339 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { handelapiSigup } from "../Apis/Signup";
+import toast, { Toaster } from "react-hot-toast";
+import { FaEye, FaEyeSlash, FaUserCircle } from "react-icons/fa";
+import axios from "axios";
 
-export default function Siginup() {
+export default function Signup() {
+
+    const departments = ["CSE", "ECE", "EEE", "MECH", "CIVIL"];
+    const years = [1, 2, 3, 4];
+
+    const allDepts = departments.flatMap(dept =>
+        years.map(year => `${dept} ${year}`)
+    );
+    const [department, setDepartment] = useState("");
+
+    const [StudentName, setStudentName] = useState("");
+    const [StudentEmail, setStudentEmail] = useState("");
+    const [StudentPassword, setStudentPassword] = useState("");
+    const [StudentConifrmPassword, setStudentConifrmPassword] = useState("");
+    const [role, setrole] = useState("");
+    const [ischeck, setcheck] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [profile, setProfile] = useState(null);
+    const [privew, setProfilePreview] = useState("")
+    const [StudentsYearDepartment, setStudentsYearDepartment] = useState("")
+    const [loading, setloading] = useState(false)
+    const navigate = useNavigate();
+
+    const Handeldata = async (e) => {
+        e.preventDefault();
+
+        if (!StudentEmail || !StudentName || !StudentPassword || !StudentConifrmPassword || !role || !profile) {
+            return toast.error("Fill the required fields");
+        }
+        if (!ischeck) return toast.error("Agree to Terms & Conditions");
+        if (StudentPassword !== StudentConifrmPassword) return toast.error("Passwords do not match");
+        const formData = new FormData();
+        formData.append("StudentName", StudentName);
+        formData.append("StudentEmail", StudentEmail);
+        formData.append("StudentPassword", StudentPassword);
+        formData.append("StudentConifrmPassword", StudentConifrmPassword);
+        formData.append("role", role);
+        formData.append("ischeck", ischeck);
+        formData.append("department", department);
+        formData.append("StudentsYearDepartment", StudentsYearDepartment);
+        if (profile) formData.append("profile", profile); // important for file
+
+
+
+
+        try {
+            setloading(true)
+            const response = await handelapiSigup(formData, e)
+            console.log(response, 'response Apicode call')
+            setloading(false)
+
+            if (response?.status === 201) {
+                toast.success("Account Created");
+                navigate("/login");
+            }
+            if (response?.status === 400) {
+                toast.error(response.data?.message);
+
+            }
+        }
+        catch (err) {
+            if (err?.message ===
+                "Request failed with status code 400") {
+                toast.error("Email already exists.", {
+                    style: {
+                        background: "#fee2e2",
+                        color: "#b91c1c",
+                        border: "1px solid #fecaca",
+                    },
+                    icon: "⚠️",
+                });
+                return setloading(false)
+            }
+            console.log(err, 'errr')
+        }
+    };
+
+
+
+    const handleProfileUpload = (e) => {
+        const Allowed_files = ["image/jpeg", "image/png"]
+        const file = e.target.files[0]
+
+        if (!Allowed_files.includes(file.type)) {
+            return toast.error(`Only allowed file to be upload .${Allowed_files}`)
+
+        }
+        console.log(file, 'file')
+
+        setProfile(file);
+        setProfilePreview(URL.createObjectURL(file)); // UI preview
+    }
+
+
     return (
         <>
-            {/* Create new account */}
-            <div className="flex min-h-screen items-center justify-center bg-gray-900 px-4">
+            <Toaster />
+            <div className="min-h-screen flex items-center justify-center px-4 py-8 ">
+                <div className="w-full max-w-4xl grid grid-cols-1 lg:grid-cols-2 rounded-2xl overflow-hidden shadow-xl bg-gray-900">
 
-                <div className="w-full max-w-sm rounded-xl bg-gray-800 p-6 shadow-lg">
-
-                    {/* Heading */}
-                    <h2 className="mb-1 text-center text-xl font-bold text-white">
-                        Create Your LMS Account
-                    </h2>
-                    <p className="mb-4 text-center text-xs text-gray-400">
-                        Register as a Student or Teacher
-                    </p>
-
-                    <form className="space-y-4">
-
-                        {/* Name */}
-                        <div>
-                            <label className="block text-xs font-medium text-gray-300">
-                                Full Name
-                            </label>
-                            <input
-                                type="text"
-                                className="mt-1 w-full rounded-md bg-gray-700 px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-indigo-500"
+                    {/* IMAGE SECTION */}
+                    <div className="flex items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-700 p-4">
+                        <div className="text-center text-white space-y-2">
+                            <img
+                                src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
+                                alt="LMS"
+                                className="w-32 sm:w-40 mx-auto drop-shadow-lg"
                             />
+                            <h2 className="text-lg sm:text-xl font-bold">Welcome to LMS</h2>
+                            <p className="text-xs sm:text-sm opacity-90">Learn • Teach • Grow together</p>
                         </div>
-
-                        {/* Email */}
-                        <div>
-                            <label className="block text-xs font-medium text-gray-300">
-                                Email Address
-                            </label>
-                            <input
-                                type="email"
-                                className="mt-1 w-full rounded-md bg-gray-700 px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-indigo-500"
-                            />
-                        </div>
-
-                        {/* Role */}
-                        <div>
-                            <label className="mb-1 block text-xs font-medium text-gray-300">
-                                Select Role
-                            </label>
-                            <div className="flex gap-3">
-                                <label className="flex w-full items-center gap-2 rounded-md border border-gray-600 p-2 text-xs text-gray-200">
-                                    <input type="radio" name="role" className="accent-indigo-500" defaultChecked/>
-                                    Student
-                                </label>
-                                <label className="flex w-full items-center gap-2 rounded-md border border-gray-600 p-2 text-xs text-gray-200">
-                                    <input type="radio" name="role" className="accent-indigo-500" />
-                                    Teacher
-                                </label>
-                            </div>
-                        </div>
-
-                        {/* Password */}
-                        <div>
-                            <label className="block text-xs font-medium text-gray-300">
-                                Password
-                            </label>
-                            <input
-                                type="password"
-                                className="mt-1 w-full rounded-md bg-gray-700 px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-indigo-500"
-                            />
-                        </div>
-
-                        {/* Confirm Password */}
-                        <div>
-                            <label className="block text-xs font-medium text-gray-300">
-                                Confirm Password
-                            </label>
-                            <input
-                                type="password"
-                                className="mt-1 w-full rounded-md bg-gray-700 px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-indigo-500"
-                            />
-                        </div>
-
-                        {/* Terms */}
-                        <div className="flex items-start gap-2">
-                            <input type="checkbox" className="mt-1 h-3.5 w-3.5 accent-indigo-500" />
-                            <span className="text-xs text-gray-300">
-                                I agree to the <span className="text-indigo-400">Terms & Conditions</span>
-                            </span>
-                        </div>
-
-                        {/* Login */}
-                        <p className="text-center text-xs text-gray-400">
-                            Already have an account?{" "}
-                            <Link to="/login" className="text-indigo-400 hover:underline">
-                                Login
-                            </Link>
-                        </p>
-
-                        {/* Submit */}
-                        <button className="w-full rounded-md bg-indigo-600 py-1.5 text-sm font-semibold text-white hover:bg-indigo-500">
-                            Sign Up
-                        </button>
-                    </form>
-
-                    {/* OR */}
-                    <div className="my-4 flex items-center gap-2">
-                        <div className="h-px flex-1 bg-gray-600" />
-                        <span className="text-xs text-gray-400">OR</span>
-                        <div className="h-px flex-1 bg-gray-600" />
                     </div>
 
-                    <p className="text-center text-xs text-gray-400">
-                        Sign up with Google (coming soon)
-                    </p>
+                    {/* FORM SECTION */}
+                    <div className="p-4 sm:p-6 flex flex-col justify-center">
+                        <h2 className="text-xl font-bold text-white text-center mb-2">Create Your LMS Account</h2>
+                        <p className="text-xs text-gray-400 text-center mb-4">Register as Student or Teacher</p>
+                        {/* Profile Image Upload */}
+                        <div className="flex items-center gap-3 mt-2">
+                            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-800 flex items-center justify-center overflow-hidden border border-gray-600">
+                                {privew ? (
+                                    <img src={privew} alt="profile" className="w-full h-full object-cover" />
+                                ) : (
+                                    <FaUserCircle className="text-gray-500 text-2xl sm:text-3xl" />
+                                )}
+                            </div>
+                            <label className="cursor-pointer">
+                                <span className="px-3 py-1 text-xs sm:text-sm rounded-md bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition">
+                                    Upload
+                                </span>
+                                <input type="file" accept="image/*" className="hidden" onChange={handleProfileUpload} />
+                            </label>
+                        </div>
+                        <form className="space-y-3">
+
+
+                            {/* Full Name & Email in Row */}
+                            <div className="flex flex-col sm:flex-row sm:gap-4">
+
+                                {/* Full Name */}
+                                <div className="flex flex-col w-full">
+                                    <label htmlFor="fullname" className="text-xs text-gray-300 mb-1">Full Name</label>
+                                    <input
+                                        id="fullname"
+                                        type="text"
+                                        placeholder="Full Name"
+                                        className="w-full rounded-md bg-gray-700 px-3 py-2 text-sm text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                                        onChange={(e) => setStudentName(e.target.value)}
+                                    />
+                                </div>
+
+                                {/* Email */}
+                                <div className="flex flex-col w-full mt-2 sm:mt-0">
+                                    <label htmlFor="email" className="text-xs text-gray-300 mb-1">Email</label>
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        placeholder="Email Address"
+                                        className="w-full rounded-md bg-gray-700 px-3 py-2 text-sm text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                                        onChange={(e) => setStudentEmail(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+
+
+                            {/* Role Selection */}
+                            <div className="flex flex-col gap-2 w-full">
+                                {/* Role Label */}
+                                <span className="text-xs text-gray-300">Role</span>
+
+                                {/* Radio Buttons */}
+                                <div className="flex gap-2 w-full">
+                                    <label className="flex items-center gap-2 w-full border border-gray-600 rounded-md p-2 text-xs text-gray-200">
+                                        <input
+                                            type="radio"
+                                            name="role"
+                                            className="accent-indigo-500"
+                                            onChange={() => setrole("student")}
+                                        />
+                                        Student
+                                    </label>
+                                    <label className="flex items-center gap-2 w-full border border-gray-600 rounded-md p-2 text-xs text-gray-200">
+                                        <input
+                                            type="radio"
+                                            name="role"
+                                            className="accent-indigo-500"
+                                            onChange={() => setrole("Teacher")}
+                                        />
+                                        Teacher
+                                    </label>
+                                    <label className="flex items-center gap-2 w-full border border-gray-600 rounded-md p-2 text-xs text-gray-200">
+                                        <input
+                                            type="radio"
+                                            name="role"
+                                            className="accent-indigo-500"
+                                            onChange={() => setrole("Admin")}
+                                        />
+                                        Admin
+                                    </label>
+                                </div>
+                            </div>
+                            {role === "Teacher" && (
+                                <div className="mb-4">
+                                    <label className="block text-white mb-1 font-medium">Department</label>
+                                    <select
+                                        value={department}
+                                        onChange={(e) => setDepartment(e.target.value)}
+                                        className="w-full border rounded p-2 text-white"
+                                    >
+                                        <option value="" className="text-black">Select Department</option>
+                                        {departments.map((dept) => (
+                                            <option key={dept} value={dept} className="text-black">
+                                                {dept}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
+                            {role === "student" && (
+                                <div className="mb-4">
+                                    <label className="block text-white mb-1 font-medium">Department</label>
+                                    <select
+                                        value={StudentsYearDepartment}
+                                        onChange={(e) => setStudentsYearDepartment(e.target.value)}
+                                        className="w-full border rounded p-2 text-white"
+                                    >
+                                        <option value="" className="text-black">Select Department</option>
+                                        {allDepts.map((dept) => (
+                                            <option key={dept} value={dept} className="text-black">
+                                                {dept}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
+
+                            {/* Password & Confirm Password in Row */}
+                            <div className="flex flex-col sm:flex-row sm:gap-3">
+                                <div className="relative w-full">
+                                    <input
+                                        type={showPassword ? "text" : "password"}
+                                        placeholder="Password"
+                                        className="w-full rounded-md bg-gray-700 px-3 py-2 pr-10 text-sm text-white outline-none focus:ring-2 focus:ring-indigo-500"
+                                        onChange={(e) => setStudentPassword(e.target.value)}
+                                    />
+                                    <button
+                                        type="button"
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400"
+                                        onClick={() => setShowPassword(!showPassword)}
+                                    >
+                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </button>
+                                </div>
+                                <div className="relative w-full mt-2 sm:mt-0">
+                                    <input
+                                        type={showConfirmPassword ? "text" : "password"}
+                                        placeholder="Confirm Password"
+                                        className="w-full rounded-md bg-gray-700 px-3 py-2 pr-10 text-sm text-white outline-none focus:ring-2 focus:ring-indigo-500"
+                                        onChange={(e) => setStudentConifrmPassword(e.target.value)}
+                                    />
+                                    <button
+                                        type="button"
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400"
+                                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                    >
+                                        {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                                    </button>
+                                </div>
+                            </div>
+
+
+
+                            {/* Terms */}
+                            <div className="flex items-center gap-2 text-xs text-gray-300 mt-2">
+                                <input type="checkbox" className="accent-indigo-500" onChange={() => setcheck(!ischeck)} />
+                                <span>I agree to the <span className="text-indigo-400">Terms & Conditions</span></span>
+                            </div>
+
+                            {/* Google Sign Up Button */}
+
+
+                            {/* Normal Sign Up */}
+                            <button
+                                onClick={Handeldata}
+                                disabled={loading}
+                                className={`px-6 py-2 rounded-md text-white font-medium
+  transition-all duration-300 w-full
+  ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+                            >
+                                {loading ? (
+                                    <span className="flex items-center gap-2">
+                                        <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                                        Loading...
+                                    </span>
+                                ) : (
+                                    'Sign Up'
+                                )}
+                            </button>
+
+                            {/* Or separator */}
+                            {/* <div className="flex items-center my-2">
+                                <hr className="flex-grow border-gray-600" />
+                                <span className="mx-2 text-gray-400 text-xs">or</span>
+                                <hr className="flex-grow border-gray-600" />
+                            </div> */}
+                            {/* <div className="flex justify-center mt-2">
+                                <button
+                                    type="button"
+                                    className="flex items-center justify-center w-full bg-white hover:bg-gray-100 text-gray-800 py-2 rounded-md shadow-md font-medium transition"
+                                >
+                                    <img
+                                        src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
+                                        alt="Google"
+                                        className="w-5 h-5 mr-2"
+                                    />
+                                    Sign up with Google
+                                </button>
+                            </div> */}
+
+
+                            {/* Login */}
+                            <p className="text-center text-xs text-gray-400 mt-1">
+                                Already have an account? <Link to="/login" className="text-indigo-400 hover:underline">Login</Link>
+                            </p>
+                        </form>
+                    </div>
                 </div>
             </div>
-
-
-
-
         </>
     );
 }

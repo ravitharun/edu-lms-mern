@@ -1,0 +1,365 @@
+import React, { useEffect, useState } from 'react'
+import App from '../../App'
+import { FaRegCalendarTimes, FaUpload } from 'react-icons/fa'
+import AdminHeader from '../../Components/AdminHeader'
+import AddingSoon from '../../Loaders/AddingSoon'
+import { UserName } from '../../Apis/Islogin'
+import { HandelUpload } from '../../Apis/FileUploadApi'
+import toast, { Toaster } from 'react-hot-toast'
+import { useLocation } from 'react-router-dom'
+import axios from 'axios'
+import Tablecomponets from '../../Components/Tablecomponets'
+
+function UploadMaterilas() {
+    const [classList, setClassList] = useState([])
+
+    const [Upload, setUpload] = useState(false)
+    const [Name, setsection] = useState("")
+    const [Description, setDescription] = useState("")
+    const [file, setfile] = useState(null)
+    const Action = "Material"
+    const loc = useLocation()
+    // console.log(loc.state)
+    const [LocaationState, setState] = useState(loc.state)
+    useEffect(() => {
+        const Fetch_Assignment = async () => {
+            try {
+
+                const reonse = await axios.get("http://localhost:5001/api/classlist/getsection", {
+                    params: {
+                        teacher_Id: UserName.teacher_Id
+                    }
+                })
+                console.log(reonse.data.message)
+                setClassList(reonse.data.message)
+
+            } catch (error) {
+                console.log(error.message, 'from the Fetching Teacher Pages Api Call.')
+                toast.error(error.message==="Request failed with status code 404"?"No UploadMaterilas Found":"")
+            }
+        }
+        Fetch_Assignment()
+    }, [])
+
+    const handelSubmit = async () => {
+        if (!Name || !Description) {
+            return toast.error("Fill The Required Input's.")
+        }
+        const formdata = new FormData()
+        formdata.append("Name", Name)
+        formdata.append("Description", Description)
+        formdata.append("file", file)
+        formdata.append("Action", Action)
+        formdata.append("teacher_info", JSON.stringify({
+            teachername: UserName.name,
+            teacher_profile: UserName.profilePreview,
+            teacher_email: UserName.email
+        }))
+
+        await HandelUpload(formdata)
+
+    }
+
+    // handelClear
+    const handelClear = () => {
+        setsection("")
+        setDescription("")
+
+        setfile(null)
+    }
+
+    return (
+        <>
+            <App></App>
+            <Toaster />
+            <div className="md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
+                {/* ================= HEADER ================= */}
+                <div className=''>
+                    <AdminHeader pathname={"Upload Material"}></AdminHeader>
+                </div>
+                <h1 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-3 mt-3">
+                </h1>
+
+                <div>
+                    <button
+                        onClick={() => setUpload(prev => !prev)}
+                        className="rounded-lg border border-blue-600 px-5 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 transition"
+                    >
+                        Upload Material
+                    </button>
+                </div>
+
+
+                {Upload && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+
+                        <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg animate-scaleIn">
+
+                            {/* Header */}
+                            <h2 className="mb-4 text-lg font-semibold text-gray-800">
+                                Upload Details
+                            </h2>
+
+                            {/* Form */}
+                            <form className="space-y-4">
+
+                                <div className="w-full max-w-sm bg-white rounded-xl shadow p-4">
+                                    <label
+                                        htmlFor="section"
+                                        className="block mb-2 text-sm font-medium text-gray-700"
+                                    >
+                                        Choose a Section <b className='text-red-500'>{LocaationState ? (LocaationState) : ''}</b>
+                                    </label>
+                                    <select
+                                        id="section"
+                                        onChange={(e) => setsection(e.target.value)}
+                                        // disabled={section}
+
+                                        className={`w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition `}
+
+                                    >
+                                        <option value={LocaationState} selected disabled>
+                                            {LocaationState ? LocaationState :
+
+                                                '      --Select Section --'
+                                            }
+                                        </option>
+                                        {
+                                            classList.map((cls, idx) => (
+                                                <option
+                                                    key={idx}
+                                                    title='ClassSection-department-Year'
+                                                    value={` ${cls.classId} - ${cls.department} - ${cls.year}`}
+                                                    className={`text-gray-700   `}
+
+
+                                                >
+                                                    {cls.classId} - {cls.department} - {cls.year}
+                                                </option>
+
+                                            ))
+                                        }
+
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600">
+                                        Name <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={Name}
+                                        placeholder="Enter name"
+                                        // onChange={(e) => setname(e.target.value)}
+                                        className="mt-1 w-full rounded-lg border px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600">
+                                        Description <span className="text-red-500">*</span>
+                                    </label>
+                                    <textarea
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        value={Description}
+                                        placeholder="Enter description"
+                                        className="mt-1 w-full rounded-lg border px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600">
+                                        Upload File <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="file"
+                                        onChange={(e) => setfile(e.target.files[0])}
+                                        className="mt-1 w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-blue-100 file:px-4 file:py-2 file:text-blue-600 hover:file:bg-blue-200"
+                                    />
+                                </div>
+                            </form>
+
+                            {/* Buttons */}
+                            <div className="mt-6 flex justify-end gap-3">
+                                <button
+                                    onClick={() => setUpload(false)}
+                                    className="rounded-lg border px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                                >
+                                    Cancel
+                                </button>
+
+                                {Name && <button
+                                    onClick={handelSubmit}
+                                    className="rounded-lg bg-blue-600 px-5 py-2 text-sm text-white hover:bg-blue-700"
+                                >
+                                    Submit
+                                </button>}
+                                <button
+                                    onClick={handelClear}
+                                    className="rounded-lg bg-blue-600 px-5 py-2 text-sm text-white hover:bg-blue-700"
+                                >
+                                    Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {LocaationState && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+
+                        <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-lg animate-scaleIn">
+
+                            {/* Header */}
+                            <h2 className="mb-4 text-lg font-semibold text-gray-800">
+                                Upload Details
+                            </h2>
+
+                            {/* Form */}
+                            <form className="space-y-4">
+                                <label
+                                    htmlFor="section"
+                                    className="block mb-2 text-sm font-medium text-gray-700"
+                                >
+                                    Choose a Section <b className='text-red-500'></b>
+                                </label>
+                                <select
+                                    id="section"
+                                    onChange={(e) => setsection(e.target.value)}
+                                    // disabled={section}
+                                    className={`w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition `}
+
+                                >
+                                    <option value="" selected disabled>
+
+
+                                        --Select Section --
+
+                                    </option>
+                                    {
+                                        classList.map((cls, idx) => (
+                                            <option
+                                                key={idx}
+                                                title='ClassSection-department-Year'
+                                                value={` ${cls.classId} - ${cls.department} - ${cls.year}`}
+                                                className={`text-gray-700   `}
+
+
+                                            >
+                                                {cls.classId} - {cls.department} - {cls.year}
+                                            </option>
+
+                                        ))
+                                    }
+
+                                </select>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600">
+                                        Name <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={Name}
+                                        placeholder="Enter name"
+                                        // onChange={(e) => setname(e.target.value)}
+                                        className="mt-1 w-full rounded-lg border px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600">
+                                        Description <span className="text-red-500">*</span>
+                                    </label>
+                                    <textarea
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        value={Description}
+                                        placeholder="Enter description"
+                                        className="mt-1 w-full rounded-lg border px-3 py-2 text-sm focus:border-blue-500 focus:outline-none"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-600">
+                                        Upload File <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="file"
+                                        onChange={(e) => setfile(e.target.files[0])}
+                                        className="mt-1 w-full text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-blue-100 file:px-4 file:py-2 file:text-blue-600 hover:file:bg-blue-200"
+                                    />
+                                </div>
+                            </form>
+
+                            {/* Buttons */}
+                            <div className="mt-6 flex justify-end gap-3">
+                                <button
+                                    onClick={() => setState('')}
+                                    className="rounded-lg border px-4 py-2 text-sm text-gray-600 hover:bg-gray-100"
+                                >
+                                    Cancel
+                                </button>
+
+                                {<button
+                                    onClick={handelSubmit}
+                                    className="rounded-lg bg-blue-600 px-5 py-2 text-sm text-white hover:bg-blue-700"
+                                >
+                                    Submit
+                                </button>}
+                                <button
+                                    onClick={handelClear}
+                                    className="rounded-lg bg-blue-600 px-5 py-2 text-sm text-white hover:bg-blue-700"
+                                >
+                                    Clear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+
+
+                <div className="w-full bg-white shadow-lg rounded-xl p-4">
+
+                    <h2 className="text-xl font-semibold mb-4 text-gray-700">
+                        Upload Material  </h2>
+
+                    {/* Scroll wrapper for mobile */}
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full border border-gray-200 text-sm text-left">
+
+                            {/* Table Head */}
+                            <thead className="bg-blue-600 text-white">
+                                <tr>
+                                    {["Section", "Name", "Description", "Uploaded Date", "Actions"].map(
+                                        (data, idx) => (
+                                            <th key={idx} className="px-4 py-3 whitespace-nowrap">
+                                                {data}
+                                            </th>
+                                        )
+                                    )}
+                                </tr>
+                            </thead>
+
+                            {/* Table Body */}
+                            <tbody className="divide-y divide-gray-200">
+
+                                {classList.length === 0 && (
+                                    <Tablecomponets sizeTb={classList.length} col={5} text="There is no Upload Material Found." />
+                                )}
+
+                                {/* Your table rows will go here */}
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {/* {!true ? 'hi' : <AddingSoon pathname={"Upload Material"}></AddingSoon>} */}
+
+
+            </div>
+
+        </>
+    )
+}
+
+export default UploadMaterilas
