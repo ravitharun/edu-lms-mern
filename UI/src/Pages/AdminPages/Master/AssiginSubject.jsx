@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { fun } from '../../../Components/UserisLogin';
 import { GrFormNextLink } from "react-icons/gr";
 import { GrFormPreviousLink } from "react-icons/gr";
+import { socket } from '../../../Socket';
 
 function AssiginSubject() {
     const [getAllData, setallData] = useState([]);
@@ -42,6 +43,7 @@ function AssiginSubject() {
             }
         };
         get();
+
     }, [page]);
 
     const handleSearch = (e) => {
