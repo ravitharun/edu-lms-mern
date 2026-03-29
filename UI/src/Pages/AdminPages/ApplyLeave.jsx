@@ -10,6 +10,7 @@ import Dataloading from '../../Loaders/Dataloading'
 import HandelshowPoupLeave from './HandelshowPoupLeave'
 import DownloadReports from './Master/DownloadReports'
 import PoupLogin from '../../Components/PoupLogin'
+import Tomany from '../../Loaders/Tomany'
 // import { TbHeadings } from '../../Components/Leaveheadings'
 
 
@@ -41,14 +42,28 @@ function ApplyLeave() {
     const [EmpEmailId, setEmpEmailId] = useState("")
     const [Loader, setLoader] = useState(false)
     const [userlogin, setuserlogin] = useState(false)
+    const [requestTimeout, setrequestTimeout] = useState(false)
 
     useEffect(() => {
         const getApplyedLeaves = async () => {
-            setLoader(true)
-            const response_Data = await GetLeavesApplyByID()
-            console.log(response_Data.data.message, 'Based on the EmpId leaves Applyications.')
-            setLeavesData(response_Data.data.message)
-            setLoader(false)
+            try {
+                setLoader(true)
+                const response_Data = await GetLeavesApplyByID()
+                console.log(response_Data, 'Based on the EmpId leaves Applyications.')
+                if (response_Data.status == 429){
+
+
+                    return setrequestTimeout(1)
+                }
+                setrequestTimeout(1-1)
+                    setLeavesData(response_Data.data.message)
+                setLoader(false)
+            }
+            catch (err) {
+                console.log(err?.message,"err")
+                toast.error(err.status)
+                // if(err.asta)
+            }
         }
         getApplyedLeaves()
     }, [])
@@ -147,6 +162,7 @@ function ApplyLeave() {
         <>
             <App />
             <Toaster />
+            {requestTimeout && <Tomany/>}
             <PoupLogin check={userlogin}></PoupLogin>
             <div className="md:ml-64 p-4 md:p-6 min-h-screen bg-gray-100 space-y-6" >
                 <AdminHeader pathname="ApplyLeave" />

@@ -9,9 +9,11 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import axios from 'axios'
 import { UserName } from '../../Apis/Islogin'
+import Tomany from '../../Loaders/Tomany'
 
 
 function Students() {
+    const [requesttimeout, setrequestTimeout] = useState(false)
     const Class = [
         {
             className: "B.tech",
@@ -36,18 +38,23 @@ function Students() {
     }
 
     useEffect(() => {
-        const response = async() => {
+        const response = async () => {
             try {
                 const response = await axios.get("http://localhost:5001/api/classlist/getstudents", {
                     params: {
                         id: UserName.teacher_Id
-                    }, 
+                    },
                     // Header_Token_expry
                 })
                 console.log(response, 'response')
+
                 setStudentsData(response.data.getstudents, 'response')
                 return response
             } catch (error) {
+                if (error.status == 429) {
+                    return setrequestTimeout(true)
+                }
+                setrequestTimeout(false)
                 console.log(error)
 
             }
@@ -57,6 +64,7 @@ function Students() {
 
     return (
         <>
+            {requesttimeout && <Tomany />}
             <App></App>
             <div className="md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
                 {/* ================= HEADER ================= */}
@@ -116,8 +124,8 @@ function Students() {
                             <tbody>
                                 {StudentsData.map((data, idx) => (
 
-                                    <tr className="border-b hover:bg-gray-50" key={idx}  onClick={() =>handelData 
-                        (data)}>
+                                    <tr className="border-b hover:bg-gray-50" key={idx} onClick={() => handelData
+                                        (data)}>
 
                                         <td className="p-3">{data.Student_ID}</td>
 
@@ -126,15 +134,15 @@ function Students() {
                                         </td>
 
                                         <td className="p-3 text-center">
-                                            {data.percentage|| "In progress"}
+                                            {data.percentage || "In progress"}
                                         </td>
 
                                         <td className="p-3 text-center">
-                                            {data.attended||0} / {data.total||0}
+                                            {data.attended || 0} / {data.total || 0}
                                         </td>
 
                                         <td className="p-3 text-center">
-                                            {data.marks|| "0"}
+                                            {data.marks || "0"}
                                         </td>
 
                                         <td className="p-3 text-center">
@@ -144,15 +152,15 @@ function Students() {
                                                     : "bg-red-100 text-red-700"
                                                     }`}
                                             >
-                                                {data.status|| 'In progress'}
+                                                {data.status || 'In progress'}
                                             </span>
                                         </td>
 
                                         <td className="p-3 text-center">
                                             <button
                                                 className="px-3 py-1 text-xs bg-blue-500 text-white rounded"
-                                                onClick={() =>handelData 
-                        (data)}
+                                                onClick={() => handelData
+                                                    (data)}
                                             >
                                                 View
                                             </button>

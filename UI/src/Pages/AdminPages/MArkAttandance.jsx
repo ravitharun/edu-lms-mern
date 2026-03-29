@@ -26,7 +26,6 @@ function MarkAttendance() {
 
       } catch (error) {
         console.log(error.message)
-        toast.error(error.message === "Request failed with status code 404" ? "No UploadMaterilas Found" : "")
       }
     }
     Fetch_Assignment()
@@ -41,7 +40,7 @@ function MarkAttendance() {
         setloader(true)
         sethandel(false)
         // console.log(Class[0].classId+"-"+Class[0].department+"-"+Class[0].year, "new")
-        const response = await GetStudentname(Class[0].classId + "-" + Class[0].department + "-" + Class[0].year, getByclass)
+        const response = await GetStudentname(Class[0], getByclass)
         console.log(response.status, 'response')
         if (response.status == 429) {
           sethandel(true)
