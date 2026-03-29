@@ -5,6 +5,9 @@ import toast, { Toaster } from 'react-hot-toast'
 import { FiX, FiCalendar, FiUpload, FiTag, FiPlus } from "react-icons/fi";
 import axios from 'axios';
 import GetAnnouncement from './GetAnnouncement';
+import { useEffect } from 'react';
+import { socket } from '../../../Socket';
+import { UserName } from '../../../Apis/Islogin';
 function Annoncement() {
     const page = "Annoncement"
     const [openPoup, setopenPoup] = useState(false)
@@ -15,6 +18,20 @@ function Annoncement() {
     const [EndDate, setEndDate] = useState("")
     const [Banner, setBanner] = useState(null)
     const [TargetAudience, setTargetAudience] = useState('')
+    useEffect(() => {
+        // Listen for the "Announcement" event
+        const handleAnnouncement = (data) => {
+            console.log(data, "New Announcement App level");
+            alert(data); // or toast.success(data) if using React-Toastify
+        };
+
+        socket.on("Announcement", handleAnnouncement);
+
+        // Cleanup listener on unmount
+        return () => {
+            socket.off("Announcement", handleAnnouncement);
+        };
+    }, []);
     const HandelFile = (e) => {
         const file = e.target.files[0]
         console.log(file)
@@ -30,7 +47,7 @@ function Annoncement() {
         setBanner(file)
     }
 
-    
+    console.log(UserName, 'UserName')
     const HandelAnnoncement = async () => {
 
 
@@ -48,6 +65,8 @@ function Annoncement() {
             formdata.append("EndDate", EndDate)
             formdata.append("profile", Banner)
             formdata.append("TargetAudience", TargetAudience)
+            formdata.append("AddedBy", UserName?.role == 'Admin' ? UserName?.Admin_Id : UserName?.teacher_Id)
+            formdata.append("Role", UserName?.role)
             const response = await axios.post("http://localhost:5001/api/Announcement/addAnnouncement", formdata, {
                 headers: {
                     "Content-Type": "multipart/form-data",
