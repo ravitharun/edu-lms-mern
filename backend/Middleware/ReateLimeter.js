@@ -9,8 +9,10 @@ const loginLimiter = rateLimit({
 
 // API limiter
 const apiLimiter = rateLimit({
-    windowMs: 10 * 1000,
+    windowMs: 15 * 60 * 1000,
     max: 100,
+    standardHeaders: true,
+    legacyHeaders: false,
     handler: (req, res) => {
         console.log("Rate limit exceeded ❌");
         console.log("Rate limit exceeded ❌");
