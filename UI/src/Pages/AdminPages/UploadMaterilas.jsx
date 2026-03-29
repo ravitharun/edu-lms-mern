@@ -9,6 +9,7 @@ import toast, { Toaster } from 'react-hot-toast'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 import Tablecomponets from '../../Components/Tablecomponets'
+import { FetchClassByTecherId } from './TechersApiCall/FectchClassApi'
 
 function UploadMaterilas() {
     const [classList, setClassList] = useState([])
@@ -25,12 +26,8 @@ function UploadMaterilas() {
         const Fetch_Assignment = async () => {
             try {
 
-                const reonse = await axios.get("http://localhost:5001/api/classlist/getsection", {
-                    params: {
-                        teacher_Id: UserName.teacher_Id
-                    }
-                })
-                console.log(reonse.data.message)
+                const reonse = await FetchClassByTecherId()
+                console.log(reonse.data.message,'res')
                 setClassList(reonse.data.message)
 
             } catch (error) {
