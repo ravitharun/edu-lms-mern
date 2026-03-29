@@ -6,6 +6,7 @@ const Announcement = new mongoose.Schema({
     EndDate: { type: String, required: true },
     StartDate: { type: String, required: true },
     TargetAudience: { type: String, required: true },
+    AddedBy: { type: String, required: true }
 }, { timestamps: true })
 const AddAnnouncement = mongoose.model("announcement", Announcement);
 module.exports = { AddAnnouncement };

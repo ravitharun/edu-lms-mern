@@ -6,16 +6,25 @@ import Announcement from '../../../Components/Announcement';
 function GetAnnouncement() {
     const [announcements, setannouncements] = useState([]);
 
-    useEffect(() => {
-        const Fetchannouncements = async () => {
-            const response = await Hnadlefetechannouncements()
-            console.log(response, 'hey')
-            setannouncements(response)
-            console.log(announcements, "announcements")
-        }
-        Fetchannouncements()
-    }, [])
 
+    useEffect(() => {
+        try {
+            const Fetchannouncements = async () => {
+                const response = await Hnadlefetechannouncements()
+
+                console.log(response.data, 'responseresponse')
+                setannouncements(response)
+
+
+            }
+            Fetchannouncements()
+
+        } catch (error) {
+            console.log('error', error)
+
+        }
+    }, [])
+    console.log(announcements.length, 'announcements')
 
     return (
 
@@ -38,14 +47,14 @@ function GetAnnouncement() {
                 </thead>
 
                 <tbody>
-                    {announcements.length === 0 ? <>
+                    {announcements.length <= 0 ? <>
 
                         <div>
 
 
                             NO
                         </div>
-                    </> : announcements.length == 1 ? <>
+                    </> : announcements.length >= 1 ? <>
 
                         <tr className="border-t">
                             <td className="p-3">{announcements[0]?.Title}</td>

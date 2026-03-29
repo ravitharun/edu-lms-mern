@@ -1,24 +1,36 @@
 
 const cloudinary = require("../config/cloudinary");
 const { AddAnnouncement } = require("../models/Announcement");
+const User = require("../models/User");
+const { getIO } = require("../socket");
 const addAnnouncement = async (req, res) => {
-    console.log(req.body);
-    console.log(req.file);
-    const result = await cloudinary.uploader.upload(req.file.path);
-    console.log(result.url, 'result')
-    const add = new AddAnnouncement({
-        Title: req.body.Title,
-        Banner_url: result.url,
-        AnnouncementType: req.body.AnnouncementType,
-        EndDate: req.body.EndDate,
-        StartDate: req.body.StartDate,
-        TargetAudience: req.body.TargetAudience,
-    })
-    await add.save()
-    console.log({
-        message: "Announcement Published"
-    })
-    return res.status(201).json({ message: "Announcement Published" })
+    try {
+        const io = getIO()
+        console.log(req.body.AddedBy, 'req.body')
+        console.log(req.body.Role, 'req.body.Role')
+        const getuserAddedInfoByname = await User.findOne({
+            [req.body.Role === "Admin" ? "Admin_Id" : "teacher_Id"]: req.body.AddedBy
+        });
+        // console.log(getuserAddedInfoByname)
+        const result = await cloudinary.uploader.upload(req.file.path)
+        const add = new AddAnnouncement({
+            Title: req.body.Title,
+            Banner_url: result.url,
+            AnnouncementType: req.body.AnnouncementType,
+            EndDate: req.body.EndDate,
+            StartDate: req.body.StartDate,
+            TargetAudience: req.body.TargetAudience,
+            AddedBy: req.body.AddedBy,
+        })
+        await add.save()
+        io.emit("Announcement", `New Announcement: ${req.body.AnnouncementType} Notice Added By ${getuserAddedInfoByname.name.split(" ")[0]}-${getuserAddedInfoByname.role}`);
+        //         console.log("emittting")
+        return res.status(201).json({ message: "Announcement Published" })
+    } catch (error) {
+        console.log(error.message, 'error.message')
+        return res.status(500).json({ message: error.message })
+
+    }
 
 }
 const FetchAll = async (req, res) => {
