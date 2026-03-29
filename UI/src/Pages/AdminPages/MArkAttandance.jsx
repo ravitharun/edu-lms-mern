@@ -2,10 +2,41 @@ import React, { useEffect, useState } from "react";
 import { FaBell, FaUser } from "react-icons/fa";
 import { TfiExport } from "react-icons/tfi";
 import App from "../../App";
+import { FetchClassByTecherId } from "./TechersApiCall/FectchClassApi";
+import toast, { Toaster } from "react-hot-toast";
 
 function MarkAttendance() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [HandelAttandance, setHandelAttandance] = useState(false);
+  const [Class, setClassList] = useState([])
+
+  useEffect(() => {
+    const Fetch_Assignment = async () => {
+      try {
+        const reonse = await FetchClassByTecherId()
+        setClassList(reonse.data.message)
+        // let Classdf = reonse.data.message[0]
+        // setdefault(Classdf.classId + "-" + Classdf.department + "-" + Classdf.year)
+
+      } catch (error) {
+        console.log(error.message)
+        toast.error(error.message === "Request failed with status code 404" ? "No UploadMaterilas Found" : "")
+      }
+    }
+    Fetch_Assignment()
+  }, [])
+  // CSE3-CSE-3
+ 
+
+
+  useEffect(() => {
+    const FetchStudents = async () => {
+      console.log(Class[0].classId+"-"+Class[0].department+"-"+Class[0].year, "new")
+    }
+    FetchStudents()
+  }, [Class])
+
+
 
   // Sample data for students
   const students = [
@@ -16,22 +47,8 @@ function MarkAttendance() {
     { roll: "05", name: "Eva Green", ischeck: true },
   ];
 
-  const Class = [
-    {
-      className: "B.tech",
-      Dept: "CSE",
-      section: "a"
-    },
-    {
-      className: "B.tech", Dept: "CSE",
-      section: "b"
-    },
-    {
-      className: "B.tech", Dept: "CSE",
-      section: "b"
-    }
-  ]
-  const [count, setcount] = useState(0);
+
+
   // handel Attandce count
   let [Varcount, setcountvar] = useState()
   let [Absent, setAbsent] = useState()
@@ -56,6 +73,7 @@ function MarkAttendance() {
   return (
     <>
       <App></App>
+      <Toaster></Toaster>
       <div className="md:ml-64 p-6 min-h-screen bg-gray-100 space-y-6">
         {/* ================= HEADER ================= */}
         <div className="flex justify-between items-center mb-4">
@@ -91,10 +109,10 @@ function MarkAttendance() {
             {Class.map((cls, idx) => (
               <option
                 key={idx}
-                value={`${cls.className}-${cls.Dept}-${cls.section}`}
+                value={`${cls.classId}-${cls.department}-${cls.year}`}
                 className="text-gray-700"
               >
-                {cls.className} - {cls.Dept} - {cls.section}
+                {cls.classId} - {cls.department} - {cls.year}
               </option>
             ))}
           </select>
@@ -121,11 +139,11 @@ function MarkAttendance() {
                   <td className="p-3 font-medium">{student.roll}</td>
                   <td className="p-3">{student.name}</td>
                   <td className="p-3 text-center">
-                    <input type="checkbox" name="w2"
+                    <input type="checkbox" name="w2" id="a"
                       className="w-4 h-4  text-green-500" />
                   </td>
                   <td className="p-3 text-center">
-                    <input type="checkbox" name="w2" className="w-4 h-4 text-red-500"  />
+                    <input type="checkbox" name="w2" id="a" className="w-4 h-4 text-red-500" />
                   </td>
                 </tr>
               ))}
@@ -146,8 +164,6 @@ function MarkAttendance() {
           </button>
         </div>
       </div>
-
-
     </>
 
   );

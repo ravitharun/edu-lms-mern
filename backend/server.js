@@ -24,6 +24,7 @@ const { Admin_UserInfo } = require("./routes/AdminUserRouter");
 const { Manageholiday } = require("./routes/AddHolidaysRouter");
 const { redisClient } = require("./Expose/redis");
 const { initSocket } = require("./socket");
+const { AttandanceRouter } = require("./routes/AttandanceROuter");
 const app = express();
 const server = http.createServer(app);
 require('dotenv').config();
@@ -54,6 +55,7 @@ app.use("/api/FetchStudentsTimeTabel", HandelFetchTimeTableRouter);
 app.use("/api/FetchStudentsTimeTabel", HandelFetchTimeTableRouter);
 app.use("/api/UsersCount", Admin_UserInfo);
 app.use("/api/Manageholiday", Manageholiday);
+app.use("/api/markAttandance", AttandanceRouter);
 app.use(apiLimiter)
 
 // Test root
