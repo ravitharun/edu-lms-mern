@@ -57,22 +57,6 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
   }, [])
 
 
-  // const handleDateChange = useCallback((date) => {
-  //   console.log({ date,data })
-
-  //   setdate(date);
-  //   // if (getEventtype) {
-  //   const filtered = data?.filter((evt) =>
-  //     new Date(evt.EventstartDate ||evt.EventendDate).toISOString().slice(0, 19) == new Date(date).toISOString().slice(0, 19));
-  //   console.log(filtered,"filteredCHwdk")
-  //   setData(filtered);
-
-  //   // } else {
-  //   //   setData(selectedEvents || []);
-  //   // }
-
-  // }, [date]);
-  // calendar by date change
 
   useEffect(() => {
     if (calendarRef.current || !containerRef.current) return;
@@ -85,57 +69,6 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
       eventsData: data,
       onSelectedDateChange: (date, validdata) => {
         console.log({ date, validdata }, "date")
-        // const valid_data = [{
-        //   AddByrole
-        //     :
-        //     "Teacher",
-        //   Addbyid
-        //     :
-        //     "Teacher-8603",
-        //   Addbyname
-        //     :
-        //     "KumarRavi",
-        //   Descprition
-        //     :
-        //     "http://localhost:5001/api/Academic/addAcademic",
-        //   EventName
-        //     :
-        //     "http://localhost:5001/api/Academic/addAcademic",
-        //   EventendDate
-        //     :
-        //     "2026-03-20T06:47:00.000Z",
-        //   EventstartDate
-        //     :
-        //     "2026-03-16T06:47:00.000Z",
-        //   Eventtype
-        //     :
-        //     "Exam",
-        // }, {
-        //   AddByrole
-        //     :
-        //     "Teacher",
-        //   Addbyid
-        //     :
-        //     "Teacher-8603",
-        //   Addbyname
-        //     :
-        //     "KumarRavi",
-        //   Descprition
-        //     :
-        //     "http://localhost:5001/api/Academic/addAcademic",
-        //   EventName
-        //     :
-        //     "http://localhost:5001/api/Academic/addAcademic",
-        //   EventendDate
-        //     :
-        //     "2026-03-20T06:47:00.000Z",
-        //   EventstartDate
-        //     :
-        //     "22026-03-18:47:00.000Z",
-        //   Eventtype
-        //     :
-        //     "Exam",
-        // }]
         const filterbydata = data.filter((evnt) => new Date(evnt.EventstartDate).toISOString().slice(0, 10) == new Date(date).toISOString().slice(0, 10))
         console.log(new Date(date).toISOString().slice(0, 10), "new Date(date).toISOString().slice(0,10)")
         console.log(filterbydata, "filterbydata")
@@ -162,10 +95,6 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
     setData(filtered)
   }, [getEventtype]);
 
-
-
-
-
   const clearFilter = () => {
     setEventtype("");
     setData([]);
@@ -177,6 +106,7 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
   const handeldeleteEvent = (id) => {
     toast.error(`handeldeleteEvent ${id}`)
   }
+console.log(data,'data')
   return (
     <div className="w-full p-6 bg-gray-50">
       {examData && (
@@ -314,7 +244,7 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
                     {getEventtype ? `Events (${data.length})` : "Events"}
                   </h4>
 
-                  {data?.map((item, idx) => (
+                  {data=={}?"No data":data.map((item, idx) => (
                     <div key={idx} className="bg-white border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
                       <div className="flex gap-2 mb-2">
                         <span

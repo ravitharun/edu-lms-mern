@@ -23,14 +23,14 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
     locales,
 
   });
-
+  console.log(events,'eventsevents')
   const formattedEvents = useMemo(() => {
-    return events.map((evt) => ({
+    return events.length==0? events?.map((evt) => ({
       title: evt.AddSubject + " " + (evt.SemesterByyear), // required
       start: new Date(evt.StartTime),
       end: new Date(evt.EndTime),
       allDay: false,
-    }));
+    })):[];
   }, [events]);
   const handleSelectEvent = (event) => {
     console.log("Clicked Event:", event);
