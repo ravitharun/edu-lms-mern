@@ -16,8 +16,8 @@ const NewAccount = async (req, res) => {
   try {
     const formdata = req.body;
     console.log(formdata,"formdata")
-    const Profile = req.file?.path;
-    const result = await cloudinary.uploader.upload(Profile,);
+    // const Profile = req.file?.path;
+    const result = await cloudinary.uploader.upload(req.file?.path);
     const GetBy_email = await User.find({ email: req.body.StudentEmail })
     console.log(GetBy_email,'GetBy_email')
     if (!GetBy_email) {
