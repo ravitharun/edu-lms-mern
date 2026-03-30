@@ -57,7 +57,7 @@ app.use("/api/UsersCount", Admin_UserInfo);
 app.use("/api/Manageholiday", Manageholiday);
 app.use("/api/markAttandance", AttandanceRouter);
 app.use(apiLimiter)
-
+console.log("URI:", process.env.MONGO_URI);
 // Test root
 app.get("/", (req, res) => {
     res.send("Server is running!");
