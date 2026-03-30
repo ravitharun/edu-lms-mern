@@ -13,6 +13,10 @@ console.log({
   "user": process.env.Email_User,
   "pass": process.env.Email_pass // App Password (no spaces)
 })
+console.log({
+  "user": process.env.Email_User,
+  "pass": process.env.Email_pass // App Password (no spaces)
+})
 transporter.verify()
 
   .then(() => console.log("✅ Gmail SMTP Connected"))
