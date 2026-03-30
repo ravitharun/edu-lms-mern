@@ -35,7 +35,7 @@ connectDB();
 // Middleware
 const allowedOrigin = process.env.NODE_ENV === "development"
     ? "http://localhost:5173"
-    : process.env.FRONTEND_URL || "http://localhost:5173"; // fallback to local
+    : process.env.FRONTEND_URL; // your deployed frontend URL
 app.use(cors({
     origin: allowedOrigin, // your frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"],
