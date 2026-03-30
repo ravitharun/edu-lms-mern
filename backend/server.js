@@ -33,7 +33,14 @@ require('dotenv').config();
 connectDB();
 
 // Middleware
-app.use(cors());
+const allowedOrigin = process.env.NODE_ENV === "development"
+    ? "http://localhost:5173"
+    : process.env.FRONTEND_URL || "http://localhost:5173"; // fallback to local
+app.use(cors({
+    origin: allowedOrigin, // your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 initSocket(server);
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
