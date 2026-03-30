@@ -7,12 +7,13 @@ import { IoNewspaperOutline } from "react-icons/io5";
 import "../../App.css"
 import toast, { Toaster } from 'react-hot-toast';
 import secureLocalStorage from 'react-secure-storage';
-import { UserName, UserRole } from '../../Apis/Islogin';
+import { MaintanceMode, UserName, UserRole } from '../../Apis/Islogin';
 import Error from '../../Components/Error';
 import { GetallSubjects } from './StudentsApi';
 import ProgressLoader from '../../Loaders/Progressloader';
 import { Link } from 'react-router-dom';
 import Announcement from '../../Components/Announcement';
+import Undermanitance from '../../Loaders/Undermanitance';
 function Dashboard() {
 
   const [Profile, setprofile] = useState(UserRole.profilePreview)
@@ -42,6 +43,8 @@ function Dashboard() {
       time: "1d ago",
     },
   ];
+
+
   const [notificationType, setNotificationType] = useState("Notification");
   const [placementNotificationType, setplacementNotificationType] = useState("UpcomingJobs");
   const [profileimgs, setprofileimg] = useState(false)
@@ -156,7 +159,6 @@ function Dashboard() {
 
   return (
     <>
-
 
       {/* <Toaster></Toaster> */}
       <Toaster></Toaster>

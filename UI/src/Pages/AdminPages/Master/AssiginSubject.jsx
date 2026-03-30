@@ -11,6 +11,8 @@ import { fun } from '../../../Components/UserisLogin';
 import { GrFormNextLink } from "react-icons/gr";
 import { GrFormPreviousLink } from "react-icons/gr";
 import { socket } from '../../../Socket';
+import { MaintanceMode } from '../../../Apis/Islogin';
+import Undermanitance from '../../../Loaders/Undermanitance';
 
 function AssiginSubject() {
     const [getAllData, setallData] = useState([]);
@@ -136,7 +138,6 @@ function AssiginSubject() {
             <div className="min-h-screen flex bg-gray-50">
                 {/* Sidebar */}
                 <MasterAdminNavbar path="Manage Subjects" />
-
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col min-w-0 w-full">
                     {/* Navbar */}

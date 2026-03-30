@@ -6,9 +6,10 @@ import toast, { Toaster } from 'react-hot-toast'
 import { FaPlus } from 'react-icons/fa'
 import Swal from "sweetalert2";
 import { fun } from '../../../Components/UserisLogin'
-import { Header_Token_expry } from '../../../Apis/Islogin'
+import { Header_Token_expry, MaintanceMode } from '../../../Apis/Islogin'
 import axios from 'axios'
 import Dataloading from '../../../Loaders/Dataloading'
+import Undermanitance from '../../../Loaders/Undermanitance'
 
 function AssiginTeacherwisesubjects() {
     const [GetSubjects, Setsubjects] = useState([])
@@ -195,7 +196,6 @@ function AssiginTeacherwisesubjects() {
             <div className="min-h-screen flex bg-gray-50 overflow-x-hidden">
                 {/* Sidebar */}
                 <MasterAdminNavbar path="Assign Teachers" Active={false} />
-
                 {/* Main Content */}
                 <div className="flex-1 flex flex-col min-w-0 w-full">
                     {/* Navbar */}

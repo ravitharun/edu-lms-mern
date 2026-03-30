@@ -4,12 +4,13 @@ import toast, { Toaster } from 'react-hot-toast'
 import AdminHeader from '../../Components/AdminHeader'
 import { FaPlus } from 'react-icons/fa'
 import ProgressLoader from '../../Loaders/Progressloader'
-import { UserName, UserProfileInfo } from '../../Apis/Islogin'
+import { MaintanceMode, UserName, UserProfileInfo } from '../../Apis/Islogin'
 import axios from 'axios'
 import GetUserProfile from './TechersApiCall/GetUserProfile'
 import { useEffect } from 'react'
 import secureLocalStorage from 'react-secure-storage'
 import ProfileLoading from '../../Loaders/ProfileLoading'
+import Undermanitance from '../../Loaders/Undermanitance'
 
 function TeachersProfile() {
     const [Edit, setEdit] = useState(false)
@@ -194,7 +195,6 @@ function TeachersProfile() {
         <>
             <App />
             <Toaster />
-
             <div className="md:ml-64 min-h-screen bg-gray-50 p-4 md:p-8">
 
                 <AdminHeader pathname={"Teachers Profile"} />

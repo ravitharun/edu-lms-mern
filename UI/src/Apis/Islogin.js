@@ -5,7 +5,7 @@ export const UserRole = secureLocalStorage.getItem("User_info")
 export const UserLogin = secureLocalStorage.getItem("token")
 export const UserName = secureLocalStorage.getItem("User_info")
 export const totalClass = secureLocalStorage.getItem('totalClass')
-console.log(totalClass,'local')
+export const MaintanceMode=true;
 export const ClassName_hover_btn = "hover:cursor-pointer"
 export const UserProfileInfo = secureLocalStorage.getItem("userProfileInfo")
 export let dt = new Date().getFullYear();

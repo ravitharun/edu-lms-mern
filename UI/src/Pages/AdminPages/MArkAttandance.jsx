@@ -7,6 +7,8 @@ import toast, { Toaster } from "react-hot-toast";
 import Dataloading from "../../Loaders/Dataloading";
 import NotFound from "../../Loaders/NotFound";
 import Tomany from "../../Loaders/Tomany";
+import { MaintanceMode } from "../../Apis/Islogin";
+import Undermanitance from "../../Loaders/Undermanitance";
 
 function MarkAttendance() {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -98,6 +100,7 @@ function MarkAttendance() {
     {/* <Tomany/> */}
       <App></App>
       <Toaster></Toaster>
+
       {handel && <Tomany/>}
       <div className="md:ml-64 p-6 min-h-screen bg-gray-100 space-y-6">
         {/* ================= HEADER ================= */}

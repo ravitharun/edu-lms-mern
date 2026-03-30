@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import { fetchAllTeacherName, GetallTeacherProfile } from "./APIS/GetAll-subjects";
 import Dataloading from "../../../Loaders/Dataloading";
 import { useNavigate } from "react-router-dom";
+import { MaintanceMode } from "../../../Apis/Islogin";
+import Undermanitance from "../../../Loaders/Undermanitance";
 
 function TeachersProfiles() {
     const page = "Teachers";
@@ -104,7 +106,6 @@ function TeachersProfiles() {
     return (
         <>
             <Toaster />
-
             <div className="min-h-screen flex bg-gray-50">
                 <MasterAdminNavbar path={page} />
                 <div className="flex-1 flex flex-col min-w-0 w-full">

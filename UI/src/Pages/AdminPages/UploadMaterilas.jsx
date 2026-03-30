@@ -3,7 +3,7 @@ import App from '../../App'
 import { FaRegCalendarTimes, FaUpload } from 'react-icons/fa'
 import AdminHeader from '../../Components/AdminHeader'
 import AddingSoon from '../../Loaders/AddingSoon'
-import { UserName } from '../../Apis/Islogin'
+import { MaintanceMode, UserName } from '../../Apis/Islogin'
 import { HandelUpload } from '../../Apis/FileUploadApi'
 import toast, { Toaster } from 'react-hot-toast'
 import { useLocation } from 'react-router-dom'
@@ -11,6 +11,7 @@ import axios from 'axios'
 import Tablecomponets from '../../Components/Tablecomponets'
 import { FetchClassByTecherId } from './TechersApiCall/FectchClassApi'
 import Tomany from '../../Loaders/Tomany'
+import Undermanitance from '../../Loaders/Undermanitance'
 
 function UploadMaterilas() {
     const [classList, setClassList] = useState([])

@@ -273,7 +273,7 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                 {/* DESKTOP MENU */}
                 <div className="hidden md:flex items-center gap-6">
 
-                  <NavItem to="/" icon={<FiHome size={20} />} title="Dashboard" />
+                  <NavItem to="/StudentDashboard" icon={<FiHome size={20} />} title="Dashboard" />
 
                   <NavItem
                     to="/my-course"

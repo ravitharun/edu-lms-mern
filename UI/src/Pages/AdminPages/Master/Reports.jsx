@@ -8,6 +8,8 @@ import { IoCloseOutline } from "react-icons/io5";
 import ProgressLoader from '../../../Loaders/Progressloader';
 import StudentsReports from './StudentsReports';
 import TeachersReports from './TeachersReports';
+import { MaintanceMode } from '../../../Apis/Islogin';
+import Undermanitance from '../../../Loaders/Undermanitance';
 
 function Reports() {
 
@@ -32,7 +34,6 @@ function Reports() {
             <div className="flex-1 flex flex-col min-w-0 w-full">
                 {/* Navbar */}
                 <MasterLogoNav path={page} />
-
                 {/* Scrollable Content */}
                 {/* <main className="flex-1 pt-16 md:ml- pb-8 px-4 md:px-8 lg:px-12 overflow-y-auto"> */}
                 <main className="flex-1 mt-[72px] pb-8 px-4 md:px-8 lg:px-12 overflow-y-auto">

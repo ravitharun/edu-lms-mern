@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import BackButton from '../../Components/BackButton'
 import App from '../../App'
-import { UserName } from '../../Apis/Islogin'
+import { MaintanceMode, UserName } from '../../Apis/Islogin'
+import Undermanitance from '../../Loaders/Undermanitance';
 
 function Studentprofile() {
 
@@ -33,6 +34,7 @@ function Studentprofile() {
     }
     return (
         <>
+      
             <App />
             <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-100 px-4 py-10">
 
