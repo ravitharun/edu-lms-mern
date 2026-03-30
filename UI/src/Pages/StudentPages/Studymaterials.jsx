@@ -6,6 +6,8 @@ import { useLocation } from 'react-router-dom'
 import BackButton from '../../Components/BackButton'
 import Footer from './Footer'
 import LMSLoader from '../../Loaders/BackgroungImgLoader'
+import { MaintanceMode } from '../../Apis/Islogin'
+import Undermanitance from '../../Loaders/Undermanitance'
 
 function Studymaterials() {
   const location = useLocation()
@@ -28,7 +30,6 @@ function Studymaterials() {
     <>
       <App />
       <BackButton page="dashboard" currentPage="my-course" />
-
       <div className="max-w-6xl mx-auto p-4">
 
         {/* ================= HEADER ================= */}

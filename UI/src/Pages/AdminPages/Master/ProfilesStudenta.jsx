@@ -5,6 +5,8 @@ import Dataloading from "../../../Loaders/Dataloading";
 import { GetallStudentsProfile } from "./APIS/GetAll-subjects";
 import "../../../../../UI/src/App.css";
 import toast, { Toaster } from "react-hot-toast";
+import { MaintanceMode } from "../../../Apis/Islogin";
+import Undermanitance from "../../../Loaders/Undermanitance";
 
 function ProfilesStudenta() {
     const StudentsProfileHeadings = [
@@ -142,9 +144,9 @@ function ProfilesStudenta() {
     }
     return (
         <>
-            <Toaster></Toaster>
+        <Toaster></Toaster>
+            {MaintanceMode ?<Undermanitance />:
             <div className="min-h-screen flex bg-gray-50">
-
                 {/* Sidebar */}
                 <MasterAdminNavbar path="Students" />
 
@@ -356,7 +358,7 @@ function ProfilesStudenta() {
                         {/* Previous Button */}
                         {Page <= 1 ? <button
                             onClick={() => setPage(prev => Math.min(prev + 1, length))}
-                            className={`px-3 py-1 text-sm font-medium rounded-md  transition ${Page==Page && 'bg-blue-500 hover:bg-blue-400 text-white '}`}
+                            className={`px-3 py-1 text-sm font-medium rounded-md  transition ${Page == Page && 'bg-blue-500 hover:bg-blue-400 text-white '}`}
                         >
                             Next
                         </button> : <>
@@ -414,7 +416,7 @@ function ProfilesStudenta() {
                     </div>
 
                 </div>
-            </div>
+            </div>}
         </>
 
     );

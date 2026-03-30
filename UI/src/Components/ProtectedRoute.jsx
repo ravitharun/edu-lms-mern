@@ -4,12 +4,12 @@ import secureLocalStorage from "react-secure-storage";
 import { UserName } from "../Apis/Islogin";
 
 const ProtectedRoute = ({ allowedRoles, children }) => {
+    console.log({ allowedRoles, children },"{ allowedRoles, children }")
     // Not logged in
     if (!UserName) {
         return <Navigate to="/login" replace />;
     }
     if (UserName.AccountStatus) {
-        console.log(UserName.AccountStatus, 'UserName.AccountStatus')
         return <Navigate to="/AccountDeactivate" replace />;
     }
     const role = UserName.role;

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
 import { UserName } from "../Apis/Islogin";
 import RedirectPopup from "./RedirectPopup";
+import { useEffect } from "react";
 
 function Error() {
   const navigate = useNavigate();
@@ -20,6 +21,22 @@ function Error() {
       navigate("/login");
     }, 3500);
   };
+
+    console.log(window.location.pathname)
+  // useEffect(() => {
+  //   const user = secureLocalStorage.getItem("User_info");
+
+  //   if (!user) return; // no user → stay on /
+  //   if (user.role === "Admin") {
+  //     navigate("/Admin-Dashboard");
+  //   } else if (user.role === "teacher") {
+  //     navigate("/teacher-dashboard");
+  //   } else {
+  //     navigate("/");
+  //   }
+  // }, []);
+
+
 
 
   // handelPageRoute

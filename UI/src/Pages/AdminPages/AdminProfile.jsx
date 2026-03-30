@@ -11,7 +11,8 @@ import {
 } from "react-icons/fi";
 import MasterAdminNavbar from "./Master/MasterAdminNavbar";
 import MasterLogoNav from "./Master/MasterLogoNav";
-import { UserName } from "../../Apis/Islogin";
+import { MaintanceMode, UserName } from "../../Apis/Islogin";
+import Undermanitance from "../../Loaders/Undermanitance";
 
 function AdminProfile() {
   const page = "Profile";
@@ -40,116 +41,120 @@ function AdminProfile() {
 
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
-      <MasterAdminNavbar path={page} />
+    <>
+      {MaintanceMode ? <Undermanitance /> :
 
-      <div className="flex-1 flex flex-col min-w-0">
-        <MasterLogoNav path={page} />
+        <div className="min-h-screen flex bg-gray-50">
+          <MasterAdminNavbar path={page} />
 
-        <main className="flex-1 mt-[72px] px-4 md:px-6 lg:px-8 pb-10 overflow-y-auto">
-          <div className="max-w-5xl mx-auto space-y-8">
+          <div className="flex-1 flex flex-col min-w-0">
+            <MasterLogoNav path={page} />
 
-            {/* Header */}
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-                Admin Profile
-              </h1>
-              <p className="text-sm text-gray-600 mt-1">
-                Manage your administrator account settings
-              </p>
-            </div>
+            <main className="flex-1 mt-[72px] px-4 md:px-6 lg:px-8 pb-10 overflow-y-auto">
+              <div className="max-w-5xl mx-auto space-y-8">
 
-            {/* Profile Card */}
-            <Section title="Profile Information">
-              <div className="flex flex-col sm:flex-row justify-between gap-6">
-                <div className="flex items-center gap-5">
-                  <img className="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-3xl font-bold text-blue-600" src={UserName.profilePreview}>
-
-                  </img>
-                  <div>
-                    <h2 className="text-xl font-semibold text-gray-900">
-                      Super Admin
-                    </h2>
-                    <p className="text-sm text-gray-600">
-                      admin@college.edu
-                    </p>
-                    <span className="inline-block mt-2 px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
-                      Active
-                    </span>
-                  </div>
+                {/* Header */}
+                <div>
+                  <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
+                    Admin Profile
+                  </h1>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Manage your administrator account settings
+                  </p>
                 </div>
 
-                <button className="px-4 py-2 h-fit rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700">
-                  Change Photo
-                </button>
+                {/* Profile Card */}
+                <Section title="Profile Information">
+                  <div className="flex flex-col sm:flex-row justify-between gap-6">
+                    <div className="flex items-center gap-5">
+                      <img className="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-3xl font-bold text-blue-600" src={UserName.profilePreview}>
+
+                      </img>
+                      <div>
+                        <h2 className="text-xl font-semibold text-gray-900">
+                          Super Admin
+                        </h2>
+                        <p className="text-sm text-gray-600">
+                          admin@college.edu
+                        </p>
+                        <span className="inline-block mt-2 px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
+                          Active
+                        </span>
+                      </div>
+                    </div>
+
+                    <button className="px-4 py-2 h-fit rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700">
+                      Change Photo
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <Input label="Full Name" icon={<FiUser />} placeholder="Super Admin" value={UserName.name} />
+                    <Input label="Email" icon={<FiMail />} placeholder="admin@college.edu" value={UserName.email} />
+                    <Input label="Phone" icon={<FiPhone />} placeholder="+91 98765 43210" />
+                    <Input label="Role" icon={<FiBriefcase />} placeholder="Administrator" disabled value={"Admin"} />
+                    <Input label="Admin_Id" icon={<FiBriefcase />} placeholder="Admin_Id" disabled value={UserName?.Admin_Id} />
+                  </div>
+                </Section>
+
+                {/* Security */}
+                <Section title="Security Settings" icon={<FiLock />}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Input label="Current Password" type="password" placeholder="••••••••" value={UserName?.password} />
+                    <Input label="New Password" type="password" placeholder="••••••••" />
+                    <Input label="Confirm Password" type="password" placeholder="••••••••" />
+                  </div>
+                  <p className="text-xs text-gray-500 mt-3">
+                    Last password change: 12 Jan 2024
+                  </p>
+                </Section>
+
+                {/* Role & Permissions */}
+                <Section title="Role & Permissions" icon={<FiShield />}>
+                  <ul className="text-sm text-gray-700 space-y-2">
+                    <li>✔ Manage Users</li>
+                    <li>✔ Manage Courses</li>
+                    <li>✔ View Reports</li>
+                    <li>✔ System Configuration</li>
+                  </ul>
+                </Section>
+
+                {/* Notifications */}
+                <Section title="Notification Preferences" icon={<FiBell />}>
+                  <div className="space-y-3 text-sm">
+                    <Toggle label="Email Notifications" />
+                    <Toggle label="System Alerts" />
+                    <Toggle label="New User Registration Alerts" />
+                  </div>
+                </Section>
+
+                {/* Activity */}
+                <Section title="Activity Information">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                    <Info label="Updated At" value={new Date(UserName?.updatedAt).toLocaleDateString()} />
+                    <Info label="Device" value={first} />
+                    <Info label="Account Created" value={new Date(UserName?.createdAt).toLocaleDateString()} />
+                    <Info label="Last Updated" value={new Date(UserName?.updatedAt).toLocaleDateString()} />
+                  </div>
+                </Section>
+                {/* Danger Zone */}
+                <div className="bg-white border border-red-200 rounded-xl p-6">
+                  <h3 className="text-red-600 font-semibold flex items-center gap-2">
+                    <FiTrash2 /> Danger Zone
+                  </h3>
+                  <p className="text-sm text-gray-600 mt-2">
+                    Deactivating your account will disable access immediately.
+                  </p>
+                  <button className="mt-4 px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-red-700">
+                    Deactivate Account
+                  </button>
+                </div>
+
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <Input label="Full Name" icon={<FiUser />} placeholder="Super Admin" value={UserName.name} />
-                <Input label="Email" icon={<FiMail />} placeholder="admin@college.edu" value={UserName.email} />
-                <Input label="Phone" icon={<FiPhone />} placeholder="+91 98765 43210" />
-                <Input label="Role" icon={<FiBriefcase />} placeholder="Administrator" disabled value={"Admin"} />
-                <Input label="Admin_Id" icon={<FiBriefcase />} placeholder="Admin_Id" disabled value={UserName?.Admin_Id} />
-              </div>
-            </Section>
-
-            {/* Security */}
-            <Section title="Security Settings" icon={<FiLock />}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Input label="Current Password" type="password" placeholder="••••••••" value={UserName?.password} />
-                <Input label="New Password" type="password" placeholder="••••••••" />
-                <Input label="Confirm Password" type="password" placeholder="••••••••" />
-              </div>
-              <p className="text-xs text-gray-500 mt-3">
-                Last password change: 12 Jan 2024
-              </p>
-            </Section>
-
-            {/* Role & Permissions */}
-            <Section title="Role & Permissions" icon={<FiShield />}>
-              <ul className="text-sm text-gray-700 space-y-2">
-                <li>✔ Manage Users</li>
-                <li>✔ Manage Courses</li>
-                <li>✔ View Reports</li>
-                <li>✔ System Configuration</li>
-              </ul>
-            </Section>
-
-            {/* Notifications */}
-            <Section title="Notification Preferences" icon={<FiBell />}>
-              <div className="space-y-3 text-sm">
-                <Toggle label="Email Notifications" />
-                <Toggle label="System Alerts" />
-                <Toggle label="New User Registration Alerts" />
-              </div>
-            </Section>
-
-            {/* Activity */}
-            <Section title="Activity Information">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-                <Info label="Updated At" value={new Date(UserName?.updatedAt).toLocaleDateString()} />
-                <Info label="Device" value={first} />
-                <Info label="Account Created" value={new Date(UserName?.createdAt).toLocaleDateString()} />
-                <Info label="Last Updated" value={new Date(UserName?.updatedAt).toLocaleDateString()}/>
-              </div>
-            </Section>
-            {/* Danger Zone */}
-            <div className="bg-white border border-red-200 rounded-xl p-6">
-              <h3 className="text-red-600 font-semibold flex items-center gap-2">
-                <FiTrash2 /> Danger Zone
-              </h3>
-              <p className="text-sm text-gray-600 mt-2">
-                Deactivating your account will disable access immediately.
-              </p>
-              <button className="mt-4 px-4 py-2 rounded-lg bg-red-600 text-white text-sm hover:bg-red-700">
-                Deactivate Account
-              </button>
-            </div>
-
+            </main>
           </div>
-        </main>
-      </div>
-    </div>
+        </div>}
+    </>
   );
 }
 

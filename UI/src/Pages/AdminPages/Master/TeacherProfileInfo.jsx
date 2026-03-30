@@ -2,6 +2,8 @@ import React from "react";
 import { Toaster } from "react-hot-toast";
 import AdminHeader from "../../../Components/AdminHeader";
 import { Link, useLocation } from "react-router-dom";
+import { MaintanceMode } from "../../../Apis/Islogin";
+import Undermanitance from "../../../Loaders/Undermanitance";
 
 function TeacherProfileInfo() {
     const location = useLocation();
@@ -10,7 +12,6 @@ function TeacherProfileInfo() {
     return (
         <>
             <Toaster />
-
             <div className="w-full min-h-screen bg-gray-100 p-4 md:p-8 space-y-6">
 
                 <AdminHeader pathname="Teacher Profile" />

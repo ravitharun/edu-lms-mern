@@ -6,9 +6,10 @@ import AdminHeader from '../../Components/AdminHeader';
 import { useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import { UserName } from '../../Apis/Islogin';
+import { MaintanceMode, UserName } from '../../Apis/Islogin';
 import Tablecomponets from '../../Components/Tablecomponets';
 import Tomany from '../../Loaders/Tomany';
+import Undermanitance from '../../Loaders/Undermanitance';
 
 function Addassignments() {
     const [showNotifications, setShowNotifications] = useState(false);
@@ -119,6 +120,7 @@ function Addassignments() {
     return (
         <>
             <App></App>
+                  {MaintanceMode ? <Undermanitance />:""}
             {requestTimeout && <Tomany />}
             <div className="md:ml-64 p-6 min-h-screen bg-gray-100 space-y-6">
                 {/* ================= HEADER ================= */}
@@ -285,8 +287,6 @@ function Addassignments() {
 
             </div>
 
-
-            {/* assignments Pop */}
             {ClosePop && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 p-4 sm:p-8">
                     {/* Popup container - zoomed out, responsive, scrollable */}

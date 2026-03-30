@@ -40,6 +40,8 @@ import { UserName } from './Apis/Islogin.js';
 import AddTimeTable from './Pages/AdminPages/Master/AddTimeTable.jsx';
 import ClassTimings from './Pages/StudentPages/ClassTimings.jsx';
 import AdminMangeholidays from './Pages/AdminPages/Master/AdminMangeholidays.jsx';
+import Redirect from '../Redirect.jsx';
+import Undermanitance from './Loaders/Undermanitance.jsx';
 
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
@@ -50,16 +52,25 @@ const Studentprofile = lazy(() => import("./Pages/StudentPages/Studentprofile.js
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  <Undermanitance>
+  {/* <StrictMode> */}
     <BrowserRouter>
       <Routes>
 
         <Route path="/" element={
           <Suspense fallback={<BackgroungImgLoader />}>
-            <ProtectedRoute allowedRoles={"student"}>
+         
+
+              <Redirect />
+
+          </Suspense>
+        } />
+        <Route path="/StudentDashboard" element={
+          <Suspense fallback={<BackgroungImgLoader />}>
+         
 
               <Dashboard />
-            </ProtectedRoute>
+
           </Suspense>
         } />
         <Route path="/Class-Timings" element={
@@ -320,5 +331,5 @@ createRoot(document.getElementById('root')).render(
       </Routes>
     </BrowserRouter>
 
-  </StrictMode>,
+  </Undermanitance>,
 )
