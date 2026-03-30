@@ -4,19 +4,15 @@ const nodemailer = require("nodemailer");
 // For production, replace with your actual SMTP server details.
 const transporter = nodemailer.createTransport({
   service: "gmail",
+  port: 587,
+  secure: false, // TLS
+
   auth: {
     user: process.env.Email_User,
     pass: process.env.Email_pass // App Password (no spaces)
-  }
+  }, family: 4
 });
-console.log({
-  "user": process.env.Email_User,
-  "pass": process.env.Email_pass // App Password (no spaces)
-})
-console.log({
-  "user": process.env.Email_User,
-  "pass": process.env.Email_pass // App Password (no spaces)
-})
+
 transporter.verify()
 
   .then(() => console.log("✅ Gmail SMTP Connected"))
