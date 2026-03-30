@@ -17,7 +17,7 @@ const handelapiSigup = async (formData, e) => {
   console.log(response, 'response')
   return response
 
-  console.log(error.message, 'err New account.')
+  // console.log(error.message, 'err New account.')
 
 
 }
