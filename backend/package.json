@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch . --ext js,json --legacy-watch --delay 2 server.js"
+    "dev": "nodemon --watch . --ext js,json --legacy-watch --delay 2 server.js",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
