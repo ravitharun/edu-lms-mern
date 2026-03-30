@@ -120,7 +120,7 @@ const NewAccount = async (req, res) => {
 const LoginAccount = async (req, res) => {
   try {
     const { email, Password, role } = req.query;
-    console.log({ email, Password, role })
+    console.log({ email, Password, role },"hey")
 
     const token = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
     if (!email || !Password || !role) {
