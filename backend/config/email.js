@@ -5,11 +5,20 @@ const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "tr565003@gmail.com",
-    pass: "kcocficadwdgncrh" // App Password (no spaces)
+    user: process.env.Email_User,
+    pass: process.env.Email_pass // App Password (no spaces)
   }
 });
+console.log({
+  "user": process.env.Email_User,
+  "pass": process.env.Email_pass // App Password (no spaces)
+})
+console.log({
+  "user": process.env.Email_User,
+  "pass": process.env.Email_pass // App Password (no spaces)
+})
 transporter.verify()
+
   .then(() => console.log("✅ Gmail SMTP Connected"))
   .catch(err => console.error("❌ Error:", err));
 module.exports = { transporter }
