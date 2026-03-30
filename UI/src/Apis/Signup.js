@@ -6,7 +6,7 @@ const handelapiSigup = async (formData, e) => {
   e.preventDefault()
 
   const response = await axios.post(
-    "http://localhost:5001/api/auth/newDataUser",
+    `${import.meta.env.VITE_API_URL}/api/auth/newDataUser`,
     formData,
     { headers: { "Content-Type": "multipart/form-data" } }
   );
@@ -25,7 +25,8 @@ const handelLogin = async (data, e) => {
   try {
     e.preventDefault()
     const get_token = secureLocalStorage.getItem("token")
-    const response = await axios.get(`http://localhost:5001/api/auth/LoginAccount`, {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/LoginAccount`, {
+  
       params: {
         email: data.StudentEmail,
         Password: data.StudentPassword,
