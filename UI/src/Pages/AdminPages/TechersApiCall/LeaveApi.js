@@ -24,7 +24,8 @@ export const GetLeavesApplyByID = async () => {
         console.log(response.data.message, 'near my api call ')
         return response
     } catch (error) {
-        console.error(error.message, 'error')
+        return error
+        // console.error(error.message, 'error')
     }
 }
 
@@ -43,6 +44,6 @@ export const getRequestEmail = async () => {
 
     }
     catch (err) {
-        console.log(err.message)
+        return err
     }
 }

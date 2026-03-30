@@ -8,11 +8,13 @@ import { GetClassList } from "./TechersApiCall/FetchApicall";
 import secureLocalStorage from "react-secure-storage";
 import Tablecomponets from "../../Components/Tablecomponets";
 import AdminHeader from "../../Components/AdminHeader";
+import Tomany from "../../Loaders/Tomany";
 
 function Classes() {
   const [Action, SetActon] = useState("");
   const [handelAction, SethandelActon] = useState(false);
   const [assignedClasses, setAssignedClasses] = useState([])
+  const [request, setrequest] = useState(false)
   // console.log(assignedClasses)
   const [info, setinof] = useState({
     classId: "",
@@ -25,7 +27,11 @@ function Classes() {
     const Fetch_Class = async () => {
       try {
         const response_class = await GetClassList()
-        console.log(response_class.data.message.classId)
+        console.log(response_class.status, 'response_class')
+        if (response_class.status == 429) {
+          return setrequest(true)
+        }
+        setrequest(false)
         secureLocalStorage.setItem("totalClass", response_class.data.message.length)
         setAssignedClasses(response_class.data.message)
         setinof({
@@ -83,6 +89,7 @@ function Classes() {
   return (
     <>
       <App></App>
+      {request && <Tomany></Tomany>}
       <div className="md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
         {/* ================= HEADER ================= */}
 
@@ -119,7 +126,7 @@ function Classes() {
             </thead>
             <tbody>
               {assignedClasses.length === 0 ? (
-                <Tablecomponets col={6}  text="There is no AssignedClasses Found"/>
+                <Tablecomponets col={6} text="There is no AssignedClasses Found" />
               ) : (
                 assignedClasses.map((data, idx) => (
                   <tr className="border-b hover:bg-gray-50" key={idx}>

@@ -16,3 +16,20 @@ export const FetchClassByTecherId = async () => {
     }
 
 }
+export const GetStudentname = async (ClassID, getByclass) => {
+    console.log({ ClassID, getByclass }, 'ClassID')
+    try {
+
+        const response = await axios.get('http://localhost:5001/api/markAttandance/StudentsAttandance', {
+
+            params: {
+                ClassID: getByclass == "" ? ClassID : getByclass
+            }
+        })
+        return response;
+    } catch (error) {
+        return error;
+
+    }
+
+}

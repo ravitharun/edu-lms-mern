@@ -4,13 +4,13 @@ import Swal from "sweetalert2";
 import toast, { Toaster } from 'react-hot-toast'
 import AdminHeader from '../../Components/AdminHeader'
 import { FaPlus } from 'react-icons/fa'
-// import { TbAcceptHeadings, TbHeadings } from '../../Components/Leaveheadings'
 import Dataloading from '../../Loaders/Dataloading'
 import ProgressLoader from '../../Loaders/Progressloader'
 import { useEffect } from 'react'
 import { getRequestEmail } from './TechersApiCall/LeaveApi'
 import axios from 'axios';
 import { UserName } from '../../Apis/Islogin';
+import Tomany from '../../Loaders/Tomany';
 
 function ApplyLeaveAccept() {
     const TbAcceptHeadings = [
@@ -42,6 +42,7 @@ function ApplyLeaveAccept() {
     const [loader, setloader] = useState(false)
     const [leaves, setleaves] = useState([])
     const [edit, setEdit] = useState(false)
+    const [requestTimout, SetrequestTimout] = useState(false)
     const [editid, setEditid] = useState()
 
     const [Status, setstatus] = useState("")
@@ -50,7 +51,9 @@ function ApplyLeaveAccept() {
             setloader(true)
 
             const response = await getRequestEmail()
-            console.log(response, 'response')
+            console.log(response.status , 'response')
+            if (response.status  == 429) { return SetrequestTimout(true) }
+            SetrequestTimout(false)
             setleaves(response, 'response')
             setloader(false)
         }
@@ -108,7 +111,7 @@ function ApplyLeaveAccept() {
                     timer: 2000,
                     showConfirmButton: false
                 });
-                } else {
+            } else {
                 Swal.fire(`${Status}!`, `Leave has been ${Status}.`, "error");
             }
         });
@@ -116,7 +119,7 @@ function ApplyLeaveAccept() {
     }
     return (
         <>
-
+            {requestTimout && <Tomany />}
             <App />
             <Toaster />
             <div className="md:ml-64 p-4 md:p-6 min-h-screen bg-gray-100 space-y-6">
@@ -185,7 +188,7 @@ function ApplyLeaveAccept() {
                                 </tr>
                             ) : (
                                 <>
-                                    {leaves === "No leaves Apply." ? (
+                                    {leaves.length === 0 ? (
 
                                         <tr>
                                             <td colSpan={TbHeadings.length} className="text-center p-6">

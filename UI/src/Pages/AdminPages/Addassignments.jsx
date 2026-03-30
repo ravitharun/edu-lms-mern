@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import { UserName } from '../../Apis/Islogin';
 import Tablecomponets from '../../Components/Tablecomponets';
+import Tomany from '../../Loaders/Tomany';
 
 function Addassignments() {
     const [showNotifications, setShowNotifications] = useState(false);
@@ -16,7 +17,7 @@ function Addassignments() {
     const [ClosePop, SetClose] = useState(false)
     const [StateClassID, LocationStateClassID] = useState(location.state)
     const [section, setsection] = useState(StateClassID ? StateClassID : "")
-    console.log("section", section)
+    const [requestTimeout, setrequestTimeout] = useState(false)
 
     useEffect(() => {
         const Fetch_Assignment = async () => {
@@ -27,12 +28,19 @@ function Addassignments() {
                         teacher_Id: UserName.teacher_Id
                     }
                 })
-                console.log(reonse.data.message == "NO Classes Found.", 'response')
+                console.log(reonse.status, 'response')
+
+
                 setClassList(reonse.data.message)
 
             } catch (error) {
-                console.log(error.message, 'from the Fetching Teacher Pages Api Call.')
-                toast.error(error.message)
+                if (error.status == 429) {
+
+                    return setrequestTimeout(true)
+                }
+                setrequestTimeout(false)
+                console.error(error.status, 'from the Fetching Teacher Pages Api Call.')
+                // toast.error(error.message)
             }
         }
         Fetch_Assignment()
@@ -111,6 +119,7 @@ function Addassignments() {
     return (
         <>
             <App></App>
+            {requestTimeout && <Tomany />}
             <div className="md:ml-64 p-6 min-h-screen bg-gray-100 space-y-6">
                 {/* ================= HEADER ================= */}
                 <AdminHeader pathname={"Add Assignments"}></AdminHeader>

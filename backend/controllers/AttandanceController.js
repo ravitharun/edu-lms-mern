@@ -3,6 +3,7 @@ const User = require("../models/User");
 const GetStudents = async (req, res) => {
     try {
         const { ClassID } = req.query;
+        console.log(ClassID,'ClassID')
 
         let format = ClassID
 
