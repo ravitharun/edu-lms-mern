@@ -52,24 +52,24 @@ const Studentprofile = lazy(() => import("./Pages/StudentPages/Studentprofile.js
 
 
 createRoot(document.getElementById('root')).render(
-  <Undermanitance>
-  {/* <StrictMode> */}
+  // <Undermanitance>
+  <StrictMode>
     <BrowserRouter>
       <Routes>
 
         <Route path="/" element={
           <Suspense fallback={<BackgroungImgLoader />}>
-         
 
-              <Redirect />
+
+            <Redirect />
 
           </Suspense>
         } />
         <Route path="/StudentDashboard" element={
           <Suspense fallback={<BackgroungImgLoader />}>
-         
 
-              <Dashboard />
+
+            <Dashboard />
 
           </Suspense>
         } />
@@ -331,5 +331,5 @@ createRoot(document.getElementById('root')).render(
       </Routes>
     </BrowserRouter>
 
-  </Undermanitance>,
+  </StrictMode>,
 )
