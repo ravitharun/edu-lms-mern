@@ -11,28 +11,28 @@ function Redirect() {
     const [loadin, setloading] = useState(true)
     useEffect(() => {
         setloading(true)
-        // const Getuserrole = secureLocalStorage.getItem("User_info")
-        // console.log(Getuserrole.role, 'Getuserrole')
-        // if (Getuserrole.role == "Admin") {
+        const Getuserrole = secureLocalStorage.getItem("User_info")
+        console.log(Getuserrole.role, 'Getuserrole')
+        if (Getuserrole.role == "Admin") {
 
-        //     window.location.href = "/AdminDashboard"
+            window.location.href = "/AdminDashboard"
 
-        // }
-        // else if (Getuserrole.role == 'teacher') {
+        }
+        else if (Getuserrole.role == 'teacher') {
 
-        //     window.location.href = "/admin-dashboard"
-        // }
-        // else {
-        //     window.location.href = "/"
+            window.location.href = "/admin-dashboard"
+        }
+        else {
+            window.location.href = "/"
 
-        // }
+        }
         setloading(true)
     }, [])
 
     return (
         <>
             {loadin &&<>
-            <Undermanitance pathname={UserRole.role}/>
+            <Loaders pathname={UserRole.role}/>
             </>}
         </>
     )
