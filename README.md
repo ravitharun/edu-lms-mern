@@ -117,6 +117,13 @@ This project demonstrates a **role-based dashboard** system with a **modern UI**
 
 ![Project Structure](images/image-2.png)
 
+----------------------------\--------------------------------------------
+------------------------------------------------------------------------
+
+##  Request Handling with Redis Caching
+
+![website Flow](images/image.png)
+
 ------------------------------------------------------------------------
 
 ## ⚙️ Installation
