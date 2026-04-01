@@ -20,6 +20,7 @@ function MarkAttendance() {
   const [getByclass, setByclass] = useState("")
   const [handel, sethandel] = useState(false)
   const [ShowBulk, setShowBulk] = useState(false)
+  const [Hidebutton, sethidesubmitbutton] = useState(false)
   useEffect(() => {
     const Fetch_Assignment = async () => {
       try {
@@ -97,12 +98,13 @@ function MarkAttendance() {
     const data =
       console.log("handelSubmit")
   }
-const handelBulkAttendanceUpload=()=>{
-  if(!getByclass){
-    return toast.error("choose the Section.")
+  const handelBulkAttendanceUpload = () => {
+    if (!getByclass) {
+      return toast.error("choose the Section.")
+    }
+    setShowBulk(true)
+    sethidesubmitbutton(true)
   }
-  setShowBulk(true)
-}
   return (
     <>
       {/* <Tomany/> */}
@@ -220,12 +222,13 @@ const handelBulkAttendanceUpload=()=>{
         </div>
         <button onClick={handelBulkAttendanceUpload}>Add Bulk Attendance Upload</button>
         {/* ================= ACTION BUTTON ================= */}
-        <div className="flex justify-end mt-4">
+        {!Hidebutton && <div className="flex justify-end mt-4">
           <button className="flex items-center gap-2 px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" onClick={HandelSubmit}>
             <TfiExport />
             Submit Attendance
           </button>
         </div>
+        }
         {ShowBulk &&
 
           <AttandanceBulk ClassID={getByclass}></AttandanceBulk>
