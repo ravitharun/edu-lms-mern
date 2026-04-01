@@ -115,7 +115,7 @@ UI and real-world LMS functionalities.
 ----------------------------\--------------------------------------------
 ------------------------------------------------------------------------
 
-## website Flow 
+##  Request Handling with Redis Caching
 
 ![website Flow](images/image.png)
 
