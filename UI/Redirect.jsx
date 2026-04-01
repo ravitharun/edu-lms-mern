@@ -5,8 +5,8 @@ import Countdown from 'react-countdown'
 
 function Redirect() {
     const [loading, setLoading] = useState(true)
-    const [sec, setsec] = useState()
-
+    const [sec, setsec] = useState(0)
+    // Page redirect Logic
     useEffect(() => {
         setLoading(true)
 
@@ -24,7 +24,7 @@ function Redirect() {
         else if (role === "Teacher" || role === "Teacher") {
             setTimeout(() => {
                 window.location.href = "/admin-dashboard"
-            }, 12500);
+            }, 10000);
         }
         else {
             window.location.href = "/"
@@ -34,18 +34,17 @@ function Redirect() {
 
     return (
         <>
-            {loading &&
-                <Loaders pathname={UserRole?.role} sec={sec} />
-            }
             <Countdown
                 date={Date.now() + 10000}
                 renderer={({ total, completed }) => {
                     const sec = Math.ceil(total / 1000)
-                    console.log(sec,'sec')
-                    if (sec !== setsec) {
-                        setsec(sec)
-                    }
-
+                    return (
+                        <>
+                            {loading &&
+                                <Loaders pathname={UserRole?.role} userName={UserRole?.name} sec={sec} />
+                            }
+                        </>
+                    )
                 }}
             />
         </>

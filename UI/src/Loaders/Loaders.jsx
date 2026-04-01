@@ -1,64 +1,156 @@
-import React, { useState } from 'react'
+// import React from 'react'
+// import { FiLoader } from "react-icons/fi"
+// import { FaUserShield, FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa"
 
-function Loaders({ pathname,sec }) {
-    console.log(first,'first')
+// function Loaders({ pathname, sec }) {
+
+//     const getIcon = () => {
+//         if (pathname === "Admin") return <FaUserShield className="text-blue-500 text-xl" />
+//         if (pathname === "teacher") return <FaChalkboardTeacher className="text-blue-500 text-xl" />
+//         return <FaUserGraduate className="text-blue-500 text-xl" />
+//     }
+
+//     return (
+//         <div className="min-h-screen flex items-center justify-center bg-gray-950 text-white">
+
+//             <div className="flex flex-col items-center space-y-4">
+
+//                 {/* Role Icon */}
+//                 {getIcon()}
+
+//                 {/* Single Loader */}
+//                 <FiLoader className="text-3xl text-blue-500 animate-spin" />
+
+//                 {/* Title */}
+//                 <h2 className="text-lg font-medium text-gray-200">
+//                     Loading {pathname}
+//                 </h2>
+
+//                 {/* Subtext */}
+//                 <p className="text-sm text-gray-400 text-center">
+//                     {pathname === "Admin"
+//                         ? "Preparing admin dashboard..."
+//                         : pathname === "teacher"
+//                             ? "Setting up your classes..."
+//                             : "Getting your learning space ready..."}
+//                 </p>
+
+//                 {/* Timer */}
+//                 <p className="text-xs text-gray-500">{sec}s</p>
+
+//             </div>
+//         </div>
+//     )
+// }
+
+// export default Loaders
+import React from "react";
+import { FiLoader } from "react-icons/fi";
+import {
+    FaUserShield,
+    FaChalkboardTeacher,
+    FaUserGraduate,
+} from "react-icons/fa";
+
+function Loaders({ pathname = "Student", userName = "", sec = 0 }) {
+    console.log(userName)
+    const isAdmin = pathname === "Admin";
+    const isTeacher = pathname === "Teacher";
+
+    const roleConfig = isAdmin
+        ? {
+            title: "Admin Dashboard",
+            subtitle: "Loading analytics, controls, and workspace...",
+            icon: <FaUserShield className="text-sky-400 text-2xl" />,
+            glow: "from-sky-500/20 via-blue-500/10 to-cyan-400/20",
+            ring: "border-sky-400/40",
+            accent: "text-sky-400",
+        }
+        : isTeacher
+            ? {
+                title: "Teacher Dashboard",
+                subtitle: "Preparing classes, lessons, and teaching tools...",
+                icon: <FaChalkboardTeacher className="text-violet-400 text-2xl" />,
+                glow: "from-violet-500/20 via-fuchsia-500/10 to-purple-400/20",
+                ring: "border-violet-400/40",
+                accent: "text-violet-400",
+            }
+            : {
+                title: "Student Dashboard",
+                subtitle: "Getting courses, progress, and resources ready...",
+                icon: <FaUserGraduate className="text-emerald-400 text-2xl" />,
+                glow: "from-emerald-500/20 via-teal-500/10 to-cyan-400/20",
+                ring: "border-emerald-400/40",
+                accent: "text-emerald-400",
+            };
+
     return (
-        // <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+        <div className="relative min-h-screen overflow-hidden bg-slate-950 text-white flex items-center justify-center px-4">
+            {/* Animated background */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.15),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(168,85,247,0.12),_transparent_30%),radial-gradient(circle_at_bottom_left,_rgba(16,185,129,0.10),_transparent_30%)]" />
 
-        //     {/* Loader */}
-        //     <div className="w-14 h-14 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+            {/* Blur orbs */}
+            <div className="absolute top-16 left-10 h-40 w-40 rounded-full bg-sky-500/10 blur-3xl animate-pulse" />
+            <div className="absolute bottom-16 right-10 h-40 w-40 rounded-full bg-violet-500/10 blur-3xl animate-pulse" />
 
-        //     {/* Text */}
-        //     <h2 className="text-xl font-semibold text-gray-800">
-        //         Preparing Your {pathname} Dashboard
-        //     </h2>
-        //     <p className="text-sm text-gray-500 mt-1">
-        //         {pathname === "Admin"
-        //             ? "Loading admin tools and controls..."
-        //             : pathname === "teacher"
-        //                 ? "Getting your classes ready..."
-        //                 : "Preparing your learning dashboard..."}
-        //     </p>
+            {/* Main card */}
+            <div className="relative z-10 w-full max-w-md">
+                <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-2xl shadow-2xl shadow-black/30">
+                    {/* Top glow strip */}
+                    <div
+                        className={`h-1 w-full bg-gradient-to-r ${roleConfig.glow}`}
+                    ></div>
 
+                    <div className="px-8 py-10 flex flex-col items-center text-center">
+                        {/* Icon + animated ring */}
+                        <div className="relative mb-6">
+                            <div
+                                className={`absolute inset-0 rounded-full border ${roleConfig.ring} animate-ping`}
+                            ></div>
+                            <div className="relative flex h-20 w-20 items-center justify-center rounded-full border border-white/10 bg-white/5 shadow-lg">
+                                {roleConfig.icon}
+                            </div>
+                        </div>
 
-        // </div>
-        <>
+                        {/* Loader */}
+                        <div className="relative mb-5">
+                            <div className="absolute inset-0 rounded-full bg-white/10 blur-md"></div>
+                            <FiLoader
+                                className={`relative text-4xl animate-spin ${roleConfig.accent}`}
+                            />
+                        </div>
 
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+                        {/* Heading */}
+                        <h2 className="text-2xl font-bold tracking-tight text-white leading-tight">
+                            <span className="block">Hey! {userName}</span>
+                            <span className="block text-lg font-medium text-slate-300">
+                                Loading {roleConfig.title}
+                            </span>
+                        </h2>
 
-                <div className="flex flex-col items-center space-y-6">
+                        {/* Subtitle */}
+                        <p className="mt-3 text-sm leading-6 text-slate-300 max-w-xs">
+                            {roleConfig.subtitle}
+                        </p>
 
-                    {/* Animated Spinner */}
-                    <div className="relative">
-                        <div className="w-16 h-16 border-4 border-blue-500/30 rounded-full"></div>
-                        <div className="absolute top-0 left-0 w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                        {/* Progress line */}
+                        <div className="mt-6 h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+                            <div
+                                className="h-full rounded-full bg-gradient-to-r from-white/40 via-white/80 to-white/40 transition-all duration-500"
+                                style={{ width: `${sec * 10}%` }}
+                            ></div>
+                        </div>
+
+                        {/* Timer */}
+                        <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs text-slate-300">
+                            <span className="h-2 w-2 rounded-full bg-green-400 animate-pulse"></span>
+                            {sec}s elapsed
+                        </div>
                     </div>
-
-                    {/* Title */}
-                    <h2 className="text-2xl font-semibold tracking-wide animate-pulse">
-                        Preparing Your {pathname} Dashboard -{first?first:""}
-                    </h2>
-
-                    {/* Description */}
-                    <p className="text-sm text-gray-300 text-center max-w-xs">
-                        {pathname === "Admin"
-                            ? "Loading admin tools and controls..."
-                            : pathname === "teacher"
-                                ? "Getting your classes ready..."
-                                : "Preparing your learning dashboard..."}
-                    </p>
-
-                    {/* Animated Dots */}
-                    <div className="flex space-x-2 mt-2">
-                        <span className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></span>
-                        <span className="w-2 h-2 bg-blue-500 rounded-full animate-bounce delay-150"></span>
-                        <span className="w-2 h-2 bg-blue-500 rounded-full animate-bounce delay-300"></span>
-                    </div>
-
                 </div>
             </div>
-        </>
-    )
+        </div>
+    );
 }
 
-export default Loaders
+export default Loaders;
