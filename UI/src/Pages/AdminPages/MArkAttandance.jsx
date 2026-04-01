@@ -9,6 +9,7 @@ import NotFound from "../../Loaders/NotFound";
 import Tomany from "../../Loaders/Tomany";
 import { MaintanceMode } from "../../Apis/Islogin";
 import Undermanitance from "../../Loaders/Undermanitance";
+import AttandanceBulk from "./AttandanceBulk";
 
 function MarkAttendance() {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -18,6 +19,7 @@ function MarkAttendance() {
   const [loader, setloader] = useState(false)
   const [getByclass, setByclass] = useState("")
   const [handel, sethandel] = useState(false)
+  const [ShowBulk, setShowBulk] = useState(false)
   useEffect(() => {
     const Fetch_Assignment = async () => {
       try {
@@ -41,8 +43,8 @@ function MarkAttendance() {
       try {
         setloader(true)
         sethandel(false)
-        // console.log(Class[0].classId+"-"+Class[0].department+"-"+Class[0].year, "new")
-        const response = await GetStudentname(Class[0], getByclass)
+        console.log(Class[0].classId + "-" + Class[0].department + "-" + Class[0].year, "new")
+        const response = await GetStudentname(Class[0].classId + "-" + Class[0].department + "-" + Class[0].year, getByclass)
         console.log(response.status, 'response')
         if (response.status == 429) {
           sethandel(true)
@@ -92,16 +94,22 @@ function MarkAttendance() {
 
   // handelSubmit
   const HandelSubmit = () => {
-    console.log("handelSubmit")
+    const data =
+      console.log("handelSubmit")
   }
-
+const handelBulkAttendanceUpload=()=>{
+  if(!getByclass){
+    return toast.error("choose the Section.")
+  }
+  setShowBulk(true)
+}
   return (
     <>
-    {/* <Tomany/> */}
+      {/* <Tomany/> */}
       <App></App>
       <Toaster></Toaster>
 
-      {handel && <Tomany/>}
+      {handel && <Tomany />}
       <div className="md:ml-64 p-6 min-h-screen bg-gray-100 space-y-6">
         {/* ================= HEADER ================= */}
         <div className="flex justify-between items-center mb-4">
@@ -181,7 +189,7 @@ function MarkAttendance() {
               ) : (
                 Studnets.map((student, idx) => (
                   <tr key={idx} className="border-b hover:bg-gray-50">
-                    <td className="p-3 font-medium">{student.roll}</td>
+                    <td className="p-3 font-medium">{student.Student_ID}</td>
                     <td className="p-3">{student.name}</td>
 
                     <td className="p-3 text-center">
@@ -210,6 +218,7 @@ function MarkAttendance() {
             <div>Total Absent - {students.length - Varcount}</div>
           </div>
         </div>
+        <button onClick={handelBulkAttendanceUpload}>Add Bulk Attendance Upload</button>
         {/* ================= ACTION BUTTON ================= */}
         <div className="flex justify-end mt-4">
           <button className="flex items-center gap-2 px-5 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700" onClick={HandelSubmit}>
@@ -217,6 +226,10 @@ function MarkAttendance() {
             Submit Attendance
           </button>
         </div>
+        {ShowBulk &&
+
+          <AttandanceBulk ClassID={getByclass}></AttandanceBulk>
+        }
       </div>
     </>
 

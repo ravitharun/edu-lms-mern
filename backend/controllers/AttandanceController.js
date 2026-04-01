@@ -11,7 +11,11 @@ const GetStudents = async (req, res) => {
             console.log('class id is missing.')
             return res.status(404).json({ message: "SomeThing went Wrong." })
         }
+        // CSE3-CSE-3
+        // console.log(format.split("-")[1] + " " + format.split("-")[2])
+        // EEE 2
         const response = await User.find({ StudentsYearDepartment: format.split("-")[1] + " " + format.split("-")[2] })
+        console.log(response,'response')
 
         return res.status(200).json({ message: response })
     } catch (error) {
