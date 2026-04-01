@@ -107,7 +107,7 @@ This project demonstrates a **role-based dashboard** system with a **modern UI**
 
 -   Nodemailer
 
-### Real time Updates
+### Real Time Updates
 
 -   Webscokets
 
