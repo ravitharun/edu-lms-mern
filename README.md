@@ -92,6 +92,11 @@ This project demonstrates a **role-based dashboard** system with a **modern UI**
 
 -   Node.js
 -   Express.js
+-   
+### Cache
+
+-   Redis
+
 
 ### Database
 
@@ -101,6 +106,10 @@ This project demonstrates a **role-based dashboard** system with a **modern UI**
 ### Email Service
 
 -   Nodemailer
+-   
+### Real time Updates
+
+-   Webscokets
 
 ------------------------------------------------------------------------
 
