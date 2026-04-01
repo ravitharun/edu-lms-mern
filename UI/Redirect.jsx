@@ -1,39 +1,53 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import secureLocalStorage from 'react-secure-storage'
+import React, { useEffect, useState } from 'react'
 import Loaders from './src/Loaders/Loaders'
 import { UserRole } from './src/Apis/Islogin'
-import Undermanitance from './src/Loaders/Undermanitance'
+import Countdown from 'react-countdown'
 
 function Redirect() {
-    // const navigate=useNavigate()
-    const [loadin, setloading] = useState(true)
+    const [loading, setLoading] = useState(true)
+    const [sec, setsec] = useState()
+
     useEffect(() => {
-        setloading(true)
-        const Getuserrole = secureLocalStorage.getItem("User_info")
-        console.log(Getuserrole.role, 'Getuserrole')
-        if (Getuserrole.role == "Admin") {
+        setLoading(true)
 
-            window.location.href = "/AdminDashboard"
+        const role = UserRole?.role  // safe access
 
+        // ❌ if role not exists
+        if (!role) {
+            window.location.href = "/login"
+            return
         }
-        else if (Getuserrole.role == 'teacher') {
 
-            window.location.href = "/admin-dashboard"
+        if (role === "Admin" || role === "admin") {
+            window.location.href = "/Admin-dashboard"
+        }
+        else if (role === "Teacher" || role === "Teacher") {
+            setTimeout(() => {
+                window.location.href = "/admin-dashboard"
+            }, 12500);
         }
         else {
             window.location.href = "/"
-
         }
-        setloading(true)
+
     }, [])
 
     return (
         <>
-            {loadin &&<>
-            <Loaders pathname={UserRole.role}/>
-            </>}
+            {loading &&
+                <Loaders pathname={UserRole?.role} sec={sec} />
+            }
+            <Countdown
+                date={Date.now() + 10000}
+                renderer={({ total, completed }) => {
+                    const sec = Math.ceil(total / 1000)
+                    console.log(sec,'sec')
+                    if (sec !== setsec) {
+                        setsec(sec)
+                    }
+
+                }}
+            />
         </>
     )
 }

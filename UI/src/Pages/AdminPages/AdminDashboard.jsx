@@ -44,10 +44,13 @@ function AdminDashboard() {
     return true
   }
   // const Check=handleLogout()
-  console.log(totalClass,'totalClass')
+  console.log(totalClass, 'totalClass')
   return (
     <>
-      <App></App> 
+      
+      
+      <App></App>
+      {/* {true && <Undermanitance />}       */}
       <Announcement></Announcement>
       {/* <UserisLogin></UserisLogin> */}
       <div className="flex flex-col md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
@@ -85,7 +88,7 @@ function AdminDashboard() {
 
         {/* ================= STATS CARDS ================= */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <DashboardCard title="Classes" value={totalClass ==null?0:totalClass} icon={<FaChalkboardTeacher />} color="bg-blue-500" />
+          <DashboardCard title="Classes" value={totalClass == null ? 0 : totalClass} icon={<FaChalkboardTeacher />} color="bg-blue-500" />
           <DashboardCard title="Students" value={totalClass == null ? 0 : totalClass} icon={<FaUserGraduate />} color="bg-green-500" />
           <DashboardCard title="Assignments" value="12" icon={<FaTasks />} color="bg-purple-500" />
           <DashboardCard title="Attendance" value="92%" icon={<FaCalendarCheck />} color="bg-orange-500" ></DashboardCard>

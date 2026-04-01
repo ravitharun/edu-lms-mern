@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-function Loaders({ pathname }) {
+function Loaders({ pathname,sec }) {
+    console.log(first,'first')
     return (
         // <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
 
@@ -35,7 +36,7 @@ function Loaders({ pathname }) {
 
                     {/* Title */}
                     <h2 className="text-2xl font-semibold tracking-wide animate-pulse">
-                        Preparing Your {pathname} Dashboard
+                        Preparing Your {pathname} Dashboard -{first?first:""}
                     </h2>
 
                     {/* Description */}
