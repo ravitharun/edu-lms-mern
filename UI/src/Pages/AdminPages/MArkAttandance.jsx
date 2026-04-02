@@ -10,6 +10,7 @@ import Tomany from "../../Loaders/Tomany";
 import { MaintanceMode } from "../../Apis/Islogin";
 import Undermanitance from "../../Loaders/Undermanitance";
 import AttandanceBulk from "./AttandanceBulk";
+import { FaCalendarAlt, FaClock, FaBook } from "react-icons/fa";
 
 function MarkAttendance() {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -90,9 +91,6 @@ function MarkAttendance() {
 
 
 
-
-
-
   // handelSubmit
   const HandelSubmit = () => {
     const data =
@@ -155,12 +153,95 @@ function MarkAttendance() {
             ))}
           </select>
         </div>
+        {/* Subject's By the Day */}
+      {getByclass && (
+  <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+    <div className="bg-white shadow-xl rounded-2xl p-6 w-full max-w-4xl space-y-6">
 
+      <h2 className="text-2xl font-semibold text-gray-800 text-center">
+        Attendance Details
+      </h2>
+
+      {/* Grid Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+        {/* Date */}
+        <div className="flex flex-col">
+          <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+            <FaCalendarAlt /> Date
+          </label>
+          <input
+            type="date"
+            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+
+        {/* Class */}
+        <div className="flex flex-col">
+          <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+            <FaCalendarAlt /> Class Section
+          </label>
+          <input
+            type="text"
+            value={getByclass}
+            disabled
+            className="border rounded-lg px-3 py-2 bg-gray-100 text-gray-500 cursor-not-allowed"
+          />
+        </div>
+
+        {/* Start Time */}
+        <div className="flex flex-col">
+          <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+            <FaClock /> Start Time
+          </label>
+          <input
+            type="time"
+            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+          />
+        </div>
+
+        {/* End Time */}
+        <div className="flex flex-col">
+          <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+            <FaClock /> End Time
+          </label>
+          <input
+            type="time"
+            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
+          />
+        </div>
+
+      </div>
+
+      {/* Topic */}
+      <div className="flex flex-col">
+        <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+          <FaBook /> Topic Explained Today
+        </label>
+        <textarea
+          rows="3"
+          placeholder="Enter topic..."
+          className="border rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-purple-400"
+        ></textarea>
+      </div>
+
+      {/* Button */}
+      <div className="flex justify-end">
+        <button className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition shadow-md">
+          Save Details
+        </button>
+      </div>
+
+    </div>
+  </div>
+)}
         {/* ================= ATTENDANCE TABLE ================= */}
         <div>
           <input type="checkbox" onClick={() => setHandelAttandance((prev) => !prev)} />
           <label htmlFor=""> Mark All Present</label>
         </div>
+
+
         <div className="bg-white shadow-md rounded-xl overflow-x-auto">
           <table className="w-full text-sm border-collapse">
 
