@@ -9,7 +9,7 @@ const AttandanceModel = mongoose.Schema({
     attandance: [{
         id: { type: String, required: true },
         name: { type: String, required: true },
-        Status: { type: String, required: true },
+        Status: { type: Boolean, required: true, default: false },
     }],
     summary: {
         total: { type: number },
