@@ -53,7 +53,7 @@ const Studentprofile = lazy(() => import("./Pages/StudentPages/Studentprofile.js
 
 createRoot(document.getElementById('root')).render(
   // <Undermanitance>
-  <Undermanitance>
+  <StrictMode>
     <BrowserRouter>
       <Routes>
 
@@ -331,5 +331,5 @@ createRoot(document.getElementById('root')).render(
       </Routes>
     </BrowserRouter>
 
-  </Undermanitance>,
+  </StrictMode>,
 )
