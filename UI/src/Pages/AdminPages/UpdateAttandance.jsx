@@ -12,7 +12,8 @@ function UpdateAttandance() {
     const [Absent, setAbsent] = useState()
     const [Byclass, setByclass] = useState('')
     const [type, setype] = useState("Mark")
-
+    const [markAllPresent, setmarkallPresent]  = useState(false)
+    const [markalAbsent, setmarkalAbsent]  = useState(false)
 
     useEffect(() => {
         const Fetch_Assignment = async () => {
@@ -40,9 +41,15 @@ function UpdateAttandance() {
     const handelUpdateStatus = (typeUpdateStaus, id, status) => {
         console.log({ typeUpdateStaus, id, status })
         const newUpdatesStaust = status ? { id: id, name: "tharun1", isstatus: true } : { id: id, name: "tharun2", isstatus: false }
-        const newupdate = [...Update,newUpdatesStaust]
+        const newupdate = [...Update, newUpdatesStaust]
         setupdate(newupdate)
     }
+    const markAllPresnt =
+        () => {
+
+            setmarkallPresent((prev) => !prev)
+
+        }
     return (
 
 
@@ -99,7 +106,7 @@ function UpdateAttandance() {
                     <label className="flex items-center gap-2 cursor-pointer">
                         <input
                             type="checkbox"
-                            onChange={() => setHandelAttandance(prev => !prev)}
+                            onChange={() => markAllPresnt(prev => !prev)}
                         />
                         <span className="text-sm font-medium">Mark All Present</span>
                     </label>
@@ -107,7 +114,8 @@ function UpdateAttandance() {
                     <label className="flex items-center gap-2 cursor-pointer">
                         <input
                             type="checkbox"
-                            onChange={() => setHandelAbsentAttandance(prev => !prev)}
+                            onChange={() => setmarkalAbsent
+                                (prev => !prev)}
                         />
                         <span className="text-sm font-medium">Mark All Absent</span>
                     </label>
@@ -146,7 +154,7 @@ function UpdateAttandance() {
                                         <td className="p-3">{student.name}</td>
 
                                         <td className="text-center">
-                                            {student.isstatus ? <button className={`${student.isstatus && "text-green-500"}`} onClick={() => handelUpdateStatus("p", student.id, student.isstatus)}> Present </button> :
+                                            {markAllPresent?<button className={`${markAllPresent && "text-green-500"}`} > Present </button>:student.isstatus ? <button className={`${student.isstatus && "text-green-500"}`} onClick={() => handelUpdateStatus("p", student.id, student.isstatus)}> Present </button> :
 
                                                 <button className={`${!student.isstatus && "text-red-500"}`} onClick={() => handelUpdateStatus("ab")}>
 
