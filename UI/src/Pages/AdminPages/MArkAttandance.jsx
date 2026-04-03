@@ -68,19 +68,38 @@ function MarkAttendance() {
 
 
   // Sample data for students
-  const students = [
-    { roll: "01", name: "Alice Johnson", ischeck: true },
-    { roll: "02", name: "Bob Smith,", ischeck: false },
-    { roll: "03", name: "Charlie Brown", ischeck: true },
-    { roll: "04", name: "David Lee", ischeck: false },
-    { roll: "05", name: "Eva Green", ischeck: true },
-  ];
+  const [students, setstudentsAttandance] = useState([{
+    id: "",
+    name: "",
+    Status: ""
 
-
-
+  }]);
+  const newstudents = [{
+    name: "tharun",
+    Student_ID: "112"
+  }, {
+    name: "tharun",
+    Student_ID: "112"
+  }, {
+    name: "tharun",
+    Student_ID: "112"
+  }, {
+    name: "tharun",
+    Student_ID: "112"
+  }
+  ]
   // handel Attandce count
-  let [Varcount, setcountvar] = useState()
-  let [Absent, setAbsent] = useState()
+  let [Present, setcountvar] = useState(0)
+  let [Absent, setAbsent] = useState(0)
+  console.log({ Absent, Present })
+  const markAttandance = (studentID, studentName, ispresnt) => {
+    ispresnt ? setcountvar(Present + 1) : setcountvar(Present - 1) & setAbsent(Absent + 1)
+
+    const formatData = { studentID, studentName, ispresnt }
+    const jsonData = [...students, formatData]
+    console.log(jsonData, 'jsonData')
+  }
+
   useEffect(() => {
     const useHandelCount = () => {
       let counttrue = students.filter((st) => st.ischeck == true)
@@ -91,11 +110,13 @@ function MarkAttendance() {
 
 
 
-  // handelSubmit
+  // handelSubmit final
   const HandelSubmit = () => {
     const data =
       console.log("handelSubmit")
   }
+
+  // bulk Upload
   const handelBulkAttendanceUpload = () => {
     if (!getByclass) {
       return toast.error("choose the Section.")
@@ -154,87 +175,82 @@ function MarkAttendance() {
           </select>
         </div>
         {/* Subject's By the Day */}
-      {getByclass && (
-  <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-    <div className="bg-white shadow-xl rounded-2xl p-6 w-full max-w-4xl space-y-6">
+        {getByclass && (
+          <div className="flex items-center justify-center min-h-screen  p-4">
+            <div className="bg-white  rounded-2xl p-6 w-full max-w-4xl space-y-6">
 
-      <h2 className="text-2xl font-semibold text-gray-800 text-center">
-        Attendance Details
-      </h2>
+              <h2 className="text-2xl font-semibold text-gray-800 text-center">
+                Attendance Details
+              </h2>
 
-      {/* Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {/* Grid Layout */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
-        {/* Date */}
-        <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
-            <FaCalendarAlt /> Date
-          </label>
-          <input
-            type="date"
-            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-        </div>
+                {/* Date */}
+                <div className="flex flex-col">
+                  <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+                    <FaCalendarAlt /> Date
+                  </label>
+                  <input
+                    type="date"
+                    className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  />
+                </div>
 
-        {/* Class */}
-        <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
-            <FaCalendarAlt /> Class Section
-          </label>
-          <input
-            type="text"
-            value={getByclass}
-            disabled
-            className="border rounded-lg px-3 py-2 bg-gray-100 text-gray-500 cursor-not-allowed"
-          />
-        </div>
+                {/* Class */}
+                <div className="flex flex-col">
+                  <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+                    <FaCalendarAlt /> Class Section
+                  </label>
+                  <input
+                    type="text"
+                    value={getByclass}
+                    disabled
+                    className="border rounded-lg px-3 py-2 bg-gray-100 text-gray-500 cursor-not-allowed"
+                  />
+                </div>
 
-        {/* Start Time */}
-        <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
-            <FaClock /> Start Time
-          </label>
-          <input
-            type="time"
-            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
-          />
-        </div>
+                {/* Start Time */}
+                <div className="flex flex-col">
+                  <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+                    <FaClock /> Start Time
+                  </label>
+                  <input
+                    type="time"
+                    className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-400"
+                  />
+                </div>
 
-        {/* End Time */}
-        <div className="flex flex-col">
-          <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
-            <FaClock /> End Time
-          </label>
-          <input
-            type="time"
-            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
-          />
-        </div>
+                {/* End Time */}
+                <div className="flex flex-col">
+                  <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+                    <FaClock /> End Time
+                  </label>
+                  <input
+                    type="time"
+                    className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
+                  />
+                </div>
 
-      </div>
+              </div>
 
-      {/* Topic */}
-      <div className="flex flex-col">
-        <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
-          <FaBook /> Topic Explained Today
-        </label>
-        <textarea
-          rows="3"
-          placeholder="Enter topic..."
-          className="border rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-purple-400"
-        ></textarea>
-      </div>
+              {/* Topic */}
+              <div className="flex flex-col">
+                <label className="text-sm text-gray-600 mb-1 flex items-center gap-2">
+                  <FaBook /> Topic Explained Today
+                </label>
+                <textarea
+                  rows="3"
+                  placeholder="Enter topic..."
+                  className="border rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-purple-400"
+                ></textarea>
+              </div>
 
-      {/* Button */}
-      <div className="flex justify-end">
-        <button className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition shadow-md">
-          Save Details
-        </button>
-      </div>
 
-    </div>
-  </div>
-)}
+
+            </div>
+          </div>
+        )}
         {/* ================= ATTENDANCE TABLE ================= */}
         <div>
           <input type="checkbox" onClick={() => setHandelAttandance((prev) => !prev)} />
@@ -270,22 +286,26 @@ function MarkAttendance() {
                   </td>
                 </tr>
               ) : (
-                Studnets.map((student, idx) => (
+                newstudents.map((student, idx) => (
                   <tr key={idx} className="border-b hover:bg-gray-50">
                     <td className="p-3 font-medium">{student.Student_ID}</td>
                     <td className="p-3">{student.name}</td>
 
                     <td className="p-3 text-center">
                       <input
-                        type="checkbox"
+                        type="radio"
+                        name="new"
                         className="w-4 h-4 text-green-500"
+                        onChange={() => markAttandance(student.Student_ID, student.name, true)}
                       />
                     </td>
 
                     <td className="p-3 text-center">
                       <input
-                        type="checkbox"
+                        type="radio"
+                        name="new"
                         className="w-4 h-4 text-red-500"
+                        onChange={() => markAttandance(student.Student_ID, student.name, false)}
                       />
                     </td>
                   </tr>
@@ -296,9 +316,9 @@ function MarkAttendance() {
 
           {/* Footer */}
           <div className="flex flex-wrap justify-between gap-4 p-4 text-sm text-gray-700">
-            <div>Total students - {students.length}</div>
-            <div>Total Present - {Varcount}</div>
-            <div>Total Absent - {students.length - Varcount}</div>
+            <div>Total students: {students.length}</div>
+            <div>Total Present  : {Present}</div>
+            <div>Total Absent :{Absent}</div>
           </div>
         </div>
         <button onClick={handelBulkAttendanceUpload}>Add Bulk Attendance Upload</button>
