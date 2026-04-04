@@ -106,7 +106,7 @@ function UpdateAttandance() {
                     <label className="flex items-center gap-2 cursor-pointer">
                         <input
                             type="checkbox"
-                            onChange={() => markAllPresnt(prev => !prev)}
+                            onClick={() => markAllPresnt(prev => !prev)}
                         />
                         <span className="text-sm font-medium">Mark All Present</span>
                     </label>
@@ -114,7 +114,7 @@ function UpdateAttandance() {
                     <label className="flex items-center gap-2 cursor-pointer">
                         <input
                             type="checkbox"
-                            onChange={() => setmarkalAbsent
+                            onClick={() => setmarkalAbsent
                                 (prev => !prev)}
                         />
                         <span className="text-sm font-medium">Mark All Absent</span>
@@ -154,13 +154,18 @@ function UpdateAttandance() {
                                         <td className="p-3">{student.name}</td>
 
                                         <td className="text-center">
-                                            {markAllPresent?<button className={`${markAllPresent && "text-green-500"}`} > Present </button>:student.isstatus ? <button className={`${student.isstatus && "text-green-500"}`} onClick={() => handelUpdateStatus("p", student.id, student.isstatus)}> Present </button> :
+                                            {markAllPresent?<button className={`${markAllPresent && "text-green-500"}`} > Present </button>:markalAbsent?<button className={`${!student.isstatus && "text-red-500"}`} onClick={() => handelUpdateStatus("ab")}>
+
+                                                    Absent
+                                                </button>:student.isstatus ? <button className={`${student.isstatus && "text-green-500"}`} onClick={() => handelUpdateStatus("p", student.id, student.isstatus)}> Present </button> :
 
                                                 <button className={`${!student.isstatus && "text-red-500"}`} onClick={() => handelUpdateStatus("ab")}>
 
                                                     Absent
                                                 </button>}
                                         </td>
+
+                                        {}
                                     </tr>
                                 ))
                             )}
