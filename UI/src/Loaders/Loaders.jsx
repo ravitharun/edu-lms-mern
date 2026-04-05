@@ -1,49 +1,4 @@
-// import React from 'react'
-// import { FiLoader } from "react-icons/fi"
-// import { FaUserShield, FaChalkboardTeacher, FaUserGraduate } from "react-icons/fa"
 
-// function Loaders({ pathname, sec }) {
-
-//     const getIcon = () => {
-//         if (pathname === "Admin") return <FaUserShield className="text-blue-500 text-xl" />
-//         if (pathname === "teacher") return <FaChalkboardTeacher className="text-blue-500 text-xl" />
-//         return <FaUserGraduate className="text-blue-500 text-xl" />
-//     }
-
-//     return (
-//         <div className="min-h-screen flex items-center justify-center bg-gray-950 text-white">
-
-//             <div className="flex flex-col items-center space-y-4">
-
-//                 {/* Role Icon */}
-//                 {getIcon()}
-
-//                 {/* Single Loader */}
-//                 <FiLoader className="text-3xl text-blue-500 animate-spin" />
-
-//                 {/* Title */}
-//                 <h2 className="text-lg font-medium text-gray-200">
-//                     Loading {pathname}
-//                 </h2>
-
-//                 {/* Subtext */}
-//                 <p className="text-sm text-gray-400 text-center">
-//                     {pathname === "Admin"
-//                         ? "Preparing admin dashboard..."
-//                         : pathname === "teacher"
-//                             ? "Setting up your classes..."
-//                             : "Getting your learning space ready..."}
-//                 </p>
-
-//                 {/* Timer */}
-//                 <p className="text-xs text-gray-500">{sec}s</p>
-
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default Loaders
 import React from "react";
 import { FiLoader } from "react-icons/fi";
 import {
