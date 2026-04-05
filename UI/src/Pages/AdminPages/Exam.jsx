@@ -8,8 +8,8 @@ function Exam() {
 
 
         <>
-<App></App>
-{true&&}
+            <App></App>
+            {true && "s"}
             <div className="md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
                 {/* ================= HEADER ================= */}
 

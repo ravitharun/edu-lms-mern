@@ -19,7 +19,7 @@ function Redirect() {
         }
 
         if (role === "Admin" || role === "admin") {
-            window.location.href = "/Admin-dashboard"
+            window.location.href = "/AdminDashboard"
         }
         else if (role === "Teacher" || role === "Teacher") {
             setTimeout(() => {
