@@ -52,37 +52,66 @@ function AccountDeactivated() {
         <>
             <ToastContainer />
             <Toaster />
-            <div className="deactivate-wrapper">
-                <div className="deactivate-card">
+            <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+                <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-7 space-y-6 text-center">
 
-                    {/* Icon */}
-                    <div className="icon-wrapper">
-                        <ShieldExclamationIcon className="icon" />
+                    {/* Animated Icon */}
+                    <div className="flex justify-center">
+                        <div className="bg-red-50 p-4 rounded-full animate-soft">
+                            <ShieldExclamationIcon className="h-9 w-9 text-red-500" />
+                        </div>
                     </div>
 
                     {/* Title */}
-                    <h1 className="title">Account Deactivated</h1>
+                    <h2 className="text-xl font-semibold text-gray-800">
+                        Access Restricted
+                    </h2>
 
-                    {/* Description */}
-                    <p className="description">
-                        Your account has been deactivated and you currently do not have access
-                        to the Learning Management System.
+                    {/* Message */}
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                        Your account is currently deactivated. You cannot access LMS features at this time.
                     </p>
 
-                    <div className="info-box">
-                        <p>
-                            Please contact your institution administrator for further assistance
-                            or to request account reactivation.
-                        </p>
+                    {/* Info */}
+                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm text-gray-600">
+                        Contact your administrator to restore your access.
                     </div>
 
-                    {/* Buttons */}
-                    <div className="button-group">
-                        <Link to="/login">          <button className="btn secondary">Back to Login</button></Link>
-                        <button className="btn primary" onClick={() => setpoup(true)}>Contact Administrator</button>
+                    {/* Actions */}
+                    <div className="flex gap-3 pt-2">
+                        <Link to="/login" className="w-full">
+                            <button className="w-full py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 transition">
+                                Back
+                            </button>
+                        </Link>
+
+                        <button
+                            onClick={() => setpoup(true)}
+                            className="w-full py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition shadow-sm"
+                        >
+                            Contact Admin
+                        </button>
                     </div>
 
                 </div>
+
+                {/* Soft Animation */}
+                <style>
+                    {`
+      .animate-soft {
+        animation: softPulse 1.8s ease-in-out infinite;
+      }
+
+      @keyframes softPulse {
+        0%, 100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.08);
+        }
+      }
+    `}
+                </style>
             </div>
 
             {poup && (
