@@ -42,6 +42,7 @@ import ClassTimings from './Pages/StudentPages/ClassTimings.jsx';
 import AdminMangeholidays from './Pages/AdminPages/Master/AdminMangeholidays.jsx';
 import Redirect from '../Redirect.jsx';
 import Undermanitance from './Loaders/Undermanitance.jsx';
+import Exam from './Pages/AdminPages/Exam.jsx';
 
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
@@ -208,6 +209,14 @@ createRoot(document.getElementById('root')).render(
           element={
             <ProtectedRoute allowedRoles={["Teacher"]}>
               <Students />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/exam"
+          element={
+            <ProtectedRoute allowedRoles={["Teacher"]}>
+              <Exam />
             </ProtectedRoute>
           }
         />

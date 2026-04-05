@@ -3,18 +3,23 @@ import { FaBell, FaUser } from 'react-icons/fa'
 import { FetchClassByTecherId } from './TechersApiCall/FectchClassApi'
 import Dataloading from '../../Loaders/Dataloading'
 import NotFound from '../../Loaders/NotFound'
+import AdminHeader from '../../Components/AdminHeader'
+import AddingSoon from '../../Loaders/AddingSoon'
+import Loaders from '../../Loaders/Loaders'
+import ProgressLoader from '../../Loaders/Progressloader'
 
 function UpdateAttandance() {
     const [Update, setupdate] = useState([{ id: 1, name: "tharun", isstatus: true }, { id: 2, name: "tharun", isstatus: false }, { id: 3, name: "tharun", isstatus: true }])
     // const[class,setClassList]=useState([])
     const [Class, setClassList] = useState([])
-    const [present, setpresent] = useState()
-    const [Absent, setAbsent] = useState()
+    const [present, setpresent] = useState(0)
+    const [Absent, setAbsent] = useState(0)
     const [Byclass, setByclass] = useState('')
     const [type, setype] = useState("Mark")
-    const [markAllPresent, setmarkallPresent]  = useState(false)
-    const [markalAbsent, setmarkalAbsent]  = useState(false)
-
+    const [markAllPresent, setmarkallPresent] = useState(false)
+    const [markalAbsent, setmarkalAbsent] = useState(false)
+    const [MarkallLength, setMarkallLength] = useState(0)
+    const [MarkallAbsentLength, setMarkallAbsentLength] = useState(0)
     useEffect(() => {
         const Fetch_Assignment = async () => {
             try {
@@ -29,14 +34,17 @@ function UpdateAttandance() {
         Fetch_Assignment()
     }, [])
 
-
     useEffect(() => {
         const GetpresentCount = Update.filter((data) => data.isstatus == true)
         const GetAbsentCount = Update.filter((data) => data.isstatus == false)
-        console.log(GetpresentCount, 'GetpresentCount')
+
+
+
         setpresent(GetpresentCount.length)
         setAbsent(GetAbsentCount.length)
+
     }, [present, Absent, Update])
+
 
     const handelUpdateStatus = (typeUpdateStaus, id, status) => {
         console.log({ typeUpdateStaus, id, status })
@@ -44,38 +52,34 @@ function UpdateAttandance() {
         const newupdate = [...Update, newUpdatesStaust]
         setupdate(newupdate)
     }
-    const markAllPresnt =
-        () => {
 
-            setmarkallPresent((prev) => !prev)
+    const markAllPresnt = () => {
+        setmarkallPresent((prev) => !prev)
+        const updated = markAllPresent ? Update.map((item) => ({
+            ...item,
+            isstatus: true,
+        })) : 0;
+        setMarkallLength(updated.length)
+        console.log(updated.length, 'len up')
 
-        }
+    }
+    const markAllAbsent = () => {
+        setmarkalAbsent(prev => !prev)
+        const updatedAb = markalAbsent ? Update.map((item) => ({
+            ...item,
+            isstatus: false,
+        })) : 0;
+        setMarkallAbsentLength(updatedAb.length)
+    }
     return (
 
-
-
         <>
+            {true && <ProgressLoader />}
             <div className="space-y-6">
 
                 {/* HEADER */}
-                <div className="flex justify-between items-center">
-                    <h1 className="text-2xl font-semibold text-gray-800">
-                        Mark Attendance
-                    </h1>
+                <AdminHeader pathname="Update Attendance" ></AdminHeader>
 
-                    <div className="flex items-center gap-4">
-                        <FaBell
-                            className="text-xl text-gray-600 cursor-pointer hover:text-blue-500"
-                            onClick={() => setShowNotifications(!showNotifications)}
-                        />
-                        <div className="flex items-center gap-2 bg-white rounded-full px-3 py-1 shadow">
-                            <FaUser className="text-gray-600" />
-                            <span className="text-gray-800 text-sm font-medium">
-                                Mr. Tharun
-                            </span>
-                        </div>
-                    </div>
-                </div>
 
                 {/* DROPDOWN */}
                 <div className="bg-white rounded-xl shadow p-4 max-w-md">
@@ -106,7 +110,7 @@ function UpdateAttandance() {
                     <label className="flex items-center gap-2 cursor-pointer">
                         <input
                             type="checkbox"
-                            onClick={() => markAllPresnt(prev => !prev)}
+                            onClick={markAllPresnt}
                         />
                         <span className="text-sm font-medium">Mark All Present</span>
                     </label>
@@ -114,8 +118,7 @@ function UpdateAttandance() {
                     <label className="flex items-center gap-2 cursor-pointer">
                         <input
                             type="checkbox"
-                            onClick={() => setmarkalAbsent
-                                (prev => !prev)}
+                            onClick={markAllAbsent}
                         />
                         <span className="text-sm font-medium">Mark All Absent</span>
                     </label>
@@ -154,10 +157,10 @@ function UpdateAttandance() {
                                         <td className="p-3">{student.name}</td>
 
                                         <td className="text-center">
-                                            {markAllPresent?<button className={`${markAllPresent && "text-green-500"}`} > Present </button>:markalAbsent?<button className={`${!student.isstatus && "text-red-500"}`} onClick={() => handelUpdateStatus("ab")}>
+                                            {markAllPresent ? <button className={`${markAllPresent && "text-green-500"}`} > Present </button> : markalAbsent ? <button className={`${!student.isstatus && "text-red-500"}`} onClick={() => handelUpdateStatus("ab")}>
 
-                                                    Absent
-                                                </button>:student.isstatus ? <button className={`${student.isstatus && "text-green-500"}`} onClick={() => handelUpdateStatus("p", student.id, student.isstatus)}> Present </button> :
+                                                Absent
+                                            </button> : student.isstatus ? <button className={`${student.isstatus && "text-green-500"}`} onClick={() => handelUpdateStatus("p", student.id, student.isstatus)}> Present </button> :
 
                                                 <button className={`${!student.isstatus && "text-red-500"}`} onClick={() => handelUpdateStatus("ab")}>
 
@@ -165,7 +168,7 @@ function UpdateAttandance() {
                                                 </button>}
                                         </td>
 
-                                        {}
+                                        { }
                                     </tr>
                                 ))
                             )}
@@ -175,7 +178,7 @@ function UpdateAttandance() {
                     {/* FOOTER */}
                     <div className="flex justify-between p-4 text-sm">
                         <span>Total: {Update.length}</span>
-                        <span className="text-green-600">Present: {present}</span>
+                        <span className="text-green-600">Present: {markAllPresent ? MarkallLength : present}</span>
                         <span className="text-red-500">Absent: {Absent}</span>
                     </div>
                 </div>

@@ -12,6 +12,8 @@ import Undermanitance from "../../Loaders/Undermanitance";
 import AttandanceBulk from "./AttandanceBulk";
 import { FaCalendarAlt, FaClock, FaBook } from "react-icons/fa";
 import UpdateAttandance from "./UpdateAttandance";
+import AdminHeader from "../../Components/AdminHeader";
+import ProgressLoader from "../../Loaders/Progressloader";
 
 function MarkAttendance() {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -138,6 +140,7 @@ function MarkAttendance() {
       {/* <Tomany/> */}
       <App></App>
       <Toaster></Toaster>
+            {true && <ProgressLoader />}
 
       {handel && <Tomany />}
 
@@ -167,24 +170,9 @@ function MarkAttendance() {
     <div className="space-y-6">
 
       {/* HEADER */}
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold text-gray-800">
-          Mark Attendance
-        </h1>
-
-        <div className="flex items-center gap-4">
-          <FaBell
-            className="text-xl text-gray-600 cursor-pointer hover:text-blue-500"
-            onClick={() => setShowNotifications(!showNotifications)}
-          />
-          <div className="flex items-center gap-2 bg-white rounded-full px-3 py-1 shadow">
-            <FaUser className="text-gray-600" />
-            <span className="text-gray-800 text-sm font-medium">
-              Mr. Tharun
-            </span>
-          </div>
-        </div>
-      </div>
+      {/* <div className="flex justify-between items-center"> */}
+  <AdminHeader pathname="Attendance" ></AdminHeader>
+   
 
       {/* DROPDOWN */}
       <div className="bg-white rounded-xl shadow p-4 max-w-md">
