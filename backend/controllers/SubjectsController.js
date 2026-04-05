@@ -73,7 +73,6 @@ const fetchAllTeachers = async (req, res) => {
     try {
         // 1️ Try to get cached data from Redis
         const cachedData = await redisClient.get("teachers");
-        console.log(JSON.parse(cachedData)?.length || 0, "cachedData")
         if (cachedData) {
             // If exists in cache, return it
             return res.status(200).json({
@@ -107,35 +106,33 @@ const fetchAllTeachers = async (req, res) => {
 const fetchTeachersInfo = async (req, res) => {
     try {
         const { Page } = req.query;
-        console.log(Page, "new Page")
         if (!Page) {
             Page = Number(Page) || 1
         }
         const limit = 4;
         let skip = (Page - 1) * limit
         const TotalDocuments = await User.find({ role: "Teacher" }).countDocuments()
-
         const data = await User.find({ role: "Teacher" }).skip(skip).limit(limit)
-        console.log(cachedData, "cachedData")
-
+        const cachedData = await redisClient.get("myKey")
         if (data.length == 0) {
-            console.log('No Subjects')
             return res.status(404).json({ message: "No Subjects." })
         }
         if (cachedData) {
-
-            return res.status(201).json({ message: cachedData, length: Math.ceil(TotalDocuments / limit), currentpage: Number(Page) })
+            return res.status(201).json({ message: JSON.parse(cachedData), length: Math.ceil(TotalDocuments / limit), currentpage: Number(Page) })
         }
-        await redisClient.setEx("myKey", 500, data);
+
+        await redisClient.setEx("myKey", 500, JSON.stringify(data));
         return res.status(201).json({ message: data, length: Math.ceil(TotalDocuments / limit), currentpage: Number(Page) })
-
-
     }
     catch (err) {
-        console.log("err from the fetchAllSubjects", err.message)
+        console.log("err from the fetchAllSubjects--->", err.message)
         return res.status(500).json({ message: "server Error" })
     }
 }
+
+
+
+
 const StudentsInfo = async (req, res) => {
     try {
         const { Page } = req.query;
