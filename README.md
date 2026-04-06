@@ -17,7 +17,7 @@ This system follows a **role-based access control** model where different users 
 |--------------------------|-------------|-------------|------------|
 | View Courses             | ✅ Yes      | ✅ Yes      | ✅ Yes     |
 | Access Course PDFs       | ✅ Yes      | ✅ Upload & Manage | ✅ Yes |
-| Take Tests / Exams       | ✅ Yes      | ❌ No       | ❌ No      |
+| Take Tests / Exams       | ✅ Yes      | ✅ Create / Edit / Delete | ❌ No |
 | View Attendance          | ✅ Yes      | ✅ Yes      | ✅ Yes     |
 | Mark Attendance          | ❌ No       | ✅ Yes      | ❌ No      |
 | Send Attendance Reminder | ❌ No       | ✅ Yes      | ❌ No      |
@@ -38,32 +38,27 @@ This system follows a **role-based access control** model where different users 
 ---
 
 ### 👨‍🎓 Student
-
+- Can **take tests/exams based on courses**
 - Can **view courses and access PDFs**
-- Can **take exams based on enrolled courses**
-- Can **view attendance records**
-- Can **update profile information**
+- Can **view attendance**
+- Can **update profile**
 
 ---
 
 ### 👨‍🏫 Teacher
-
-- Can **mark and manage student attendance**
-- Can **send attendance reminders via email**
-- Can **upload course materials (PDFs)**
-- Can **create and update profile**
-- Can **handle student academic activities**
+- Can **create, edit, and delete tests/exams**
+- Can **mark attendance**
+- Can **upload PDFs/materials**
+- Can **send reminders to students**
+- Can **manage academic activities**
 
 ---
 
 ### 👨‍💼 Admin
-
-- Can **add and manage subjects**
-- Can **assign subjects to teachers**
-- Can **activate/deactivate teacher accounts**
-- Can **create and manage notifications**
-- Can perform **full CRUD operations**
-- 🚧 **Maintenance mode feature coming soon**
+- Full control over system
+- Manage **users, subjects, and notifications**
+- Perform **CRUD operations**
+- 🚧 Maintenance mode coming soon
 
 ---
 
