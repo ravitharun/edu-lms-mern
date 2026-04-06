@@ -3,7 +3,6 @@ console.log("Server updated at " + new Date().toLocaleTimeString());
 require("dotenv").config();  // MUST be first l
 const express = require("express");
 const redis = require("redis");
-
 const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
