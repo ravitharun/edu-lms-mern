@@ -6,6 +6,69 @@ This project demonstrates a **role-based dashboard** system with a **modern UI**
 
 ------------------------------------------------------------------------
 
+
+## 🔐 Role-Based Access Control (RBAC)
+
+This system follows a **role-based access control** model where different users have different permissions and capabilities.
+
+### 📊 Access Table
+
+| Feature / Use Case        | 👨‍🎓 Student | 👨‍🏫 Teacher | 👨‍💼 Admin |
+|--------------------------|-------------|-------------|------------|
+| View Courses             | ✅ Yes      | ✅ Yes      | ✅ Yes     |
+| Access Course PDFs       | ✅ Yes      | ✅ Upload & Manage | ✅ Yes |
+| Take Tests / Exams       | ✅ Yes      | ❌ No       | ❌ No      |
+| View Attendance          | ✅ Yes      | ✅ Yes      | ✅ Yes     |
+| Mark Attendance          | ❌ No       | ✅ Yes      | ❌ No      |
+| Send Attendance Reminder | ❌ No       | ✅ Yes      | ❌ No      |
+| Apply for Leave          | ✅ Yes      | ❌ No       | ❌ No      |
+| Approve/Reject Leave     | ❌ No       | ✅ Yes      | ✅ Yes     |
+| Profile View             | ✅ Yes      | ✅ Yes      | ✅ Yes     |
+| Profile Update           | ✅ Yes      | ✅ Yes      | ✅ Yes     |
+| Upload Study Materials   | ❌ No       | ✅ Yes      | ❌ No      |
+| Manage Subjects          | ❌ No       | ❌ No       | ✅ Yes     |
+| Assign Subjects          | ❌ No       | ❌ No       | ✅ Yes     |
+| Manage Users             | ❌ No       | ❌ No       | ✅ Yes     |
+| Account Deactivation     | ❌ No       | ❌ No       | ✅ Yes     |
+| Notifications (Create)   | ❌ No       | ❌ No       | ✅ Yes     |
+| Notifications (View)     | ✅ Yes      | ✅ Yes      | ✅ Yes     |
+| CRUD Operations (Data)   | ❌ No       | Limited     | ✅ Full    |
+| Maintenance Mode         | ❌ No       | ❌ No       | 🚧 Upcoming |
+
+---
+
+### 👨‍🎓 Student
+
+- Can **view courses and access PDFs**
+- Can **take exams based on enrolled courses**
+- Can **view attendance records**
+- Can **update profile information**
+
+---
+
+### 👨‍🏫 Teacher
+
+- Can **mark and manage student attendance**
+- Can **send attendance reminders via email**
+- Can **upload course materials (PDFs)**
+- Can **create and update profile**
+- Can **handle student academic activities**
+
+---
+
+### 👨‍💼 Admin
+
+- Can **add and manage subjects**
+- Can **assign subjects to teachers**
+- Can **activate/deactivate teacher accounts**
+- Can **create and manage notifications**
+- Can perform **full CRUD operations**
+- 🚧 **Maintenance mode feature coming soon**
+
+---
+
+------------------------------------------------------------------------
+
 ## 🚀 Features
 
 ### 🔐 Authentication & Roles
