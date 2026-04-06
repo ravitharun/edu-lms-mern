@@ -21,8 +21,8 @@ This system follows a **role-based access control** model where different users 
 | View Attendance          | ✅ Yes      | ✅ Yes      | ✅ Yes     |
 | Mark Attendance          | ❌ No       | ✅ Yes      | ❌ No      |
 | Send Attendance Reminder | ❌ No       | ✅ Yes      | ❌ No      |
-| Apply for Leave          | ✅ Yes      | ❌ No       | ❌ No      |
-| Approve/Reject Leave     | ❌ No       | ✅ Yes      | ✅ Yes     |
+| Apply for Leave          | ❌ No       | ✅ Yes      | ❌ No      |
+| Approve/Reject Leave     | ❌ No       | ✅ Yes      | ❌ No      |
 | Profile View             | ✅ Yes      | ✅ Yes      | ✅ Yes     |
 | Profile Update           | ✅ Yes      | ✅ Yes      | ✅ Yes     |
 | Upload Study Materials   | ❌ No       | ✅ Yes      | ❌ No      |
@@ -37,30 +37,41 @@ This system follows a **role-based access control** model where different users 
 
 ---
 
-### 👨‍🎓 Student
-- Can **take tests/exams based on courses**
-- Can **view courses and access PDFs**
-- Can **view attendance**
-- Can **update profile**
+## 📝 Leave Management System (Advanced Feature)
+
+- Only **Teachers** can create leave requests
+- Leave form includes:
+  - From Date
+  - To Date
+  - Total Days (auto-calculated)
+  - Leave Type
+  - Description
+  - Recipient Email
+
+### 🔄 Workflow
+
+1. Teacher submits leave request
+2. 📧 Email is sent to the specified recipient
+3. Default status: **In Progress**
+4. Recipient can:
+   - ✅ Approve
+   - ❌ Reject
+
+5. Teacher/Admin can update status:
+   - Approved
+   - Rejected
+   - In Progress
+
+6. 📩 On status update:
+   - Email notification is sent again to the requester
 
 ---
 
-### 👨‍🏫 Teacher
-- Can **create, edit, and delete tests/exams**
-- Can **mark attendance**
-- Can **upload PDFs/materials**
-- Can **send reminders to students**
-- Can **manage academic activities**
+## ⚡ Upcoming Enhancement
 
----
-
-### 👨‍💼 Admin
-- Full control over system
-- Manage **users, subjects, and notifications**
-- Perform **CRUD operations**
-- 🚧 Maintenance mode coming soon
-
----
+- 🚀 Real-time updates using **WebSockets (Socket.io)**
+  - Instant leave status updates
+  - Live notifications without refresh
 
 ------------------------------------------------------------------------
 
