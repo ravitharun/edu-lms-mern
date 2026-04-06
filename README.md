@@ -37,6 +37,36 @@ This system follows a **role-based access control** model where different users 
 
 ---
 
+### 👨‍🎓 Student
+
+- Can **view courses and access PDFs**
+- Can **take exams based on enrolled courses**
+- Can **view attendance records**
+- Can **update profile information**
+
+---
+
+### 👨‍🏫 Teacher
+
+- Can **mark and manage student attendance**
+- Can **send attendance reminders via email**
+- Can **upload course materials (PDFs)**
+- Can **create and update profile**
+- Can **handle student academic activities**
+
+---
+
+### 👨‍💼 Admin
+
+- Can **add and manage subjects**
+- Can **assign subjects to teachers**
+- Can **activate/deactivate teacher accounts**
+- Can **create and manage notifications**
+- Can perform **full CRUD operations**
+- 🚧 **Maintenance mode feature coming soon**
+
+---
+
 ## 📝 Leave Management System (Advanced Feature)
 
 - Only **Teachers** can create leave requests
