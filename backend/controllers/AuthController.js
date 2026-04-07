@@ -15,11 +15,10 @@ cloudinary.api.ping()
 const NewAccount = async (req, res) => {
   try {
     const formdata = req.body;
-    console.log(formdata,"formdata")
     // const Profile = req.file?.path;
     const result = await cloudinary.uploader.upload(req.file?.path);
     const GetBy_email = await User.find({ email: req.body.StudentEmail })
-    console.log(GetBy_email,'GetBy_email')
+    console.log(GetBy_email, 'GetBy_email')
     if (!GetBy_email) {
       return res.status(400).json({ message: "Emails is already is exits please use another email to login." })
     }
@@ -58,7 +57,6 @@ const NewAccount = async (req, res) => {
       ProfileUrl: result.secure_url,
       StudentsYearDepartment: formdata.StudentsYearDepartment,
     }
-    console.log(UserProfile,'UserProfile')
 
     // 3️⃣ Role-based ID
     if (formdata.role === "student") {
@@ -66,7 +64,7 @@ const NewAccount = async (req, res) => {
       userData.department = formdata.StudentsYearDepartment.split(" ")[0]
       UserProfile.ID = ID
       UserProfile.Designation = formdata.role,
-       UserProfile. Qualification = ""
+        UserProfile.Qualification = ""
     }
 
     if (formdata.role === "Teacher") {
@@ -105,29 +103,19 @@ const NewAccount = async (req, res) => {
 
 
 
-
-// const authHeader = req.headers.authorization;
-// if (!authHeader) {
-//   // no token sent
-//   return console.log('No token.')
-// }
-// const token = authHeader.split(" ")[1];
-
-
-
-
 // Login user
 const LoginAccount = async (req, res) => {
   try {
     const { email, Password, role } = req.query;
-    console.log({ email, Password, role },"hey")
 
     const token = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
     if (!email || !Password || !role) {
       return res.status(400).json({ message: "all inputs are required" })
     }
     const Check_userAccount = await User.findOne({ email })
-    console.log(Check_userAccount,'Check_userAccount')
+    if (Check_userAccount.role != role) {
+      return res.status(403).json({message:"Role is incorrect"})
+    }
     if (!Check_userAccount) {
       return res.status(403).json({ message: "USer NotFound." })
     }
