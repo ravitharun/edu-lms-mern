@@ -320,7 +320,14 @@ function AssiginSubject() {
                     </main>
 
                     <div className="flex flex-col items-center mt-8 gap-4">
+                        values
+                        <select name="" id="">
+                            {[10,20,30,40,50,60,70,80,90,100].map((valu,idx) => (
+                                // <h1>valu</h1>
+                                <option key={idx}>{valu}</option>
 
+                            ))}
+                        </select>
                         {/* Page Info Badge */}
                         {page && (
                             <div className="flex items-center gap-2 px-5 py-2 bg-white border border-gray-200 rounded-full shadow">
