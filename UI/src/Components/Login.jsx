@@ -1,5 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
-import { reverseOrder, ToastPostion } from "../ReactToast/Toast";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { FaEye, FaRegEyeSlash } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
@@ -14,7 +13,7 @@ export default function Login() {
   const [role, setrole] = useState("")
   const [ischeck, setcheck] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
-  const redirect = useNavigate("")
+  // const redirect = useNavigate("")
   const [loading, setloading] = useState(false)
   const [redirectloadin, setredirectloading] = useState(false)
   // handel login api data
@@ -33,12 +32,12 @@ export default function Login() {
         StudentPassword
       }
 
-      // setloading(true)
+      setloading(true)
       // setredirectloading(true)
       const get_user_valid = await handelLogin(Userdata, e)
 
 
-      // setloading(false)
+      setloading(false)
       setredirectloading(false)
       console.log(get_user_valid.status == 403)
       if (get_user_valid.status == 400 && get_user_valid.response.data.message == "all inputs are required") {
@@ -59,14 +58,14 @@ export default function Login() {
       }
 
       if (get_user_valid?.data?.user?.role == "Teacher") {
-        setredirectloading(true)
-        toast.success(
-          `Login successfully - Hey! ${get_user_valid?.data?.user?.name} (${get_user_valid?.data?.user?.role})`,
+        // setredirectloading(true)
+        // toast.success(
+        //   `Login successfully - Hey! ${get_user_valid?.data?.user?.name} (${get_user_valid?.data?.user?.role})`,
 
-        );
-        setTimeout(() => {
-          return window.location.href = "/admin-dashboard"
-        }, 3500);
+        // );
+        // setTimeout(() => {
+        //   return window.location.href = "/admin-dashboard"
+        // }, 3500);
       }
       // Admin Route
       else if (get_user_valid?.data?.user?.role == 'Admin') {
@@ -85,7 +84,7 @@ export default function Login() {
       else {
         console.log("hey")
         toast.success(
-          `Login successfully - Hey! ${get_user_valid?.data?.user?.name || ""} (${get_user_valid.data.user.role || ""})`,
+          `Login successfully - Hey! ${get_user_valid?.data?.user?.name || ""} (${get_user_valid?.data?.user?.role || ""})`,
         );
         setredirectloading(true)
         setTimeout(() => {
@@ -97,7 +96,7 @@ export default function Login() {
     }
     catch (error) {
       // console.log(error.status)
-      console.log(error)
+      console.log(error.message)
 
 
     }

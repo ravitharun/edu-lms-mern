@@ -127,6 +127,7 @@ const LoginAccount = async (req, res) => {
       return res.status(400).json({ message: "all inputs are required" })
     }
     const Check_userAccount = await User.findOne({ email })
+    console.log(Check_userAccount,'Check_userAccount')
     if (!Check_userAccount) {
       return res.status(403).json({ message: "USer NotFound." })
     }
@@ -142,7 +143,7 @@ const LoginAccount = async (req, res) => {
     }
 
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     return res.status(500).json({ error: "Server error" });
   }
 };
