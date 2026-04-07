@@ -33,8 +33,8 @@ export default function Login() {
         StudentPassword
       }
 
-      // setloading(true)
-      // setredirectloading(true)
+      setloading(true)
+      setredirectloading(true)
       const get_user_valid = await handelLogin(Userdata, e)
       console.log(get_user_valid, 'get_user_valid')
       if (get_user_valid.response?.data?.message === 'Role is incorrect') {
@@ -54,7 +54,8 @@ export default function Login() {
               onClick={() => toast.dismiss(t.id)}
               className="text-gray-400 hover:text-white transition"
             >
-              ✖
+              ✖    
+
             </button>
           </div>
         ));
