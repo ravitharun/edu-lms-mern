@@ -55,10 +55,10 @@ ${ApplyLeave.role}
             </tr>
        <tr>
   <td style="padding: 12px; border: 1px solid #ddd;"><b>Action</b></td>
-  <td style="padding: 12px; border: 1px solid #ddd; text-align:center;">
+  <td style="padding: 12px; border: 1px solid F#ddd; text-align:center;">
 
     <!-- ✅ Accept Button -->
-    <a href="http://localhost:5001/api/leave/accept/${ApplyLeave.id}"
+    <a href='https://edu-lms-mern-1.onrender.com/api/LeaveStatusResponse/leaveStatus?st=approve'>
        style="
         background-color:#28a745;
         color:white;
@@ -73,7 +73,7 @@ ${ApplyLeave.role}
     </a>
 
     <!-- ❌ Reject Button -->
-    <a href="http://localhost:5001/api/leave/reject/${ApplyLeave.id}"
+<a href="https://edu-lms-mern-1.onrender.com/api/LeaveStatusResponse/leaveStatus?st=reject">
        style="
         background-color:#dc3545;
         color:white;
