@@ -25,6 +25,7 @@ const { Manageholiday } = require("./routes/AddHolidaysRouter");
 const { redisClient } = require("./Expose/redis");
 const { initSocket } = require("./socket");
 const { AttandanceRouter } = require("./routes/AttandanceROuter");
+const { LeaveStatusRouter } = require("./routes/leaveStatusRouter");
 const app = express();
 const server = http.createServer(app);
 
@@ -61,6 +62,7 @@ app.use("/api/FetchStudentsTimeTabel", HandelFetchTimeTableRouter);
 app.use("/api/UsersCount", Admin_UserInfo);
 app.use("/api/Manageholiday", Manageholiday);
 app.use("/api/markAttandance", AttandanceRouter);
+app.use("/api/LeaveStatusResponse", LeaveStatusRouter);
 app.use(apiLimiter)
 console.log("URI:", process.env.MONGO_URI);
 // Test root

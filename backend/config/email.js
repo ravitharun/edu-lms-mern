@@ -1,15 +1,14 @@
 const nodemailer = require("nodemailer");
 
-// Create a transporter using Ethereal test credentials.
-// For production, replace with your actual SMTP server details.
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   port: 587,
-  secure: false, // TLS
+  secure: false, 
 
   auth: {
     user: process.env.Email_User,
-    pass: process.env.Email_pass // App Password (no spaces)
+    pass: process.env.Email_pass 
   }, family: 4
 });
 
