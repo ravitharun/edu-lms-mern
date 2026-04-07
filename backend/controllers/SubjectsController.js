@@ -36,8 +36,9 @@ const fetchAllSubjects = async (req, res) => {
     try {
 
         let { page } = req.query
-        // console.log(page, "page")
-        let limit = 4
+        let { limit } = req.query
+        // console.log( ,'page')
+        // let limit = 4
         let skip = 0;
         if (page == 0) {
             limit = 0;

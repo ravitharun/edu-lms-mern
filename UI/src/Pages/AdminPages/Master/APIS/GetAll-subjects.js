@@ -3,9 +3,9 @@ import { handleLogout, UserLogin, Header_Token_expry } from "../../../../Apis/Is
 import toast from "react-hot-toast"
 import { useNavigate, useParams } from "react-router-dom"
 
-export const fetchAllSubjects = async (page) => {
+export const fetchAllSubjects = async (page,limit) => {
     try {
-        const response = await axios.get(`http://localhost:5001/api/subjects/get/subjects?page=${(page)}`, Header_Token_expry)
+        const response = await axios.get(`http://localhost:5001/api/subjects/get/subjects?page=${(page)}&limit=${Number(limit)}`, Header_Token_expry)
         console.log(response, "response")
         return response
     }
