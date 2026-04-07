@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FaEye, FaRegEyeSlash } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
@@ -17,6 +17,7 @@ export default function Login() {
   const [loading, setloading] = useState(false)
   const [redirectloadin, setredirectloading] = useState(false)
   // handel login api data
+  // const navigate=useNavigate()
   const handelloginapi = async (e) => {
     try {
       if (!StudentEmail || !StudentPassword || !role) {
@@ -32,14 +33,35 @@ export default function Login() {
         StudentPassword
       }
 
-      setloading(true)
+      // setloading(true)
       // setredirectloading(true)
       const get_user_valid = await handelLogin(Userdata, e)
+      console.log(get_user_valid, 'get_user_valid')
+      if (get_user_valid.response?.data?.message === 'Role is incorrect') {
+        return toast.custom((t) => (
+          <div
+            className={`flex items-center gap-3 w-[300px] p-4 rounded-xl shadow-lg 
+      bg-gray-900 text-white border-l-4 border-red-500
+      transform transition-all duration-300
+      ${t.visible ? "translate-y-0 opacity-100" : "-translate-y-5 opacity-0"}`}
+          >
+            <div className="text-red-400 text-xl">⚠️</div>
 
+            <div className="flex-1">
+              <p className="text-xs text-gray-300">Choosed <b className="text-red-500">Role</b> is incorrect</p>
+            </div>
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="text-gray-400 hover:text-white transition"
+            >
+              ✖
+            </button>
+          </div>
+        ));
+      }
 
       setloading(false)
       setredirectloading(false)
-      console.log(get_user_valid.status == 403)
       if (get_user_valid.status == 400 && get_user_valid.response.data.message == "all inputs are required") {
         return toast.error("all inputs are required")
       }
@@ -57,18 +79,23 @@ export default function Login() {
         });
       }
 
-      if (get_user_valid?.data?.user?.role == "Teacher") {
-        // setredirectloading(true)
-        // toast.success(
-        //   `Login successfully - Hey! ${get_user_valid?.data?.user?.name} (${get_user_valid?.data?.user?.role})`,
 
-        // );
-        // setTimeout(() => {
-        //   return window.location.href = "/admin-dashboard"
-        // }, 3500);
+      // Logic for the redirect page from login to dashboard.
+      if (get_user_valid?.data?.user?.role == "Teacher") {
+        setredirectloading(true)
+        toast.success(
+          `Login successfully - Hey! ${get_user_valid?.data?.user?.name} (${get_user_valid?.data?.user?.role})`,
+
+        );
+        setTimeout(() => {
+          window.location.href = "/admin-dashboard"
+        }, 3500);
+        return
       }
       // Admin Route
       else if (get_user_valid?.data?.user?.role == 'Admin') {
+        console.log("hey from the Admin")
+
         toast.success(
           `Login successfully - Hey! ${get_user_valid?.data?.user?.name} (${get_user_valid?.data?.user?.role})`,
 
@@ -76,27 +103,27 @@ export default function Login() {
         setredirectloading(true)
         setTimeout(() => {
 
-          return window.location.href = "/AdminDashboard"
+          window.location.href = "/AdminDashboard"
         }, 3500)
-
+        return
       }
       // Student Route
       else {
-        console.log("hey")
+        console.log("hey from the studen")
         toast.success(
           `Login successfully - Hey! ${get_user_valid?.data?.user?.name || ""} (${get_user_valid?.data?.user?.role || ""})`,
         );
         setredirectloading(true)
         setTimeout(() => {
 
-          return window.location.href = "/"
+          window.location.href = "/"
         }, 3500);
-
+        return
       }
     }
     catch (error) {
       // console.log(error.status)
-      console.log(error.message)
+      console.log(error)
 
 
     }
@@ -132,7 +159,7 @@ export default function Login() {
                   Student
                 </label>
                 <label className="flex w-full items-center gap-2 rounded-md border border-gray-600 p-2 text-xs text-gray-200">
-                  <input type="radio" name="role" className="accent-indigo-500" onClick={() => setrole("teacher")} />
+                  <input type="radio" name="role" className="accent-indigo-500" onClick={() => setrole("Teacher")} />
                   Teacher
                 </label>
                 <label className="flex items-center gap-2 w-full border border-gray-600 rounded-md p-2 text-xs text-gray-200">

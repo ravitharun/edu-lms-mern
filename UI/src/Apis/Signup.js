@@ -48,9 +48,7 @@ const handelLogin = async (data, e) => {
 
 
     return response
-    // return response
   } catch (error) {
-    console.log("ERRR: ", error.message)
     return error
 
   }
