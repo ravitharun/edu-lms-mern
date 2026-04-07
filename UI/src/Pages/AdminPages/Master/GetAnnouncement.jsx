@@ -53,7 +53,7 @@ function GetAnnouncement() {
       </option>
     ))}
   </select>
-</div>
+</div>~
             <table className="w-full bg-white rounded-lg shadow mt-6">
                 <thead className="bg-gray-100 text-left">
                     <tr>
