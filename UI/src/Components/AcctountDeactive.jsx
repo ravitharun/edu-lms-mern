@@ -13,7 +13,6 @@ function AccountDeactivated() {
     const [poup, setpoup] = useState(false)
     const [issuetype, settype] = useState("")
     const [priorty, setpriorty] = useState("")
-    console.log(poup)
     const [Reason, setReason] = useState("")
     const handelRequest = async () => {
         console.log({ name: UserName.name, email: UserName.email, empid: UserName.teacher_Id, Reason, issuetype: issuetype, priorty: priorty }, 'Header_Token_expry')

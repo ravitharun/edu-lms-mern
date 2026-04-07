@@ -1,6 +1,7 @@
-console.log("Server updated at " + new Date().toLocaleTimeString());
+ 
 
-require("dotenv").config();  // MUST be first l
+require("dotenv").config(); 
+
 const express = require("express");
 const redis = require("redis");
 const cors = require("cors");
@@ -26,11 +27,11 @@ const { initSocket } = require("./socket");
 const { AttandanceRouter } = require("./routes/AttandanceROuter");
 const app = express();
 const server = http.createServer(app);
-require('dotenv').config();
 
-// Connect to MongoDB
+
+
+// Connect to MongoDBcd 
 connectDB();
-
 // Middleware
 const allowedOrigin = process.env.NODE_ENV === "development"
     ? "http://localhost:5173"
@@ -43,9 +44,7 @@ app.use(cors({
 initSocket(server);
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
-console.log("CLOUD_NAME:", process.env.CLOUD_NAME);
-console.log("API_KEY:", process.env.API_KEY);
-console.log("API_SECRET:", process.env.API_SECRET);
+
 // Routes
 app.use("/api/auth", Authrouter);
 app.use("/api/subjects", Subjects);
