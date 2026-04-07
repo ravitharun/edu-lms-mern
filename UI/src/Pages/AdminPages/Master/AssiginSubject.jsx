@@ -27,6 +27,7 @@ function AssiginSubject() {
     const [fillterdeletd, seflltes] = useState([])
     const [page, setpage] = useState(1)
     const [length, setlength] = useState(0)
+    const [limit, setlimit] = useState(10)
     useEffect(() => {
         fun()
     }, [])
@@ -35,7 +36,7 @@ function AssiginSubject() {
         const get = async () => {
             try {
                 setloader(true);
-                const rsdata = await fetchAllSubjects(Number(page));
+                const rsdata = await fetchAllSubjects(Number(page), Number(limit));
                 setallData(rsdata.data?.message);
                 setOriginalData(rsdata.data?.message);
                 setlength(rsdata.data?.length)
@@ -46,7 +47,7 @@ function AssiginSubject() {
         };
         get();
 
-    }, [page]);
+    }, [page, limit]);
 
     const handleSearch = (e) => {
         const search = e.target.value.toLowerCase();
@@ -320,14 +321,24 @@ function AssiginSubject() {
                     </main>
 
                     <div className="flex flex-col items-center mt-8 gap-4">
-                        values
-                        <select name="" id="">
-                            {[10,20,30,40,50,60,70,80,90,100].map((valu,idx) => (
-                                // <h1>valu</h1>
-                                <option key={idx}>{valu}</option>
+                        <div className="flex items-center gap-3 bg-white dark:bg-gray-800 px-4 py-2 rounded-2xl shadow-md w-fit">
 
-                            ))}
-                        </select>
+                            <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                                Page Per Data
+                            </span>
+
+                            <select
+                                onChange={(e) => setlimit(e.target.value)}
+                                className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white text-sm px-3 py-1.5 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer transition"
+                            >
+                                {[10, 20, 30, 40, 50, 60, 70, 80, 90, 100].map((value, idx) => (
+                                    <option key={idx} value={value}>
+                                        {value}
+                                    </option>
+                                ))}
+                            </select>
+
+                        </div>
                         {/* Page Info Badge */}
                         {page && (
                             <div className="flex items-center gap-2 px-5 py-2 bg-white border border-gray-200 rounded-full shadow">
