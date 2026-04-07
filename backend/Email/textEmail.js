@@ -55,7 +55,7 @@ ${ApplyLeave.role}
             </tr>
        <tr>
   <td style="padding: 12px; border: 1px solid #ddd;"><b>Action</b></td>
-  <td style="padding: 12px; border: 1px solid F#ddd; text-align:center;">
+  <td style="padding: 12px; border: 1px solid #ddd; text-align:center;">
 
     <!-- ✅ Accept Button -->
     <a href='https://edu-lms-mern-1.onrender.com/api/LeaveStatusResponse/leaveStatus?st=approve'>
@@ -73,7 +73,7 @@ ${ApplyLeave.role}
     </a>
 
     <!-- ❌ Reject Button -->
-<a href="https://edu-lms-mern-1.onrender.com/api/LeaveStatusResponse/leaveStatus?st=reject">
+<a href='https://edu-lms-mern-1.onrender.com/api/LeaveStatusResponse/leaveStatus?st=Reject'>
        style="
         background-color:#dc3545;
         color:white;
