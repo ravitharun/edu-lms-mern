@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Hnadlefetechannouncements } from "../Pages/AdminPages/Master/APIS/Fetechannouncements";
+import { Hnadlefetechannouncements } from "../Pages/Admin/APIS/Fetechannouncements";
 import {
     AiOutlineWarning,
     AiOutlineInfoCircle,

@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react'
 import MasterAdminNavbar from './MasterAdminNavbar'
 import MasterLogoNav from './MasterLogoNav'
 import { BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
-import { fun } from '../../../Components/UserisLogin';
+import { fun } from '../../../src/Components/UserisLogin';
 import { MdMenu } from "react-icons/md";
 import { IoCloseOutline } from "react-icons/io5";
-import ProgressLoader from '../../../Loaders/Progressloader';
+
 import StudentsReports from './StudentsReports';
 import TeachersReports from './TeachersReports';
-import { MaintanceMode } from '../../../Apis/Islogin';
-import Undermanitance from '../../../Loaders/Undermanitance';
+
+import ProgressLoader from '../../Loaders/Progressloader';
 
 function Reports() {
 

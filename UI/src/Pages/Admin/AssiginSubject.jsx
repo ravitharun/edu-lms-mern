@@ -3,16 +3,14 @@ import MasterAdminNavbar from './MasterAdminNavbar';
 import MasterLogoNav from './MasterLogoNav';
 import { AddnewSubjuect, fetchAllSubjects, HandelDeleteCourse } from './APIS/GetAll-subjects';
 import { FaPlus, FaSearch, FaTimes } from 'react-icons/fa';
-import Loaders from '../../../Loaders/Loaders';
-import Dataloading from '../../../Loaders/Dataloading';
+
+import Dataloading from '../../../src/Loaders/Dataloading';
 import toast, { Toaster } from 'react-hot-toast';
 import Swal from "sweetalert2";
-import { fun } from '../../../Components/UserisLogin';
+import { fun } from '../../../src/Components/UserisLogin';
 import { GrFormNextLink } from "react-icons/gr";
 import { GrFormPreviousLink } from "react-icons/gr";
-import { socket } from '../../../Socket';
-import { MaintanceMode } from '../../../Apis/Islogin';
-import Undermanitance from '../../../Loaders/Undermanitance';
+
 
 function AssiginSubject() {
     const [getAllData, setallData] = useState([]);

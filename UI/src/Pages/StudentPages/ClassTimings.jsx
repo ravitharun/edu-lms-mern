@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import DisplyTimetabel from '../AdminPages/Master/DisplyTimetabel'
+import DisplyTimetabel from '../Admin/DisplyTimetabel.jsx'
 import Footer from './Footer'
 import BackButton from '../../Components/BackButton'
 import App from '../../App'
 import { Toaster } from 'react-hot-toast'
 import { MaintanceMode, UserName } from '../../Apis/Islogin'
-import AddTimeTable from '../AdminPages/Master/AddTimeTable'
-import { FetchTimeTableByYear } from '../AdminPages/Master/APIS/HandelTimeTable'
+import AddTimeTable from '../Admin/AddTimeTable'
+import { FetchTimeTableByYear } from '../Admin/APIS/HandelTimeTable.js'
 import Undermanitance from '../../Loaders/Undermanitance'
 
 function ClassTimings() {

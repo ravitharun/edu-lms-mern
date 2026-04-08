@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import MasterAdminNavbar from './MasterAdminNavbar'
 import MasterLogoNav from './MasterLogoNav'
 import toast, { Toaster } from 'react-hot-toast'
-import { UserName } from '../../../Apis/Islogin'
 import { IoMdInformationCircle } from "react-icons/io";
 import { AiOutlineInfoCircle } from "react-icons/ai"; // info icon
 import * as XLSX from "xlsx";
@@ -10,7 +9,8 @@ import axios from 'axios'
 import DownloadReports from './DownloadReports'
 import { FaCloudDownloadAlt } from "react-icons/fa";
 import FetechHoliday from './FetechHoliday'
-import ProgressLoader from '../../../Loaders/Progressloader'
+import ProgressLoader from '../../Loaders/Progressloader'
+import { UserName } from '../../Apis/Islogin';
 function AdminMangeholidays() {
     const [date, setdata] = useState([])
     const [File, setfile] = useState(null)

@@ -3,11 +3,11 @@ import MasterAdminNavbar from './MasterAdminNavbar'
 import MasterLogoNav from './MasterLogoNav'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
-import Dataloading from '../../../Loaders/Dataloading'
+
 import Swal from 'sweetalert2'
 import { deactivateAccount } from './APIS/DeactivateAccount'
-import { MaintanceMode } from '../../../Apis/Islogin'
-import Undermanitance from '../../../Loaders/Undermanitance'
+
+import Dataloading from '../../Loaders/Dataloading'
 
 function Issues() {
     const page = 'Issues'

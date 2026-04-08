@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import MasterLogoNav from './MasterLogoNav'
 import MasterAdminNavbar from './MasterAdminNavbar'
 import { MdSchedule } from 'react-icons/md'
-import { Day, departments, Semester_year } from '../AdminExport'
+import { Day, departments, Semester_year } from '../TeachersPage/AdminExport'
 import { fetchAllSubjects } from './APIS/GetAll-subjects'
 import toast, { Toaster } from 'react-hot-toast'
 import DisplyTimetabel from './DisplyTimetabel'
 import { AddTimetable, FetchTimeTableByYear } from './APIS/HandelTimeTable'
-import { MaintanceMode, UserName } from '../../../Apis/Islogin'
-import Undermanitance from '../../../Loaders/Undermanitance'
+import { MaintanceMode, UserName } from '../../Apis/Islogin'
+import Undermanitance from '../../Loaders/Undermanitance'
 
 function AddTimeTable() {
     const [Isopen, setopen] = useState(false)

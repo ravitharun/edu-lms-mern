@@ -5,11 +5,10 @@ import { AssignTeacher, fetchAllSubjects, fetchAllTeacherName, GetAllSubjectsAss
 import toast, { Toaster } from 'react-hot-toast'
 import { FaPlus } from 'react-icons/fa'
 import Swal from "sweetalert2";
-import { fun } from '../../../Components/UserisLogin'
-import { Header_Token_expry, MaintanceMode } from '../../../Apis/Islogin'
+import { fun } from '../../../src/Components/UserisLogin.jsx'
 import axios from 'axios'
-import Dataloading from '../../../Loaders/Dataloading'
-import Undermanitance from '../../../Loaders/Undermanitance'
+import Dataloading from '../../../src/Loaders/Dataloading'
+
 
 function AssiginTeacherwisesubjects() {
     const [GetSubjects, Setsubjects] = useState([])

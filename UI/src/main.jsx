@@ -1,51 +1,49 @@
 import { lazy, StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
 import { Routes, Route } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import Login from './Components/Login.jsx';
 import Siginup from './Components/SiginUp.jsx';
 import BackgroungImgLoader from './Loaders/BackgroungImgLoader.jsx';
 import Studymaterials from './Pages/StudentPages/Studymaterials.jsx';
-
-import Classes from './Pages/AdminPages/Classes.jsx';
-import MArkAttandance from './Pages/AdminPages/MArkAttandance.jsx';
-import Addassignments from './Pages/AdminPages/Addassignments.jsx';
-import UploadMaterilas from './Pages/AdminPages/UploadMaterilas.jsx';
-import ApplyLeave from './Pages/AdminPages/ApplyLeave.jsx';
-import Students from './Pages/AdminPages/Students.jsx';
-import AdminProfile from './Pages/AdminPages/AdminProfile.jsx';
+import Classes from './Pages/TeachersPage/Classes.jsx';
+import MArkAttandance from './Pages/TeachersPage/MArkAttandance.jsx';
+import Addassignments from './Pages/TeachersPage/Addassignments.jsx';
+import UploadMaterilas from './Pages/TeachersPage/UploadMaterilas.jsx';
+import ApplyLeave from './Pages/TeachersPage/ApplyLeave.jsx';
+import Students from './Pages/TeachersPage/Students.jsx';
+import AdminProfile from './Pages/TeachersPage/AdminProfile.jsx';
 import Loaders from './Loaders/Loaders.jsx';
-import MasterAdminDashboard from './Pages/AdminPages/Master/MasterAdminDashboard.jsx';
-import AssiginSubject from './Pages/AdminPages/Master/AssiginSubject.jsx';
-import AssiginTeacherwisesubjects from './Pages/AdminPages/Master/AssiginTeacherwisesubjects.jsx';
-import AdminStudents from './Pages/AdminPages/Master/Reports.jsx';
-import TeachersProfiles from './Pages/AdminPages/Master/TeachersProfiles.jsx';
+import MasterAdminDashboard from './Pages/Admin/MasterAdminDashboard.jsx';
+import AssiginSubject from './Pages/Admin/AssiginSubject.jsx';
+import AssiginTeacherwisesubjects from './Pages/Admin/AssiginTeacherwisesubjects.jsx';
+import AdminStudents from './Pages/Admin/Reports.jsx';
+import TeachersProfiles from './Pages/Admin/TeachersProfiles.jsx';
 import UpdatePassword from './Pages/StudentPages/UpdatePassword.jsx';
-import StudentProfile from './Pages/AdminPages/StudentsProfile.jsx';
+import StudentProfile from './Pages/TeachersPage/StudentsProfile.jsx';
 import Error from './Components/Error.jsx';
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
 import AccountDeactivate from './Components/AcctountDeactive.jsx';
-import Issues from './Pages/AdminPages/Master/Issues.jsx';
-import ApplyLeaveAccept from './Pages/AdminPages/ApplyLeaveAccept.jsx';
-import TeacherProfileInfo from './Pages/AdminPages/Master/TeacherProfileInfo.jsx';
-import ProfilesStudenta from './Pages/AdminPages/Master/ProfilesStudenta.jsx';
-import TeachersProfile from './Pages/AdminPages/TeachersProfile.jsx';
-import Annoncement from './Pages/AdminPages/Master/Announcemet.jsx';
+import Issues from './Pages/Admin/Issues.jsx';
+import ApplyLeaveAccept from './Pages/TeachersPage/ApplyLeaveAccept.jsx';
+import TeacherProfileInfo from './Pages/Admin/TeacherProfileInfo.jsx';
+import ProfilesStudenta from './Pages/Admin/ProfilesStudenta.jsx';
+import TeachersProfile from './Pages/TeachersPage/TeachersProfile.jsx';
+import Annoncement from './Pages/Admin/Announcemet.jsx';
 import AcademiCalendar from './Pages/StudentPages/AcademiCalendar.jsx';
 import ExamSchedule from './Pages/StudentPages/ExamSchedule.jsx';
-import TeacherAcademicCalendar from './Pages/AdminPages/TeacherAcademicCalendar.jsx';
+import TeacherAcademicCalendar from './Pages/TeachersPage/TeacherAcademicCalendar.jsx';
 import { UserName } from './Apis/Islogin.js';
-import AddTimeTable from './Pages/AdminPages/Master/AddTimeTable.jsx';
+import AddTimeTable from './Pages/Admin/AddTimeTable.jsx';
 import ClassTimings from './Pages/StudentPages/ClassTimings.jsx';
-import AdminMangeholidays from './Pages/AdminPages/Master/AdminMangeholidays.jsx';
+import AdminMangeholidays from './Pages/Admin/AdminMangeholidays.jsx';
 import Redirect from '../Redirect.jsx';
 import Undermanitance from './Loaders/Undermanitance.jsx';
-import Exam from './Pages/AdminPages/Exam.jsx';
+import Exam from './Pages/TeachersPage/Exam.jsx';
 
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
-const AdminDashboard = lazy(() => import("./Pages/AdminPages/AdminDashboard.jsx"));
+const AdminDashboard = lazy(() => import("./Pages/TeachersPage/AdminDashboard.jsx"));
 const MyCourses = lazy(() => import("./Pages/StudentPages/MyCourses.jsx"));
 const Studentprofile = lazy(() => import("./Pages/StudentPages/Studentprofile.jsx"));
 // import MyCourses from './Pages/MyCourses.jsx';

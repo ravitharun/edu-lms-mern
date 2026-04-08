@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaBook, FaCalendarAlt, FaChalkboardTeacher, FaClipboardCheck, FaClock, FaPlus, FaTimes, FaUpload, FaUsers, FaChartBar, FaFileUpload, FaUser } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import App from "../../App";
-import MasterAdmin from "./Master/MasterAdmin";
+import MasterAdmin from "../Admin/MasterAdmin";
 import toast from "react-hot-toast";
 import { GetClassList } from "./TechersApiCall/FetchApicall";
 import secureLocalStorage from "react-secure-storage";

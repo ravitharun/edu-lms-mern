@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { UserName } from '../../../Apis/Islogin'
+import { UserName } from '../../Apis/Islogin'
 
 function LogoAdmin() {
     const [showPoup, setShowpoup] = useState(false)

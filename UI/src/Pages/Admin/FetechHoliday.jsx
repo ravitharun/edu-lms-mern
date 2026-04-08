@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FetchHolidays } from "./APIS/Holidays";
-import ProgressLoader from "../../../Loaders/Progressloader";
-import Dataloading from "../../../Loaders/Dataloading";
-import { socket } from "../../../Socket";
+import Dataloading from "../../../src/Loaders/Dataloading";
+import { socket } from "../../../src/Socket";
 
 function FetechHoliday() {
   const [data, setdata] = useState([])

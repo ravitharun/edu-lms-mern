@@ -9,8 +9,8 @@ import {
   FiBell,
   FiTrash2
 } from "react-icons/fi";
-import MasterAdminNavbar from "./Master/MasterAdminNavbar";
-import MasterLogoNav from "./Master/MasterLogoNav";
+import MasterAdminNavbar from "../Admin/MasterAdminNavbar";
+import MasterLogoNav from "../Admin/MasterLogoNav";
 import { MaintanceMode, UserName } from "../../Apis/Islogin";
 import Undermanitance from "../../Loaders/Undermanitance";
 
