@@ -18,12 +18,12 @@ const ApplyLeave = async (req, res) => {
             leaveType: ApplyLeave.leaveType,
             TotalDays: ApplyLeave.TotalDays,
         })
-        await leaveAddEmail.leaveAddEmail(ApplyLeave)
+        await leaveAddEmail.leaveAddEmail(ApplyLeave, id)
 
         await Apply.save()
         return res.json({ message: "leave application sent" })
     } catch (error) {
-        console.log(error.message, 'err')
+        console.log(error, 'err')
         return res.json({ message: error.message })
     }
 
