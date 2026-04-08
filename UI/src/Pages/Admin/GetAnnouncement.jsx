@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast';
 import { Hnadlefetechannouncements } from './APIS/Fetechannouncements';
-import Announcement from '../../../Components/Announcement';
+import Announcement from '../../Components/Announcement';
 
 function GetAnnouncement() {
     const [announcements, setannouncements] = useState([]);

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import MasterAdminNavbar from "./MasterAdminNavbar";
 import MasterLogoNav from "./MasterLogoNav";
-import Dataloading from "../../../Loaders/Dataloading";
+import Dataloading from "../../Loaders/Dataloading.jsx";
 import { GetallStudentsProfile } from "./APIS/GetAll-subjects";
-import "../../../../../UI/src/App.css";
+
+import "../../../../UI/src/App.css"
 import toast, { Toaster } from "react-hot-toast";
-import { MaintanceMode } from "../../../Apis/Islogin";
-import Undermanitance from "../../../Loaders/Undermanitance";
+
+
+import { MaintanceMode } from "../../Apis/Islogin.js";
+import Undermanitance from "../../Loaders/Undermanitance.jsx";
 
 function ProfilesStudenta() {
     const StudentsProfileHeadings = [

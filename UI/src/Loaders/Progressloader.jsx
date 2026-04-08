@@ -1,4 +1,5 @@
 import React from "react";
+import { FaArrowLeft } from "react-icons/fa";
 
 function ProgressLoader({ path }) {
   return (
@@ -20,6 +21,16 @@ function ProgressLoader({ path }) {
         >
           {path}
         </b>
+        <div className="mt-5 flex justify-center">
+
+          <button
+            onClick={() => window.history.back()}
+            className="flex items-center gap-1 px-3 py-1.5 text-sm bg-gray-800 text-white rounded-md hover:bg-gray-700"
+          >
+            <FaArrowLeft className="text-xs" />
+            Back
+          </button>
+        </div>
       </span>
     </div>
   );

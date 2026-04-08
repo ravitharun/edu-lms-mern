@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { FaBars, FaTimes, FaTachometerAlt, FaBook, FaChalkboardTeacher, FaUsers, FaUserGraduate, FaCog, FaUser, FaCheck, FaUserCheck, FaPowerOff, FaBullhorn, FaCalendarAlt, FaRegCalendarAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { handleLogout, UserLogin } from "../../../Apis/Islogin";
-import { handelLogin } from "../../../Apis/Signup";
+import { handleLogout, UserLogin } from "../../Apis/Islogin";
+import { handelLogin } from "../../Apis/Signup";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import Board from "./Board";
 import LogoAdmin from "./LogoAdmin";
@@ -85,12 +85,12 @@ function MasterAdminNavbar({ path, Active }) {
 
         {/* Menu */}
         <nav className="p-6 space-y-2 mt-4">
-          <SidebarItem icon={<FaTachometerAlt />} title="Dashboard" active={true} url="/AdminDashboard" />
+          <SidebarItem icon={<FaTachometerAlt />} title="Dashboard" active={0} url="/AdminDashboard" />
           <SidebarItem icon={<FaBook />} title="Manage Subjects" url="/Admin/AssiginSubjects" path={path} active={Active} />
           <SidebarItem icon={<FaChalkboardTeacher />} title="Assign Teachers" url="/admin/Assign-Teachers" active={Active} path={path} />
           <SidebarItem icon={<FaUserGraduate />} title="Reports" url="/admin/Reports" path={path} active={Active} />
           <SidebarItem icon={<FaChalkboardTeacher />} title="Teachers" url="/admin/Teachers" path={path} active={Active} />
-          <SidebarItem icon={<FaRegCalendarAlt />} title="Add Holiday" url="/admin/Uploadholidays"path={path}  active={Active}/>
+          <SidebarItem icon={<FaRegCalendarAlt />} title="Add Holiday" url="/admin/Uploadholidays" path={path} active={Active} />
 
           <SidebarItem icon={<FaUsers />} title="Students" url="/admin/Studenta" path={path} active={Active} />
           <SidebarItem icon={<FaCalendarAlt />} title="TimeTable" url="/admin/AddTimeTable" path={path} active={Active} />
@@ -108,17 +108,17 @@ function MasterAdminNavbar({ path, Active }) {
 }
 
 const SidebarItem = ({ icon, title, active, url, path, onClick }) => (
-  // console.log(path)
+
   <>
     <Link to={url}>
       <>
         <div className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer group
-    
-    ${path === title ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg"
+   
+    ${title === path  ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg"
             : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
           }`} onClick={onClick}>
           <span className={`text-lg ${path == title ? 'text-white' : 'group-hover:text-blue-600'}`}>{icon}</span>
-          <span >{title}</span>
+          <span >{title}  </span>
 
         </div>
 

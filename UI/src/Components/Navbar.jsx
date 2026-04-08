@@ -247,7 +247,7 @@ import LogoNavbar from "./LogoNavbar";
 import MobilePassnav from "./MobilePassnav";
 import AdminNavbar from "./AdminNavbar";
 import { UserRole } from "../Apis/Islogin";
-import MasterAdminNavbar from "../Pages/AdminPages/Master/MasterAdminNavbar";
+import MasterAdminNavbar from "../Pages/Admin/MasterAdminNavbar";
 
 function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
 

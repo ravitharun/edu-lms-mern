@@ -2,14 +2,16 @@
 import { useEffect, useState } from "react";
 import MasterAdminNavbar from "./MasterAdminNavbar";
 import MasterLogoNav from "./MasterLogoNav";
-import { fun } from "../../../Components/UserisLogin";
+import { fun } from "../../../src/Components/UserisLogin";
 import { Link } from "react-router-dom";
-import WelcomeMessage from "../../../Components/WelcomeMessage";
-import Announcement from "../../../Components/Announcement";
+import WelcomeMessage from "../../../src/Components/WelcomeMessage";
+import Announcement from "../../../src/Components/Announcement";
 import axios from "axios";
-import { socket } from "../../../Socket";
-import { MaintanceMode } from "../../../Apis/Islogin";
-import Undermanitance from "../../../Loaders/Undermanitance";
+import { socket } from "../../../../UI/src/Socket";
+import { MaintanceMode } from "../../Apis/Islogin";
+import Undermanitance from "../../Loaders/Undermanitance";
+
+
 
 
 function DashboardLayout({ children }) {
@@ -55,13 +57,13 @@ function DashboardLayout({ children }) {
 
           <Announcement></Announcement>
           {/* Sidebar */}
-          <MasterAdminNavbar path="Dashboard" />
+          <MasterAdminNavbar path="Dashboard" Active={true}/>
 
           {/* Main Content */}
           <div className="flex-1 flex flex-col min-w-0 w-full">
 
             {/* Top Navbar */}
-            <MasterLogoNav path="AdminDashboard" />
+            <MasterLogoNav path="Dashboard" />
 
             {/* Content */}
             <main className="flex-1 pt-16 pb-8 px-4 md:px-8 lg:px-12 overflow-y-auto">

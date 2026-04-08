@@ -1,9 +1,8 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
-import AdminHeader from "../../../Components/AdminHeader";
+import AdminHeader from "../../Components/AdminHeader"
 import { Link, useLocation } from "react-router-dom";
-import { MaintanceMode } from "../../../Apis/Islogin";
-import Undermanitance from "../../../Loaders/Undermanitance";
+
 
 function TeacherProfileInfo() {
     const location = useLocation();

@@ -1,6 +1,6 @@
 // MasterLogoNav.jsx
 import React, { useState } from "react";
-import { UserName } from "../../../Apis/Islogin";
+import { UserName } from "../../Apis/Islogin";
 import { FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Board from "./Board";

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import DownloadReports from './Master/DownloadReports'
+import DownloadReports from '../Admin/DownloadReports.jsx'
 import toast from 'react-hot-toast'
 import { FiUploadCloud, FiFileText } from "react-icons/fi"
 import * as XLSX from "xlsx";

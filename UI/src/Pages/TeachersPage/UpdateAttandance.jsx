@@ -6,7 +6,7 @@ import NotFound from '../../Loaders/NotFound'
 import AdminHeader from '../../Components/AdminHeader'
 import AddingSoon from '../../Loaders/AddingSoon'
 import Loaders from '../../Loaders/Loaders'
-import ProgressLoader from '../../Loaders/Progressloader'
+import ProgressLoader from '../../../src/Loaders/Progressloader.jsx'
 
 function UpdateAttandance() {
     const [Update, setupdate] = useState([{ id: 1, name: "tharun", isstatus: true }, { id: 2, name: "tharun", isstatus: false }, { id: 3, name: "tharun", isstatus: true }])

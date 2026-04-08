@@ -5,10 +5,9 @@ import { deactivateAccount } from "./APIS/DeactivateAccount";
 import toast, { Toaster } from "react-hot-toast";
 import Swal from "sweetalert2";
 import { fetchAllTeacherName, GetallTeacherProfile } from "./APIS/GetAll-subjects";
-import Dataloading from "../../../Loaders/Dataloading";
+;
 import { useNavigate } from "react-router-dom";
-import { MaintanceMode } from "../../../Apis/Islogin";
-import Undermanitance from "../../../Loaders/Undermanitance";
+import Dataloading from "../../Loaders/Dataloading";
 
 function TeachersProfiles() {
     const page = "Teachers";

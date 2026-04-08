@@ -7,7 +7,7 @@ import parse from "date-fns/parse";
 import startOfWeek from "date-fns/startOfWeek";
 import getDay from "date-fns/getDay";
 import enUS from "date-fns/locale/en-US";
-import { UserName } from "../../../Apis/Islogin";
+import { UserName } from "../../Apis/Islogin";
 import { number, string } from "prop-types";
 
 function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {

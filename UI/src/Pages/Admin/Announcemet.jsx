@@ -6,9 +6,9 @@ import { FiX, FiCalendar, FiUpload, FiTag, FiPlus } from "react-icons/fi";
 import axios from 'axios';
 import GetAnnouncement from './GetAnnouncement';
 import { useEffect } from 'react';
-import { socket } from '../../../Socket';
-import { MaintanceMode, UserName } from '../../../Apis/Islogin';
-import Undermanitance from '../../../Loaders/Undermanitance';
+import { socket } from '../../Socket';
+import { MaintanceMode, UserName } from '../../Apis/Islogin';
+import Undermanitance from '../../Loaders/Undermanitance';
 function Annoncement() {
     const page = "Annoncement"
     const [openPoup, setopenPoup] = useState(false)
