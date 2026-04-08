@@ -13,13 +13,12 @@ import secureLocalStorage from "react-secure-storage";
 import App from "../../App";
 import { handleLogout, MaintanceMode, totalClass, UserName } from "../../Apis/Islogin";
 import { Link } from "react-router-dom";
-import MasterAdmin from "./Master/MasterAdmin";
+
 import { fun } from "../../Components/UserisLogin";
 import RedirectPopup from "../../Components/RedirectPopup";
-import PoupLogin from "../../Components/PoupLogin";
+
 import Announcement from "../../Components/Announcement";
-import Undermanitance from "../../Loaders/Undermanitance";
-// import UserisLogin from "../../Components/UserisLogin";
+
 
 function AdminDashboard() {
   const [showNotifications, setShowNotifications] = useState(false);
