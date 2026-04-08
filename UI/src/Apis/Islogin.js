@@ -5,7 +5,7 @@ export const UserRole = secureLocalStorage.getItem("User_info")
 export const UserLogin = secureLocalStorage.getItem("token")
 export const UserName = secureLocalStorage.getItem("User_info")
 export const totalClass = secureLocalStorage.getItem('totalClass')
-export const MaintanceMode=false;
+export const MaintanceMode = false;
 export const ClassName_hover_btn = "hover:cursor-pointer"
 export const UserProfileInfo = secureLocalStorage.getItem("userProfileInfo")
 export let dt = new Date().getFullYear();
@@ -22,7 +22,9 @@ export const handleLogout = () => {
     return true
 }
 
-
+export const apiUrl = import.meta.env.Server_api_Url;
+export const Api_region = import.meta.env.Api_region;
+export const VITE_API_URL = import.meta.env.VITE_API_URL;
 export const Header_Token_expry = {
     headers: {
         'Content-Type': 'application/json',
