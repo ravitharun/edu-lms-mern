@@ -10,6 +10,8 @@ import axios from "axios";
 import { socket } from "../../../../UI/src/Socket";
 import { MaintanceMode } from "../../Apis/Islogin";
 import Undermanitance from "../../Loaders/Undermanitance";
+import Loaders from "../../Loaders/Loaders";
+
 
 
 
@@ -50,8 +52,8 @@ function DashboardLayout({ children }) {
   }, [])
   return (
     <>
-      {MaintanceMode ? <Undermanitance /> :
 
+      {MaintanceMode ? <Undermanitance /> :
 
         <div className="min-h-screen flex bg-gray-50">
 
