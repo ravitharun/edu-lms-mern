@@ -12,7 +12,7 @@ function LogoAdmin() {
 
     return (
         <>
-            <div className="flex items-center gap-3 ml-auto pr-4">
+            <div className="flex items-center gap-3 ml-auto pr-4 cursor-pointer"   onClick={() => handelPoup_profile(UserName?.profilePreview)}>
 
                 <div className="hidden lg:block text-right leading-tight">
                     <p className="text-[10px] text-gray-500">Admin</p>
@@ -24,8 +24,7 @@ function LogoAdmin() {
                 <img
                     src={UserName?.profilePreview}
                     alt="Profile"
-                    onClick={() => handelPoup_profile(UserName?.profilePreview)}
-                    className="w-8 h-8 rounded-full object-cover border border-gray-200 hover:border-blue-400 cursor-pointer transition"
+                    className="w-8 h-8 rounded-full object-cover border border-gray-200 hover:border-blue-400  transition"
                 />
 
             </div>
