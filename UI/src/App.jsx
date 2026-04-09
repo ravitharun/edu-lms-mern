@@ -4,8 +4,6 @@ import Navbar from "./Components/Navbar";
 import toast, { Toaster } from "react-hot-toast";
 import { socket } from "./Socket";
 import { useEffect } from "react";
-
-
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   useEffect(() => {
@@ -14,7 +12,6 @@ function App() {
       console.log(data, "New Announcement App level");
       alert(data); // or toast.success(data) if using React-Toastify
     };
-
     socket.on("Announcement", handleAnnouncement);
 
     // Cleanup listener on unmount
@@ -22,6 +19,8 @@ function App() {
       socket.off("Announcement", handleAnnouncement);
     };
   }, []); // Empty dependency ensures this runs once on app load
+
+
   return (
     <>
       <Toaster></Toaster>
