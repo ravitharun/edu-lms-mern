@@ -39,7 +39,6 @@ const AdminMangeholidays = lazy(() => import('./Pages/Admin/AdminMangeholidays.j
 const Redirect = lazy(() => import('../Redirect.jsx'));
 const Undermanitance = lazy(() => import('./Loaders/Undermanitance.jsx'));
 const Exam = lazy(() => import('./Pages/TeachersPage/Exam.jsx'));
-
 const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/TeachersPage/AdminDashboard.jsx"));
 const MyCourses = lazy(() => import("./Pages/StudentPages/MyCourses.jsx"));
