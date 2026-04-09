@@ -22,9 +22,8 @@ export const handleLogout = () => {
     return true
 }
 
-export const apiUrl = import.meta.env.Server_api_Url;
-export const Api_region = import.meta.env.Api_region;
-export const VITE_API_URL = import.meta.env.VITE_API_URL;
+export const url = import.meta.env.VITE_SERVER_API_Region == "Local" ? import.meta.env.VITE_API_URL : import.meta.env.VITE_SERVER_API_URL
+
 export const Header_Token_expry = {
     headers: {
         'Content-Type': 'application/json',
