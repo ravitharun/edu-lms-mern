@@ -21,6 +21,14 @@ export const handleLogout = () => {
     }
     return true
 }
+export const HandelLogin = () => {
+    const get = secureLocalStorage.getItem("token")
+    const UserInfo = secureLocalStorage.getItem("User_info")
+    if(get && UserInfo){
+        
+        return alert("Your are Alreafy Logined In.")
+    }
+}
 
 export const url = import.meta.env.VITE_SERVER_API_Region == "Local" ? import.meta.env.VITE_API_URL : import.meta.env.VITE_SERVER_API_URL
 

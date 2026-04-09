@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { FaBars, FaTimes, FaTachometerAlt, FaBook, FaChalkboardTeacher, FaUsers, FaUserGraduate, FaCog, FaUser, FaCheck, FaUserCheck, FaPowerOff, FaBullhorn, FaCalendarAlt, FaRegCalendarAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { handleLogout, UserLogin } from "../../Apis/Islogin";
-import { handelLogin } from "../../Apis/Signup";
+import { HandelLogin, handleLogout, UserLogin } from "../../Apis/Islogin";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import Board from "./Board";
 import LogoAdmin from "./LogoAdmin";
+import { FiLogOut, FiPower } from "react-icons/fi";
 
 function MasterAdminNavbar({ path, Active }) {
   console.log({ path, Active })
@@ -99,7 +99,7 @@ function MasterAdminNavbar({ path, Active }) {
           <SidebarItem icon={<FaBullhorn />} title="Annoncement" url="/admin/Annoncement" path={path} active={Active} />
           {<>
 
-            {UserLogin && <SidebarItem icon={<FaPowerOff />} title="LogOut" path={path} active={Active} onClick={handleLogout} />}
+            {UserLogin ? <SidebarItem icon={<FiLogOut />} title="LogOut" path={path} active={Active} onClick={handleLogout} />: <SidebarItem icon={<FiPower />} title="Login" path={path} active={Active} onClick={HandelLogin} />}
           </>}
         </nav>
       </aside>
@@ -123,7 +123,6 @@ const SidebarItem = ({ icon, title, active, url, path, onClick }) => (
         </div>
 
       </>
-
     </Link>
 
   </>
