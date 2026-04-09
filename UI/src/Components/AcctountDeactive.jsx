@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { ShieldExclamationIcon } from "@heroicons/react/24/outline";
 import "../Pages/AccountDeactivated.css";
 import { Link } from "react-router-dom";
-import { Header_Token_expry, UserName, VITE_API_URL } from "../Apis/Islogin";
+import { Header_Token_expry, url, UserName } from "../Apis/Islogin";
 import toast, { Toaster } from "react-hot-toast";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
@@ -15,7 +15,6 @@ function AccountDeactivated() {
     const [priorty, setpriorty] = useState("")
     const [Reason, setReason] = useState("")
     const handelRequest = async () => {
-        console.log({ name: UserName.name, email: UserName.email, empid: UserName.teacher_Id, Reason, issuetype: issuetype, priorty: priorty }, 'Header_Token_expry')
 
         if (!issuetype || !priorty) {
             toast.error("please enter required Felids")
@@ -26,8 +25,7 @@ function AccountDeactivated() {
                 return toast.error("please enter required Felids")
             }
         }
-        const promise = axios.post(`${Api_region == 'Local' ? VITE_API_URL : apiUrl}/api/Account/UpdateReason`, { name: UserName.name, issuetype, email: UserName.email, empid: UserName.teacher_Id, Reason, priorty }, Header_Token_expry)
-        // const promise = axios.post("http://localhost:5001/api/Account/UpdateReason", { name: UserName.name, issuetype, email: UserName.email, empid: UserName.teacher_Id, Reason, priorty }, Header_Token_expry)
+        const promise = axios.post(`${url}/api/Account/UpdateReason`, { name: UserName.name, issuetype, email: UserName.email, empid: UserName.teacher_Id, Reason, priorty }, Header_Token_expry)
         toast.promise(promise, {
 
             loading: "Submitting your request...",
