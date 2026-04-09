@@ -1,9 +1,10 @@
 import axios from "axios"
+import { url } from "../../../Apis/Islogin"
 
 export const FetchHolidays = async (page) => {
 
     try {
-        const response = await axios.get("http://localhost:5001/api/Manageholiday/Holidays", {
+        const response = await axios.get(`${url}/api/Manageholiday/Holidays`, {
             params: {
                 page: page
             }
