@@ -8,7 +8,7 @@ import WelcomeMessage from "../../../src/Components/WelcomeMessage";
 import Announcement from "../../../src/Components/Announcement";
 import axios from "axios";
 import { socket } from "../../../../UI/src/Socket";
-import { MaintanceMode } from "../../Apis/Islogin";
+import { MaintanceMode, url } from "../../Apis/Islogin";
 import Undermanitance from "../../Loaders/Undermanitance";
 import Loaders from "../../Loaders/Loaders";
 
@@ -41,7 +41,7 @@ function DashboardLayout({ children }) {
   useEffect(() => {
     const Getdata = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/UsersCount/user")
+        const response = await axios.get(`${url}/api/UsersCount/user`)
         console.log(response.data, "Count")
         setcount(response.data.message)
       } catch (error) {
