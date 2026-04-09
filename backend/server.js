@@ -45,7 +45,7 @@ app.use(cors({
 initSocket(server);
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
-
+app.set("trust proxy", 1);
 // Routes
 app.use("/api/auth", Authrouter);
 app.use("/api/subjects", Subjects);
