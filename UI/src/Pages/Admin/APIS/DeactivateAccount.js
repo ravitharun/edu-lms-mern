@@ -1,5 +1,6 @@
 import axios from "axios"
 import Swal from "sweetalert2"
+import { url } from "../../../Apis/Islogin";
 
 export const deactivateAccount = async (id, action) => {
     if (!id) {
@@ -33,7 +34,7 @@ export const deactivateAccount = async (id, action) => {
         .then(async (result) => {
             if (result.isConfirmed) {
                 if (action == 'Update') {
-                    const response = await axios.put("http://localhost:5001/api/Account/UpdateDeactivate", { id: id })
+                    const response = await axios.put(`${url}/api/Account/UpdateDeactivate`, { id: id })
                     console.log(response, 'response UpdateDeactivate')
                     if (!response.data.message.AccountStatus) {
                         Swal.fire({
@@ -58,7 +59,7 @@ export const deactivateAccount = async (id, action) => {
 
                 }
                 else {
-                    const response = await axios.post("http://localhost:5001/api/Account/Deactivate", { id: id })
+                    const response = await axios.post(`${url}/api/Account/Deactivate`, { id: id })
                     console.log(response, 'response Deactivate')
                     if (response.data.message === 'ok') {
                         Swal.fire({

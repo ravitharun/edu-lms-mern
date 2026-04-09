@@ -40,20 +40,20 @@ function GetAnnouncement() {
         <>
             <Announcement></Announcement>
 
-     <div className="mt-4">
-  <select
-    onChange={(e) => handelFilter(e.target.value)}
-    className="px-4 py-2 border rounded-lg shadow-sm 
+            <div className="mt-4">
+                <select
+                    onChange={(e) => handelFilter(e.target.value)}
+                    className="px-4 py-2 border rounded-lg shadow-sm 
                focus:outline-none focus:ring-2 focus:ring-blue-400 
                bg-white text-gray-700"
-  >
-    {["All", "event", "holiday", "assignment", "festival", "General Notice"].map((itm, idx) => (
-      <option key={idx} value={itm}>
-        {itm}
-      </option>
-    ))}
-  </select>
-</div>~
+                >
+                    {["All", "event", "holiday", "assignment", "festival", "General Notice"].map((itm, idx) => (
+                        <option key={idx} value={itm}>
+                            {itm}
+                        </option>
+                    ))}
+                </select>
+            </div>~
             <table className="w-full bg-white rounded-lg shadow mt-6">
                 <thead className="bg-gray-100 text-left">
                     <tr>
@@ -71,10 +71,8 @@ function GetAnnouncement() {
                 <tbody>
                     {announcements.length <= 0 ? <>
 
-                        <div>
-
-
-                            NO
+                        <div className="flex justify-center items-center h-full">
+                            No Announcements Yet.
                         </div>
                     </> : announcements.length <= 1 ? <>
 
