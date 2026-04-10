@@ -3,11 +3,11 @@ import MasterAdminNavbar from "./MasterAdminNavbar";
 import MasterLogoNav from "./MasterLogoNav";
 import { deactivateAccount } from "./APIS/DeactivateAccount";
 import toast, { Toaster } from "react-hot-toast";
-import Swal from "sweetalert2";
 import { fetchAllTeacherName, GetallTeacherProfile } from "./APIS/GetAll-subjects";
 ;
 import { useNavigate } from "react-router-dom";
 import Dataloading from "../../Loaders/Dataloading";
+import AccountLoader from "../../Loaders/AccountLoader";
 
 function TeachersProfiles() {
     const page = "Teachers";
@@ -18,7 +18,7 @@ function TeachersProfiles() {
     const [Page, setpage] = useState(1);
     const [length, setlength] = useState(1);
     const [accountLoading, setaccountLoading] = useState(false)
-    console.log(accountLoading,'accountLoading')
+
 
     useEffect(() => {
         const GetallTechers = async () => {
@@ -51,45 +51,42 @@ function TeachersProfiles() {
             setteacherprofile(Profiles)
         }
     }
+
     const handelclear = () => {
         setSerchteacherprofile('')
     }
-    const HandelAccount = async (id) => {
-        setaccountLoading(true)
-        Swal.fire(
-            {
-                title: "Are you sure you want to deactivate this account? The user will lose access until the account is reactivated.",
-                showDenyButton: true,
-                confirmButtonText: "Deactivate",
-            }).then(async (result) => {
-                if (result.isConfirmed) {
-                    const data = await deactivateAccount(id, "")
-                    if (data.data.message === 'ok') {
-                        Swal.fire(
-                            "Success!",
-                            "Account has been deactivated successfully.",
-                            "success"
-                        );
-                        // toast.success("DeactivateAccount.")
-                    }
-                } else if (result.isDenied) {
-                    Swal.fire(
-                        "Cancelled",
-                        "The action has been cancelled.",
-                        "info"
-                    );
-                }
-            });
 
-        setaccountLoading(false)
+
+    const HandelAccount = async (id) => {
+        try {
+            setaccountLoading(true)
+
+            const data = await deactivateAccount(id, "")
+
+
+
+        } catch (error) {
+            console.log(error, 'error')
+            toast.error("Some thing Went Wrong.")
+        }
+        finally { setaccountLoading(false) }
+
+
 
     }
 
 
     const HandelAccountActivate = async (id, action = "Update") => {
-        setaccountLoading(true)
-        const data = await deactivateAccount(id, action)
-        setaccountLoading(false)
+        try {
+            setaccountLoading(true)
+
+
+            const data = await deactivateAccount(id, action)
+
+        } catch (error) {
+            toast.error(error.message)
+        }
+        finally { setaccountLoading(false) }
 
     }
     const navigate = useNavigate("")
@@ -101,9 +98,10 @@ function TeachersProfiles() {
         })
 
     }
+    console.log(accountLoading, 'accountLoading1')
     return (
         <>
-            {accountLoading && <Dataloading />}
+            {!accountLoading ? <AccountLoader /> : null}
             <Toaster />
             <div className="min-h-screen flex bg-gray-50">
                 <MasterAdminNavbar path={page} />
@@ -233,7 +231,6 @@ function TeachersProfiles() {
                                                 <button className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition duration-200 shadow-sm hover:shadow-md">
                                                     Message
                                                 </button>
-                                                {!true ? "button us in Activate Name " : "button is in Deactiavte "}
                                                 {pr?.AccountStatus ?
                                                     <button
                                                         className="px-4 py-2 rounded-lg bg-gray-400 text-white text-sm font-medium cursor-pointer hover:bg-green-500"
