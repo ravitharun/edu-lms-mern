@@ -7,6 +7,8 @@ import { Header_Token_expry, url, UserName } from "../Apis/Islogin";
 import toast, { Toaster } from "react-hot-toast";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
+import { useEffect } from "react";
+import { socket } from "../Socket";
 
 
 function AccountDeactivated() {
@@ -14,6 +16,18 @@ function AccountDeactivated() {
     const [issuetype, settype] = useState("")
     const [priorty, setpriorty] = useState("")
     const [Reason, setReason] = useState("")
+      useEffect(() => {
+        const handleAnnouncement = (data) => {
+          console.log(data, "Account status");
+         
+        };
+        socket.on("AccountStatus", handleAnnouncement);
+    
+        // Cleanup listener on unmount
+        return () => {
+          socket.off("AccountStatus", handleAnnouncement);
+        };
+      }, [])
     const handelRequest = async () => {
 
         if (!issuetype || !priorty) {

@@ -29,6 +29,19 @@ function AdminDashboard() {
     }
     check_token()
   }, [])
+  // useEffect(() => {
+  //   const handleAnnouncement = (data) => {
+  //     console.log(data, "Account status");
+     
+  //   };
+  //   socket.on("AccountStatus", handleAnnouncement);
+
+  //   // Cleanup listener on unmount
+  //   return () => {
+  //     socket.off("AccountStatus", handleAnnouncement);
+  //   };
+  // }, [])
+
   const [redirectloadin, setredirectlogin] = useState(false)
 
   const handleLogout = () => {
@@ -46,8 +59,8 @@ function AdminDashboard() {
   console.log(totalClass, 'totalClass')
   return (
     <>
-      
-      
+
+
       <App></App>
       {/* {true && <Undermanitance />}       */}
       <Announcement></Announcement>

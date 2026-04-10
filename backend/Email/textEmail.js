@@ -1,7 +1,7 @@
 const { transporter } = require("../config/email");
 
 const leaveAddEmail = async (ApplyLeave, id) => {
-    console.log(ApplyLeave, id, "id", "ApplyLeave to send the email")
+
     const info = await transporter.sendMail({
         from: ` ${ApplyLeave.EmpEmail}`,
         to: `${ApplyLeave.Emp_req_EmailId}`,

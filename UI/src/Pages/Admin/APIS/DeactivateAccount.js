@@ -1,8 +1,8 @@
 import axios from "axios"
 import Swal from "sweetalert2"
-import { url } from "../../../Apis/Islogin";
-
+import { url, UserName } from "../../../Apis/Islogin";
 export const deactivateAccount = async (id, action) => {
+    console.log({ id, action })
     if (!id) {
         return Swal.fire({
             icon: "error",
@@ -14,7 +14,7 @@ export const deactivateAccount = async (id, action) => {
     Swal.fire(
 
         {
-            title: "Deactivate  Account?",
+            title: `${action == "Update" ? "Activate Account" : "Yes, Deactivate"}`,
             html: `
     <p class="text-gray-600">
       Are you sure you want to activate this account?
@@ -27,14 +27,14 @@ export const deactivateAccount = async (id, action) => {
             showCancelButton: true,
             confirmButtonColor: "#16a34a",
             cancelButtonColor: "#16a34a",
-            confirmButtonText: "Yes, Deactivate",
+            confirmButtonText: `${action == "Update" ? "activate" : "Yes, Deactivate"}`,
             cancelButtonText: "Cancel"
             // denyButtonText: ``
         })
         .then(async (result) => {
             if (result.isConfirmed) {
-                if (action == 'Update') {
-                    const response = await axios.put(`${url}/api/Account/UpdateDeactivate`, { id: id })
+                if (action === 'Update') {
+                                 const response = await axios.put(`${url}/api/Account/UpdateDeactivate`, { id: id, AdminInfo: UserName })
                     console.log(response, 'response UpdateDeactivate')
                     if (!response.data.message.AccountStatus) {
                         Swal.fire({
@@ -51,16 +51,17 @@ export const deactivateAccount = async (id, action) => {
                             confirmButtonColor: "#16a34a",
                             confirmButtonText: "OK"
                         });
-                        setTimeout(() => {
-                            window.location.reload(true);
-                        }, 1500);
+                        // setTimeout(() => {
+                        //     window.location.reload(true);
+                        // }, 1500);
                     }
+                 
                     return response
 
                 }
                 else {
-                    const response = await axios.post(`${url}/api/Account/Deactivate`, { id: id })
-                    console.log(response, 'response Deactivate')
+                   
+                    const response = await axios.post(`${url}/api/Account/Deactivate`, { id: id, IssuedUser: UserName })
                     if (response.data.message === 'ok') {
                         Swal.fire({
                             title: "Success!",
@@ -76,11 +77,11 @@ export const deactivateAccount = async (id, action) => {
                             confirmButtonColor: "#16a34a",
                             confirmButtonText: "OK"
                         });
-                        setTimeout(() => {
-                            window.location.reload(true);
-                        }, 1500);
+                        // setTimeout(() => {
+                        //     window.location.reload(true);
+                        // }, 1500);
                     }
-
+             
                 }
 
 
@@ -97,18 +98,6 @@ export const deactivateAccount = async (id, action) => {
 
 }
 
-
-
-// if (action == 'Update') {
-//     const response = await axios.put("http://localhost:5001/api/Account/UpdateDeactivate", { id: id })
-//     console.log(response, 'response')
-
-// }
-// else {
-//     const response = await axios.post("http://localhost:5001/api/Account/Deactivate", { id: id })
-//     console.log(response, 'response')
-//     return response
-// }
 
 
 

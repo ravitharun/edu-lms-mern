@@ -6,7 +6,6 @@ import { FiLogOut } from 'react-icons/fi'
 function LogoAdmin() {
     const [showPoup, setShowpoup] = useState(false)
     const handelPoup_profile = () => {
-        // console.log(url,'url')
         setShowpoup((prev) => !prev)
     }
 
