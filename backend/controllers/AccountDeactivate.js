@@ -17,13 +17,13 @@ const AccountDeactivate = async (req, res) => {
         }
         const updated = await User.findOneAndUpdate({ teacher_Id: id }, { AccountStatus: true }, { new: true }                  // options
         )
-        console.log(updated, 'updated')
+
         const EmailResponse = await AccountEmailStatus(IssuedUser, updated)
         if (EmailResponse === "Required Info Of the Both Users") {
             console.log('Some thing Went Wrong in While Sending the email')
             return res.status(404).json({ message: "Some thing Went Wrong" })
         }
-
+        io.emit("AccountStatus", updated)
         return res.status(200).json({ message: "ok" })
     } catch (error) {
         console.log(error.message, 'error')
@@ -35,8 +35,9 @@ const AccountDeactivate = async (req, res) => {
 // Update the Account Status AccountStatus:False
 async function UpdateDeactivate(req, res) {
     try {
+        const io=getIO()
         const { id, AdminInfo } = req.body;
-        console.log({ id, AdminInfo },"AdminInfo")
+        console.log({ id, AdminInfo }, "AdminInfo")
         await redisClient.del("GetallIssues");
         await redisClient.del("myKey")
         if (!id) {
@@ -51,9 +52,10 @@ async function UpdateDeactivate(req, res) {
         }
         const responseEmail = await AccountEmailAccaptenceStatusResponse(AdminInfo, updated)
         console.log("Account is Activated");
-        // console.log(updated.AccountStatus, 'ipdated')
+        io.emit("AccountStatusUpdate","Activated",updated)
         return res.status(200).json({ message: updated });
     } catch (error) {
+        console.log(error)
         console.log('error from the AccountDeactivate api.');
         return res.status(500).json({ message: 'server Error.' });
     }

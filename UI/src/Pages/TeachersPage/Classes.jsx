@@ -9,8 +9,9 @@ import secureLocalStorage from "react-secure-storage";
 import Tablecomponets from "../../Components/Tablecomponets";
 import AdminHeader from "../../Components/AdminHeader";
 import Tomany from "../../Loaders/Tomany";
-import { MaintanceMode } from "../../Apis/Islogin";
+import { MaintanceMode, UserName } from "../../Apis/Islogin";
 import Undermanitance from "../../Loaders/Undermanitance";
+import { socket } from "../../Socket";
 
 function Classes() {
   const [Action, SetActon] = useState("");
@@ -23,7 +24,7 @@ function Classes() {
     year: "",
     department: ""
   })
-
+ 
 
   useEffect(() => {
     const Fetch_Class = async () => {

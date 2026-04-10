@@ -101,7 +101,7 @@ function TeachersProfiles() {
     console.log(accountLoading, 'accountLoading1')
     return (
         <>
-            {!accountLoading ? <AccountLoader /> : null}
+            {accountLoading ? <AccountLoader /> : null}
             <Toaster />
             <div className="min-h-screen flex bg-gray-50">
                 <MasterAdminNavbar path={page} />
