@@ -1,44 +1,65 @@
 const User = require("../models/User")
-// const DeactivateModel
 const { ModelReasonDeactivate } = require("../models/AccountDeactivates");
 const { redisClient } = require("../Expose/redis");
-
+const { AccountEmailStatus, AccountEmailAccaptenceStatusResponse } = require("../Email/AccountEmailNotification");
+const { getIO } = require("../socket");
+// Fix the status AccountStatus: true
 const AccountDeactivate = async (req, res) => {
     try {
-        const { id } = req.body
+        const io = getIO()
+        const { id, IssuedUser } = req.body
+        console.log('hey i am api calling for account deactivationg..')
         await redisClient.del("GetallIssues");
+        await redisClient.del("myKey")
         if (!id) {
             console.log({ message: "ID is missing for AccountDeactivate." })
             return res.status(404).json({ message: "ID is missing for AccountDeactivate." })
         }
         const updated = await User.findOneAndUpdate({ teacher_Id: id }, { AccountStatus: true }, { new: true }                  // options
         )
+        console.log(updated, 'updated')
+        const EmailResponse = await AccountEmailStatus(IssuedUser, updated)
+        if (EmailResponse === "Required Info Of the Both Users") {
+            console.log('Some thing Went Wrong in While Sending the email')
+            return res.status(404).json({ message: "Some thing Went Wrong" })
+        }
+
         return res.status(200).json({ message: "ok" })
     } catch (error) {
+        console.log(error.message, 'error')
         console.log('error from the AccountDeactivate api.')
         return res.status(500).json({ message: 'server Error.' })
     }
 }
 
-
-const UpdateDeactivate = async (req, res) => {
+// Update the Account Status AccountStatus:False
+async function UpdateDeactivate(req, res) {
     try {
-        const { id } = req.body
+        const { id, AdminInfo } = req.body;
+        console.log({ id, AdminInfo },"AdminInfo")
         await redisClient.del("GetallIssues");
-        console.log(id, 'UpdateDeactivate')
+        await redisClient.del("myKey")
         if (!id) {
-            console.log({ message: "ID is missing for AccountDeactivate." })
-            return res.status(404).json({ message: "ID is missing for AccountDeactivate." })
+            console.log({ message: "ID is missing for AccountDeactivate." });
+            return res.status(404).json({ message: "ID is missing for AccountDeactivate." });
         }
-        const updated = await User.findOneAndUpdate({ teacher_Id: id }, { AccountStatus: false }, { new: true }                  // options
-        )
-        console.log(updated, 'ipdated')
-        return res.status(200).json({ message: updated })
+        const updated = await User.findOneAndUpdate({ teacher_Id: id }, { AccountStatus: false }, { new: true } // options
+        );
+        if (updated.AccountStatus) {
+            return console.log("Account is inactive");
+
+        }
+        const responseEmail = await AccountEmailAccaptenceStatusResponse(AdminInfo, updated)
+        console.log("Account is Activated");
+        // console.log(updated.AccountStatus, 'ipdated')
+        return res.status(200).json({ message: updated });
     } catch (error) {
-        console.log('error from the AccountDeactivate api.')
-        return res.status(500).json({ message: 'server Error.' })
+        console.log('error from the AccountDeactivate api.');
+        return res.status(500).json({ message: 'server Error.' });
     }
 }
+
+
 
 
 const AccountDeactivateUpdateReason = async (req, res) => {
@@ -74,11 +95,11 @@ const AccountDeactivateUpdateReason = async (req, res) => {
     }
 }
 
-
 const GetAccountDeactivateUpdateReason = async (req, res) => {
     try {
 
         const CacheGetallIssues = redisClient.get("GetallIssues");
+        console.log(CacheGetallIssues, 'CacheGetallIssues')
         if (CacheGetallIssues) { return res.status(200).json({ message: CacheGetallIssues }) }
         const GetallIssues = await ModelReasonDeactivate.find({})
         await redisClient.setEx("GetallIssues", 500, GetallIssues)

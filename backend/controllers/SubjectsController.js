@@ -115,6 +115,7 @@ const fetchTeachersInfo = async (req, res) => {
         const TotalDocuments = await User.find({ role: "Teacher" }).countDocuments()
         const data = await User.find({ role: "Teacher" }).skip(skip).limit(limit)
         const cachedData = await redisClient.get("myKey")
+        console.log(cachedData,'cachedData Fetch All Techer')
         if (data.length == 0) {
             return res.status(404).json({ message: "No Subjects." })
         }

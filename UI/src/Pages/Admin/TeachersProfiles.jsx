@@ -17,6 +17,8 @@ function TeachersProfiles() {
     const [loading, setloading] = useState(false)
     const [Page, setpage] = useState(1);
     const [length, setlength] = useState(1);
+    const [accountLoading, setaccountLoading] = useState(false)
+    console.log(accountLoading,'accountLoading')
 
     useEffect(() => {
         const GetallTechers = async () => {
@@ -53,17 +55,15 @@ function TeachersProfiles() {
         setSerchteacherprofile('')
     }
     const HandelAccount = async (id) => {
+        setaccountLoading(true)
         Swal.fire(
-
             {
                 title: "Are you sure you want to deactivate this account? The user will lose access until the account is reactivated.",
                 showDenyButton: true,
-                // showCancelButton: true,
                 confirmButtonText: "Deactivate",
-                // denyButtonText: ``
             }).then(async (result) => {
                 if (result.isConfirmed) {
-                    const data = await deactivateAccount(id)
+                    const data = await deactivateAccount(id, "")
                     if (data.data.message === 'ok') {
                         Swal.fire(
                             "Success!",
@@ -81,16 +81,15 @@ function TeachersProfiles() {
                 }
             });
 
-
+        setaccountLoading(false)
 
     }
 
 
     const HandelAccountActivate = async (id, action = "Update") => {
-
+        setaccountLoading(true)
         const data = await deactivateAccount(id, action)
-
-
+        setaccountLoading(false)
 
     }
     const navigate = useNavigate("")
@@ -104,6 +103,7 @@ function TeachersProfiles() {
     }
     return (
         <>
+            {accountLoading && <Dataloading />}
             <Toaster />
             <div className="min-h-screen flex bg-gray-50">
                 <MasterAdminNavbar path={page} />
@@ -233,22 +233,22 @@ function TeachersProfiles() {
                                                 <button className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition duration-200 shadow-sm hover:shadow-md">
                                                     Message
                                                 </button>
-
-                                                {pr?.AccountStatus ? (
+                                                {!true ? "button us in Activate Name " : "button is in Deactiavte "}
+                                                {pr?.AccountStatus ?
                                                     <button
                                                         className="px-4 py-2 rounded-lg bg-gray-400 text-white text-sm font-medium cursor-pointer hover:bg-green-500"
                                                         title="You can The Activate Account"
                                                         onClick={() => HandelAccountActivate(pr.teacher_Id)}              >
-                                                        Deactivated
+                                                        Activate
                                                     </button>
-                                                ) : (
+                                                    :
                                                     <button
                                                         className="px-4 py-2 rounded-lg bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition duration-200 shadow-sm hover:shadow-md"
                                                         onClick={() => HandelAccount(pr.teacher_Id)}
                                                     >
                                                         Deactivate
                                                     </button>
-                                                )}
+                                                }
                                             </div>
                                         </div>
                                     </div>
