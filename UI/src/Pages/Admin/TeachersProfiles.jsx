@@ -194,16 +194,25 @@ function TeachersProfiles() {
                                                 {/* Online Status */}
                                                 <div className="flex items-center gap-2">
                                                     <span
-                                                        className={`w-2.5 h-2.5 rounded-full ${pr?.isonline ? "bg-green-500" : "bg-red-500"
+                                                        className={`w-2.5 h-2.5 rounded-full ${pr?.isActive ? "bg-green-500" : "bg-red-500"
                                                             }`}
                                                     ></span>
                                                     <span
                                                         className={
-                                                            pr?.isonline ? "text-green-600" : "text-red-600"
+                                                            pr?.isActive ? "text-green-600" : "text-red-600"
                                                         }
                                                     >
-                                                        {pr?.isonline ? "Online" : "Offline"}
+                                                        {pr?.isActive ? "Online" : "Offline"}
                                                     </span>
+                                                    {pr?.isActive == false &&
+                                                        <span
+                                                            className={
+                                                                "text-red-600"
+                                                            }
+                                                        >
+                                                            { new Date(pr.lastSeen ||  new Date()).toUTCString() }
+                                                            {/* {pr?.lastSeen ? new Date(pr.lastSeen).toGMTString() : new Date()} */}
+                                                        </span>}
                                                 </div>
 
                                                 {/* Account Status */}
