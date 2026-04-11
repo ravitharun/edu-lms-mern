@@ -1,6 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import secureLocalStorage from "react-secure-storage";
+import { socket } from "../Socket";
 export const UserRole = secureLocalStorage.getItem("User_info")
 export const UserLogin = secureLocalStorage.getItem("token")
 export const UserName = secureLocalStorage.getItem("User_info")
@@ -19,6 +20,7 @@ export const handleLogout = () => {
             return window.location.href = "/login";
         }, 1500);
     }
+    socket.disconnect();
     return true
 }
 export const HandelLogin = () => {
