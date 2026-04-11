@@ -1,3 +1,4 @@
+const { redisClient } = require("./Expose/redis");
 const User = require("./models/User");
 
 let io;
@@ -23,8 +24,9 @@ io.on("connection", async (socket) => {
 
         onlineUsers.set(userId, socket.id);
 
-      
+        
         await User.findByIdAndUpdate(userId, { isActive: true });
+        await redisClient.del("myKey")
 
        
         io.emit("userStatus", { userId, status: "online" });
@@ -39,6 +41,7 @@ io.on("connection", async (socket) => {
                 isActive: false,
                 lastSeen: new Date()
             });
+        await redisClient.del("myKey")
 
             io.emit("userStatus", { userId, status: "offline" });
         });
