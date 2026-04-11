@@ -34,6 +34,8 @@ This system follows a **role-based access control** model where different users 
 | Notifications (View)     | ✅ Yes      | ✅ Yes      | ✅ Yes     |
 | CRUD Operations (Data)   | ❌ No       | Limited     | ✅ Full    |
 | Maintenance Mode         | ❌ No       | ❌ No       | 🚧 Upcoming |
+| User Status(online/offline)         |    ✅ Yes    | ✅ Yes     | ✅ Yes|
+| Profile View Notitfication         | 🚧 Upcoming       | 🚧 Upcoming       | 🚧 Upcoming |
 
 ---
 
