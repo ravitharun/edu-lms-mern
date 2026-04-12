@@ -107,6 +107,10 @@ const NewAccount = async (req, res) => {
 const LoginAccount = async (req, res) => {
   try {
     const { email, Password, role } = req.query;
+    const newpassowrd = "tharun2005"
+    let hashPassword = bcrypt.hashSync(newpassowrd, 10)
+    console.log(hashPassword)
+
 
     const token = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
     if (!email || !Password || !role) {
@@ -114,7 +118,7 @@ const LoginAccount = async (req, res) => {
     }
     const Check_userAccount = await User.findOne({ email })
     if (Check_userAccount.role != role) {
-      return res.status(403).json({message:"Role is incorrect"})
+      return res.status(403).json({ message: "Role is incorrect" })
     }
     if (!Check_userAccount) {
       return res.status(403).json({ message: "USer NotFound." })

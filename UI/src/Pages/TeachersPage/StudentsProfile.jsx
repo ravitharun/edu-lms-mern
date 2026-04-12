@@ -5,8 +5,8 @@ import { Link, useLocation } from "react-router-dom";
 import AddingSoon from "../../Loaders/AddingSoon";
 import { useEffect } from "react";
 import { url, UserName } from "../../Apis/Islogin";
-import toast from "react-hot-toast";
-import { Get } from "./TechersApiCall/ProfileViewNotification";
+import toast, { Toaster } from "react-hot-toast";
+import { PostNotification } from "./TechersApiCall/ProfileViewNotification";
 function StudentProfile() {
   const date = useLocation()
   console.log(date.state
@@ -19,12 +19,12 @@ function StudentProfile() {
   useEffect(() => {
 
     const SendNotification = async () => {
-
       try {
-        const response_Api_profileView = await Get(UserName?.teacher_Id,date.state.Student_ID)
+        const response_Api_profileView = await PostNotification(UserName?.teacher_Id,date.state.Student_ID)
         console.log(response_Api_profileView,'response_Api_profileView')
 
       } catch (error) {
+        console.log(error,'error.message')
         return toast.error(error.message)
       }
 
@@ -35,6 +35,7 @@ function StudentProfile() {
   const [remainder, setremainder] = useState(false)
   return (
     <>
+    <Toaster></Toaster>
       <App></App>
       <div className="md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
         {/* ================= HEADER ================= */}

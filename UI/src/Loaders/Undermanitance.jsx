@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Countdown from 'react-countdown';
 
-function Undermanitance({ children }) {
-    const releaseDate = new Date("Tue Apr 1 2026 21:07:23 GMT+0530");
+function Undermanitance({ children, Ui }) {
+    const releaseDate = new Date("Tue Apr 25 2026 21:07:23 GMT+0530");
 
     const [isLive, setIsLive] = useState(false);
     const [inter, setinter] = useState(0)
@@ -25,9 +25,45 @@ function Undermanitance({ children }) {
 
     return (
         <>
+            {Ui === "both" && (
+                <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
+
+
+                    {/* ✅ Countdown INSIDE */}
+                    <Countdown
+                        date={new Date(releaseDate)}
+                        renderer={({ days, hours, minutes, seconds, completed }) => {
+                            if (completed) {
+                                return (
+                                    <p className="text-green-600 font-semibold mt-4">
+                                        🚀 LMS is Live Now
+                                    </p>
+                                );
+                            }
+
+                            return (
+                                <div className="flex gap-3 mt-4">
+
+                                    {[{ label: "D", val: days },
+                                    { label: "H", val: hours },
+                                    { label: "M", val: minutes },
+                                    { label: "S", val: seconds }
+                                    ].map((item, i) => (
+                                        <div key={i} className="bg-white shadow-md rounded-lg px-3 py-2 text-center w-14">
+                                            <p className="text-lg font-bold text-gray-800">{item.val}</p>
+                                            <p className="text-[10px] text-gray-500">{item.label}</p>
+                                        </div>
+                                    ))}
+
+                                </div>
+                            );
+                        }}
+                    />
+                </div>
+            )}
             <Countdown
                 date={new Date(releaseDate)}
-                renderer={({ days,hours, minutes, seconds, completed }) => {
+                renderer={({ days, hours, minutes, seconds, completed }) => {
                     if (completed) {
                         return (
                             <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white text-3xl font-semibold">
@@ -46,7 +82,7 @@ function Undermanitance({ children }) {
 
                                 {/* Title */}
                                 <h1 className="text-2xl sm:text-3xl font-semibold text-white mb-3">
-                                    🚧 System Maintenance 
+                                    🚧 System Maintenance
                                 </h1>
 
                                 {/* Subtitle */}
@@ -86,8 +122,8 @@ function Undermanitance({ children }) {
                                 <p className="text-gray-400 text-xs mb-6">
                                     Launching on <br />
                                     <span className="text-gray-200 font-medium">
-                                        {new Date("Apr 1, 2026 21:07:23").toDateString()} <br />
-                                        {new Date("Apr 1, 2026 21:07:23").toTimeString()}
+                                        {new Date(releaseDate).toDateString()} <br />
+                                        {new Date(releaseDate).toTimeString()}
                                     </span>
                                 </p>
 

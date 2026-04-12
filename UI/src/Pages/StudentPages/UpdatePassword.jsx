@@ -4,33 +4,35 @@ import { UserName } from '../../Apis/Islogin'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 import { useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-
+import { useLocation, useSearchParams } from 'react-router-dom'
 function UpdatePassword() {
+  const data = useLocation()
+  console.log(data.state?.StudentEmail)
   const [loading, setloadin] = useState(false)
-    const [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
-  console.log(token,'token from ui')
+  console.log(token, 'token from ui')
 
-  console.log(token); // abc123
   const handelUpdatepassowrd = async (e) => {
 
     e.preventDefault()
+    console.log(data.state?.StudentEmail)
+    if (data.state?.StudentEmail == "" || !UserName?.email == "") { return toast.error("email is require") }
     try {
       // console.log('first')
       setloadin(true)
-      const response = await axios.post("http://localhost:5001/api/password/passowrdUpdate", { email: UserName?.email })
+      const response = await axios.post("http://localhost:5001/api/password/passowrdUpdate", { email: UserName?.email ||data.state?.StudentEmail })
       console.log(response.data.message)
       if (response.data.message == "emailSent.") {
         toast.success(`Email sent to the ${UserName?.email}`)
       }
-      if(response.status==401){
+      if (response.status == 401) {
         console.log(401)
       }
       setloadin(false)
     } catch (error) {
       // toast.error(
-      if(error.message=='Network Error'){
+      if (error.message == 'Network Error') {
         toast.error('Network Error')
         setloadin(false)
       }
@@ -40,7 +42,7 @@ function UpdatePassword() {
   return (
     <>
 
-      <App></App>
+      {/* <App></App> */}
       <Toaster />
       <div>
         <form className="w-full max-w-md mx-auto bg-white rounded-2xl shadow-lg p-6 sm:p-8 space-y-5 mt-10">
@@ -55,7 +57,7 @@ function UpdatePassword() {
             </label>
             <input
               type="email"
-              value={UserName.email}
+              value={data.state?.StudentEmail ? data.state?.StudentEmail : UserName?.email}
               disabled
               className="w-full px-4 py-2.5 rounded-lg border border-gray-300 bg-gray-100 text-gray-500 cursor-not-allowed focus:outline-none"
             />
@@ -71,7 +73,7 @@ function UpdatePassword() {
             disabled={loading}
             className={`px-6 py-2 rounded-md text-white font-medium
   transition-all duration-300 w-full
-  ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+  ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}${data.state?.StudentEmail || UserName?.email ? "bg-transparent" : ""}`}
           >
             {loading ? (
               <span className="flex items-center gap-2 text-center">

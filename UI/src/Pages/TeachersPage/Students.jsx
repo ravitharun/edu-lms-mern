@@ -148,12 +148,12 @@ function Students() {
 
                                         <td className="p-3 text-center">
                                             <span
-                                                className={`px-2 py-1 text-xs rounded-full ${data.status === "Active"
+                                                className={`px-2 py-1 text-xs rounded-full ${data.isActive 
                                                     ? "bg-green-100 text-green-700"
                                                     : "bg-red-100 text-red-700"
                                                     }`}
                                             >
-                                                {data.status || 'In progress'}
+                                                {data.isActive?"online":"offline" || 'In progress'}
                                             </span>
                                         </td>
 
