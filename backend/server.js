@@ -26,6 +26,7 @@ const { redisClient } = require("./Expose/redis");
 const { initSocket } = require("./socket");
 const { AttandanceRouter } = require("./routes/AttandanceROuter");
 const { LeaveStatusRouter } = require("./routes/leaveStatusRouter");
+const { ProfileNotificationRouter } = require("./routes/ProfileNotificationRouter");
 const app = express();
 const server = http.createServer(app);
 
@@ -63,6 +64,7 @@ app.use("/api/UsersCount", Admin_UserInfo);
 app.use("/api/Manageholiday", Manageholiday);
 app.use("/api/markAttandance", AttandanceRouter);
 app.use("/api/LeaveStatusResponse", LeaveStatusRouter);
+app.use("/api/ProfileViewnotification", ProfileNotificationRouter);
 app.use(apiLimiter)
 console.log("URI:", process.env.MONGO_URI);
 // Test root
