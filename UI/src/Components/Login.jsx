@@ -8,6 +8,7 @@ import { UserRole } from "../Apis/Islogin";
 import RedirectPopup from "./RedirectPopup";
 
 export default function Login() {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [StudentEmail, setStudentEmail] = useState("")
   const [StudentPassword, setStudentPassword] = useState("")
   const [role, setrole] = useState("")
@@ -54,7 +55,7 @@ export default function Login() {
               onClick={() => toast.dismiss(t.id)}
               className="text-gray-400 hover:text-white transition"
             >
-              ✖    
+              ✖
 
             </button>
           </div>
@@ -129,7 +130,15 @@ export default function Login() {
 
     }
   }
-
+  const naviagte = useNavigate("")
+  const updatePassowrd = (Useremail) => {
+    if (!Useremail) { return toast.error("Email is required.") }
+    naviagte("/change-password", {
+      state: {
+        StudentEmail: StudentEmail
+      }
+    })
+  }
 
 
   return (
@@ -213,7 +222,16 @@ export default function Login() {
               </span>
             </div>
 
-
+            <div className="w-full flex justify-end mt-2">
+              {emailRegex.test(StudentEmail) && (
+                <button
+                  onClick={updatePassowrd}
+                  className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition duration-200"
+                >
+                  Forgot Password?
+                </button>
+              )}
+            </div>
 
 
             {/* Terms */}

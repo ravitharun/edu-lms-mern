@@ -27,7 +27,7 @@ function Redirect() {
             }, 10000);
         }
         else {
-            window.location.href = "/"
+            window.location.href = "/StudentDashboard"
         }
 
     }, [])
