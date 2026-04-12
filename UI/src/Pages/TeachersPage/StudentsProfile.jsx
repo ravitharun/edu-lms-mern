@@ -3,12 +3,35 @@ import AdminHeader from "../../Components/AdminHeader";
 import App from "../../App";
 import { Link, useLocation } from "react-router-dom";
 import AddingSoon from "../../Loaders/AddingSoon";
-
-
+import { useEffect } from "react";
+import { url, UserName } from "../../Apis/Islogin";
+import toast from "react-hot-toast";
+import { Get } from "./TechersApiCall/ProfileViewNotification";
 function StudentProfile() {
   const date = useLocation()
   console.log(date.state
   )
+  if (date.state == null) {
+    return window.location.href = "/students"
+  }
+
+
+  useEffect(() => {
+
+    const SendNotification = async () => {
+
+      try {
+        const response_Api_profileView = await Get(UserName?.teacher_Id,date.state.Student_ID)
+        console.log(response_Api_profileView,'response_Api_profileView')
+
+      } catch (error) {
+        return toast.error(error.message)
+      }
+
+    }
+    SendNotification()
+  }, [date.state])
+
   const [remainder, setremainder] = useState(false)
   return (
     <>
