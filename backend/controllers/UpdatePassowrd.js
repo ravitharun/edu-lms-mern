@@ -95,6 +95,7 @@ const passowrdUpdateEmail = async (req, res) => {
 
     return res.status(200).json({ message: "emailSent." })
   } catch (error) {
+    console.log(error.message,'error from the api email sent notification.')
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({ message: "Token expired" });
     }
