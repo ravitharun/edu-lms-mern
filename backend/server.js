@@ -36,8 +36,10 @@ const server = http.createServer(app);
 connectDB();
 // Middleware
 const allowedOrigin = process.env.NODE_ENV === "development"
+
     ? "http://localhost:5173"
-    : process.env.FRONTEND_URL; // your deployed frontend URL
+    : process.env.FRONTEND_URL; 
+    console.log(allowedOrigin,'allowedOrigin LIVE UI URL')
 app.use(cors({
     origin: allowedOrigin, // your frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"],
