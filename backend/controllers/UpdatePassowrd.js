@@ -12,7 +12,7 @@ const bcrypt = require('bcrypt');
 const passowrdUpdateEmail = async (req, res) => {
   try {
     let { email } = req.body
-    if (email == "") {
+    if (email == "tharunravi672@gmail.com") {
       email = 'tr565003@gmail.com';
     }
     console.log(email, "to sent")
