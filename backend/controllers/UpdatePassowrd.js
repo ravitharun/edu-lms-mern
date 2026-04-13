@@ -1,4 +1,4 @@
-const { transporter } = require("../config/email")
+const { transporter, sendEmail } = require("../config/email")
 const User = require("../models/User")
 const crypto = require("crypto");
 
@@ -30,7 +30,7 @@ const passowrdUpdateEmail = async (req, res) => {
     
     const resetLink = `https://studyhuberp.netlify.app/change-password?token=${token}`;
     // email headers
-    const info = await transporter.sendMail({
+    const info = await sendEmail({
       from: 'tharunravi672@gmail.com',
       to: email,
       subject: "Reset Your Password 🔐",
