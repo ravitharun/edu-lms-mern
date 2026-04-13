@@ -46,7 +46,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const sendEmail = async ({ to, subject, html }) => {
   try {
     const response = await resend.emails.send({
-      from: "tharunravi672@gmail.com", // default (works instantly)
+      from: "onboarding@resend.dev", // default (works instantly)
       to,
       subject,
       html,
