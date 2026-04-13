@@ -31,7 +31,7 @@ const passowrdUpdateEmail = async (req, res) => {
     const resetLink = `https://studyhuberp.netlify.app/change-password?token=${token}`;
     // email headers
     const info = await transporter.sendMail({
-      from: 'tharunravi6722@gmail.com',
+      from: 'tharunravi672@gmail.com',
       to: email,
       subject: "Reset Your Password 🔐",
       html: `
