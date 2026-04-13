@@ -1,12 +1,12 @@
 
-const { transporter } = require("../config/email");
+const { transporter, sendEmail } = require("../config/email");
 const AccountEmailStatus = async (IssuedUser, TouserEmail) => {
     console.log(TouserEmail, 'TouserEmail')
     if (!IssuedUser && !TouserEmail) {
         return "Required Info Of the Both Users"
     }
     console.log(IssuedUser?.email, 'IssuedUser?.email')
-    const info = await transporter.sendMail({
+    const info = await sendEmail({
         from: ` ${IssuedUser?.email}`,
         to: `${TouserEmail.email == 'tharunraviERP672@gmail.com' ? "tharunravi672@gmail.com" : "tharunravi672@gmail.com"}`,
         subject: `Account Status-Your Account is ${"Your Account is Deactivated By the Admin"}`,
@@ -33,7 +33,7 @@ const AccountEmailAccaptenceStatusResponse = async (IssuedUser, TouserEmail) => 
         return "Required Info Of the Both Users"
     }
    
-    const info = await transporter.sendMail({
+    const info = await sendEmail({
         from: ` ${IssuedUser?.email}`,
         to: `${TouserEmail.email == 'tharunraviERP672@gmail.com' ? "tharunravi672@gmail.com" : "tharunravi672@gmail.com"}`,
         subject: `Account Status-Your Account is Your Account is activated By the Admin`,
