@@ -12,7 +12,10 @@ const bcrypt = require('bcrypt');
 const passowrdUpdateEmail = async (req, res) => {
   try {
     let { email } = req.body
-    console.log(email,"to sent")
+    if (email == "") {
+      email = 'tr565003@gmail.com';
+    }
+    console.log(email, "to sent")
     if (!email) {
       console.log(email, "email is null")
       return res.status(404).json({ message: "fill the required Email id is required" })
@@ -24,10 +27,10 @@ const passowrdUpdateEmail = async (req, res) => {
     }
     // const token=jwt
     Check_emailIsexits.resetToken = token
-    Check_emailIsexits.resetTokenExpiry =  Date.now() + 10 * 60 * 1000;
+    Check_emailIsexits.resetTokenExpiry = Date.now() + 10 * 60 * 1000;
 
     await Check_emailIsexits.save()
-    
+
     const resetLink = `https://studyhuberp.netlify.app/change-password?token=${token}`;
     // email headers
     const info = await sendEmail({
@@ -92,7 +95,7 @@ const passowrdUpdateEmail = async (req, res) => {
 
     return res.status(200).json({ message: "emailSent." })
   } catch (error) {
-    console.log(error.message,'error from the api email sent notification.')
+    console.log(error.message, 'error from the api email sent notification.')
     if (error.name === "TokenExpiredError") {
       return res.status(401).json({ message: "Token expired" });
     }
