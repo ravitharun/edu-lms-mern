@@ -1,6 +1,6 @@
 import React from 'react'
 import App from '../../App'
-import { UserName } from '../../Apis/Islogin'
+import { url, UserName } from '../../Apis/Islogin'
 import axios from 'axios'
 import toast, { Toaster } from 'react-hot-toast'
 import { useState } from 'react'
@@ -21,7 +21,7 @@ function UpdatePassword() {
     try {
       // console.log('first')
       setloadin(true)
-      const response = await axios.post("http://localhost:5001/api/password/passowrdUpdate", { email: UserName?.email ||data.state?.StudentEmail })
+      const response = await axios.post(`${url}/api/password/passowrdUpdate`, { email: UserName?.email ||data.state?.StudentEmail })
       console.log(response.data.message)
       if (response.data.message == "emailSent.") {
         toast.success(`Email sent to the ${UserName?.email}`)
