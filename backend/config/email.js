@@ -4,6 +4,7 @@ console.log({
   user: process.env.Email_User,
   pass: process.env.Email_pass
 })
+// console.log("Transport config:", transporter.options);
 const transporter = nodemailer.createTransport({
   service: "smtp.gmail.com",
   port: 587,
@@ -18,6 +19,9 @@ transporter.verify()
 
   .then(() => console.log("✅ Gmail SMTP Connected"))
   .catch(err => console.error("❌ Error:", err));
+
+
+  console.log("Transport config:", transporter.options);
 const test = async () => {
   console.log("test email .");
 
