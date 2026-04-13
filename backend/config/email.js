@@ -8,12 +8,14 @@ console.log({
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
-  secure: false, auth: {
+  secure: false,
+  auth: {
     user: process.env.Email_User,
-    pass: process.env.Email_pass
+    pass: process.env.Email_pass,
   },
-  family: 4, logger: true,
-  debug: true,
+  connectionTimeout: 10000, // 10 sec
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
 });
 transporter.verify()
 
@@ -21,13 +23,13 @@ transporter.verify()
   .catch(err => console.error("❌ Error:", err));
 
 
-  console.log("Transport config:", transporter.options);
+console.log("Transport config:", transporter.options);
 const test = async () => {
   console.log("test email .");
 
   await transporter.sendMail({
     from: "tr565003@gmail.com",
-    to: "tharunravi6722@gmail.com",
+    to: "tharunravi672@gmail.com",
     subject: "Test",
     text: "Working ✅",
   });
