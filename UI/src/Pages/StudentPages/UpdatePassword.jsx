@@ -17,7 +17,7 @@ function UpdatePassword() {
 
     e.preventDefault()
     console.log(data.state?.StudentEmail)
-    if (data.state?.StudentEmail == "" || !UserName?.email == "") { return toast.error("email is require") }
+    if (data.state?.StudentEmail == "" || UserName?.email == "") { return toast.error("email is require") }
     try {
       // console.log('first')
       setloadin(true)

@@ -20,7 +20,8 @@ io.on("connection", async (socket) => {
         console.log("✅ User connected:", socket.id);
 
         const userId = socket.handshake.query.userId;
-        if (!userId) return;
+        if (!userId) return console.log("userId is missing");
+        ;
 
         onlineUsers.set(userId, socket.id);
 
@@ -47,7 +48,7 @@ io.on("connection", async (socket) => {
         });
 
     } catch (err) {
-        console.log("Socket Error:", err);
+        console.log("Socket Error:", err.message);
     }
 });
 

@@ -21,7 +21,6 @@ const passowrdUpdateEmail = async (req, res) => {
       return res.status(404).json({ message: "fill the required Email id is required" })
     }
     const Check_emailIsexits = await User.findOne({ email: email })
-    console.log(Check_emailIsexits, 'Check_emailIsexits')
     if (!Check_emailIsexits) {
       console.log(`these email${email} is not exits.`)
       return res.status(403).json({ message: `these email${email} is not exits.` })
@@ -31,8 +30,8 @@ const passowrdUpdateEmail = async (req, res) => {
     Check_emailIsexits.resetTokenExpiry =  Date.now() + 10 * 60 * 1000;
 
     await Check_emailIsexits.save()
-    const resetLink = `https://edu-lms-mern-1.onrender.com/?token=${token}`;
-    console.log(token, 'token')
+    
+    const resetLink = `https://studyhuberp.netlify.app/change-password?token=${token}`;
     // email headers
     const info = await transporter.sendMail({
       from: 'tharunravi6722@gmail.com',
