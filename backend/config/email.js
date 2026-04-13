@@ -6,7 +6,7 @@ console.log({
 })
 // console.log("Transport config:", transporter.options);
 const transporter = nodemailer.createTransport({
-  service: "smtp.gmail.com",
+  host: "smtp.gmail.com",
   port: 587,
   secure: false, auth: {
     user: process.env.Email_User,
