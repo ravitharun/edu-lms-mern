@@ -12,10 +12,7 @@ const bcrypt = require('bcrypt');
 const passowrdUpdateEmail = async (req, res) => {
   try {
     let { email } = req.body
-    if (email == "tharunravi67122@gmail.com") {
-      email = 'tharunravi672@gmail.com'
-    }
-    console.log(email)
+    console.log(email,"to sent")
     if (!email) {
       console.log(email, "email is null")
       return res.status(404).json({ message: "fill the required Email id is required" })
