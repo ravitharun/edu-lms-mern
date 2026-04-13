@@ -31,7 +31,7 @@ const passowrdUpdateEmail = async (req, res) => {
     Check_emailIsexits.resetTokenExpiry =  Date.now() + 10 * 60 * 1000;
 
     await Check_emailIsexits.save()
-    const resetLink = `https://LMSTeam.com/reset-password?token=${token}`;
+    const resetLink = `https://edu-lms-mern-1.onrender.com/?token=${token}`;
     console.log(token, 'token')
     // email headers
     const info = await transporter.sendMail({
