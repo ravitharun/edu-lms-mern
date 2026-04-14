@@ -4,7 +4,6 @@ import { MdArrowBack } from "react-icons/md";
 import { FiHome } from "react-icons/fi";
 
 function BackButton({ page, currentPage }) {
-    console.log({ page, currentPage })
 
     const pagered = page === "my-course" ? "/my-course" : "/";
 

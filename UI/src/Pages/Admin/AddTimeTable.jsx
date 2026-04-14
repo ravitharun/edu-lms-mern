@@ -24,12 +24,10 @@ function AddTimeTable() {
     const [propsEndTime, setpropsEndTime] = useState("")
     const [GetTimeTableByYear, SetGetTimeTableByYear] = useState("SEM1-1YEAR")
     const [filterBysem, setfilterbysem] = useState([])
-    console.log(filterBysem)
     useEffect(() => {
         const getSubjects = async () => {
             const rsdata = await fetchAllSubjects();
-            console.log(rsdata.data.message, 'rsdata')
-            setsubjects(rsdata.data.message, 'rsdata')
+            
 
         }
         getSubjects()
@@ -40,7 +38,6 @@ function AddTimeTable() {
     useEffect(() => {
         const HandelGetTimeTableByYear = async () => {
             try {
-                console.log("HandelGetTimeTableByYear", GetTimeTableByYear)
                 const responseGetTimeTableByYear = await FetchTimeTableByYear(GetTimeTableByYear)
                 if (responseGetTimeTableByYear.data.message == `No data.`) {
 
@@ -59,7 +56,6 @@ function AddTimeTable() {
     const handelTimetable = (start, end) => {
         setpropsStartTime(start)
         setpropsEndTime(end)
-        console.log({ start, end }, "Ture Data")
         setopen(true)
     }
 
@@ -75,7 +71,6 @@ function AddTimeTable() {
         }
         try {
             const response = await AddTimetable(TTData, e)
-            console.log(response?.data?.message)
             if (response?.data?.message == "Data Saved") {
                 toast.success("Time Table Added")
 

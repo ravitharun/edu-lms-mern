@@ -2,11 +2,10 @@ import React from "react";
 import { CSVLink } from "react-csv";
 
 function DownloadReports({ data, fileName, buttonName, show_type }) {
-    console.log(data, fileName, buttonName, "buttonName");
+    
 
     // Optional: Check if data is an object
     if (typeof data === "object") {
-        console.log("Data is an object");
     }
 
     return (

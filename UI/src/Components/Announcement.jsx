@@ -80,7 +80,6 @@ function Announcement() {
         (async () => {
             const res = await Hnadlefetechannouncements();
             const filtterbyrole = res.filter((data) => data.TargetAudience == "Both" ? res : data.TargetAudience.toLowerCase() == UserName.role + "s")
-            console.log("filtterbyrole", filtterbyrole, UserName.role)
             if (UserName.role == "Admin") { return setData([]) }
             setData(filtterbyrole);
         })();

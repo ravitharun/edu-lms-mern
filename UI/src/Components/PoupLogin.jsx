@@ -7,10 +7,8 @@ function PoupLogin({ check }) {
 
     useEffect(() => {
         if (check) {
-            console.log("Working")
             setShow(true)
         } else {
-            console.log("user")
             setShow(false)
         }
     }, [check])

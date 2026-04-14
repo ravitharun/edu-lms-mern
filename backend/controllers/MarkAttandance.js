@@ -3,7 +3,6 @@ const { AttanDanceSchema } = require("../models/Attandance");
 const MarkAttandance = async (req, res) => {
     try {
         const { Data } = req.body;
-        console.log(Data, 'Data');
         // AttanDanceSchema
 
     } catch (error) {

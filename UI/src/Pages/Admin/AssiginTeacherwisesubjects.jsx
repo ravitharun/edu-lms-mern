@@ -26,7 +26,6 @@ function AssiginTeacherwisesubjects() {
             try {
                 setLoader(true)
                 const data = await GetAllSubjectsAssignedTeacher()
-                console.log(data, 'data')
                 const filterByAssign_true = data.filter((itm) => itm.subjects[0]
                     .Assign == true)
                 const filterByAssign_false = data.filter((itm) => itm.subjects[0]
@@ -136,10 +135,8 @@ function AssiginTeacherwisesubjects() {
             confirmButtonText: `${!type ? 'Assign' : 'UnAssing'}`,
             // denyButtonText:  `
         }).then(async (result) => {
-            console.log(result, 'resultresultresult')
             if (result.isConfirmed) {
                 const response = await HandelUnassignApi(id, teacherID, type, action)
-                console.log(response.data.message == response.data.message, 'response.data.message')
                 if (response.data.message === response.data.message) {
 
                     Swal.fire({

@@ -37,7 +37,6 @@ export default function Login() {
       setloading(true)
       setredirectloading(true)
       const get_user_valid = await handelLogin(Userdata, e)
-      console.log(get_user_valid, 'get_user_valid')
       if (get_user_valid.response?.data?.message === 'Role is incorrect') {
         return toast.custom((t) => (
           <div
@@ -96,7 +95,6 @@ export default function Login() {
       }
       // Admin Route
       else if (get_user_valid?.data?.user?.role == 'Admin') {
-        console.log("hey from the Admin")
 
         toast.success(
           `Login successfully - Hey! ${get_user_valid?.data?.user?.name} (${get_user_valid?.data?.user?.role})`,
@@ -111,7 +109,6 @@ export default function Login() {
       }
       // Student Route
       else {
-        console.log("hey from the studen")
         toast.success(
           `Login successfully - Hey! ${get_user_valid?.data?.user?.name || ""} (${get_user_valid?.data?.user?.role || ""})`,
         );

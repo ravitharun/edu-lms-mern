@@ -50,7 +50,6 @@ function ApplyLeave() {
             try {
                 setLoader(true)
                 const response_Data = await GetLeavesApplyByID()
-                console.log(response_Data, 'Based on the EmpId leaves Applyications.')
                 if (response_Data.status == 429){
 
 
@@ -90,7 +89,6 @@ function ApplyLeave() {
         try {
 
             if (!Fromdate || !Todate || !leaveType || !ReasonLeave || !EmpEmailId) {
-                console.log(ReasonLeave, 'ReasonLeave')
                 return toast.error("Please fill the required filed's")
             }
             // make json data to send server
@@ -108,7 +106,6 @@ function ApplyLeave() {
             }
 
             const response = await ApplyLeaveRequest(data)
-            console.log(response.data.message == "leave application sent")
             if (response.data.message == "leave application sent") {
                 toast.success(" Leave Application Sent Successfully!", {
                     style: {
@@ -149,7 +146,6 @@ function ApplyLeave() {
         setid(data._id)
         sethandelshowPoup((prev) => !prev)
         setPoupData(data)
-        console.log(data)
     }
     const handelPoupLeave = () => {
         if (UserLogin == null) {

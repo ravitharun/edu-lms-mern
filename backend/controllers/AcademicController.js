@@ -7,7 +7,6 @@ const { AddTimetableSchema } = require("../models/TimeTableModel")
 const add = async (req, res) => {
     try {
         const { eventData } = req.body
-        console.log(eventData, "DATA")
         if (!eventData.EventName || !eventData.Eventend || !eventData.Eventtype || !eventData.Eventsatert || !eventData.Addbyid || !eventData.addbrole) {
             return rrs.status(404).json({ message: "All Feilds are Required." })
         }
@@ -24,7 +23,6 @@ const add = async (req, res) => {
         await addData.save();
         await redisClient.del("AcademicDetails")
         if (addData) {
-            console.log(addData, 'return AddData')
             return res.status(200).json({ message: "DATA ADDED INTO DB." })
 
         }
@@ -40,7 +38,6 @@ const add = async (req, res) => {
 const getData = async (req, res) => {
     try {
         const CacheData = await redisClient.get("AcademicDetails")
-        console.log(CacheData, 'CacheData')
         if (CacheData) {
             return res.status(200).json({ message: JSON.parse(CacheData) })
         }
@@ -63,7 +60,6 @@ const AddTimeTable = async (req, res) => {
     try {
 
         const { data } = req.body
-        console.log(data)
         if (!data.Department || !data.SemesterByyear || !data.StartTime || !data.EndTime || !data.AddSubject || !data.AddedByID) {
             return res.status(404).json({ messsage: "All Feilds are rquired." })
         }

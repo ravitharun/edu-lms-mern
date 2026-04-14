@@ -69,10 +69,8 @@ function AttandanceBulk({ ClassID }) {
 
                 const findNulldata = jsonData.filter(nullvalue => !nullvalue.Absent || !nullvalue.Present || !nullvalue.name || !nullvalue.RollNo)
                 // if()
-                console.log(findNulldata, 'find')
 
                 toast.success("File processed successfully 🚀");
-                console.log(jsonData)
 
             } catch (error) {
                 console.error(error);

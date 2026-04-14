@@ -6,9 +6,7 @@ const { getIO } = require("../socket");
 const getClasslist = async (req, res) => {
     try {
         const { teacher_Id } = req.query;
-        console.log(teacher_Id)
         if (!teacher_Id) {
-            console.log({ message: "TeacherID is missing" })
             return res.status(409).json({ message: "TeacherID is missing" })
         }
         const teacherSubjects = await subjectwiseteacher.find(
@@ -26,7 +24,6 @@ const getClasslist = async (req, res) => {
 
 
 
-        console.log(teacherSubjects, 'teacherSubjects')
 
 
 
@@ -38,7 +35,6 @@ const getClasslist = async (req, res) => {
 
 
         if (teacherSubjects.length == 0) {
-            console.log({ message: "NO Classes Found." })
             return res.status(404).json({ message: "NO Classes Found." })
         }
         return res.status(200).json({ message: teacherSubjects })
@@ -53,7 +49,6 @@ const GetClassSection = async (req, res) => {
     try {
      
         const { teacher_Id } = req.query;
-        console.log(teacher_Id, 'teacher_Id from the GetClassSection Api Call.')
 
         if (!teacher_Id) {
             console.log({ message: "TeacherID is missing" })
@@ -87,7 +82,6 @@ const GetClassSection = async (req, res) => {
 const getStudents = async (req, res) => {
     try {
         const {id} = req.query
-        console.log(id, 'id')
         if (!id) { return res.status(404).json({ message: "ID is required." }) }
         const getStudents = await subjectwiseteacher.find({ "subjects.teacherId": id })
         if (getStudents.length == 0) {

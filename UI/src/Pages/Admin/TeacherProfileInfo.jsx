@@ -7,7 +7,6 @@ import { Link, useLocation } from "react-router-dom";
 function TeacherProfileInfo() {
     const location = useLocation();
     const data = location.state?.data;
-    console.log(data?.AccountStatus, 'data?.AccountStatus')
     return (
         <>
             <Toaster />

@@ -18,7 +18,6 @@ const NewAccount = async (req, res) => {
     // const Profile = req.file?.path;
     const result = await cloudinary.uploader.upload(req.file?.path);
     const GetBy_email = await User.find({ email: req.body.StudentEmail })
-    console.log(GetBy_email, 'GetBy_email')
     if (!GetBy_email) {
       return res.status(400).json({ message: "Emails is already is exits please use another email to login." })
     }
@@ -109,7 +108,6 @@ const LoginAccount = async (req, res) => {
     const { email, Password, role } = req.query;
     const newpassowrd = "tharun2005"
     let hashPassword = bcrypt.hashSync(newpassowrd, 10)
-    console.log(hashPassword)
 
 
     const token = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "1h" });

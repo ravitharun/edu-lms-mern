@@ -8,11 +8,9 @@ const AccountDeactivate = async (req, res) => {
     try {
         const io = getIO()
         const { id, IssuedUser } = req.body
-        console.log('hey i am api calling for account deactivationg..')
         await redisClient.del("GetallIssues");
         await redisClient.del("myKey")
         if (!id) {
-            console.log({ message: "ID is missing for AccountDeactivate." })
             return res.status(404).json({ message: "ID is missing for AccountDeactivate." })
         }
         const updated = await User.findOneAndUpdate({ teacher_Id: id }, { AccountStatus: true }, { new: true }                  // options
@@ -20,14 +18,12 @@ const AccountDeactivate = async (req, res) => {
 
         const EmailResponse = await AccountEmailStatus(IssuedUser, updated)
         if (EmailResponse === "Required Info Of the Both Users") {
-            console.log('Some thing Went Wrong in While Sending the email')
             return res.status(404).json({ message: "Some thing Went Wrong" })
         }
         io.emit("AccountStatus", updated)
         return res.status(200).json({ message: "ok" })
     } catch (error) {
         console.log(error.message, 'error')
-        console.log('error from the AccountDeactivate api.')
         return res.status(500).json({ message: 'server Error.' })
     }
 }
@@ -37,11 +33,9 @@ async function UpdateDeactivate(req, res) {
     try {
         const io=getIO()
         const { id, AdminInfo } = req.body;
-        console.log({ id, AdminInfo }, "AdminInfo")
         await redisClient.del("GetallIssues");
         await redisClient.del("myKey")
         if (!id) {
-            console.log({ message: "ID is missing for AccountDeactivate." });
             return res.status(404).json({ message: "ID is missing for AccountDeactivate." });
         }
         const updated = await User.findOneAndUpdate({ teacher_Id: id }, { AccountStatus: false }, { new: true } // options
@@ -51,7 +45,6 @@ async function UpdateDeactivate(req, res) {
 
         }
         const responseEmail = await AccountEmailAccaptenceStatusResponse(AdminInfo, updated)
-        console.log("Account is Activated");
         io.emit("AccountStatusUpdate","Activated",updated)
         return res.status(200).json({ message: updated });
     } catch (error) {
@@ -66,7 +59,6 @@ async function UpdateDeactivate(req, res) {
 
 const AccountDeactivateUpdateReason = async (req, res) => {
     try {
-        console.log(req.body)
         await redisClient.del("GetallIssues");
         if (!req.body.name || !req.body.email || !req.body.empid || !req.body.issuetype || !req.body.priorty) {
             console.log({ message: "Some data are missing." })
@@ -101,7 +93,6 @@ const GetAccountDeactivateUpdateReason = async (req, res) => {
     try {
 
         const CacheGetallIssues = redisClient.get("GetallIssues");
-        console.log(CacheGetallIssues, 'CacheGetallIssues')
         if (CacheGetallIssues) { return res.status(200).json({ message: CacheGetallIssues }) }
         const GetallIssues = await ModelReasonDeactivate.find({})
         await redisClient.setEx("GetallIssues", 500, GetallIssues)

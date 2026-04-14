@@ -20,7 +20,6 @@ const HandelProfileViewNotification = async (req, res) => {
             if (diff < 86400) return `${Math.floor(diff / 3600)} hrs ago`;
             return `${Math.floor(diff / 86400)} days ago`;
         };
-        console.log(getTimeAgo,'getTimeAgo')
         if (viewedByidInfo.isActive) {
             return io.emit("ProfileView", {
                 message: `👀 Prof. ${ViewInfo?.name || "Someone"} viewed your profile`, profileUrl: ViewInfo?.profilePreview,

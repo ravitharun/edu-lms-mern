@@ -47,7 +47,6 @@ function UpdateAttandance() {
 
 
     const handelUpdateStatus = (typeUpdateStaus, id, status) => {
-        console.log({ typeUpdateStaus, id, status })
         const newUpdatesStaust = status ? { id: id, name: "tharun1", isstatus: true } : { id: id, name: "tharun2", isstatus: false }
         const newupdate = [...Update, newUpdatesStaust]
         setupdate(newupdate)
@@ -60,7 +59,6 @@ function UpdateAttandance() {
             isstatus: true,
         })) : 0;
         setMarkallLength(updated.length)
-        console.log(updated.length, 'len up')
 
     }
     const markAllAbsent = () => {

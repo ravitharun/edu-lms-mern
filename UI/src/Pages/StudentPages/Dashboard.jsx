@@ -108,7 +108,6 @@ function Dashboard() {
         const response = await GetallSubjects(UserName.StudentsYearDepartment.split(" ").join(""))
         // console.log(response)
         setcourses(response.data.message)
-        console.log(response.data.message.subjects)
       } catch (error) {
         console.log(error, "message")
         toast.error(error.message)

@@ -24,7 +24,6 @@ function DashboardLayout({ children }) {
   useEffect(() => {
     // Listen for the "Announcement" event
     const handleAnnouncement = (data) => {
-      console.log(data, "New Announcement App level");
       alert(data); // or toast.success(data) if using React-Toastify
     };
 
@@ -42,7 +41,6 @@ function DashboardLayout({ children }) {
     const Getdata = async () => {
       try {
         const response = await axios.get(`${url}/api/UsersCount/user`)
-        console.log(response.data, "Count")
         setcount(response.data.message)
       } catch (error) {
         console.log(error.message)

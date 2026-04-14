@@ -30,7 +30,6 @@ function UploadMaterilas() {
             try {
 
                 const reonse = await FetchClassByTecherId()
-                console.log(reonse.status == 429, 'res')
                 if (reonse.status == 429) {
                     return setrequestTimeout(true)
                 }

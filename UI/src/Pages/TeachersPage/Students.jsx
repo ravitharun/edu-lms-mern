@@ -47,7 +47,6 @@ function Students() {
                     },
                     // Header_Token_expry
                 })
-                console.log(response, 'response')
 
                 setStudentsData(response.data.getstudents, 'response')
                 return response
