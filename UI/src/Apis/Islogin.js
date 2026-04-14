@@ -10,7 +10,7 @@ export const MaintanceMode = false;
 export const ClassName_hover_btn = "hover:cursor-pointer"
 export const UserProfileInfo = secureLocalStorage.getItem("userProfileInfo")
 export let dt = new Date().getFullYear();
-export const userRoutingDashboard = UserName?.role == "Teacher" ? "/admin-dashboard" : UserName?.role == "student" ? "/" : "/AdminDashboard"
+export const userRoutingDashboard = UserName?.role == "Teacher" ? "/admin-dashboard" : UserName?.role == "student" ? "/StudentDashboard" : "/AdminDashboard"
 export const userRoutingProfilePage = UserName?.role == "Teacher" ? "/teachers/profile" : UserName?.role == "student" ? "/profile" : "/teachers/profile"
 export const handleLogout = () => {
     const get = secureLocalStorage.removeItem("token")
