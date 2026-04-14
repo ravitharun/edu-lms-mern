@@ -63,9 +63,11 @@ createRoot(document.getElementById('root')).render(
           } />
           <Route path="/StudentDashboard" element={
 
+            <ProtectedRoute allowedRoles={"students"}>
 
 
-            <Dashboard />
+              <Dashboard />
+            </ProtectedRoute>
 
 
           } />
