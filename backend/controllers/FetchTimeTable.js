@@ -4,7 +4,6 @@ const FetchStudentTimetabel = async (req, res) => {
         // http://localhost:5001/api/FetchStudentsTimeTabel/StudentTimeTabel
         const { Department, SemesterByyear } = req.query
         if (!Department || !SemesterByyear) return res.status(404).json({ message: "SomeThing Went Wrong." })
-        console.log(Department, SemesterByyear)
         const response = await AddTimetableSchema.find({ Department: Department.toUpperCase(), SemesterByyear: SemesterByyear.toUpperCase() })
         if (response.length == 0) {
             return res.status(404).json({ message: "No response" })

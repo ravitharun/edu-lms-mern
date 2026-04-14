@@ -109,7 +109,6 @@ function ProfilesStudenta() {
         setStudents(YearFilter);
     };
     const HandelFilterStatus = (e) => {
-        console.log(e)
         let value = ""
         if (e === "ALL") {
             setStudents(searchFillterArray);  // original data
@@ -129,7 +128,6 @@ function ProfilesStudenta() {
     };
 
     const HandelDept = (data) => {
-        console.log(data, "Data Dept Wise ..")
         if (data == "ALL") {
             setStudents(searchFillterArray);  // original data
             return
@@ -137,7 +135,6 @@ function ProfilesStudenta() {
         const FillterByDept = students.filter((dept) => {
             return dept?.department.includes(data)
         })
-        console.log(FillterByDept)
         setStudents(FillterByDept);
 
     }

@@ -10,7 +10,6 @@ function GetAnnouncement() {
         try {
             const Fetchannouncements = async () => {
                 const response = await Hnadlefetechannouncements()
-                console.log(response.data, 'responseresponse')
                 setannouncements(response)
                 setfiltertypedate(response)
             }
@@ -25,7 +24,6 @@ function GetAnnouncement() {
         if (type === 'All') {
 
             setannouncements(filtertypedata)
-            console.log(filtertypedata, 'type', type)
             return   // ✅ stop execution here
         }
 

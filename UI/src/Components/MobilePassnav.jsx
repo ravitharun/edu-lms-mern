@@ -5,10 +5,8 @@ import { UserLogin } from '../Apis/Islogin'
 import secureLocalStorage from 'react-secure-storage'
 
 function MobilePassnav({ mobileMenuOpen }) {
-    console.log(mobileMenuOpen, "mobileMenuOpen")
     const navigate=useNavigate("")
     const Logout = () => {
-        console.log("first")
         let tkn = secureLocalStorage.removeItem("token")
 
         if (tkn == null) {

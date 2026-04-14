@@ -8,7 +8,6 @@ import {
 } from "react-icons/fa";
 
 function Loaders({ pathname = "Student", userName = "", sec = 0 }) {
-    console.log(userName)
     const isAdmin = pathname === "Admin";
     const isTeacher = pathname === "Teacher";
 

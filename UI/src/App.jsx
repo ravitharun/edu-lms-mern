@@ -30,15 +30,12 @@ function App() {
           return naviagte("/login")
         }, 2500);
       }
-      console.log(data, "Account status");
 
     };
     const handleAnnouncement = (data) => {
-      console.log(data, "New Announcement App level");
       alert(data);
     };
     const handleAnnouncementUpdate = (data, updatedAccount) => {
-      console.log(data, 'AccountStatusUpdate')
       if (UserName?.email == updatedAccount?.email) {
 
         return toast.success('Your Account is Activated by the Admin');

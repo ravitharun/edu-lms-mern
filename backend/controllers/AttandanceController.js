@@ -3,12 +3,10 @@ const User = require("../models/User");
 const GetStudents = async (req, res) => {
     try {
         const { ClassID } = req.query;
-        console.log(ClassID,'ClassID')
 
         let format = ClassID
 
         if (!ClassID) {
-            console.log('class id is missing.')
             return res.status(404).json({ message: "SomeThing went Wrong." })
         }
         // CSE3-CSE-3

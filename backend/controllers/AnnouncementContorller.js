@@ -6,8 +6,7 @@ const { getIO } = require("../socket");
 const addAnnouncement = async (req, res) => {
     try {
         const io = getIO()
-        console.log(req.body.AddedBy, 'req.body')
-        console.log(req.body.Role, 'req.body.Role')
+    
         const getuserAddedInfoByname = await User.findOne({
             [req.body.Role === "Admin" ? "Admin_Id" : "teacher_Id"]: req.body.AddedBy
         });
@@ -36,7 +35,6 @@ const addAnnouncement = async (req, res) => {
 const FetchAll = async (req, res) => {
     try {
         const GetAllannouncements = await AddAnnouncement.find({})
-        console.log(GetAllannouncements, 'GetAllannouncements')
         if (GetAllannouncements.length == 0) {
             return res.status(404).json({ message: "No Announcements" })
         }

@@ -44,7 +44,6 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
     const FetchtheSchedukeData = async () => {
       try {
         const response = await Getdata()
-        console.log(response.data.message, "response")
         setData(response.data.message)
         validData(response.data.message)
       } catch (error) {
@@ -68,10 +67,8 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
       eventBulletMode: "multiple",
       eventsData: data,
       onSelectedDateChange: (date, validdata) => {
-        console.log({ date, validdata }, "date")
         const filterbydata = data.filter((evnt) => new Date(evnt.EventstartDate).toISOString().slice(0, 10) == new Date(date).toISOString().slice(0, 10))
-        console.log(new Date(date).toISOString().slice(0, 10), "new Date(date).toISOString().slice(0,10)")
-        console.log(filterbydata, "filterbydata")
+      
       }
     });
 
@@ -89,7 +86,6 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
       (evt) => evt.Eventtype === getEventtype
     );
 
-    console.log(filtered, "filtered by option " + getEventtype);
 
     setFilteredData(filtered);
     setData(filtered)
@@ -106,7 +102,6 @@ function Calendars({ examData, role, onAddEvent, userData = UserName }) {
   const handeldeleteEvent = (id) => {
     toast.error(`handeldeleteEvent ${id}`)
   }
-console.log(data,'data')
   return (
     <div className="w-full p-6 bg-gray-50">
       {examData && (

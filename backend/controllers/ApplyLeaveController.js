@@ -36,10 +36,8 @@ const ApplyLeave = async (req, res) => {
 const GetallLeavesdata = async (req, res) => {
     try {
         const { EmpID, EmpEmail } = req.query
-        console.log(req.query, ' req.query')
         if (!EmpID || !EmpEmail) return res.status(404).json({ message: "someThing went Wrong." })
         const getEmailBasedLeaves = await ApplyToLeave.find({ EmpID: EmpID })
-        console.log(getEmailBasedLeaves, 'getEmailBasedLeaves')
         if (getEmailBasedLeaves.length == 0)
             return res.status(200).json({ message: "No Leave Applications Yet" })
         return res.status(200).json({ message: getEmailBasedLeaves })
@@ -69,7 +67,6 @@ const GetleavesByrequestEmail = async (req, res) => {
 const GetleavesByupdateStatus = async (req, res) => {
     try {
         const { data } = req.body
-        console.log(data, 'req.body')
         const response_Referemail = await ApplyToLeave.findOneAndUpdate(
             { Leave_id: data.Leave_id },   // filter
             {
@@ -79,7 +76,6 @@ const GetleavesByupdateStatus = async (req, res) => {
             },                    // update fields
             { new: true }      // return updated document
         );
-        console.log(response_Referemail, 'check the user')
         const response_email = {
             name: response_Referemail.EmpName,
             EmpID: response_Referemail.EmpID,
@@ -96,7 +92,6 @@ const GetleavesByupdateStatus = async (req, res) => {
         }
         await response_Referemail.save()
         leaveAddEmail.Acceptleave(response_email)
-        console.log('send the email to the person.', response_Referemail.Useremail)
         return res.status(200).json({ message: response_Referemail })
 
     } catch (error) {

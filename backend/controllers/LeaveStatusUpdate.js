@@ -16,7 +16,6 @@ const leaveStatus = async (req, res) => {
             return res.status(404).json({ meesage: "Updating the status some thing went wrong." })
         }
         const responseemail = await Acceptleave(updateStatus)
-        console.log(responseemail, 'responseemail')
         io.emit("leaveStatusUpdate", `Your leave  is ${st} ${updateStatus}`)
         return res.json({ message: `status updated ${st}`, st, leaveid, updateStatus, responseemail })
     } catch (error) {

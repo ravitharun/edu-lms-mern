@@ -123,15 +123,12 @@ function TeachersProfile() {
     }
 
 
-    console.log(UserProfileInfo, 'UserProfileInfo Check ')
-    // Save the Profile
     const SaveProfile = async () => {
 
 
 
 
         if (!Techername || !TecheRole || !PrivewUrlImg || !TecherId || !TecherEmail || !About || !Phone || !Experience || !Designation || !Qualification) {
-            console.log({ Techername, TecheRole, PrivewUrlImg, TecherId, TecherEmail, About, Phone, Experience, Designation, Qualification }, "check the Data.")
             return alert("issue")
         }
         const formData = new FormData();

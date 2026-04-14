@@ -24,13 +24,11 @@ function MyCourses() {
   useEffect(() => {
     const fetchAllSubjectsClassid = async () => {
       try {
-        console.log(UserName.StudentsYearDepartment, 'StudentsYearDepartment')
         const response_subjectsByClassID = await axios.get(`http://localhost:5001/api/AssignSubjects/get/subjects/${UserName.StudentsYearDepartment.split(" ").join("")}`)
         setInfo({
           yr: response_subjectsByClassID.data.message.year,
           department: response_subjectsByClassID.data.message.department
         })
-        console.log(response_subjectsByClassID.data.message.subjects, 'response_subjectsByClassID')
         setsubjects(response_subjectsByClassID.data.message.subjects)
 
       } catch (error) {
@@ -41,17 +39,14 @@ function MyCourses() {
     fetchAllSubjectsClassid()
   }, [])
   // debugger
-  console.log(subjects, 'subjects')
 
   const naviaget = useNavigate("")
   const handeldataprops = (data, info) => {
     const newdata = {
       data, info
     }
-    console.log(newdata)
     naviaget("/moreabout", { state: newdata })
   }
-  console.log(UserName)
   return (
     <>
       <Toaster></Toaster>

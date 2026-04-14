@@ -4,7 +4,6 @@ import secureLocalStorage from "react-secure-storage";
 import { UserName } from "../Apis/Islogin";
 
 const ProtectedRoute = ({ allowedRoles, children }) => {
-    console.log({ allowedRoles, children },"{ allowedRoles, children }")
     // Not logged in
     if (!UserName) {
         return <Navigate to="/login" replace />;

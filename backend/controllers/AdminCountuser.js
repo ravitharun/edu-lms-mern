@@ -6,7 +6,6 @@ const GetuserInfo = async (req, res) => {
     try {
 
         const CacheUserDataCount = await redisClient.get("CacheUserDataCount")
-        console.log(CacheUserDataCount,"CacheUserDataCount")
         if (CacheUserDataCount) { return res.status(200).json({ message: JSON.parse(CacheUserDataCount) }) }
         const GetuserInfo_user_student = (await User.find({ role: "student" }))
         const GetuserInfo_user_Teacher = (await User.find({ role: "Teacher" }))
@@ -19,7 +18,6 @@ const GetuserInfo = async (req, res) => {
             "GetuserInfo_user_DeActiveAccounts": GetuserInfo_user_DeActiveAccounts.length,
         }
         await redisClient.setEx("CacheUserDataCount", 500, JSON.stringify(userdatacount))
-        console.log("first")
         return res.status(200).json({ message: userdatacount })
 
     }

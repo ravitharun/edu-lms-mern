@@ -30,7 +30,6 @@ function Classes() {
     const Fetch_Class = async () => {
       try {
         const response_class = await GetClassList()
-        console.log(response_class.status, 'response_class')
         if (response_class.status == 429) {
           return setrequest(true)
         }
@@ -84,7 +83,6 @@ function Classes() {
         break;
       default:
         navigate("/report", { state: dataID })
-        console.log('repots')
         break;
     }
   }

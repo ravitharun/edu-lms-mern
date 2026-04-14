@@ -23,7 +23,6 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
     locales,
 
   });
-  console.log(events,'eventsevents')
   const formattedEvents = useMemo(() => {
     return events.length==0? events?.map((evt) => ({
       title: evt.AddSubject + " " + (evt.SemesterByyear), // required
@@ -33,22 +32,18 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
     })):[];
   }, [events]);
   const handleSelectEvent = (event) => {
-    console.log("Clicked Event:", event);
     if (UserName.role == "Teacher" || UserName.role == "Admin") {
       return Addfunction(event);
     }
   };
 
   const handleSelectSlot = ({ start, end }) => {
-    console.log(start, end);
-    console.log(UserName?.role)
     if (UserName.role == "Teacher" || UserName.role == "Admin") {
       return Addfunction(start, end);
     }
 
   };
   const now = new Date()
-  console.log(now)
   const holidays = [
     { text: "Holiday 1", start: "2026-03-25", type: "Govt Holiday" },
     { text: "Holiday 1", start: "2026-03-24", type: "college Holiday" },
@@ -62,7 +57,6 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
   );
   const typeholiday = holidays.map((Type) => Type)
   const Filter_typeholiday = typeholiday.filter((Type) => Type)
-  console.log(Filter_typeholiday, "Filter_typeholiday")
 
 
   const isToday =

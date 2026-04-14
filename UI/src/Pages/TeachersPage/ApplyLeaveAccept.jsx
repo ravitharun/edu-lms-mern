@@ -52,7 +52,6 @@ function ApplyLeaveAccept() {
             setloader(true)
 
             const response = await getRequestEmail()
-            console.log(response.status , 'response')
             if (response.status  == 429) { return SetrequestTimout(true) }
             SetrequestTimout(false)
             setleaves(response, 'response')

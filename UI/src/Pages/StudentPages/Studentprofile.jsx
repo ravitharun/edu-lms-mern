@@ -21,7 +21,7 @@ function Studentprofile() {
     const [Edit, setEdit] = useState(false)
     const fileUpdate = (e) => {
         const file = e.target.files[0]
-        console.log(file)
+    
         const profilePrivew_url = URL.createObjectURL(file)
         setprofilePrivew(profilePrivew_url)
         setfile(file)

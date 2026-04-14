@@ -22,7 +22,6 @@ function Issues() {
                 setloader(true)
                 const response = await axios.get(`${url}/api/Account/GetAllUpdateReason`)
 
-                console.log(response.data?.message, 'response api call')
                 // console.log(response)
                 setIssues(response.data?.message)
                 setloader(false)

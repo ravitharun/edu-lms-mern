@@ -54,7 +54,6 @@ export default function Signup() {
         try {
             setloading(true)
             const response = await handelapiSigup(formData, e)
-            console.log(response, 'response Apicode call')
             setloading(false)
 
             if (response?.status === 201) {
@@ -93,7 +92,6 @@ export default function Signup() {
             return toast.error(`Only allowed file to be upload .${Allowed_files}`)
 
         }
-        console.log(file, 'file')
 
         setProfile(file);
         setProfilePreview(URL.createObjectURL(file)); // UI preview

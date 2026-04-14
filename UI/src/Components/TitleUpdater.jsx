@@ -7,7 +7,6 @@ const TitleUpdater = () => {
 
   const formattedPath =
     path === "/" ? "Dashboard" : path.replace("/", "").charAt(0).toUpperCase() + path.slice(2);
-    console.log(path,'path')
 
   return (
     <Helmet>

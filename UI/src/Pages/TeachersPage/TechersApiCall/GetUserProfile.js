@@ -2,7 +2,6 @@ import axios from "axios"
 import { UserName, Header_Token_expry, UserLogin } from "../../../Apis/Islogin"
 
 const GetUserProfile = async (page) => {
-  console.log(page,'page')
   const response_UserProfile = await axios.get(
     "http://localhost:5001/api/Profile/Get",
     {

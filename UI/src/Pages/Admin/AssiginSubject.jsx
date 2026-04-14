@@ -80,7 +80,6 @@ function AssiginSubject() {
         }
         try {
             const check = await AddnewSubjuect(data)
-            console.log(check.status, "rs")
             if (check.status == 201) {
                 toast.success(check.data.message)
                 setSubjectName("")
@@ -130,7 +129,7 @@ function AssiginSubject() {
 
 
     }
-    console.log("page", page)
+    
     return (
         <>
             <Toaster />

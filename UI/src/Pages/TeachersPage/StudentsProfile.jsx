@@ -9,8 +9,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { PostNotification } from "./TechersApiCall/ProfileViewNotification";
 function StudentProfile() {
   const date = useLocation()
-  console.log(date.state
-  )
+
   if (date.state == null) {
     return window.location.href = "/students"
   }
@@ -21,7 +20,6 @@ function StudentProfile() {
     const SendNotification = async () => {
       try {
         const response_Api_profileView = await PostNotification(UserName?.teacher_Id,date.state.Student_ID)
-        console.log(response_Api_profileView,'response_Api_profileView')
 
       } catch (error) {
         console.log(error,'error.message')

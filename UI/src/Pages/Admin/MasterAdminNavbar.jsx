@@ -8,7 +8,6 @@ import LogoAdmin from "./LogoAdmin";
 import { FiLogOut, FiPower } from "react-icons/fi";
 
 function MasterAdminNavbar({ path, Active }) {
-  console.log({ path, Active })
   const [open, setOpen] = useState(true);
   // console.log(open, 'opn')
   return (

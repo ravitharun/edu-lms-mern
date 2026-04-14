@@ -6,7 +6,6 @@ import { useNavigate, useParams } from "react-router-dom"
 export const fetchAllSubjects = async (page,limit) => {
     try {
         const response = await axios.get(`${url}/api/subjects/get/subjects?page=${(page)}&limit=${Number(limit)}`, Header_Token_expry)
-        console.log(response, "response")
         return response
     }
     catch (err) {
@@ -32,7 +31,6 @@ export const AssignTeacher = async (data) => {
     try {
 
         const response = await axios.post(`${url}/api/AssignSubjects/assign/subjects`, { data: data }, Header_Token_expry)
-        console.log(response)
 
     }
     catch (err) {
@@ -51,7 +49,6 @@ export const AddnewSubjuect = async (data) => {
 
     )
 
-    console.log(response.data, 'res')
     return response;
 
 
@@ -85,7 +82,6 @@ export const GetAllSubjectsAssignedTeacher = async () => {
 export const GetallTeacherProfile = async (Page) => {
 
     try {
-        console.log(Page, "Page")
         const response = await axios.get(`${url}/api/subjects/get/TeachersInfo?Page=${Page}`,
             Header_Token_expry
         )
@@ -107,8 +103,7 @@ export const GetallStudentsProfile = async (Page) => {
         const response = await axios.get(`${url}/api/subjects/get/StudentsInfo?Page=${Page}`,
             Header_Token_expry
         )
-        console.log(response,)
-
+     
         return response
 
     } catch (error) {
@@ -121,7 +116,6 @@ export const GetallStudentsProfile = async (Page) => {
 }
 export const HandelUnassignApi = async (id, techerid, type, action) => {
     const info = { id, techerid, type, action }
-    console.log(info, 'id From api Call')
 
     try {
         const response = await axios.delete(`${url}/api/AssignSubjects/Delete/AssiginSubjects`, {

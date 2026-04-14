@@ -67,7 +67,6 @@ app.use("/api/markAttandance", AttandanceRouter);
 app.use("/api/LeaveStatusResponse", LeaveStatusRouter);
 app.use("/api/ProfileViewnotification", ProfileNotificationRouter);
 app.use(apiLimiter)
-console.log("URI:", process.env.MONGO_URI);
 // Test root
 app.get("/", (req, res) => {
     res.send("Server is running!");

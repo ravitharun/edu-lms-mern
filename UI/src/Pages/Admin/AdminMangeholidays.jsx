@@ -69,7 +69,6 @@ function AdminMangeholidays() {
             // console.log("Headers are correct!");
             try {
                 const response = await axios.post("http://localhost:5001/api/Manageholiday/AddHolidays", { data: jsonData })
-                console.log(response, "response holidya")
                 if (response.status == 201) {
                     return toast.success("Data Saved.")
 

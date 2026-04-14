@@ -17,7 +17,6 @@ const SubjectAddByteacher = async (req, res) => {
 
         // if courseid is alredy assigned to the class 
         if (isassigned) {
-            console.log({ message: "Course is already Assigned." })
             return res.status(400).json({ message: "Course is already Assigned." })
         }
 
@@ -88,21 +87,16 @@ const GetallAssignedSubjects = async (req, res) => {
 const GetSubjectsByclassID = async (req, res) => {
     try {
         const { id } = req.params
-        console.log(id, 'id')
 
         if (!id) {
-            console.log("ID is Missing.")
             return res.status(409).json({ message: "ID is Missing." })
         }
 
         const GetSubjects = await subjectWiseTeacherSchema.findOne({ classId: id })
-        console.log(GetSubjects, 'GetSubjects')
         if (GetSubjects == null) {
-            console.log("No Subjects Found.")
             return res.status(404).json({ message: "No Subjects Found." })
         }
         if (!GetSubjects) {
-            console.log('No classId found')
             return res.status(404).json({ message: "No classId found" })
         }
         return res.status(200).json({ message: GetSubjects })
@@ -118,9 +112,7 @@ const GetSubjectsByclassID = async (req, res) => {
 const UnassiginTeacherBySubjetcts = async (req, res) => {
     try {
         const { id, techerid, action } = req.body
-        console.log(req.body, 're.body')
         let check = action == 'assign' ? true : false
-        console.log(check, 'check', " typeofAction : ", action)
         if (!techerid || !id) return res.status(404).json({ message: "ID is Missing." })
         const getByID = await subjectWiseTeacherSchema.findOneAndUpdate(
             {

@@ -51,7 +51,7 @@ function MarkAttendance() {
       try {
         setloader(true)
         sethandel(false)
-        console.log(Class[0].classId + "-" + Class[0].department + "-" + Class[0].year, "new")
+        // console.log(Class[0].classId + "-" + Class[0].department + "-" + Class[0].year, "new")
         const response = await GetStudentname(Class[0].classId + "-" + Class[0].department + "-" + Class[0].year, getByclass)
         if (response.status == 429) {
           sethandel(true)
@@ -123,8 +123,7 @@ function MarkAttendance() {
 
   // handelSubmit final
   const HandelSubmit = () => {
-    const data =
-      console.log("handelSubmit")
+   
   }
 
   // bulk Upload

@@ -4,7 +4,6 @@ import { UserName } from "../../../Apis/Islogin"
 export const ApplyLeaveRequest = async (data) => {
     try {
         const response = await axios.post("http://localhost:5001/api/LeaveApply/ApplyLeave", { ApplyLeave: data })
-        console.log(response.data.message)
         return response
 
     } catch (error) {
@@ -21,7 +20,6 @@ export const GetLeavesApplyByID = async () => {
                 EmpEmail: UserName.email,
             }
         })
-        console.log(response.data.message, 'near my api call ')
         return response
     } catch (error) {
         return error
@@ -39,7 +37,6 @@ export const getRequestEmail = async () => {
             ,
 
         })
-        console.log(response.data.message)
         return response.data.message
 
     }

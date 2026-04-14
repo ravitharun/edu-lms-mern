@@ -19,23 +19,9 @@ function Annoncement() {
     const [EndDate, setEndDate] = useState("")
     const [Banner, setBanner] = useState(null)
     const [TargetAudience, setTargetAudience] = useState('')
-    useEffect(() => {
-        // Listen for the "Announcement" event
-        const handleAnnouncement = (data) => {
-            console.log(data, "New Announcement App level");
-            alert(data); // or toast.success(data) if using React-Toastify
-        };
-
-        socket.on("Announcement", handleAnnouncement);
-
-        // Cleanup listener on unmount
-        return () => {
-            socket.off("Announcement", handleAnnouncement);
-        };
-    }, []);
+    
     const HandelFile = (e) => {
         const file = e.target.files[0]
-        console.log(file)
         const FileUploadType = ["image/png", "image/jpeng"]
         if (!FileUploadType.includes(file.type)) {
 
@@ -48,7 +34,6 @@ function Annoncement() {
         setBanner(file)
     }
 
-    console.log(UserName, 'UserName')
     const HandelAnnoncement = async () => {
 
 
@@ -77,8 +62,7 @@ function Annoncement() {
                 toast.success(response.data.message)
                 return setopenPoup(false)
             }
-            console.log(response, 'response')
-            console.log({ Title, AnnouncementType, StartDate, EndDate, TargetAudience, Banner })
+            
         } catch (error) {
             console.log(error)
             return toast.error("error")
