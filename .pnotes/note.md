@@ -2,7 +2,7 @@
 
 Tomorrow task to be done 
 BUG:  Fixes 
-# 1. Live api fixes 
+<!-- # 1. Live api fixes DONE -->
 <!-- BUG: Remove the all Console in the ui side  All Most Done -->
  DEBUG: Check the All logs in the ui side 
 <!-- BUG: fix the Student Page Routing issue from / to /studentDashboard  DONE -->
@@ -13,5 +13,5 @@ BUG:  Fixes
   ######  Still it is in the Developing Stage with good Ui 
 
   -->
-<!-- company assigment is left main Task High Pirority -->
+
 
