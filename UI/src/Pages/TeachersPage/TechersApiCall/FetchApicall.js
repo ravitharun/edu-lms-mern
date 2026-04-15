@@ -1,11 +1,11 @@
 import axios from "axios"
-import { Header_Token_expry, UserName } from "../../../Apis/Islogin"
+import { Header_Token_expry, url, UserName } from "../../../Apis/Islogin"
 
 export const GetClassList = async () => {
 
   try {
     const response = await axios.get(
-      `http://localhost:5001/api/classlist/get`,
+      `${url}/api/classlist/get`,
       {
 
         params: {

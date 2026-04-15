@@ -1,7 +1,8 @@
 import axios from "axios"
+import { url } from "../../Apis/Islogin";
 
 export const Getdata =async () => {
     const response = await axios.get
-        ("http://localhost:5001/api/Academic/get/AcademicDetails")
+        (`${url}/api/Academic/get/AcademicDetails`)
     return response;
 }
