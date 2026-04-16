@@ -40,7 +40,7 @@ const allowedOrigin = process.env.NODE_ENV === "development"
     ? "http://localhost:5173"
     : process.env.FRONTEND_URL; 
 app.use(cors({
-    origin: allowedOrigin, // your frontend URL
+    origin: [allowedOrigin,'http://localhost:8000/AppExp/'], // your frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
