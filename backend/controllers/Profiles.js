@@ -1,12 +1,14 @@
+const   axios  = require("axios");
 const cloudinary = require("../config/cloudinary");
 const CreateProfile = require("../models/ProfileSchema");
 const User = require("../models/User");
 const { getIO } = require("../socket");
+const ApiMonitioring = require("../Middleware/ApiMonitorning");
 
 // uodate
 const ProfileCreate = async (req, res) => {
     try {
-        
+
         let imageUrl = req.body.ProfileUrl;
 
         if (req.file) {
@@ -62,11 +64,12 @@ const ProfileCreate = async (req, res) => {
 const GetProfile = async (req, res) => {
     try {
         const { userid } = req.query;
+  
         if (!userid) { return res.status(404).json({ message: "Id is missing." }) }
         const get_userProfile = await CreateProfile.findOne({ ID: userid })
         return res.status(200).json({ message: get_userProfile })
     } catch (error) {
-        console.log(error, 'error')
+        console.log(error.message, 'error')
         return res.status(500).json({ message: "Server Error." })
     }
 
