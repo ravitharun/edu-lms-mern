@@ -49,7 +49,7 @@ import ProtectedRoute from './Components/ProtectedRoute.jsx';
 
 createRoot(document.getElementById('root')).render(
   // <Undermanitance>
-  <StrictMode>
+  <>
     <BrowserRouter>
       <Suspense fallback={<BackgroungImgLoader />}>
         <Routes>
@@ -337,5 +337,5 @@ createRoot(document.getElementById('root')).render(
       </Suspense>
     </BrowserRouter>
 
-  </StrictMode>,
+  </>,
 )
