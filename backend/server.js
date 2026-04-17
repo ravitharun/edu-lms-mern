@@ -27,6 +27,7 @@ const { initSocket } = require("./socket");
 const { AttandanceRouter } = require("./routes/AttandanceROuter");
 const { LeaveStatusRouter } = require("./routes/leaveStatusRouter");
 const { ProfileNotificationRouter } = require("./routes/ProfileNotificationRouter");
+const ApiMonitioring = require("./Middleware/ApiMonitorning");
 const app = express();
 const server = http.createServer(app);
 
@@ -40,7 +41,7 @@ const allowedOrigin = process.env.NODE_ENV === "development"
     ? "http://localhost:5173"
     : process.env.FRONTEND_URL; 
 app.use(cors({
-    origin: [allowedOrigin,'http://localhost:8000/AppExp/'], // your frontend URL
+    origin: allowedOrigin ,// your frontend URL
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
 }));
@@ -60,13 +61,13 @@ app.use("/api/Profile", ProfileRouter);
 app.use("/api/Announcement", AnnouncementRouter);
 app.use("/api/Academic", HandelAcademicRouter);
 app.use("/api/FetchStudentsTimeTabel", HandelFetchTimeTableRouter);
-app.use("/api/FetchStudentsTimeTabel", HandelFetchTimeTableRouter);
 app.use("/api/UsersCount", Admin_UserInfo);
 app.use("/api/Manageholiday", Manageholiday);
 app.use("/api/markAttandance", AttandanceRouter);
 app.use("/api/LeaveStatusResponse", LeaveStatusRouter);
 app.use("/api/ProfileViewnotification", ProfileNotificationRouter);
 app.use(apiLimiter)
+app.use(ApiMonitioring);
 // Test root
 app.get("/", (req, res) => {
     res.send("Server is running!");

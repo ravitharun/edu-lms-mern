@@ -41,14 +41,14 @@ const ApiMonitioring = (req, res, next) => {
         }
         else if (code >= 400 && code < 500) {
             console.log("hey");
-            
+
             return "FAILURE";
         }
         else {
             return "FAILURE"; // 500+
         }
     };
-    res.on("finish", () => {
+    res.on("finish", async () => {
         const responseTime = Date.now() - start;
 
         const Apilogs = {
@@ -60,16 +60,17 @@ const ApiMonitioring = (req, res, next) => {
             apihealth: checkhealth(res.statusCode),
             healthscore: getHealthScore(responseTime, res.statusCode),
             timestamp: new Date(),
-            status: getstatus( res.statusCode)
+            status: getstatus(res.statusCode)
         };
 
-        console.log(Apilogs);
+        console.log(Apilogs, 'Apilogs');
 
-        axios.post("http://localhost:8000/AppExp/check", { Apilogs: Apilogs })
+
+        await axios.post("http://localhost:8000/AppExp/check", Apilogs)
             .catch(err => console.log("Monitoring error:", err.message));
-    });
+        });
+        next();
 
-    next();
 };
 
 module.exports = ApiMonitioring;
