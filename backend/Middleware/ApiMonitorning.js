@@ -65,11 +65,11 @@ const ApiMonitioring = (req, res, next) => {
 
         console.log(Apilogs, 'Apilogs');
 
-
-        await axios.post(`${process.env.APIMONITORING_URL}/AppExp/check`, Apilogs)
+        const url = process.env.NODE_ENV == 'development' ? process.env.APILOCALHOST_MONITORING : process.env.APIMONITORING_URL
+        await axios.post(`${url}/AppExp/check`, Apilogs)
             .catch(err => console.log("Monitoring error:", err.message));
-        });
-        next();
+    });
+    next();
 
 };
 
