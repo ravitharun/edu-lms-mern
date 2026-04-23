@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --watch . --ext js,json --legacy-watch --delay 2 server.js",
-    "start": "node index.js"
+    "dev": "nodemon  server.js --legacy-watch",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +29,6 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.14"
   }
 }

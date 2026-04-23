@@ -3,13 +3,44 @@ services:
     build: ./UI
     ports:
       - "5173:5173"
+    volumes:
+      - ./UI:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    command: npm run dev -- --host 0.0.0.0 --port 5173
+    depends_on:
+      - backend
 
   backend:
     build: ./backend
     ports:
-      - "3000:3000"
+      - "5001:5001"
+    volumes:
+      - ./backend:/lms
+      - /lms/node_modules
+    working_dir: /lms
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/lmsdb
+      - NODE_ENV=development
+      - PORT=5001
+    command: npm run dev
+    depends_on:
+      - mongo
+      - redis
 
   mongo:
     image: mongo
     ports:
       - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+volumes:
+  mongo_data:

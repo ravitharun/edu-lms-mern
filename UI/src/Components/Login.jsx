@@ -37,6 +37,7 @@ export default function Login() {
       setloading(true)
       setredirectloading(true)
       const get_user_valid = await handelLogin(Userdata, e)
+      console.log(get_user_valid.response?.data,'get_user_valid.response?.data')
       if (get_user_valid.response?.data?.message === 'Role is incorrect') {
         return toast.custom((t) => (
           <div

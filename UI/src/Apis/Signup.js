@@ -48,7 +48,7 @@ const handelLogin = async (data, e) => {
     secureLocalStorage.setItem("User_info", response.data.
       user)
 
-
+console.log(response,'response')
     return response
   } catch (error) {
     return error

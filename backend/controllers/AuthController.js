@@ -106,26 +106,24 @@ const NewAccount = async (req, res) => {
 const LoginAccount = async (req, res) => {
   try {
     const { email, Password, role } = req.query;
-    const newpassowrd = "tharun2005"
-    let hashPassword = bcrypt.hashSync(newpassowrd, 10)
-
-
-    const token = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
     if (!email || !Password || !role) {
       return res.status(400).json({ message: "all inputs are required" })
     }
-    const Check_userAccount = await User.findOne({ email })
-    if (Check_userAccount.role != role) {
+    const Check_userAccount = await User.findOne({ email: req.query.email, role: req.query.role })
+    console.log(Check_userAccount, 'userAccount')
+    if (Check_userAccount.role != req.query.role) {
       return res.status(403).json({ message: "Role is incorrect" })
     }
-    if (!Check_userAccount) {
+    if (Check_userAccount == null) {
+      console.log({ message: "USer NotFound." })
       return res.status(403).json({ message: "USer NotFound." })
     }
     // password we will compare now Password input to db Password
-    const check_password = await bcrypt.compare(Password, Check_userAccount.password);
+    const check_password = await bcrypt.compare(req.query.Password, Check_userAccount.password);
     if (!check_password) {
       return res.status(403).json({ message: "The password is incorrect" })
     }
+    const token = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     // main level to say user data are same
     if (Check_userAccount.email == email || Check_userAccount.role == role || check_password) {
@@ -133,7 +131,7 @@ const LoginAccount = async (req, res) => {
     }
 
   } catch (error) {
-    console.error(error.message);
+    console.error(error);
     return res.status(500).json({ error: "Server error" });
   }
 };
