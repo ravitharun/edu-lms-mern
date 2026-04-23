@@ -78,9 +78,9 @@ app.use(ApiMonitioring);
 console.log(process.env.MONGO_URI,'locasl MONGO_URI');
 
 // Test root
-app.get("/get", async(req, res) => {
-    const responseAlluser=await User.find({})
-    res.json({userdata:responseAlluser});
+app.get("/", (req, res) => {
+   
+    res.json('server is runninf');
 });
 // app.get("")
 // Connect to Redis
