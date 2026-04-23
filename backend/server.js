@@ -28,14 +28,21 @@ const { AttandanceRouter } = require("./routes/AttandanceROuter");
 const { LeaveStatusRouter } = require("./routes/leaveStatusRouter");
 const { ProfileNotificationRouter } = require("./routes/ProfileNotificationRouter");
 const ApiMonitioring = require("./Middleware/ApiMonitorning");
+const User = require("./models/User");
 const app = express();
 const server = http.createServer(app);
 
 
 
 // Connect to MongoDBcd 
-connectDB();
-// Middleware
+
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
+  });
+});// Middleware
 const allowedOrigin = process.env.NODE_ENV === "development"
 
     ? "http://localhost:5173"
@@ -68,10 +75,14 @@ app.use("/api/LeaveStatusResponse", LeaveStatusRouter);
 app.use("/api/ProfileViewnotification", ProfileNotificationRouter);
 app.use(apiLimiter)
 app.use(ApiMonitioring);
+console.log(process.env.MONGO_URI,'locasl MONGO_URI');
+
 // Test root
-app.get("/", (req, res) => {
-    res.send("Server is running!");
+app.get("/get", async(req, res) => {
+    const responseAlluser=await User.find({})
+    res.json({userdata:responseAlluser});
 });
+// app.get("")
 // Connect to Redis
 redisClient.connect()
     .then(() => console.log("Connected to Redis"))
@@ -80,5 +91,5 @@ redisClient.connect()
 
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
