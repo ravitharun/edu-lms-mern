@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 const URI =
   process.env.NODE_ENV === "production"
     ? process.env.MONGO_URI
-    : "mongodb://host.docker.internal:27017/lmsdb";
+    : "mongodb://localhost:27017/lmsdb";
+    // : "mongodb://host.docker.internal:27017/lmsdb";
+    console.log(URI,'URIURI')
 const connectDB = async () => {
   try {
     await mongoose.connect(URI); // must be string

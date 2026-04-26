@@ -42,6 +42,9 @@ connectDB().then(() => {
     console.log(`Server running on port ${PORT}`);
     console.log(`Server running on port ${PORT}`);
     console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
   });
 });// Middleware
 const allowedOrigin = process.env.NODE_ENV === "development"

@@ -1,6 +1,6 @@
 const express = require("express");
 const { NewAccount, LoginAccount } = require("../controllers/AuthController");
-const upload = require("../Middleware/upload");
+const {upload} = require("../Middleware/upload");
 
 const router = express.Router();
 
