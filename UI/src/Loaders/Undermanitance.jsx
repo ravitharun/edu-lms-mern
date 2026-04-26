@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Countdown from 'react-countdown';
 
 function Undermanitance({ children, Ui }) {
-    const releaseDate = new Date("Tue Apr 25 2026 21:07:23 GMT+0530");
+    const releaseDate = new Date("Tue Apr 26 2026 21:07:23 GMT+0530");
 
     const [isLive, setIsLive] = useState(false);
     const [inter, setinter] = useState(0)

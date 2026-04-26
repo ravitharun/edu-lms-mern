@@ -339,7 +339,7 @@ function UploadMaterilas() {
                     </div>
                 </div>
 
-                {/* {!true ? 'hi' : <AddingSoon pathname={"Upload Material"}></AddingSoon>} */}
+                {/* {0 ? 'hi' : <AddingSoon pathname={"Upload Material"}></AddingSoon>} */}
 
 
             </div>
