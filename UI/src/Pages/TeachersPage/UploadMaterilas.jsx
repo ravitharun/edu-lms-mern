@@ -15,11 +15,13 @@ function UploadMaterilas() {
     const [classList, setClassList] = useState([])
     const [Upload, setUpload] = useState(false)
     const [Name, setsection] = useState("")
+    const [subjectname, setsubjectname] = useState("")
     const [Description, setDescription] = useState("")
     const [file, setfile] = useState(null)
     const Action = "Material"
     const [requestTimeout, setrequestTimeout] = useState(false)
     const [subjects, setsubjects] = useState([])
+    const [loader, setloader] = useState(false)
     useEffect(() => {
         const Fetch_Assignment = async () => {
             try {
@@ -45,7 +47,7 @@ function UploadMaterilas() {
             console.log(Name.split(" ")[1], 'Name')
             const getBysectionSubjects = classList.filter((data) => data.classId == Name.split(" ")[1])
             console.log(getBysectionSubjects[0]?.subjects, 'getBysectionSubjects')
-            setsubjects([])
+            setsubjects(getBysectionSubjects[0]?.subjects)
         }
         getBysubjects()
     }, [Name])
@@ -55,18 +57,40 @@ function UploadMaterilas() {
         if (!Name || !Description) {
             return toast.error("Fill The Required Input's.")
         }
+        console.log(subjectname, 'subjectname')
         const formdata = new FormData()
         formdata.append("Name", Name)
+        formdata.append("subjectname", subjectname)
         formdata.append("Description", Description)
         formdata.append("file", file)
         formdata.append("Action", Action)
         formdata.append("teacher_info", JSON.stringify({
             teachername: UserName.name,
             teacher_profile: UserName.profilePreview,
-            teacher_email: UserName.email
+            teacher_email: UserName.email,
+            teacher_id: UserName.teacher_Id
         }))
+        try {
+            setloader(true)
+            const response = await HandelUpload(formdata)
+            console.log(response.data.message == 'Pdf Upoloaded')
+            if (response.data.message == 'Pdf Upoloaded') {
+                toast.success('Pdf Upoloaded')
 
-        await HandelUpload(formdata)
+                setUpload(false)
+
+                setfile(null)
+                setDescription("")
+                return setsubjectname("")
+            }
+            setloader(false)
+        } catch (error) {
+            toast.error(error)
+        }
+        finally {
+            setloader(false)
+
+        }
 
 
     }
@@ -123,7 +147,7 @@ function UploadMaterilas() {
                                         htmlFor="section"
                                         className="block mb-2 text-sm font-medium text-gray-700"
                                     >
-                                        Choose a Section 
+                                        Choose a Section
                                     </label>
                                     <select
                                         id="section"
@@ -133,11 +157,11 @@ function UploadMaterilas() {
                                         className={`w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition `}
 
                                     >
-                                        <option  selected disabled>
-                           
+                                        <option selected disabled>
 
-                                                    --Select Section --
-                                            
+
+                                            --Select Section --
+
                                         </option>
                                         {
                                             classList.map((cls, idx) => (
@@ -172,14 +196,14 @@ function UploadMaterilas() {
                                                 <p className="text-lg font-semibold text-gray-700">
                                                     No Subjects Assigned
                                                 </p>
-                                              
+
                                             </div>
                                         </div>
                                         :
 
                                         <select
                                             id="section"
-                                            onChange={(e) => console.log(e.target.value, 'value')}
+                                            onChange={(e) => setsubjectname(e.target.value)}
                                             className={`w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition `}
 
                                         >
@@ -196,7 +220,7 @@ function UploadMaterilas() {
                                                         <option
                                                             key={idx}
                                                             title='ClassSection-department-Year'
-                                                            value={` ${cls[0]?.subjectName}`}
+                                                            value={` ${cls?.subjectName}`}
                                                             className={`text-gray-700   `}
 
 
@@ -261,7 +285,7 @@ function UploadMaterilas() {
                                     onClick={handelSubmit}
                                     className="rounded-lg bg-blue-600 px-5 py-2 text-sm text-white hover:bg-blue-700"
                                 >
-                                    Submit
+                                    {loader ? "Submittin.." : "submit"}
                                 </button>}
                                 <button
                                     onClick={handelClear}
@@ -274,8 +298,8 @@ function UploadMaterilas() {
                     </div>
                 )}
 
-                
-            
+
+
 
 
 
