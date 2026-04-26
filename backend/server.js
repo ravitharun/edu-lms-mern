@@ -49,7 +49,7 @@ const allowedOrigin = process.env.NODE_ENV === "development"
     : process.env.FRONTEND_URL; 
 app.use(cors({
     origin: allowedOrigin ,// your frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
     credentials: true
 }));
 initSocket(server);
