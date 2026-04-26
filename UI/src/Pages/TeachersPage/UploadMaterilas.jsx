@@ -7,7 +7,6 @@ import { MaintanceMode, UserName } from '../../Apis/Islogin'
 import { HandelUpload } from '../../Apis/FileUploadApi'
 import toast, { Toaster } from 'react-hot-toast'
 import { useLocation } from 'react-router-dom'
-import axios from 'axios'
 import Tablecomponets from '../../Components/Tablecomponets'
 import { FetchClassByTecherId } from './TechersApiCall/FectchClassApi'
 import Tomany from '../../Loaders/Tomany'
@@ -22,7 +21,7 @@ function UploadMaterilas() {
     const [file, setfile] = useState(null)
     const Action = "Material"
     const loc = useLocation()
-    const[requestTimeout,setrequestTimeout]=useState(false)
+    const [requestTimeout, setrequestTimeout] = useState(false)
     // console.log(loc.state)
     const [LocaationState, setState] = useState(loc.state)
     useEffect(() => {
@@ -43,7 +42,7 @@ function UploadMaterilas() {
         }
         Fetch_Assignment()
     }, [])
-
+    // handelSubmit to upload Material
     const handelSubmit = async () => {
         if (!Name || !Description) {
             return toast.error("Fill The Required Input's.")
@@ -61,6 +60,7 @@ function UploadMaterilas() {
 
         await HandelUpload(formdata)
 
+
     }
 
     // handelClear
@@ -70,12 +70,14 @@ function UploadMaterilas() {
 
         setfile(null)
     }
+    // const pdfUrl = "https://res.cloudinary.com/dqckm1xhq/raw/upload/v1777177176/documents/igx0ty7mwnv08qsqogo4.pdf";
 
     return (
         <omany>
             <App></App>
             <Toaster />
-            {requestTimeout && <Tomany/>}
+
+            {requestTimeout && <Tomany />}
             <div className="md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
                 {/* ================= HEADER ================= */}
                 <div className=''>
