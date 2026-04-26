@@ -25,4 +25,20 @@ const UploadMaterial = async (req, res) => {
         return res.status(500).json({ message: "server error" })
     }
 }
+
+
+const fetchPdfs = async (req, res) => {
+    try {
+        const { ClassSection } = req.query
+        if (!ClassSection) { return res.status(404).json({ message: "required fields.,Classsection missing.." }) }
+        const getByDb = await MaterialsSchema.find({ Class: ClassSection })
+        if (!getByDb) { return res.status(404).json({ message: "not found..." }) }
+
+        return res.status(200).json({ message: "Fetched..", data: getByDb })
+
+    } catch (error) {
+        return res.status(500).json({ message: "server error" })
+
+    }
+}
 module.exports = UploadMaterial

@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import Countdown from 'react-countdown';
 
 function Undermanitance({ children, Ui }) {
-    const releaseDate = new Date("Tue Apr 26 2026 21:07:23 GMT+0530");
-
+    const releaseDate = new Date("Tue Apr 29 2026 18:07:23 GMT+0530");
     const [isLive, setIsLive] = useState(false);
-    const [inter, setinter] = useState(0)
     useEffect(() => {
         const interval = setInterval(() => {
             if (new Date() >= releaseDate) {

@@ -4,9 +4,10 @@ import App from "../../App";
 import { Link, useLocation } from "react-router-dom";
 import AddingSoon from "../../Loaders/AddingSoon";
 import { useEffect } from "react";
-import { url, UserName } from "../../Apis/Islogin";
+import { UserName } from "../../Apis/Islogin";
 import toast, { Toaster } from "react-hot-toast";
 import { PostNotification } from "./TechersApiCall/ProfileViewNotification";
+import { IoIosArrowRoundBack } from "react-icons/io";
 function StudentProfile() {
   const date = useLocation()
 
@@ -19,10 +20,10 @@ function StudentProfile() {
 
     const SendNotification = async () => {
       try {
-        const response_Api_profileView = await PostNotification(UserName?.teacher_Id,date.state.Student_ID)
+        const response_Api_profileView = await PostNotification(UserName?.teacher_Id, date.state.Student_ID)
 
       } catch (error) {
-        console.log(error,'error.message')
+        console.log(error, 'error.message')
         return toast.error(error.message)
       }
 
@@ -33,7 +34,7 @@ function StudentProfile() {
   const [remainder, setremainder] = useState(false)
   return (
     <>
-    <Toaster></Toaster>
+      <Toaster></Toaster>
       <App></App>
       <div className="md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
         {/* ================= HEADER ================= */}
@@ -45,7 +46,13 @@ function StudentProfile() {
         <div className="p-6 bg-gray-100 min-h-screen">
           <div className="p-6 bg-gray-100 min-h-screen">
 
-            <div className="mb-6">
+            <button
+              onClick={() => (window.location.href = "/students")}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-50 hover:text-slate-900"
+            >
+              <IoIosArrowRoundBack className="text-xl" />
+              <span>Back</span>
+            </button>            <div className="mb-6">
               <h1 className="text-2xl font-semibold text-gray-800">
                 Student Profile
               </h1>
