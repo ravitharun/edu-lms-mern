@@ -29,6 +29,7 @@ const { LeaveStatusRouter } = require("./routes/leaveStatusRouter");
 const { ProfileNotificationRouter } = require("./routes/ProfileNotificationRouter");
 const ApiMonitioring = require("./Middleware/ApiMonitorning");
 const User = require("./models/User");
+const UploadGuide = require("./routes/UploadMaterial");
 const app = express();
 const server = http.createServer(app);
 
@@ -73,6 +74,7 @@ app.use("/api/Manageholiday", Manageholiday);
 app.use("/api/markAttandance", AttandanceRouter);
 app.use("/api/LeaveStatusResponse", LeaveStatusRouter);
 app.use("/api/ProfileViewnotification", ProfileNotificationRouter);
+app.use("/api/UploadResources", UploadGuide);
 app.use(apiLimiter)
 app.use(ApiMonitioring);
 console.log(process.env.MONGO_URI,'locasl MONGO_URI');
