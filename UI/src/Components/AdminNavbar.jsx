@@ -307,7 +307,7 @@ function AdminSidebar() {
 
                         <div className="flex items-center gap-3">
                             <img
-                                src={`https://ui-avatars.com/api/?name=${UserName?.name}`}
+                                src={`${UserName?.profilePreview || `https://ui-avatars.com/api/?name=${UserName?.name}`}`}
                                 alt="Profile"
                                 className="w-10 h-10 rounded-full object-cover"
                             />

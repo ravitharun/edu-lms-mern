@@ -11,6 +11,7 @@ import Undermanitance from '../../Loaders/Undermanitance'
 
 function Studymaterials() {
   const location = useLocation()
+  console.log(location,'location')
   const course = location.state.data
   const Subject_info = location.state.info
   if (!course) {
