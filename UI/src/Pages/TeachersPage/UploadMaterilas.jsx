@@ -25,12 +25,13 @@ function UploadMaterilas() {
     const [loader, setloader] = useState(false)
 
     const [fetchByClass, setfetchByclass] = useState('')
+    const [showData, setPdfs] = useState([])
     useEffect(() => {
         const Fetch_Assignment = async () => {
             try {
 
                 const reonse = await FetchClassByTecherId()
-                console.log(reonse.data.message ,'reonse')
+                console.log(reonse.data.message, 'reonse')
                 if (reonse.status == 429) {
                     return setrequestTimeout(true)
                 }
@@ -48,13 +49,16 @@ function UploadMaterilas() {
 
     useEffect(() => {
         const getBysubjects = () => {
-            console.log(Name.split(" ")[1], 'Name')
-            const getBysectionSubjects = classList.filter((data) => data.classId == Name.split(" ")[1])
-            console.log(getBysectionSubjects[0]?.subjects, 'getBysectionSubjects')
-            setsubjects(getBysectionSubjects[0]?.subjects)
+            const response = classList.filter((itm) => itm.classId == Name.split("-")[0])
+            setsubjects(response[0]?.subjects)
+            // console.log(classList, 'classListclassList')
+            // // const response = classList.filter((itm) => itm.classId == Name.split("-")[0]).subjects.map((itm) => itm)
+            // console.log(response[0]?.subjects.map((itm) => itm.subjectName), 'subjectName')
+            // setsubjects(response)
         }
+
         getBysubjects()
-    }, [Name])
+    }, [Name, classList])
 
 
 
@@ -71,7 +75,8 @@ function UploadMaterilas() {
                         ClassSection: fetchByClass
                     }
                 })
-                console.log(response.data.message, 'api response')
+                console.log(response.data.data, 'api response')
+                setPdfs(response.data.data)
             } catch (error) {
                 toast.error(error)
             }
@@ -83,8 +88,7 @@ function UploadMaterilas() {
 
 
 
-    console.log(fetchByClass, 'fetchByClass')
-    console.log(classList[0]?.classId + "-" + classList[0]?.department + "-" + classList[0]?.year, 'classList')
+
 
 
 
@@ -140,7 +144,7 @@ function UploadMaterilas() {
 
         setfile(null)
     }
-console.log(subjects,'subjects')
+    console.log(subjects, 'subjects')
 
     return (
         <omany>
@@ -348,11 +352,11 @@ console.log(subjects,'subjects')
                     </label>
                     <select
                         id="section"
-                        onChange={(e) => {
+                        onChange={(e) =>
                             setfetchByclass(e.target.value)
 
-                            console.log(e.target.value, 'vlu')
-                        }
+
+
                         }
                         className={`w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition `}
 
@@ -411,25 +415,30 @@ console.log(subjects,'subjects')
                                         </td>
                                     </tr>
                                 ) : (
-                                    classList.map((item, index) => (
+                                    showData.map((item, index) => (
                                         <tr key={index} className="hover:bg-gray-50 transition">
 
-                                            <td className="px-4 py-3 text-sm text-gray-700">{index + 1}</td>
-                                            <td className="px-4 py-3 text-sm text-gray-700">{item.title}</td>
-                                            <td className="px-4 py-3 text-sm text-gray-700">{item.subject}</td>
-                                            <td className="px-4 py-3 text-sm text-gray-700">{item.date}</td>
-                                            <td className="px-4 py-3 text-sm text-gray-700">{item.status}</td>
-
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item.Class}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item.subjectname}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item.Description}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item.updatedAt}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item.views}</td>
+                                            {/* item.UploadUrl */}
                                             <td className="px-4 py-3">
                                                 <div className="flex gap-2">
+                                                    <object data={item.UploadUrl}>
+                                                        
+                                                        <a target='_blank'  className="px-3 py-1 text-sm bg-blue-100 text-blue-600 rounded-md hover:bg-blue-200 transition" href={`https://docs.google.com/gview?url=${encodeURIComponent(item.UploadUrl)}&embedded=true`}>
+                                                            View
+                                                        </a>
+                                                    </object>
 
-                                                    <button className="px-3 py-1 text-sm bg-blue-100 text-blue-600 rounded-md hover:bg-blue-200 transition">
-                                                        View
-                                                    </button>
-
-                                                    <button className="px-3 py-1 text-sm bg-red-100 text-red-600 rounded-md hover:bg-red-200 transition">
+                                                    <button  className="px-3 py-1 text-sm bg-red-100 text-red-600 rounded-md hover:bg-red-200 transition" onClick={()=>toast.sucess("hi")}>
                                                         Delete
                                                     </button>
+                                                    <a href={item.UploadUrl} target="_blank" rel="noopener noreferrer" className="px-3 py-1 text-sm bg-blue-100 text-blue-600 rounded-md hover:bg-blue-600 hover:text-white transition">
+                                                        Download
+                                                    </a>
 
                                                     {/* <button className="px-3 py-1 text-sm bg-green-100 text-green-600 rounded-md hover:bg-green-200 transition">
               Edit
