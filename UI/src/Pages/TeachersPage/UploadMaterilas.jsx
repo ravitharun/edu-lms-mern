@@ -3,13 +3,14 @@ import App from '../../App'
 import { FaRegCalendarTimes, FaUpload } from 'react-icons/fa'
 import AdminHeader from '../../Components/AdminHeader'
 import AddingSoon from '../../Loaders/AddingSoon'
-import { MaintanceMode, UserName } from '../../Apis/Islogin'
+import { MaintanceMode, url, UserName } from '../../Apis/Islogin'
 import { HandelUpload } from '../../Apis/FileUploadApi'
 import toast, { Toaster } from 'react-hot-toast'
 import Tablecomponets from '../../Components/Tablecomponets'
 import { FetchClassByTecherId } from './TechersApiCall/FectchClassApi'
 import Tomany from '../../Loaders/Tomany'
 import Undermanitance from '../../Loaders/Undermanitance'
+import axios from 'axios'
 
 function UploadMaterilas() {
     const [classList, setClassList] = useState([])
@@ -22,16 +23,20 @@ function UploadMaterilas() {
     const [requestTimeout, setrequestTimeout] = useState(false)
     const [subjects, setsubjects] = useState([])
     const [loader, setloader] = useState(false)
+
+    const [fetchByClass, setfetchByclass] = useState('')
+    const [showData, setPdfs] = useState([])
     useEffect(() => {
         const Fetch_Assignment = async () => {
             try {
 
                 const reonse = await FetchClassByTecherId()
+                console.log(reonse.data.message, 'reonse')
                 if (reonse.status == 429) {
                     return setrequestTimeout(true)
                 }
                 setrequestTimeout(false)
-                setClassList(reonse.data.message)
+                setClassList(reonse?.data?.message)
 
             } catch (error) {
                 console.log(error.message, 'from the Fetching Teacher Pages Api Call.')
@@ -44,20 +49,57 @@ function UploadMaterilas() {
 
     useEffect(() => {
         const getBysubjects = () => {
-            console.log(Name.split(" ")[1], 'Name')
-            const getBysectionSubjects = classList.filter((data) => data.classId == Name.split(" ")[1])
-            console.log(getBysectionSubjects[0]?.subjects, 'getBysectionSubjects')
-            setsubjects(getBysectionSubjects[0]?.subjects)
+            const response = classList.filter((itm) => itm.classId == Name.split("-")[0])
+            setsubjects(response[0]?.subjects)
+            // console.log(classList, 'classListclassList')
+            // // const response = classList.filter((itm) => itm.classId == Name.split("-")[0]).subjects.map((itm) => itm)
+            // console.log(response[0]?.subjects.map((itm) => itm.subjectName), 'subjectName')
+            // setsubjects(response)
         }
+
         getBysubjects()
-    }, [Name])
+    }, [Name, classList])
+
+
+
+    // fetch the subjects PDfs
+    useEffect(() => {
+        const FetchSubjectsPdfs = async () => {
+            try {
+                if (classList.length == 0) {
+
+                    return
+                }
+                const response = await axios.get(`${url}/api/UploadResources/fetchPdfs`, {
+                    params: {
+                        ClassSection: fetchByClass
+                    }
+                })
+                console.log(response.data.data, 'api response')
+                setPdfs(response.data.data)
+            } catch (error) {
+                toast.error(error)
+            }
+
+        }
+        FetchSubjectsPdfs()
+    }, [fetchByClass])
+
+
+
+
+
+
+
+
+
+
 
     // handelSubmit to upload Material
     const handelSubmit = async () => {
         if (!Name || !Description) {
             return toast.error("Fill The Required Input's.")
         }
-        console.log(subjectname, 'subjectname')
         const formdata = new FormData()
         formdata.append("Name", Name)
         formdata.append("subjectname", subjectname)
@@ -102,8 +144,7 @@ function UploadMaterilas() {
 
         setfile(null)
     }
-    console.log(classList, 'classList');
-    // let subjecta = []
+    console.log(subjects, 'subjects')
 
     return (
         <omany>
@@ -168,7 +209,7 @@ function UploadMaterilas() {
                                                 <option
                                                     key={idx}
                                                     title='ClassSection-department-Year'
-                                                    value={` ${cls.classId} - ${cls.department} - ${cls.year}`}
+                                                    value={`${cls.classId}-${cls.department}-${cls.year}`}
                                                     className={`text-gray-700   `}
 
 
@@ -302,7 +343,46 @@ function UploadMaterilas() {
 
 
 
+                <div className="w-full max-w-sm bg-white rounded-xl shadow p-4">
+                    <label
+                        htmlFor="section"
+                        className="block mb-2 text-sm font-medium text-gray-700"
+                    >
+                        Choose a Section
+                    </label>
+                    <select
+                        id="section"
+                        onChange={(e) =>
+                            setfetchByclass(e.target.value)
 
+
+
+                        }
+                        className={`w-full rounded-lg border border-gray-300 px-4 py-2 text-gray-700 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:border-gray-400 transition `}
+
+                    >
+                        <option selected disabled>
+
+
+                            --Select Section --
+
+                        </option>
+                        {
+                            classList.map((cls, idx) => (
+                                <option
+                                    key={idx}
+                                    title='ClassSection-department-Year'
+                                    value={`${cls.classId}-${cls.department}-${cls.year}`}
+                                    className={`text-gray-700   `}
+                                >
+                                    {cls.classId} - {cls.department} - {cls.year}
+                                </option>
+
+                            ))
+                        }
+
+                    </select>
+                </div>
                 <div className="w-full bg-white shadow-lg rounded-xl p-4">
 
                     <h2 className="text-xl font-semibold mb-4 text-gray-700">
@@ -315,7 +395,7 @@ function UploadMaterilas() {
                             {/* Table Head */}
                             <thead className="bg-blue-600 text-white">
                                 <tr>
-                                    {["Section", "Name", "Description", "Uploaded Date", "Actions"].map(
+                                    {["Section", "Name", "Description", "Uploaded Date", "views", "Actions"].map(
                                         (data, idx) => (
                                             <th key={idx} className="px-4 py-3 whitespace-nowrap">
                                                 {data}
@@ -328,18 +408,54 @@ function UploadMaterilas() {
                             {/* Table Body */}
                             <tbody className="divide-y divide-gray-200">
 
-                                {classList.length === 0 && (
-                                    <Tablecomponets sizeTb={classList.length} col={5} text="There is no Upload Material Found." />
-                                )}
+                                {classList.length === 0 ? (
+                                    <tr>
+                                        <td colSpan={6} className="text-center py-6 text-gray-500">
+                                            There is no Upload Material Found.
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    showData.map((item, index) => (
+                                        <tr key={index} className="hover:bg-gray-50 transition">
 
-                                {/* Your table rows will go here */}
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item.Class}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item.subjectname}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item.Description}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item.updatedAt}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item.views}</td>
+                                            {/* item.UploadUrl */}
+                                            <td className="px-4 py-3">
+                                                <div className="flex gap-2">
+                                                    <object data={item.UploadUrl}>
+                                                        
+                                                        <a target='_blank'  className="px-3 py-1 text-sm bg-blue-100 text-blue-600 rounded-md hover:bg-blue-200 transition" href={`https://docs.google.com/gview?url=${encodeURIComponent(item.UploadUrl)}&embedded=true`}>
+                                                            View
+                                                        </a>
+                                                    </object>
+
+                                                    <button  className="px-3 py-1 text-sm bg-red-100 text-red-600 rounded-md hover:bg-red-200 transition" onClick={()=>toast.sucess("hi")}>
+                                                        Delete
+                                                    </button>
+                                                    <a href={item.UploadUrl} target="_blank" rel="noopener noreferrer" className="px-3 py-1 text-sm bg-blue-100 text-blue-600 rounded-md hover:bg-blue-600 hover:text-white transition">
+                                                        Download
+                                                    </a>
+
+                                                    {/* <button className="px-3 py-1 text-sm bg-green-100 text-green-600 rounded-md hover:bg-green-200 transition">
+              Edit
+            </button> */}
+
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    ))
+                                )}
 
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                {/* {0 ? 'hi' : <AddingSoon pathname={"Upload Material"}></AddingSoon>} */}
 
 
             </div>

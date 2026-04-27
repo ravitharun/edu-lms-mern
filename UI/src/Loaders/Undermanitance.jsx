@@ -80,7 +80,7 @@ function Undermanitance({ children, Ui }) {
 
                                 {/* Title */}
                                 <h1 className="text-2xl sm:text-3xl font-semibold text-white mb-3">
-                                    🚧 System Maintenance
+                                     System Maintenance
                                 </h1>
 
                                 {/* Subtitle */}

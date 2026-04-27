@@ -45,7 +45,7 @@ const MyCourses = lazy(() => import("./Pages/StudentPages/MyCourses.jsx"));
 const Studentprofile = lazy(() => import("./Pages/StudentPages/Studentprofile.jsx"));
 
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
-
+import "../src/Pages/TeachersPage/Script.js"
 
 createRoot(document.getElementById('root')).render(
   <Undermanitance>
@@ -340,5 +340,5 @@ createRoot(document.getElementById('root')).render(
       </BrowserRouter>
 
     </>,
-  </Undermanitance>
+ </Undermanitance>
 )

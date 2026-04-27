@@ -1,5 +1,5 @@
 const express=require("express")
-const UploadMaterial = require("../controllers/UploadMaterial")
+const {UploadMaterial,fetchPdfs} = require("../controllers/UploadMaterial")
 const {uploadPdf} = require("../Middleware/upload")
 const UploadGuide=express.Router()
 // UploadGuide.post("/Upload/Materials",uploadPdf.single("file"),UploadMaterial)
@@ -12,4 +12,5 @@ UploadGuide.post("/Upload/Materials", (req, res, next) => {
     next();
   });
 }, UploadMaterial);
+UploadGuide.get("/fetchPdfs",fetchPdfs)
 module.exports=UploadGuide
