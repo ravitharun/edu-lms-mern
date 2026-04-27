@@ -3,8 +3,8 @@ const cloudinary = require("../config/cloudinary");
 const MaterialsSchema = require("../models/UploadMatearilas");
 const UploadMaterial = async (req, res) => {
     try {
-        console.log(req.body, "bdy");
-        console.log(req.file.path, "file");
+        // console.log(req.body, "bdy");
+        // console.log(req.file.path, "file");
         if (!req.file) { return res.status(404).json({ message: "file is required" }) }
         const teacher = JSON.parse(req.body.teacher_info);
         const result = await cloudinary.uploader.upload(req.file.path, {
@@ -13,8 +13,9 @@ const UploadMaterial = async (req, res) => {
         });
         const saveDb = new MaterialsSchema({
             Class: req.body.Name,
-            subjectname: req.body.subjectname,
+            subjectname: req.body.subjectname.split("-")[0],
             Description: req.body.Description,
+            CourseID:req.body.subjectname.split("-")[1],
             teacher_id: teacher.teacher_id,
             UploadUrl: result.secure_url
         })
