@@ -132,7 +132,7 @@ function Undermanitance({ children, Ui }) {
 
                                 {/* Footer */}
                                 <p className="text-xs text-gray-500 mb-6">
-                                    We’ll be back shortly. Thanks for your patience 🙏
+                                    We’ll be back shortly. Thanks for your patience
                                 </p>
 
                                 {/* Button */}
