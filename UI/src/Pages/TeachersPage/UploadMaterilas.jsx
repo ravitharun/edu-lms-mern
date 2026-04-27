@@ -50,6 +50,7 @@ function UploadMaterilas() {
     useEffect(() => {
         const getBysubjects = () => {
             const response = classList.filter((itm) => itm.classId == Name.split("-")[0])
+            console.log(response[0]?.subjects,'response[0]?.subjects')
             setsubjects(response[0]?.subjects)
             // console.log(classList, 'classListclassList')
             // // const response = classList.filter((itm) => itm.classId == Name.split("-")[0]).subjects.map((itm) => itm)
@@ -261,12 +262,12 @@ function UploadMaterilas() {
                                                         <option
                                                             key={idx}
                                                             title='ClassSection-department-Year'
-                                                            value={` ${cls?.subjectName}`}
+                                                            value={` ${cls?.subjectName}-${cls?.subjectId}`}
                                                             className={`text-gray-700   `}
 
 
                                                         >
-                                                            {cls?.subjectName}
+                                                            {cls?.subjectName}-{cls?.subjectId}
                                                         </option>
                                                     </>
 
@@ -395,7 +396,7 @@ function UploadMaterilas() {
                             {/* Table Head */}
                             <thead className="bg-blue-600 text-white">
                                 <tr>
-                                    {["Section", "Name", "Description", "Uploaded Date", "views", "Actions"].map(
+                                    {["Section", "CourseID","Name", "Description", "Uploaded Date","Updated At", "views", "Actions"].map(
                                         (data, idx) => (
                                             <th key={idx} className="px-4 py-3 whitespace-nowrap">
                                                 {data}
@@ -418,11 +419,13 @@ function UploadMaterilas() {
                                     showData.map((item, index) => (
                                         <tr key={index} className="hover:bg-gray-50 transition">
 
-                                            <td className="px-4 py-3 text-sm text-gray-700">{item.Class}</td>
-                                            <td className="px-4 py-3 text-sm text-gray-700">{item.subjectname}</td>
-                                            <td className="px-4 py-3 text-sm text-gray-700">{item.Description}</td>
-                                            <td className="px-4 py-3 text-sm text-gray-700">{item.updatedAt}</td>
-                                            <td className="px-4 py-3 text-sm text-gray-700">{item.views}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item?.Class}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item?.Class}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item?.subjectname}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item?.Description}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{new Date(item?.createdAt).toLocaleDateString()}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{new Date(item?.updatedAt).toLocaleDateString()}</td>
+                                            <td className="px-4 py-3 text-sm text-gray-700">{item?.views|| 0}</td>
                                             {/* item.UploadUrl */}
                                             <td className="px-4 py-3">
                                                 <div className="flex gap-2">

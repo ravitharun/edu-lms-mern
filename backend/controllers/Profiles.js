@@ -1,4 +1,4 @@
-const   axios  = require("axios");
+const axios = require("axios");
 const cloudinary = require("../config/cloudinary");
 const CreateProfile = require("../models/ProfileSchema");
 const User = require("../models/User");
@@ -10,12 +10,14 @@ const ProfileCreate = async (req, res) => {
     try {
 
         let imageUrl = req.body.ProfileUrl;
+        console.log(req.body.TecherId, 'body to Getuserid')
 
         if (req.file) {
             const result = await cloudinary.uploader.upload(req.file.path);
             imageUrl = result.secure_url;
         }
-
+        const findLoginUser = await User.findOneAndUpdate({ teacher_Id: req.body.TecherId },{profilePreview:imageUrl})
+        console.log(findLoginUser, 'findLoginUser')
         const UpdateProfile = await CreateProfile.findOneAndUpdate(
             { ID: req.body.TecherId },
             {
@@ -64,7 +66,7 @@ const ProfileCreate = async (req, res) => {
 const GetProfile = async (req, res) => {
     try {
         const { userid } = req.query;
-  
+
         if (!userid) { return res.status(404).json({ message: "Id is missing." }) }
         const get_userProfile = await CreateProfile.findOne({ ID: userid })
         return res.status(200).json({ message: get_userProfile })
