@@ -49,9 +49,6 @@ const fetchAllSubjects = async (req, res) => {
             skip = (page - 1) * limit
         }
 
-        // if (!page) {
-        //     page = Number(page) || 1;
-        // }
         const data = await subject.find({}).skip(skip).limit(limit)
         const totalLength = await subject.countDocuments();
         if (data.length == 0) {

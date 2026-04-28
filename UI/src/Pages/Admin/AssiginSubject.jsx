@@ -22,7 +22,6 @@ function AssiginSubject() {
     const [subjectCode, setSubjectCode] = useState("");
     const [year, setYear] = useState("");
     const [dept, setDept] = useState("");
-    const [fillterdeletd, seflltes] = useState([])
     const [page, setpage] = useState(1)
     const [length, setlength] = useState(0)
     const [limit, setlimit] = useState(10)
@@ -36,12 +35,16 @@ function AssiginSubject() {
                 setloader(true);
                 const rsdata = await fetchAllSubjects(Number(page), Number(limit));
                 setallData(rsdata.data?.message);
-                // setallData([]);
+                // setallData(rsdata.data?.message);
                 setOriginalData(rsdata.data?.message);
                 setlength(rsdata.data?.length)
                 setloader(false);
             } catch (err) {
                 console.log(err.message);
+            }
+            finally{
+                setloader(false);
+
             }
         };
         get();
