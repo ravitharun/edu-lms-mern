@@ -135,7 +135,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/AccountDeactivate" element={<AccountDeactivate />} />
             <Route path="/siginup" element={<Siginup />} />
             {/* teacher routes */}
-            <Route path="/admin-dashboard" element={
+            <Route path="/teacher-dashboard" element={
 
               <ProtectedRoute allowedRoles={"Teacher"}>
 
