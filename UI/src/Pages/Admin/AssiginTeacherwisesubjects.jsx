@@ -33,10 +33,13 @@ function AssiginTeacherwisesubjects() {
 
                 setAssigned(filterByAssign_false)
                 setfetchAssignedSubjects(filterByAssign_true)
-                setLoader(0)
+                setLoader(false)
             }
             catch (err) {
                 console.log(err)
+            }
+            finally {
+                setLoader(false)
             }
         }
         fetch()
@@ -47,7 +50,7 @@ function AssiginTeacherwisesubjects() {
     useEffect(() => {
         const getSubjects = async () => {
             try {
-                const page=0;
+                const page = 0;
                 const response_sudjects = await fetchAllSubjects(page)
 
                 Setsubjects(response_sudjects.data?.message)
@@ -155,7 +158,7 @@ function AssiginTeacherwisesubjects() {
                         background: "#f9fafb",
                         timer: 2000,
                         showConfirmButton: true
-                        
+
                     });
                     return setTimeout(() => {
                         return window.location.reload()
@@ -368,8 +371,7 @@ function AssiginTeacherwisesubjects() {
                                                     <tr>
                                                         <td colSpan="9" className="h-64">
                                                             <div className="flex items-center justify-center h-full">
-                                                                <Dataloading path="Assigning teacher to subject…
-"/>
+                                                                <Dataloading path="Assigning teacher to subject" />
                                                             </div>
                                                         </td>
                                                     </tr>
