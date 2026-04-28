@@ -36,6 +36,7 @@ function AssiginSubject() {
                 setloader(true);
                 const rsdata = await fetchAllSubjects(Number(page), Number(limit));
                 setallData(rsdata.data?.message);
+                // setallData([]);
                 setOriginalData(rsdata.data?.message);
                 setlength(rsdata.data?.length)
                 setloader(false);
@@ -129,7 +130,7 @@ function AssiginSubject() {
 
 
     }
-    
+    console.log(getAllData,'getAllData.data.message')
     return (
         <>
             <Toaster />
@@ -275,7 +276,7 @@ function AssiginSubject() {
                                             </td>
                                         </tr>
                                     </tbody>
-                                ) : getAllData.length === 0 ? (
+                                ) : getAllData.length === 0|| getAllData.data.message=="No Subjects." ? (
                                     <tbody>
                                         <tr>
                                             <td

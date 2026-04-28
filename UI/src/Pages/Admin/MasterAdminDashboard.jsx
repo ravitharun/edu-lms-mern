@@ -154,7 +154,7 @@ function DashboardLayout({ children }) {
                       <Link to="/Admin/AssiginSubjects">
                         <div className="group cursor-pointer flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-green-500 hover:shadow-md transition">
                           <span className="font-medium text-gray-700 group-hover:text-green-600">
-                            Manage Subjectss
+                            Manage Subjects
                           </span>
                           <span className="text-green-500 text-lg">→</span>
                         </div>
