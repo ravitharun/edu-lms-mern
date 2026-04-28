@@ -46,7 +46,7 @@ function Error() {
 
     }
     else if (UserName?.role == "Teacher") {
-      navigate("/admin-dashboard")
+      navigate("/teacher-dashboard")
 
     }
     else {

@@ -90,7 +90,7 @@ export default function Login() {
 
         );
         setTimeout(() => {
-          window.location.href = "/admin-dashboard"
+          window.location.href = "/teacher-dashboard"
         }, 3500);
         return
       }

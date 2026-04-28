@@ -262,7 +262,7 @@ function AdminSidebar() {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const navbar = [
-        { name: "Dashboard", link: "/admin-dashboard", icon: FaHome },
+        { name: "Dashboard", link: "/teacher-dashboard", icon: FaHome },
         { name: "Classes", link: "/classes", icon: FaChalkboardTeacher },
         { name: "Upload Material", link: "/Upload-Material", icon: FaUpload },
         { name: "Assignments", link: "/assignments", icon: FaTasks },
@@ -280,7 +280,7 @@ function AdminSidebar() {
         <>
             {/* ================= MOBILE TOP BAR ================= */}
             <div className="md:hidden flex items-center justify-between h-14 px-4 bg-white border-b">
-                <Link to="/admin-dashboard">
+                <Link to="/teacher-dashboard">
                     <h1 className="text-lg font-semibold text-blue-600 hover:text-black">
                         Teacher Panel
                     </h1>

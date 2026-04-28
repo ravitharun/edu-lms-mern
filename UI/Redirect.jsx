@@ -23,7 +23,7 @@ function Redirect() {
         }
         else if (role === "Teacher" || role === "Teacher") {
             setTimeout(() => {
-                window.location.href = "/admin-dashboard"
+                window.location.href = "/teacher-dashboard"
             }, 10000);
         }
         else {
