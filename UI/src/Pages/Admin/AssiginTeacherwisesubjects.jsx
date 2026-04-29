@@ -6,7 +6,6 @@ import toast, { Toaster } from 'react-hot-toast'
 import { FaPlus } from 'react-icons/fa'
 import Swal from "sweetalert2";
 import { fun } from '../../../src/Components/UserisLogin.jsx'
-import axios from 'axios'
 import Dataloading from '../../../src/Loaders/Dataloading'
 
 
@@ -107,7 +106,8 @@ function AssiginTeacherwisesubjects() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const data = await AssignTeacher(data_choose);
+                    await AssignTeacher(data_choose);
+                    // const data = await AssignTeacher(data_choose);
 
                     Swal.fire({
                         title: "Assigned!",
