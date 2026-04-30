@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import Countdown from 'react-countdown';
 
 function Undermanitance({ children, Ui }) {
-    const releaseDate = new Date("Tue Apr 29 2026 18:07:23 GMT+0530");
+
+    const main = true;
+    const [time, settime] = useState(" Fri May 01 2026 18:07:23 GMT+0530")
+    const releaseDate = new Date(time);
     const [isLive, setIsLive] = useState(false);
     useEffect(() => {
         const interval = setInterval(() => {
@@ -17,7 +20,7 @@ function Undermanitance({ children, Ui }) {
     }, []);
 
     // ✅ AFTER RELEASE → SHOW FULL APP
-    if (isLive) {
+    if (!main) {
         return <>{children}</>;
     }
 
@@ -80,7 +83,7 @@ function Undermanitance({ children, Ui }) {
 
                                 {/* Title */}
                                 <h1 className="text-2xl sm:text-3xl font-semibold text-white mb-3">
-                                     System Maintenance
+                                    System Maintenance
                                 </h1>
 
                                 {/* Subtitle */}

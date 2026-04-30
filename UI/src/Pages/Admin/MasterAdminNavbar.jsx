@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { FaBars, FaTimes, FaTachometerAlt, FaBook, FaChalkboardTeacher, FaUsers, FaUserGraduate, FaCog, FaUser, FaCheck, FaUserCheck, FaPowerOff, FaBullhorn, FaCalendarAlt, FaRegCalendarAlt } from "react-icons/fa";
+import { FaBars, FaTimes, FaTachometerAlt, FaBook, FaChalkboardTeacher, FaUsers, FaUserGraduate, FaCog, FaUser, FaCheck, FaUserCheck, FaPowerOff, FaBullhorn, FaCalendarAlt, FaRegCalendarAlt, FaTools, FaExclamationTriangle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { HandelLogin, handleLogout, UserLogin } from "../../Apis/Islogin";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import Board from "./Board";
 import LogoAdmin from "./LogoAdmin";
 import { FiLogOut, FiPower } from "react-icons/fi";
+import { MdEngineering } from "react-icons/md";
 
 function MasterAdminNavbar({ path, Active }) {
   const [open, setOpen] = useState(true);
@@ -96,9 +97,10 @@ function MasterAdminNavbar({ path, Active }) {
           <SidebarItem icon={<FaUser />} title="Profile" url="/admin/Profile" path={path} active={Active} />
           <SidebarItem icon={<HiOutlineExclamationCircle />} title="Issues" url="/admin/Issues" path={path} active={Active} />
           <SidebarItem icon={<FaBullhorn />} title="Annoncement" url="/admin/Annoncement" path={path} active={Active} />
+          <SidebarItem icon={<FaExclamationTriangle className="text-red-500" />} title="Maintance Mode" url="/admin/Maintance" path={path} active={Active} />
           {<>
 
-            {UserLogin ? <SidebarItem icon={<FiLogOut />} title="LogOut" path={path} active={Active} onClick={handleLogout} />: <SidebarItem icon={<FiPower />} title="Login" path={path} active={Active} onClick={HandelLogin} />}
+            {UserLogin ? <SidebarItem icon={<FiLogOut />} title="LogOut" path={path} active={Active} onClick={handleLogout} /> : <SidebarItem icon={<FiPower />} title="Login" path={path} active={Active} onClick={HandelLogin} />}
           </>}
         </nav>
       </aside>
@@ -113,7 +115,7 @@ const SidebarItem = ({ icon, title, active, url, path, onClick }) => (
       <>
         <div className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all cursor-pointer group
    
-    ${title === path  ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg"
+    ${title === path ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg"
             : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
           }`} onClick={onClick}>
           <span className={`text-lg ${path == title ? 'text-white' : 'group-hover:text-blue-600'}`}>{icon}</span>

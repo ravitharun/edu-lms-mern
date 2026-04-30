@@ -30,6 +30,7 @@ const { ProfileNotificationRouter } = require("./routes/ProfileNotificationRoute
 const ApiMonitioring = require("./Middleware/ApiMonitorning");
 const User = require("./models/User");
 const UploadGuide = require("./routes/UploadMaterial");
+const MaintanceMode = require("./routes/maintanceModeRouter");
 const app = express();
 const server = http.createServer(app);
 
@@ -76,6 +77,7 @@ app.use("/api/ProfileViewnotification", ProfileNotificationRouter);
 app.use("/api/UploadResources", UploadGuide);
 app.use(apiLimiter)
 app.use(ApiMonitioring);
+app.use("/api/MaintanceMode",MaintanceMode);
 console.log(process.env.MONGO_URI,'locasl MONGO_URI');
 
 // Test root
