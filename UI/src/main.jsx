@@ -46,9 +46,10 @@ const Studentprofile = lazy(() => import("./Pages/StudentPages/Studentprofile.js
 
 import ProtectedRoute from './Components/ProtectedRoute.jsx';
 import "../src/Pages/TeachersPage/Script.js"
+import Maintance from './Pages/Admin/Maintance.jsx';
 
 createRoot(document.getElementById('root')).render(
-  // <Undermanitance>
+  <Undermanitance>
 
 
     <>
@@ -261,6 +262,14 @@ createRoot(document.getElementById('root')).render(
               }
             />
             <Route
+              path="/admin/Maintance"
+              element={
+                <ProtectedRoute allowedRoles={["Admin"]}>
+                  <Maintance />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/admin/Annoncement"
               element={
                 <ProtectedRoute allowedRoles={["Admin"]}>
@@ -340,5 +349,5 @@ createRoot(document.getElementById('root')).render(
       </BrowserRouter>
 
     </>,
-//  </Undermanitance>
+ </Undermanitance>
 )

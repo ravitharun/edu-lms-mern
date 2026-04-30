@@ -51,7 +51,7 @@ function DashboardLayout({ children }) {
   return (
     <>
 
-      {MaintanceMode ? <Undermanitance /> :
+
 
         <div className="min-h-screen flex bg-gray-50">
 
@@ -212,7 +212,7 @@ function DashboardLayout({ children }) {
               </div>
             </main>
           </div>
-        </div>}
+        </div>
     </>
   );
 }
