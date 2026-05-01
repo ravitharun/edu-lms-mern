@@ -1,6 +1,7 @@
 const express=require("express")
-const maintanceMode = require("../controllers/MaintanceMode")
+const {maintanceMode,FetchMode,UpdateMode} = require("../controllers/MaintanceMode")
 const MaintanceMode=express.Router()
 MaintanceMode.post("/Activate",maintanceMode)
-// MaintanceMode.get("",)
+MaintanceMode.get("/FetchMode",FetchMode)
+MaintanceMode.patch("/UpdateMode",UpdateMode)
 module.exports=MaintanceMode
