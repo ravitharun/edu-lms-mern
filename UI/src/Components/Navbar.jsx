@@ -320,11 +320,11 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                           title="Academic Calendar"
                         />
 
-                        <DropdownItem
+                        {/* <DropdownItem
                           to="/Schedule-Timetable"
                           icon={<FiGrid />}
                           title="Timetable"
-                        />
+                        /> */}
 
                       </div>
                     )}
@@ -410,11 +410,11 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                           title="Academic Calendar"
                         />
 
-                        <MobileItem
+                        {/* <MobileItem
                           to="/Schedule-Timetable"
                           icon={<FiGrid />}
                           title="Timetable"
-                        />
+                        /> */}
 
                       </div>
                     )}
