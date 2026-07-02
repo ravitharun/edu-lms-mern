@@ -1,4 +1,7 @@
-const { transporter, sendEmail } = require("../config/email")
+
+
+require("dotenv").config(); 
+const {  sendEmail } = require("../config/email")
 const User = require("../models/User")
 const crypto = require("crypto");
 

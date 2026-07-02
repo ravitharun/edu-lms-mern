@@ -1,8 +1,13 @@
-const { transporter, sendEmail } = require("../config/email");
+
+
+
+
+const resend = require("../config/email");
+console.log(process.env.RESEND_API_KEY);
 
 const leaveAddEmail = async (ApplyLeave, id) => {
 
-    const info = await sendEmail({
+    const info = await resend({
         from: ` ${ApplyLeave.EmpEmail}`,
         to: `${ApplyLeave.Emp_req_EmailId}`,
         subject: "Leave Application Request",
@@ -121,7 +126,7 @@ ${ApplyLeave.role}
 }
 const Acceptleave = async (response_email) => {
     console.log(response_email, "ApplyLeave to send the email response.")
-    const info = await sendEmail({
+    const info = await resend({
         from: response_email.EmpReq_EmailId,
         to: response_email.Useremail,
         subject: `Leave Application ${response_email.Application_status}`,
