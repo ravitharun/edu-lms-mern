@@ -41,6 +41,7 @@ const server = http.createServer(app);
 connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+    console.log(process.env.RESEND_API_KEY,'process.env.RESEND_API_KEY')
 
   });
 });// Middleware
@@ -79,11 +80,13 @@ app.use(apiLimiter)
 app.use(ApiMonitioring);
 app.use("/api/MaintanceMode",MaintanceMode);
 console.log(process.env.MONGO_URI,'locasl MONGO_URI');
+console.log(process.env.RESEND_API_KEY,'process.env.RESEND_API_KEY');
 
 // Test root
 app.get("/", (req, res) => {
    
-    res.json('server is runninf');
+    res.json('server is runninf',);
+    console.log(process.env.RESEND_API_KEY)
 });
 // app.get("")
 // Connect to Redis
