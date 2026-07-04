@@ -1,7 +1,11 @@
 
 
 require("dotenv").config(); 
-const {  sendEmail } = require("../config/email")
+const { Resend } = require("resend");
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+
 const User = require("../models/User")
 const crypto = require("crypto");
 
@@ -36,7 +40,7 @@ const passowrdUpdateEmail = async (req, res) => {
 
     const resetLink = `https://studyhuberp.netlify.app/change-password?token=${token}`;
     // email headers
-    const info = await sendEmail({
+    const info = await resend({
       from: 'tharunravi672@gmail.com',
       to: email,
       subject: "Reset Your Password 🔐",

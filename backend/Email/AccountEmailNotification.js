@@ -4,7 +4,11 @@
 
 // require("dotenv").config();
 
-const resend = require("../config/email")
+const { Resend } = require("resend");
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+module.exports = {resend};
 
 const AccountEmailStatus = async (IssuedUser, TouserEmail) => {
     if (!IssuedUser && !TouserEmail) {

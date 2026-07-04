@@ -4,22 +4,23 @@ import { FaBell, FaUser } from "react-icons/fa";
 import { TfiExport } from "react-icons/tfi";
 import AdminHeader from '../../Components/AdminHeader';
 import { useLocation } from 'react-router-dom';
-import toast from 'react-hot-toast';
+
 import axios from 'axios';
 import { MaintanceMode, UserName } from '../../Apis/Islogin';
 import Tablecomponets from '../../Components/Tablecomponets';
 import Tomany from '../../Loaders/Tomany';
 import Undermanitance from '../../Loaders/Undermanitance';
+import StudentAssignmentsSubmissions from './StudentAssignmentsSubmissions';
 
 function Addassignments() {
-    const [showNotifications, setShowNotifications] = useState(false);
+    const [ChooseNavbar, setDefaultNavbar] = useState("Assignments Uploaded");
     const location = useLocation()
     const [classList, setClassList] = useState([])
     const [ClosePop, SetClose] = useState(false)
     const [StateClassID, LocationStateClassID] = useState(location.state)
     const [section, setsection] = useState(StateClassID ? StateClassID : "")
     const [requestTimeout, setrequestTimeout] = useState(false)
-
+const Marks=20
     useEffect(() => {
         const Fetch_Assignment = async () => {
             try {
@@ -117,14 +118,21 @@ function Addassignments() {
             section: "b"
         }
     ]
-    return (
+
+
+    const navbarItems = [
+        "Assignments Uploaded",
+        "Student Submissions",
+    ]; return (
         <>
             <App></App>
-                  {MaintanceMode ? <Undermanitance />:""}
+            {MaintanceMode ? <Undermanitance /> : ""}
             {requestTimeout && <Tomany />}
             <div className="md:ml-64 p-6 min-h-screen bg-gray-100 space-y-6">
                 {/* ================= HEADER ================= */}
                 <AdminHeader pathname={"Add Assignments"}></AdminHeader>
+
+
 
                 {/* ================= SECTION DROPDOWN ================= */}
                 <div className="w-full max-w-sm bg-white rounded-xl shadow p-4">
@@ -175,8 +183,24 @@ function Addassignments() {
                     </button>
                 )}
 
+                <div className="flex items-center justify-center py-8 px-4">
+                    <div className="flex flex-wrap items-center justify-center gap-3 rounded-2xl bg-white dark:bg-slate-900 p-2 shadow-lg border border-slate-200 dark:border-slate-700">
+                        {navbarItems.map((item, index) => (
+                            <button
+                                key={index}
+                                onClick={() => setDefaultNavbar(item)}
 
-
+                                className={`px-6 py-3 rounded-xl transition-all duration-300 font-medium
+  ${ChooseNavbar == item
+                                        ? "bg-blue-600 text-white shadow-lg"
+                                        : "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                                    }`}
+                            >
+                                {item}
+                            </button>
+                        ))}
+                    </div>
+                </div>
 
 
                 {/* ================= ATTENDANCE TABLE ================= */}
@@ -190,7 +214,9 @@ function Addassignments() {
                             {/* Sticky Header */}
                             <thead className="bg-gray-100 text-gray-700 sticky top-0 z-10">
                                 <tr>
-                                    <th className="p-3 text-left">S.No</th>
+                                    <th className="p-3 text-left">S.No
+
+                                    </th>
                                     <th className="p-3 text-left">Assignment Name</th>
                                     <th className="p-3 text-left">Description</th>
                                     <th className="p-3 text-center">Due Date</th>
@@ -283,7 +309,7 @@ function Addassignments() {
                 </div>
 
 
-
+  {ChooseNavbar == "Student Submissions" && <StudentAssignmentsSubmissions Marks={Marks}/>}
 
             </div>
 
@@ -409,7 +435,7 @@ function Addassignments() {
                 </div>
             )}
 
-
+          
 
 
 
