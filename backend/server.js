@@ -19,6 +19,7 @@ const ProfileRouter = require("./routes/ProfileRoute");
 const AnnouncementRouter = require("./routes/Announcement");
 const { HandelAcademicRouter } = require("./routes/AcandemicRouter");
 const { HandelFetchTimeTableRouter } = require("./routes/FetchTimetableRouter");
+const  Assignments  = require("./routes/AssignmentsRouter");
 const { apiLimiter } = require("./Middleware/ReateLimeter");
 const { Admin_UserInfo } = require("./routes/AdminUserRouter");
 const { Manageholiday } = require("./routes/AddHolidaysRouter");
@@ -76,6 +77,7 @@ app.use("/api/markAttandance", AttandanceRouter);
 app.use("/api/LeaveStatusResponse", LeaveStatusRouter);
 app.use("/api/ProfileViewnotification", ProfileNotificationRouter);
 app.use("/api/UploadResources", UploadGuide);
+app.use("/api/UploadAssignments", Assignments);
 app.use(apiLimiter)
 app.use(ApiMonitioring);
 app.use("/api/MaintanceMode",MaintanceMode);

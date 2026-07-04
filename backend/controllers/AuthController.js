@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 const { generateRandomId } = require("../generateRandomId");
 const cloudinary = require("../config/cloudinary");
-const { transporter } = require("../config/email");
+
 const CreateProfile = require("../models/ProfileSchema");
 const { redisClient } = require("../Expose/redis");
 
