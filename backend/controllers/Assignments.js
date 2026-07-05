@@ -28,7 +28,7 @@ const CreateAssignments = async (req, res) => {
         const securl_url = await cloudinary.uploader.upload(req.file.path)
         console.log(securl_url.secure_url, 'securl_url');
 
-
+// Db save it 
 
 
 
