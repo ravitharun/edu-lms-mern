@@ -1,5 +1,4 @@
-import { useState } from "react";
-import toast from "react-hot-toast";
+
 import secureLocalStorage from "react-secure-storage";
 import { socket } from "../Socket";
 export const UserRole = secureLocalStorage.getItem("User_info")
@@ -26,8 +25,8 @@ export const handleLogout = () => {
 export const HandelLogin = () => {
     const get = secureLocalStorage.getItem("token")
     const UserInfo = secureLocalStorage.getItem("User_info")
-    if(get && UserInfo){
-        
+    if (get && UserInfo) {
+
         return alert("Your are Alreafy Logined In.")
     }
 }
@@ -37,6 +36,12 @@ export const url = import.meta.env.VITE_SERVER_API_Region == "Local" ? import.me
 export const Header_Token_expry = {
     headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${UserLogin} `
+    }
+}
+export const Header_Token_expry_Formdata = {
+    headers: {
+        'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${UserLogin} `
     }
 }

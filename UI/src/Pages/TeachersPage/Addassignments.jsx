@@ -6,12 +6,13 @@ import AdminHeader from '../../Components/AdminHeader';
 import { useLocation } from 'react-router-dom';
 
 import axios from 'axios';
-import { MaintanceMode, UserName } from '../../Apis/Islogin';
+import { Header_Token_expry_Formdata, MaintanceMode, url, UserLogin, UserName, UserProfileInfo } from '../../Apis/Islogin';
 import Tablecomponets from '../../Components/Tablecomponets';
 import Tomany from '../../Loaders/Tomany';
 import Undermanitance from '../../Loaders/Undermanitance';
 import StudentAssignmentsSubmissions from './StudentAssignmentsSubmissions';
-
+import { toast, Toaster } from "react-hot-toast";
+import { ToastContainer } from "react-toastify";
 function Addassignments() {
     const [ChooseNavbar, setDefaultNavbar] = useState("Assignments Uploaded");
     const location = useLocation()
@@ -20,7 +21,16 @@ function Addassignments() {
     const [StateClassID, LocationStateClassID] = useState(location.state)
     const [section, setsection] = useState(StateClassID ? StateClassID : "")
     const [requestTimeout, setrequestTimeout] = useState(false)
-const Marks=20
+    const [Mark, setMark] = useState(0)
+    const [AssignmentName, setAssignmentName] = useState("")
+    const [Assignmentfile, setAssignmentfile] = useState(null)
+    const [Duedate, setDuedate] = useState(null)
+    const Marks = 20
+    const [isuploading, setisuploading] = useState(false)
+
+
+
+    // fect the classId
     useEffect(() => {
         const Fetch_Assignment = async () => {
             try {
@@ -30,7 +40,6 @@ const Marks=20
                         teacher_Id: UserName.teacher_Id
                     }
                 })
-                console.log(reonse.status, 'response')
 
 
                 setClassList(reonse.data.message)
@@ -120,12 +129,112 @@ const Marks=20
     ]
 
 
-    const navbarItems = [
-        "Assignments Uploaded",
-        "Student Submissions",
-    ]; return (
+
+    const handlefileAssigmentUpload = (file) => {
+
+        const validate_file = file
+        // validate_file.type
+        // validate_file.size
+        if (!validate_file) {
+
+
+
+            return toast.info("File is required.to Upload")
+        }
+
+        const acceptfile = ["application/pdf", "application/word", "application/docx"]
+        console.log(acceptfile)
+        if (!acceptfile.includes(validate_file.type)) {
+            return toast.error(`File allowed only These Format : ${acceptfile}`)
+        }
+
+
+        const fixed_size_file = 5000000
+        if (validate_file.size > fixed_size_file) {
+
+
+            return toast.error('Only 5mb file can upload', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+        toast.success("File Uploaded")
+
+        setAssignmentfile(file)
+    }
+
+
+
+
+    // submit the file
+    const submitFile = async (e) => {
+        e.preventDefault();
+
+        if (!section || !Assignmentfile || !AssignmentName || !Mark || !Duedate) {
+            return toast.error("Some fields are required.");
+        }
+
+        const formData = new FormData();
+
+        formData.append("Assignmentfile", Assignmentfile);
+        formData.append("AddedBy", UserProfileInfo?.ID);
+        formData.append("Mark", Mark);
+        formData.append("Duedate", Duedate);
+        formData.append("AssignmentName", AssignmentName);
+        formData.append("section", section);
+
+        try {
+            setisuploading(true);
+
+            const response = await axios.post(
+                `${url}/api/UploadAssignments/Assignments`,
+                formData,
+                {
+                    headers:
+                        { "Content-Type": "multipart/form-data", "Authorization": `Bearer ${UserLogin}`, }
+
+                }
+            );
+
+            console.log(response.status);
+
+            if (response.status === 201) {
+                toast.success(response.data.message)
+                setDuedate(null)
+                setAssignmentName(null)
+                setMark(null)
+                setAssignmentfile(null)
+                setMark(null)
+                return SetClose(false);
+            }
+        } catch (error) {
+            console.log(error);
+
+            const err_status = error?.response?.status;
+            const err_message =
+                error?.response?.data?.message || "Something went wrong.";
+
+            if (err_status === 500) {
+                toast.error(err_message);
+            } else {
+                toast.error(err_message);
+            }
+        } finally {
+            setisuploading(false);
+        }
+    };
+
+
+    return (
         <>
             <App></App>
+            <ToastContainer></ToastContainer>
             {MaintanceMode ? <Undermanitance /> : ""}
             {requestTimeout && <Tomany />}
             <div className="md:ml-64 p-6 min-h-screen bg-gray-100 space-y-6">
@@ -183,25 +292,6 @@ const Marks=20
                     </button>
                 )}
 
-                <div className="flex items-center justify-center py-8 px-4">
-                    <div className="flex flex-wrap items-center justify-center gap-3 rounded-2xl bg-white dark:bg-slate-900 p-2 shadow-lg border border-slate-200 dark:border-slate-700">
-                        {navbarItems.map((item, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setDefaultNavbar(item)}
-
-                                className={`px-6 py-3 rounded-xl transition-all duration-300 font-medium
-  ${ChooseNavbar == item
-                                        ? "bg-blue-600 text-white shadow-lg"
-                                        : "bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
-                                    }`}
-                            >
-                                {item}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-
 
                 {/* ================= ATTENDANCE TABLE ================= */}
                 <div className="bg-white shadow-lg rounded-xl overflow-hidden">
@@ -238,7 +328,7 @@ const Marks=20
                                             key={item.id}
                                             className="border-b hover:bg-gray-50 transition"
                                         >
-                                            <td className="p-3 font-medium">{item.id}</td>
+                                            <td className="p-3 font-medium">{item.id || 0}</td>
 
                                             <td className="p-3 font-semibold text-gray-800">
                                                 {item.assignmentName}
@@ -280,7 +370,7 @@ const Marks=20
                                             </td>
 
                                             <td className="p-3 text-center font-medium">
-                                                {item.totalSubmissions}
+                                                <span onClick={() => setDefaultNavbar("Student Submissions")}>View Submissions</span>
                                             </td>
 
                                             <td className="p-3">
@@ -309,133 +399,193 @@ const Marks=20
                 </div>
 
 
-  {ChooseNavbar == "Student Submissions" && <StudentAssignmentsSubmissions Marks={Marks}/>}
+                {ChooseNavbar == "Student Submissions" && <StudentAssignmentsSubmissions Marks={Marks} />}
 
             </div>
 
             {ClosePop && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 p-4 sm:p-8">
-                    {/* Popup container - zoomed out, responsive, scrollable */}
-                    <div className="w-full max-w-md md:max-w-lg bg-white rounded-2xl shadow-2xl p-6 sm:p-8 animate-scaleIn max-h-[90vh] overflow-y-auto transform scale-95 md:scale-100">
+                <form >
 
-                        <h2 className="text-xl font-semibold text-gray-800 mb-6 border-b pb-3">
-                            Assignment Details
-                        </h2>
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 p-4 sm:p-8">
+                        {/* Popup container - zoomed out, responsive, scrollable */}
+                        <div className="w-full max-w-md md:max-w-lg bg-white rounded-2xl shadow-2xl p-6 sm:p-8 animate-scaleIn max-h-[90vh] overflow-y-auto transform scale-95 md:scale-100">
 
-                        <div className="space-y-5">
-                            {/* Section Dropdown */}
-                            <div>
-                                <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Choose Section
-                                    {section && (
-                                        <span className="ml-2 text-blue-600 font-semibold">
-                                            {section}
-                                        </span>
-                                    )}
-                                </label>
+                            <h2 className="text-xl font-semibold text-gray-800 mb-6 border-b pb-3">
+                                Assignment Details
+                            </h2>
 
-                                <select
-                                    id="section"
-                                    onChange={(e) => setsection(e.target.value)}
-                                    className="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                                >
-                                    <option value={section} disabled selected>
-                                        {section ? section : "-- Select Section --"}
-                                    </option>
-                                    {classList.map((cls, idx) => (
-                                        <option
-                                            key={idx}
-                                            value={`${cls.classId} - ${cls.department} - ${cls.year}`}
-                                        >
-                                            {cls.classId} - {cls.department} - {cls.year}
+                            <div className="space-y-5">
+                                {/* Section Dropdown */}
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                        Choose Section
+                                        {section && (
+                                            <span className="ml-2 text-blue-600 font-semibold">
+                                                {section}
+                                            </span>
+                                        )}
+                                    </label>
+
+                                    <select
+                                        id="section"
+                                        onChange={(e) => setsection(e.target.value)}
+                                        className="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                    >
+                                        <option value={section} disabled selected>
+                                            {section ? section : "-- Select Section --"}
                                         </option>
-                                    ))}
-                                </select>
-                            </div>
+                                        {classList.map((cls, idx) => (
+                                            <option
+                                                key={idx}
+                                                value={`${cls.classId} - ${cls.department} - ${cls.year}`}
+                                            >
+                                                {cls.classId} - {cls.department} - {cls.year}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
 
-                            {/* Assignment Name */}
-                            <div>
-                                <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Assignment Name
-                                </label>
-                                <input
-                                    type="text"
-                                    placeholder="Enter assignment name"
-                                    className="w-full rounded-xl border border-gray-300 px-4 py-2.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                                    required
-                                />
-                            </div>
+                                {/* Assignment Name */}
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                        Assignment Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        placeholder="Enter assignment name"
+                                        className="w-full rounded-xl border border-gray-300 px-4 py-2.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                        required
+                                        onChange={(e) => setAssignmentName(e.target.value)}
+                                        value={AssignmentName}
+                                    />
+                                </div>
 
-                            {/* Marks */}
-                            <div>
-                                <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Marks
-                                </label>
-                                <input
-                                    type="number"
-                                    placeholder="Enter marks"
-                                    className="w-full rounded-xl border border-gray-300 px-4 py-2.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                                    required
-                                    min="0"
-                                />
-                            </div>
+                                {/* Marks */}
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                        Marks
+                                    </label>
+                                    <input
+                                        type="number"
+                                        placeholder="Enter marks"
+                                        className="w-full rounded-xl border border-gray-300 px-4 py-2.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                        required
+                                        min="0"
+                                        onChange={(e) => setMark(e.target.value)}
+                                        value={Mark}
 
-                            {/* Due Date */}
-                            <div>
-                                <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Due Date
-                                </label>
-                                <input
-                                    type="date"
-                                    className="w-full rounded-xl border border-gray-300 px-4 py-2.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-                                    required
-                                />
-                            </div>
 
-                            {/* File Upload */}
-                            <div>
-                                <label className="block mb-2 text-sm font-medium text-gray-700">
-                                    Upload File
-                                </label>
-                                <label className="flex items-center justify-center w-full px-4 py-6 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
-                                    <div className="text-center">
-                                        <p className="text-sm text-gray-600">
-                                            Click to upload or drag and drop
+                                        max="100"
+                                    />
+                                </div>
+
+                                {/* Due Date */}
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                        Due Date
+                                    </label>
+                                    <input
+                                        type="date"
+                                        className="w-full rounded-xl border border-gray-300 px-4 py-2.5 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                                        required
+                                        onChange={(e) => setDuedate(e.target.value)}
+                                        value={Duedate}
+                                    />
+                                </div>
+
+                                {/* File Upload */}
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-700">
+                                        Upload File
+                                    </label>
+
+                                    <label className="flex flex-col items-center justify-center w-full px-6 py-8 border-2 border-dashed border-gray-300 rounded-xl cursor-pointer transition-all duration-300 hover:border-blue-500 hover:bg-blue-50">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="w-10 h-10 text-blue-500 mb-3"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth={2}
+                                                d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M12 12v9m0-9l-3 3m3-3l3 3"
+                                            />
+                                        </svg>
+
+                                        <p className="text-sm font-medium text-gray-700">
+                                            Click to upload or drag & drop
                                         </p>
-                                        <p className="text-xs text-gray-400 mt-1">
+
+                                        <p className="text-xs text-gray-500 mt-1">
                                             PDF, DOC, DOCX (Max 5MB)
                                         </p>
-                                    </div>
-                                    <input
-                                        type="file"
-                                        className="hidden"
-                                        required
-                                        accept=".pdf,.doc,.docx"
-                                    />
-                                </label>
+
+                                        <input
+                                            type="file"
+                                            required
+                                            accept=".pdf,.doc,.docx"
+                                            onChange={(e) => handlefileAssigmentUpload(e.target.files?.[0])}
+
+                                        />
+                                    </label>
+                                </div>
+                            </div>
+
+                            {/* Buttons */}
+                            <div className="flex justify-end gap-3 mt-8 pt-4 border-t">
+                                <button
+                                    onClick={() => SetClose(false)}
+                                    className="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300 transition font-medium flex-1 sm:flex-none"
+                                >
+                                    Close
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={isuploading}
+                                    onClick={submitFile}
+                                    className={`flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-medium text-white shadow-md transition-all duration-300
+    ${isuploading
+                                            ? "bg-blue-500 cursor-not-allowed opacity-80"
+                                            : "bg-blue-600 hover:bg-blue-700 active:scale-95"
+                                        }`}
+                                >
+                                    {isuploading && (
+                                        <svg
+                                            className="w-4 h-4 animate-spin"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            />
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                            />
+                                        </svg>
+                                    )}
+
+                                    {isuploading ? "Uploading..." : "Upload Assignment"}
+                                </button>
                             </div>
                         </div>
 
-                        {/* Buttons */}
-                        <div className="flex justify-end gap-3 mt-8 pt-4 border-t">
-                            <button
-                                onClick={() => SetClose(false)}
-                                className="px-5 py-2.5 rounded-xl bg-gray-200 text-gray-700 hover:bg-gray-300 transition font-medium flex-1 sm:flex-none"
-                            >
-                                Close
-                            </button>
-                            <button
-                                type="submit"
-                                className="px-5 py-2.5 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition font-medium shadow-md flex-1 sm:flex-none"
-                            >
-                                Submit
-                            </button>
-                        </div>
                     </div>
-                </div>
+                </form>
+
             )}
 
-          
+
 
 
 
