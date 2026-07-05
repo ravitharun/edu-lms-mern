@@ -1,8 +1,10 @@
-const express=require("express")
-const { CreateAssignments,FetchAssignments } = require("../controllers/Assignments")
-const Assignments=express.Router()
+const express = require("express")
+const { CreateAssignments, FetchAssignments } = require("../controllers/Assignments")
+const { uploadAssignments } = require("../Expose/Cloudinarystorage")
 
-Assignments.post("/Assignments",CreateAssignments)
-Assignments.get("/Assignments/{id}",FetchAssignments)
+const Assignments = express.Router()
 
-module.exports=Assignments
+Assignments.post("/Assignments", uploadAssignments.single("Assignmentfile"), CreateAssignments)
+Assignments.get("/Assignments/{id}", FetchAssignments)
+
+module.exports = Assignments

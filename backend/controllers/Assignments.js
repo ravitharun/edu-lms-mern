@@ -1,14 +1,37 @@
- const CreateAssignments = async (req, res) => {
+const cloudinary = require("../config/cloudinary");
+
+const CreateAssignments = async (req, res) => {
 
 
 
 
     try {
+        const { AddedBy, Mark, Duedate, AssignmentName, section } = req.body
+
+
+        console.log(AddedBy, 'AddedBy')
+        console.log(Mark, 'body')
+        console.log(Duedate, 'body')
+        console.log(AssignmentName, 'body')
+        console.log(section, 'body')
+        console.log(req.file, 'file')
+        if (!req.file) {
+            return res.status(404).json({ message: "File is required." })
+
+        }
+
+        if (!AddedBy || !Mark || !Duedate || !AssignmentName || !section) {
+
+            return res.status(404).json({ message: "Some inputs Are missing" })
+        }
+
+        const securl_url = await cloudinary.uploader.upload(req.file.path)
+        console.log(securl_url.secure_url, 'securl_url');
 
 
 
-        console.log(req.body)
-        console.log(req.files)
+
+
 
 
         return res.status(201).json({ message: "Assignments Uploaded." })
@@ -18,12 +41,12 @@
 
     }
 }
- const FetchAssignments = async (req, res) => {
+const FetchAssignments = async (req, res) => {
     try {
 
         const { data } = req.query
 
-        console.log(data,'data')
+        console.log(data, 'data')
 
         return res.status(201).json({ message: "Assignments FetchAssignments." })
 
@@ -32,10 +55,10 @@
 
     }
 }
- const SubmitAssignments = async (req, res) => {
+const SubmitAssignments = async (req, res) => {
     try {
 
-      
+
         console.log(req.body)
         console.log(req.files)
 
@@ -49,10 +72,10 @@
 
 
 
- const ValidateAssignments = async (req, res) => {
+const ValidateAssignments = async (req, res) => {
     try {
 
-      
+
         console.log(req.body)
         console.log(req.files)
 
@@ -68,4 +91,4 @@
 
 
 
-module.exports = { CreateAssignments, FetchAssignments,SubmitAssignments,ValidateAssignments }
+module.exports = { CreateAssignments, FetchAssignments, SubmitAssignments, ValidateAssignments }

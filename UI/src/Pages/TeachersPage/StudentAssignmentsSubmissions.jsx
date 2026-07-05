@@ -198,7 +198,6 @@ export default function StudentAssignmentsSubmissions({ Marks }) {
                                                     <HiOutlineEye className="text-lg" />
                                                     Review
                                                 </button>
-
                                                 {/* Marks Dropdown */}
                                                 {true && (
                                                     <select
