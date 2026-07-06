@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     FileText,
     CalendarDays,
@@ -12,57 +12,85 @@ import {
 } from "lucide-react";
 import NotFound from "../../Loaders/NotFound";
 import LMSLoader from "../../Loaders/BackgroungImgLoader";
+import axios from "axios";
 
-function ViewAssignemts() {
+import { handleLogout, url, UserName } from "../../Apis/Islogin";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { FaEye } from "react-icons/fa";
+
+function ViewAssignemts({ Section, Subject_info }) {
+    const naviagte = useNavigate()
+    console.log(Section.subjectId, Subject_info, 'Section')
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [comment, setComment] = useState("");
     const [loading, setloading] = useState(false)
-    const assignments =
-        [
-            {
-                assignmentId: "ASG-0706",
-                title: "Check 2",
-                subjectCode: "CSE301",
-                section: "CSE 3",
-                dueDate: "07 Jul 2026",
-                totalMarks: 20,
-                status: "Pending",
-                attachmentUrl:
-                    "https://res.cloudinary.com/dqckm1xhq/image/upload/v1783312061/em4tqdlm...",
-            },
-            {
-                assignmentId: "ASG-0707",
-                title: "Unit 1 Record",
-                subjectCode: "CSE302",
-                section: "CSE 3",
-                dueDate: "09 Jul 2026",
-                totalMarks: 25,
-                status: "Submitted",
-                attachmentUrl:
-                    "https://res.cloudinary.com/dqckm1xhq/image/upload/v1783312061/em4tqdlm...",
-            },
-            {
-                assignmentId: "ASG-0708",
-                title: "Mini Project Abstract",
-                subjectCode: "CSE303",
-                section: "CSE 3",
-                dueDate: "12 Jul 2026",
-                totalMarks: 30,
-                status: "Pending",
-                attachmentUrl:
-                    "https://res.cloudinary.com/dqckm1xhq/image/upload/v1783312061/em4tqdlm...",
-            },
-        ];
+    const [assignments, setassignments] = useState([])
+
+
+
+    useEffect(() => {
+        const FetchAssignemenst = async () => {
+
+
+
+            try {
+                setloading(true)
+                const res = await axios.get(`${url}/api/UploadAssignments/Assignment/`, {
+                    params: {
+                        section: Section.subjectId
+                    }
+                })
+                console.log(res, 'res.response.data.message')
+                setassignments(res.data.data)
+            } catch (error) {
+                const err_status = error.response.status
+                console.log(error.response, ' error.response')
+                const err_message = error.response.data.message
+
+                if (err_status == 401) {
+                    return handleLogout(naviagte)
+                }
+                if (err_status == 500) {
+                    toast.error(err_message)
+                }
+
+
+
+
+            }
+            finally {
+                setloading(false)
+
+            }
+        }
+        FetchAssignemenst()
+
+    }, [Section.subjectId])
+
 
     const handleFileChange = (e) => {
         const file = e.target.files?.[0];
         if (file) setSelectedFile(file);
+        const typeallowedFile = [
+            "application/pdf",
+            "application/word"]
+
+
+        if (!typeallowedFile.includes(file.type)) {
+            setSelectedFile(null)
+
+
+            return toast.error("type of file is not alowed")
+        }
     };
+
     const openUploadPanel = (assignment) => {
+
         setSelectedAssignment(assignment);
         setSelectedFile(null);
-            setloading(false)
+
 
 
         window.scrollTo({
@@ -80,9 +108,44 @@ function ViewAssignemts() {
 
     };
 
-    const handleSubmit = () => {
-        if (!selectedFile) return alert("Please select a file first");
-        alert(`Assignment submitted: ${selectedFile.name}`);
+
+    const handleSubmit = async () => {
+
+        if (!selectedFile) {
+
+
+            return alert("Please select a file first");
+        }
+
+        const formdata = new FormData()
+        formdata.append("assignmentFile", selectedFile)
+        formdata.append("assignmentId", selectedAssignment.assignmentId)
+        formdata.append("feedback", comment)
+        formdata.append("subjectid", selectedAssignment.subjectId)
+        formdata.append("StudentId", UserName._id)
+        try {
+            const response = await axios.post(`${url}/api/UploadAssignments/SubmitAssignments`, formdata, {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+            if (response.status == 201) {
+                return toast.success(response.data.message)
+            }
+        } catch (error) {
+            if (error.response.status == 401) {
+                return handleLogout(naviagte)
+            }
+            if (error.response.status == 404) {
+                return toast.error(error.response.data.message)
+            }
+            if (error.response.status == 409) {
+                closeUploadPanel()
+                return toast.error(error.response.data.message)
+            }
+
+        }
+
         closeUploadPanel();
     };
 
@@ -111,9 +174,9 @@ function ViewAssignemts() {
                                 <div>
                                     <p className="mb-2 inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold tracking-wide">
                                         <ClipboardCheck size={14} />
-                                        Student Assignments
+                                        Assignments
                                     </p>
-                                    <h1 className="text-2xl font-bold sm:text-3xl">My Assignments</h1>
+                                    <h1 className="text-2xl font-bold sm:text-3xl">{Subject_info?.subjectName || "subjectName"}</h1>
                                     <p className="mt-1 text-sm text-blue-100">
                                         View, download and submit assignments in one place
                                     </p>
@@ -150,7 +213,7 @@ function ViewAssignemts() {
                                                 Marks
                                             </th>
                                             <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
-                                                Status
+                                                createdAt
                                             </th>
                                             <th className="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-slate-500">
                                                 Actions
@@ -164,7 +227,7 @@ function ViewAssignemts() {
                                                 <NotFound message="No Assignments available" />
                                             </div>
                                         )}
-                                        {assignments.map((item) => (
+                                        {assignments.map((item, id) => (
                                             <tr key={item.assignmentId} className="hover:bg-sky-50/40">
                                                 <td className="px-6 py-5">
                                                     <div className="flex items-center gap-3">
@@ -176,7 +239,7 @@ function ViewAssignemts() {
                                                                 {item.title}
                                                             </p>
                                                             <p className="text-xs text-slate-500">
-                                                                {item.assignmentId}
+                                                                {id + 1}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -185,42 +248,50 @@ function ViewAssignemts() {
                                                 <td className="px-6 py-5">
                                                     <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
                                                         <BookOpen size={16} className="text-indigo-500" />
-                                                        {item.subjectCode}
+                                                        {item.subjectId || "subjectId"}
                                                     </div>
                                                 </td>
 
                                                 <td className="px-6 py-5">
                                                     <div className="flex items-center gap-2 text-sm text-slate-700">
                                                         <CalendarDays size={16} className="text-rose-500" />
-                                                        {item.dueDate}
+                                                        {new Date(item.DueDate)?.toLocaleDateString()}
                                                     </div>
                                                 </td>
 
                                                 <td className="px-6 py-5 text-sm font-semibold text-slate-800">
-                                                    {item.totalMarks}
+                                                    {item.Marks}
                                                 </td>
 
                                                 <td className="px-6 py-5">
                                                     <span
-                                                        className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${item.status === "Submitted"
-                                                            ? "bg-emerald-100 text-emerald-700"
-                                                            : "bg-amber-100 text-amber-700"
-                                                            }`}
+                                                        className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold `}
                                                     >
-                                                        {item.status}
+
+                                                        {new Date(item.createdAt)?.toLocaleDateString()}
                                                     </span>
                                                 </td>
 
                                                 <td className="px-6 py-5">
                                                     <div className="flex items-center justify-center gap-2">
                                                         <a
-                                                            href={item.attachmentUrl}
+                                                            href={`https://docs.google.com/gview?url=${encodeURIComponent(item.Assignementurl)}&embedded=true`}
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                             className="inline-flex items-center gap-2 rounded-xl bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200"
                                                         >
-                                                            <Download size={16} />
+                                                            <FaEye size={16} />
                                                             View
+                                                        </a>
+                                                        <a
+                                                            href={item.Assignementurl}
+
+                                                            rel="noopener noreferrer"
+                                                            className="inline-flex items-center gap-2 rounded-xl bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200"
+                                                            download
+                                                        >
+                                                            <Download size={16} />
+                                                            Download
                                                         </a>
 
                                                         <button
@@ -248,7 +319,7 @@ function ViewAssignemts() {
                                                     Submit Assignment
                                                 </h2>
                                                 <p className="mt-1 text-sm text-slate-500">
-                                                    {selectedAssignment.title} • {selectedAssignment.subjectCode}
+                                                    {selectedAssignment.AssignementName || "AssignementName"} • {selectedAssignment.subjectId}
                                                 </p>
                                             </div>
 
@@ -307,7 +378,7 @@ function ViewAssignemts() {
 
                                         <div className="mt-5">
                                             <label className="mb-2 block text-sm font-semibold text-slate-700">
-                                                Comment
+                                                feedback
                                             </label>
                                             <textarea
                                                 rows="4"

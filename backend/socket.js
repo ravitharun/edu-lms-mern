@@ -7,7 +7,7 @@ const initSocket = (server) => {
     const { Server } = require("socket.io");
     const allowedOrigin = process.env.NODE_ENV === "development"
         ? "http://localhost:5173"
-        : process.env.FRONTEND_URL; // your deployed frontend URL
+        : process.env.FRONTEND_URL; //  frontend URL
     io = new Server(server, {
         cors: {
             origin: "*"

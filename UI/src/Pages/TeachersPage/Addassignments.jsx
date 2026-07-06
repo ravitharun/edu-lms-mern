@@ -213,7 +213,7 @@ function Addassignments() {
     // submit the file
     const submitFile = async (e) => {
         e.preventDefault();
-
+        
 
         if (!Uploadsection || !Assignmentfile || !AssignmentName || !Mark || !Duedate || !UserProfileInfo?.teacher_Id || !Uploadsection) {
             return toast.error("Some fields are required.");
@@ -222,7 +222,7 @@ function Addassignments() {
         const formData = new FormData();
 
         formData.append("Assignmentfile", Assignmentfile);
-        formData.append("AddedBy", UserProfileInfo?.teacher_Id);
+        formData.append("AddedBy", UserProfileInfo?._id);
         formData.append("Mark", Mark);
         formData.append("Duedate", Duedate);
         formData.append("AssignmentName", AssignmentName);
