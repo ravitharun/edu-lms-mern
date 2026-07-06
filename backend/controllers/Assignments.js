@@ -135,7 +135,34 @@ const SubmitAssignments = async (req, res) => {
     }
 }
 
+const GetSubmissions = async (req, res) => {
+    try {
+        const { id } = req.query
+        if (!id) {
+            return res.status(404).json({ message: "No id found" })
+        }
+        console.log(id, 'checkid')
 
+
+        // Db fetch it
+        const response = await UploadassignmentModel.find({
+            assignmentId: id,
+        }).populate({
+            path: "studentId",
+            select:
+                "name email profilePreview AccountStatus isActive StudentsYearDepartment department Student_ID",
+        });
+        console.log(response, 'response')
+        if (!response) {
+            return res.status(404).json({ messsage: "No student Submitted." })
+        }
+        return res.status(200).json({ message: "fetched", data: response })
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).json({ message: "server error" })
+
+    }
+}
 
 const ValidateAssignments = async (req, res) => {
     try {
@@ -156,4 +183,4 @@ const ValidateAssignments = async (req, res) => {
 
 
 
-module.exports = { CreateAssignments, FetchAssignments, SubmitAssignments, ValidateAssignments }
+module.exports = { CreateAssignments, FetchAssignments, SubmitAssignments, ValidateAssignments, GetSubmissions }
