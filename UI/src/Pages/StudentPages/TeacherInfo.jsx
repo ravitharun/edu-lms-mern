@@ -23,6 +23,7 @@ function TeacherInfo() {
                     <div className="-mt-14 flex flex-col items-center sm:flex-row sm:items-end sm:justify-between gap-4">
                         <div className="flex flex-col items-center sm:flex-row sm:items-end gap-4">
                             <img
+                             loading="lazy"
                                 src={teacherData.profileImage}
                                 alt={teacherData.name}
                                 className="h-24 w-24 rounded-2xl border-4 border-white object-cover shadow-md"

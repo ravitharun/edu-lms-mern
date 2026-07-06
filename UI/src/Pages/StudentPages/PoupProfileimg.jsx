@@ -11,6 +11,7 @@ function PoupProfileimg({ url, onClose }) {
                     <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
                         <img
                             src={url}
+                             loading="lazy"
                             alt="profile"
                             className="w-full max-h-[500px] object-contain"
                         />

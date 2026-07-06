@@ -65,6 +65,7 @@ function Studentprofile() {
                         <div className="flex items-center gap-5">
                             <div className="relative">
                                 <img
+                                 loading="lazy"
                                     src={profilePrivew ? profilePrivew : UserName.profilePreview}
                                     alt="Profile"
                                     className="w-24 h-24 rounded-full object-cover border-2 border-blue-400"

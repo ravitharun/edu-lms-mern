@@ -264,6 +264,7 @@ function Announcement() {
                                             {/* Banner image */}
                                             {item.Banner_url && (
                                                 <img
+                                                 loading="lazy"
                                                     src={item.Banner_url}
                                                     alt={item.Title}
                                                     style={{

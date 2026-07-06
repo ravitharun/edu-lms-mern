@@ -123,7 +123,7 @@ function AdminDashboard() {
             <h2 className="text-lg font-semibold mb-4">My Profile</h2>
             <div className="flex items-center gap-4 mb-4">
               <div className="w-14 h-14 rounded-full bg-blue-500 text-white flex items-center justify-center text-xl font-bold  gap-3">
-                <img className="w-10 h-10 rounded-full object-cover"  src={`${UserName?.profilePreview || `https://ui-avatars.com/api/?name=${UserName?.name}`}`} alt={UserName?.name} />
+                <img  loading="lazy" className="w-10 h-10 rounded-full object-cover"  src={`${UserName?.profilePreview || `https://ui-avatars.com/api/?name=${UserName?.name}`}`} alt={UserName?.name} />
               </div>
               <div>
                 <p className="font-medium">Mr. {UserName?.name}</p>

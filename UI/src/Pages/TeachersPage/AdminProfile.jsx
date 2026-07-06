@@ -67,7 +67,7 @@ function AdminProfile() {
                 <Section title="Profile Information">
                   <div className="flex flex-col sm:flex-row justify-between gap-6">
                     <div className="flex items-center gap-5">
-                      <img className="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-3xl font-bold text-blue-600" src={UserName.profilePreview}>
+                      <img  loading="lazy" className="w-24 h-24 rounded-full bg-blue-100 flex items-center justify-center text-3xl font-bold text-blue-600" src={UserName.profilePreview}>
 
                       </img>
                       <div>

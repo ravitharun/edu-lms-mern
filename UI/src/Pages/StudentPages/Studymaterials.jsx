@@ -167,6 +167,7 @@ function Studymaterials() {
             {/* Right Side - Teacher Image */}
             <div>
               <img
+               loading="lazy"
                 src={course.Techer_profile}
                 alt={course.name}
                 onClick={() => handelProfilePoupImg(course.Techer_profile)}

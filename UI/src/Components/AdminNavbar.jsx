@@ -309,6 +309,7 @@ function AdminSidebar() {
                             <img
                                 src={`${UserName?.profilePreview || `https://ui-avatars.com/api/?name=${UserName?.name}`}`}
                                 alt="Profile"
+                                 loading="lazy"
                                 className="w-10 h-10 rounded-full object-cover"
                             />
 

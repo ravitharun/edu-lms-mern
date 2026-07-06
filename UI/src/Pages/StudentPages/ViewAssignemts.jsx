@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import {
     FileText,
     CalendarDays,
@@ -19,9 +19,8 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FaEye } from "react-icons/fa";
 
-function ViewAssignemts({ Section, Subject_info }) {
+const ViewAssignemts=React.memo(({ Section, Subject_info }) => {
     const naviagte = useNavigate()
-    console.log(Section.subjectId, Subject_info, 'Section')
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [comment, setComment] = useState("");
@@ -185,7 +184,7 @@ function ViewAssignemts({ Section, Subject_info }) {
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="rounded-2xl bg-white/15 px-4 py-3">
                                         <p className="text-xs text-blue-100">Total</p>
-                                        <p className="text-lg font-bold">{assignments.length}</p>
+                                        <p className="text-lg font-bold">{assignments?.length||0}</p>
                                     </div>
                                     <div className="rounded-2xl bg-white/15 px-4 py-3">
                                         <p className="text-xs text-blue-100">Pending</p>
@@ -319,7 +318,7 @@ function ViewAssignemts({ Section, Subject_info }) {
                                                     Submit Assignment
                                                 </h2>
                                                 <p className="mt-1 text-sm text-slate-500">
-                                                    {selectedAssignment.AssignementName || "AssignementName"} • {selectedAssignment.subjectId}
+                                                    {selectedAssignment?.AssignementName || "AssignementName"} • {selectedAssignment?.subjectId}
                                                 </p>
                                             </div>
 
@@ -359,7 +358,7 @@ function ViewAssignemts({ Section, Subject_info }) {
                                                     <CheckCircle2 size={18} className="text-emerald-600" />
                                                     <div>
                                                         <p className="text-sm font-semibold text-slate-800">
-                                                            {selectedFile.name}
+                                                            {selectedFile?.name||"name"}
                                                         </p>
                                                         <p className="text-xs text-slate-500">
                                                             Ready to submit
@@ -414,5 +413,6 @@ function ViewAssignemts({ Section, Subject_info }) {
 
     );
 }
+)
 
 export default ViewAssignemts;

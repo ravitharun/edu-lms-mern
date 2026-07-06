@@ -204,6 +204,7 @@ function Dashboard() {
             style={{ boxShadow: "0 8px 25px rgba(0,0,0,0.3)" }}
           >
             <img
+              loading="lazy"
               src={Profile}
               alt="Ravi Tharun"
               className="w-full h-full object-cover"
@@ -279,6 +280,7 @@ function Dashboard() {
                         />
                       ) : (
                         <img
+                          loading="lazy"
                           src={img.imgUrl}
                           alt={img.type}
                           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
@@ -306,6 +308,7 @@ function Dashboard() {
             <div className="w-20 h-20 rounded-full overflow-hidden ring-4 ring-blue-200 shadow-lg">
               <img
                 src={Profile}
+                loading="lazy"
                 alt={Name}
                 className="w-full h-full object-cover"
               />
@@ -415,6 +418,7 @@ hover:to-blue-400"
 
                         {/* Teacher Image */}
                         <img
+                          loading="lazy"
                           src={data.Techer_profile}
                           alt={data.classId}
                           className="w-14 h-14 rounded-xl object-cover border"
