@@ -59,10 +59,11 @@ function ViewAssignemts() {
         const file = e.target.files?.[0];
         if (file) setSelectedFile(file);
     };
-
     const openUploadPanel = (assignment) => {
         setSelectedAssignment(assignment);
         setSelectedFile(null);
+            setloading(false)
+
 
         window.scrollTo({
             top: 5000,
@@ -87,21 +88,21 @@ function ViewAssignemts() {
 
     return (
         <>
-            {loading ? 
-            <div className="animate-pulse rounded-2xl border bg-white shadow">
-                {[...Array(6)].map((_, index) => (
-                    <div
-                        key={index}
-                        className="flex items-center justify-between border-b p-5 last:border-none"
-                    >
-                        <div className="h-5 w-12 rounded bg-slate-200"></div>
-                        <div className="h-5 w-48 rounded bg-slate-200"></div>
-                        <div className="h-5 w-32 rounded bg-slate-200"></div>
-                        <div className="h-5 w-24 rounded bg-slate-200"></div>
-                        <div className="h-10 w-24 rounded-lg bg-slate-200"></div>
-                    </div>
-                ))}
-            </div> :
+            {loading ?
+                <div className="animate-pulse rounded-2xl border bg-white shadow">
+                    {[...Array(6)].map((_, index) => (
+                        <div
+                            key={index}
+                            className="flex items-center justify-between border-b p-5 last:border-none"
+                        >
+                            <div className="h-5 w-12 rounded bg-slate-200"></div>
+                            <div className="h-5 w-48 rounded bg-slate-200"></div>
+                            <div className="h-5 w-32 rounded bg-slate-200"></div>
+                            <div className="h-5 w-24 rounded bg-slate-200"></div>
+                            <div className="h-10 w-24 rounded-lg bg-slate-200"></div>
+                        </div>
+                    ))}
+                </div> :
 
                 <div className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-indigo-50 p-4 sm:p-6">
                     <div className="mx-auto max-w-7xl">
