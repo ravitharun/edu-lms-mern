@@ -1,4 +1,4 @@
-
+ 
 // Studymaterials.jsx
 import App from '../../App'
 import { Link, useLocation } from 'react-router-dom'
@@ -18,7 +18,7 @@ import {
   FaChalkboardTeacher,
 } from "react-icons/fa";
 import TeacherInfo from './TeacherInfo'
-import ViewAssignemts from './viewAssignemts'
+import ViewAssignemts from './ViewAssignemts'
 function Studymaterials() {
   const location = useLocation()
   const course = location.state.data
