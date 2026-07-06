@@ -17,7 +17,7 @@ function ViewAssignemts() {
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [comment, setComment] = useState("");
-    const [loading, setloading] = useState(true)
+    const [loading, setloading] = useState(false)
     const assignments =
         [
             {
