@@ -317,7 +317,7 @@ function Dashboard() {
             <div className="w-10 h-1 bg-blue-500 rounded mt-1"></div>
           </div>
           <p className="text-sm text-gray-600 text-center mb-4">
-            {UserName?.StudentsYearDepartment?.split(" ")[0]} · B.Tech · {UserName.StudentsYearDepartment.split(" ")[1]} Sem · {StudentID}
+            {UserName?.StudentsYearDepartment?.split(" ")[0]} · B.Tech · {UserName.StudentsYearDepartment?.split(" ")[1]} Sem · {StudentID}
           </p>
 
           <div className="space-y-2 text-sm text-center text-gray-700">

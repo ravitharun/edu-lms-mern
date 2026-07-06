@@ -2,13 +2,13 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-// ✅ Ensure uploads folder exists
+// Ensure uploads folder exists
 const uploadPath = "uploads/";
 if (!fs.existsSync(uploadPath)) {
   fs.mkdirSync(uploadPath);
 }
 
-// ✅ Storage configuration
+//  Storage configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, uploadPath);
@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 });
 
 
-// ✅ IMAGE FILTER
+//  IMAGE FILTER
 const imageFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png/;
 
@@ -38,7 +38,7 @@ const imageFilter = (req, file, cb) => {
 };
 
 
-// ✅ PDF FILTER
+//  PDF FILTER
 const pdfFilter = (req, file, cb) => {
   const allowedTypes = /pdf/;
 
@@ -55,7 +55,7 @@ const pdfFilter = (req, file, cb) => {
 };
 
 
-// ✅ Upload middlewares
+// Upload middlewares
 // img config
 const upload = multer({
   storage,

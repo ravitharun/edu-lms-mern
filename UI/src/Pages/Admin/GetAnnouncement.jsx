@@ -24,7 +24,7 @@ function GetAnnouncement() {
         if (type === 'All') {
 
             setannouncements(filtertypedata)
-            return   // ✅ stop execution here
+            return 
         }
 
         const FilterbyData = announcements.filter(

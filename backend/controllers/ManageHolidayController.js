@@ -13,7 +13,7 @@ const AddholidaysBulk = async (req, res) => {
     try {
 
 
-        // ✅ Insert
+        //  Insert
         const addedHolidays = await AddHolidays.insertMany(data, {
             ordered: false,
         });

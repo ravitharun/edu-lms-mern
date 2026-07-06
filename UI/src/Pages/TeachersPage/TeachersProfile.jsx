@@ -156,7 +156,7 @@ function TeachersProfile() {
                 toast.custom((t) => (
                     <div className="flex items-center gap-3 bg-white border border-gray-200 shadow-lg px-5 py-3 rounded-lg">
 
-                        <div className="text-yellow-500 text-lg">✅</div>
+                        <div className="text-yellow-500 text-lg"></div>
 
                         <div className="flex flex-col">
                             <span className="font-semibold text-gray-800">

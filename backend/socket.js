@@ -17,7 +17,7 @@ const initSocket = (server) => {
     const onlineUsers = new Map()
 io.on("connection", async (socket) => {
     try {
-        console.log("✅ User connected:", socket.id);
+        console.log(" User connected:", socket.id);
 
         const userId = socket.handshake.query.userId;
         if (!userId) return console.log("userId is missing");

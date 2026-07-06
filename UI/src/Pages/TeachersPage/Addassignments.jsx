@@ -3,7 +3,7 @@ import App from '../../App'
 import { FaBell, FaUser } from "react-icons/fa";
 import { TfiExport } from "react-icons/tfi";
 import AdminHeader from '../../Components/AdminHeader';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import axios from 'axios';
 import { handleLogout, Header_Token_expry_Formdata, MaintanceMode, url, UserLogin, UserName, UserProfileInfo } from '../../Apis/Islogin';
@@ -15,10 +15,11 @@ import { toast, Toaster } from "react-hot-toast";
 import { ToastContainer } from "react-toastify";
 
 function Addassignments() {
-    const naviagte = useNavigate()
+    // const naviagte = useNavigate()
     const [ChooseNavbar, setDefaultNavbar] = useState("Assignments Uploaded");
     const location = useLocation()
     const [classList, setClassList] = useState([])
+    const [Uploadsection, setUploadsection] = useState('')
     const [ClosePop, SetClose] = useState(false)
     const [StateClassID, LocationStateClassID] = useState(location.state)
     const [section, setsection] = useState(StateClassID ? StateClassID : "")
@@ -28,10 +29,10 @@ function Addassignments() {
     const [Assignmentfile, setAssignmentfile] = useState(null)
     const [Duedate, setDuedate] = useState(null)
     const [resources, setresources] = useState([])
-    const Marks = 20
     const [isuploading, setisuploading] = useState(false)
 
-    console.log(resources, 'resources')
+    console.log(classList, 'classList')
+    console.log(Uploadsection, 'Uploadsection')
 
     // fect the classId
     useEffect(() => {
@@ -213,7 +214,8 @@ function Addassignments() {
     const submitFile = async (e) => {
         e.preventDefault();
 
-        if (!section || !Assignmentfile || !AssignmentName || !Mark || !Duedate || !UserProfileInfo?.teacher_Id) {
+
+        if (!Uploadsection || !Assignmentfile || !AssignmentName || !Mark || !Duedate || !UserProfileInfo?.teacher_Id || !Uploadsection) {
             return toast.error("Some fields are required.");
         }
 
@@ -224,7 +226,8 @@ function Addassignments() {
         formData.append("Mark", Mark);
         formData.append("Duedate", Duedate);
         formData.append("AssignmentName", AssignmentName);
-        formData.append("section", section);
+        formData.append("SUbjectsId", Uploadsection.split(" ")[6]);
+        formData.append("section", Uploadsection);
 
         try {
             setisuploading(true);
@@ -266,6 +269,13 @@ function Addassignments() {
             setisuploading(false);
         }
     };
+    const [SubmissionsData, setSubmissionsData] = useState(0)
+
+    const handelSubmissions = (data,id) => {
+        setSubmissionsData({data,id})
+        console.log({data,id},'{data,id}')
+        setDefaultNavbar("Student Submissions")
+    }
 
 
     return (
@@ -307,12 +317,12 @@ function Addassignments() {
                                 <option
                                     key={idx}
                                     title='ClassSection-department-Year'
-                                    value={` ${cls.classId} - ${cls.department} - ${cls.year}`}
-                                    className={`text-gray-700   `}
+                                    value={` ${cls.classId} - ${cls.department} - ${cls.year} - ${cls?.subjects?.[0]?.subjectId || "No Subject"}`}
+                                    className={`text-gray-700 `}
 
 
                                 >
-                                    {cls.classId} - {cls.department} - {cls.year}
+                                    {cls.classId} - {cls.department} - {cls.year} - {cls?.subjects?.[0]?.subjectName || "No Subject"}
                                 </option>
 
                             ))
@@ -320,6 +330,7 @@ function Addassignments() {
 
                     </select>
                 </div>
+
                 {section && (
                     <button
                         onClick={() => SetClose(true)}
@@ -409,9 +420,14 @@ function Addassignments() {
                                             </span>
                                         </td> */}
 
-                                        <td className="p-3 text-center font-medium">
-                                            <span onClick={() => setDefaultNavbar("Student Submissions")}>View Submissions</span>
-                                        </td>
+                                    <td className="p-3 text-center">
+  <button
+    onClick={() => handelSubmissions(item,id)}
+    className="inline-flex items-center justify-center rounded-md border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 transition hover:bg-blue-100"
+  >
+    View Submissions
+  </button>
+</td>
 
                                         <td className="p-3">
                                             <div className="flex items-center justify-center gap-2">
@@ -429,9 +445,9 @@ function Addassignments() {
                                                 <button className="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-600">
                                                     Delete
                                                 </button>
-                                                <button className="px-3 py-1 text-xs rounded-md bg-purple-500 text-white hover:bg-purple-600">
+                                                {/* <button className="px-3 py-1 text-xs rounded-md bg-purple-500 text-white hover:bg-purple-600">
                                                     Reminder
-                                                </button>
+                                                </button> */}
                                             </div>
                                         </td>
                                     </tr>
@@ -444,7 +460,7 @@ function Addassignments() {
                 </div>
 
 
-                {ChooseNavbar == "Student Submissions" && <StudentAssignmentsSubmissions Marks={Marks} />}
+                {ChooseNavbar == "Student Submissions" && <StudentAssignmentsSubmissions Data={SubmissionsData} setDefaultNavbar={setDefaultNavbar}/>}
 
             </div>
 
@@ -473,7 +489,7 @@ function Addassignments() {
 
                                     <select
                                         id="section"
-                                        onChange={(e) => setsection(e.target.value)}
+                                        onChange={(e) => setUploadsection(e.target.value)}
                                         className="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                                     >
                                         <option value={section} disabled selected>
@@ -482,9 +498,9 @@ function Addassignments() {
                                         {classList.map((cls, idx) => (
                                             <option
                                                 key={idx}
-                                                value={`${cls.classId} - ${cls.department} - ${cls.year}`}
+                                                value={`${cls.classId} - ${cls.department} - ${cls.year} - ${cls?.subjects[0]?.subjectId}`}
                                             >
-                                                {cls.classId} - {cls.department} - {cls.year}
+                                                {cls.classId} - {cls.department} - {cls.year} - {cls?.subjects?.[0]?.subjectName || "No Subject"}
                                             </option>
                                         ))}
                                     </select>

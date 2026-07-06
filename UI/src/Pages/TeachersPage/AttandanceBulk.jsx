@@ -62,7 +62,7 @@ function AttandanceBulk({ ClassID }) {
                     );
                 }
 
-                // ✅ Optional: Validate data
+                //  Validate data
                 if (jsonData.length === 0) {
                     return toast.error("Empty file!");
                 }

@@ -141,7 +141,7 @@ function DisplyTimetabel({ Addfunction, role, events = [], handelYear }) {
 
               <Calendar
                 localizer={localizer}
-                events={formattedEvents}   // ✅ always array
+                events={formattedEvents}   
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 500 }}
