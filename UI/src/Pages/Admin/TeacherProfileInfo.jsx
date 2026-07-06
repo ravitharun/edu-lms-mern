@@ -31,6 +31,7 @@ function TeacherProfileInfo() {
 
                         {/* Profile Image */}
                         <img
+                         loading="lazy"
                             src={data?.profilePreview}
                             alt="Profile"
                             className="w-28 h-28 rounded-full object-cover border-4 border-blue-500"

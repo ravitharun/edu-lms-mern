@@ -209,6 +209,7 @@ function TeachersProfile() {
 
                             {/* Profile Image */}
                             <img
+                             loading="lazy"
                                 src={Edit ? PrivewUrlImg : UserProfileInfo?.ProfileUrl}
                                 alt={Edit ? "Image" : UserProfileInfo?.Name}
                                 className="w-16 h-16 rounded-full object-cover border"

@@ -43,10 +43,9 @@ const Dashboard = lazy(() => import("./Pages/StudentPages/Dashboard.jsx"));
 const AdminDashboard = lazy(() => import("./Pages/TeachersPage/AdminDashboard.jsx"));
 const MyCourses = lazy(() => import("./Pages/StudentPages/MyCourses.jsx"));
 const Studentprofile = lazy(() => import("./Pages/StudentPages/Studentprofile.jsx"));
+const ProtectedRoute = lazy(() => import("./Components/ProtectedRoute.jsx"));
+const Maintance = lazy(() => import('./Pages/Admin/Maintance.jsx'));
 
-import ProtectedRoute from './Components/ProtectedRoute.jsx';
-
-import Maintance from './Pages/Admin/Maintance.jsx';
 
 createRoot(document.getElementById('root')).render(
 

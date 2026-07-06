@@ -142,6 +142,7 @@ function MyCourses() {
               >
                 <div className="h-32 w-full">
                   <img
+                    loading="lazy"
                     src="https://images.unsplash.com/photo-1518770660439-4636190af475"
                     alt={data.subjectName}
                     className="w-full h-full object-cover"

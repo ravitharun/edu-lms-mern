@@ -108,6 +108,7 @@ export default function Signup() {
                     <div className="flex items-center justify-center bg-gradient-to-br from-indigo-600 to-purple-700 p-4">
                         <div className="text-center text-white space-y-2">
                             <img
+                             loading="lazy"
                                 src="https://cdn-icons-png.flaticon.com/512/3135/3135755.png"
                                 alt="LMS"
                                 className="w-32 sm:w-40 mx-auto drop-shadow-lg"
@@ -125,7 +126,7 @@ export default function Signup() {
                         <div className="flex items-center gap-3 mt-2">
                             <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gray-800 flex items-center justify-center overflow-hidden border border-gray-600">
                                 {privew ? (
-                                    <img src={privew} alt="profile" className="w-full h-full object-cover" />
+                                    <img src={privew}  loading="lazy" alt="profile" className="w-full h-full object-cover" />
                                 ) : (
                                     <FaUserCircle className="text-gray-500 text-2xl sm:text-3xl" />
                                 )}
@@ -315,6 +316,7 @@ export default function Signup() {
                                     className="flex items-center justify-center w-full bg-white hover:bg-gray-100 text-gray-800 py-2 rounded-md shadow-md font-medium transition"
                                 >
                                     <img
+                                     loading="lazy"
                                         src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg"
                                         alt="Google"
                                         className="w-5 h-5 mr-2"

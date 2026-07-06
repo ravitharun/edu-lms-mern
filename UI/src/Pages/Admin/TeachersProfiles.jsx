@@ -144,6 +144,7 @@ function TeachersProfiles() {
                                         {/* LEFT SECTION */}
                                         <div className="flex items-start gap-4 flex-1 min-w-0">
                                             <img
+                                             loading="lazy"
                                                 src={pr.profilePreview}
                                                 alt={pr.name}
                                                 className="w-20 h-20 rounded-full object-cover border-2 border-white shadow ring-2 ring-green-100 transition"

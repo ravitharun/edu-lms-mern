@@ -53,6 +53,7 @@ function App() {
             <img
               src={data.profileUrl}
               alt="profile"
+               loading="lazy"
               className="w-12 h-12 rounded-full object-cover border"
             />
 

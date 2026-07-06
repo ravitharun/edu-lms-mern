@@ -65,6 +65,7 @@ function StudentProfile() {
             <div className="bg-white rounded-xl shadow p-6 mb-6">
               <div className="flex items-center gap-6">
                 <img
+                 loading="lazy"
                   src={
                     date?.state?.profilePreview
                       ? date.state.profilePreview
@@ -81,7 +82,7 @@ function StudentProfile() {
                   <p className="text-sm text-gray-600">{date.state.Student_ID || 123}</p>
                   <p className="text-sm text-gray-600">{date.state.department || 'Department:CSE'}</p>
                   <p className="text-sm text-gray-600">{date.state.email || "Email: arjun@college.edu"}</p>
-                  {/* <img src={date.state.profilePreview}></img> */}
+
                 </div>
               </div>
             </div>

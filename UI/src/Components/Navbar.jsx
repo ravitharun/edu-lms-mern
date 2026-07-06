@@ -337,6 +337,7 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                 <div className="flex items-center justify-between w-full md:hidden">
 
                   <img
+                   loading="lazy"
                     src="https://www.bing.com/th/id/OIP.zSG2VrHBm9ix_kbmmhw5cwHaHa?w=195&h=211&c=8&rs=1&qlt=90&r=0&o=6&dpr=1.5&pid=3.1&rm=2"
                     alt="Logo"
                     className="h-8"
