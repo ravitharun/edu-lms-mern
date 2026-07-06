@@ -31,6 +31,11 @@ export default function StudentAssignmentsSubmissions({ Data, setDefaultNavbar }
   const [issetid, setid] = useState(0)
   const [submissiondata, setsubmissiondata] = useState([])
 
+
+  const [updateMarks, setUpdatedmarks] = useState(0)
+  const [UpdatedStatus, setUpdatedStatus] = useState("")
+  console.log({ UpdatedStatus, updateMarks }, 'UpdatedStatus')
+
   useEffect(() => {
     const FetchSubmissions = async () => {
       try {
@@ -117,7 +122,30 @@ export default function StudentAssignmentsSubmissions({ Data, setDefaultNavbar }
     setid(id)
   }
 
-  console.log(submissiondata, 'submissiondata')
+
+
+  const HandelUpdate = async (updatedata) => {
+
+    if (!UpdatedStatus || !updateMarks) { return toast.error("Required") }
+    if (!updatedata.assignmentId) { return toast.error("Some Thing Went Wrong.") }
+    const updateddata = { UpdatedStatus, updateMarks, Student_ID: updatedata.studentId._id, assignementId: updatedata.assignmentId, TotalMarks: data?.Marks }
+
+    try {
+      const response = await axios.put(`${url}/api/UploadAssignments/UpdateSubmissions`, {
+        data: updateddata
+
+      })
+      // console.log(response.data.)
+      if (response.status == 201) {
+        return toast.success(response.data.message)
+      }
+      console.log(response, 'response')
+    } catch (error) {
+      const err_message = error.response.data.message
+      const err_status = error.response.status
+
+    }
+  }
   return (
     <>
 
@@ -468,7 +496,7 @@ export default function StudentAssignmentsSubmissions({ Data, setDefaultNavbar }
                               {item.studentId?.isActive ? "Online" : "Offline"}
                             </span>
 
-                         
+
                           </div>
                         </td>
 
@@ -480,7 +508,7 @@ export default function StudentAssignmentsSubmissions({ Data, setDefaultNavbar }
                               onClick={() => handelPoupReview(item._id, true)}
                             >
                               <HiOutlineEye />
-                              {isReview && item._id == issetid  ? "Close" : "Review"}
+                              {isReview && item._id == issetid ? "Close" : "Review"}
                             </button>
                             {
 
@@ -489,22 +517,24 @@ export default function StudentAssignmentsSubmissions({ Data, setDefaultNavbar }
 
 
 
-                                  <select className="h-10 rounded-xl border px-3">
+                                  <select className="h-10 rounded-xl border px-3" onChange={(e) => setUpdatedmarks(e.target.value)} >
                                     <option>Select Marks</option>
 
                                     {[...Array((data?.Marks ?? 0) + 1).keys()].map((num) => (
-                                      <option key={num}>{num}</option>
+                                      <option key={num} value={num}>{num}</option>
+
                                     ))}
                                   </select>
 
-                                  <select className="h-10 rounded-xl border px-3">
+                                  <select className="h-10 rounded-xl border px-3" onChange={(e) => setUpdatedStatus(e.target.value)}>
                                     <option>Select Status</option>
-                                    <option>Pending</option>
-                                    <option>Completed</option>
-                                    <option>Rejected</option>
+                                    <option value="Pending">Pending</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="Rejected">Rejected</option>
                                   </select>
+                                  <button onClick={() => HandelUpdate(item)}>Update</button>
                                 </>
-                                :null
+                                : null
 
                             }
                           </div>

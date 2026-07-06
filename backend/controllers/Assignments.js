@@ -167,20 +167,44 @@ const GetSubmissions = async (req, res) => {
 const ValidateAssignments = async (req, res) => {
     try {
 
+        const { UpdatedStatus, updateMarks, Student_ID, assignementId,TotalMarks } = req.body.data
+        console.log(UpdatedStatus, updateMarks, Student_ID, assignementId)
 
-        console.log(req.body)
-        console.log(req.files)
-
-        return res.status(201).json({ message: "Assignments submited." })
+        const studentAssignementfindUpdate = await UploadassignmentModel.findOneAndUpdate({ studentId: Student_ID, assignmentId: assignementId }, {
+            $set: {
+                obtainedMarks: updateMarks,
+                status: UpdatedStatus,
+                TotalMarks:TotalMarks
+            }
+        }, { returnDocument: "after" })
+        console.log(studentAssignementfindUpdate, 'studentAssignementfindUpdate')
+        return res.status(201).json({ message: "Student assignment validated successfully." })
 
     } catch (error) {
+        console.log(error.message)
         return res.status(500).json({ message: "server error." })
+
+    }
+}
+
+const fetchMarksByStudentId = async (req, res) => {
+
+    try {
+        // const { studentid } = req.query
+        const studentid = "699f0698e3f5243929e414b9"
+
+        console.log(studentid, 'studentid')
+
+        const MarksData = await UploadassignmentModel.find({ studentId: studentid }).populate("assignmentId")
+        console.log(MarksData, 'MarksData')
+        return res.status(200).json({ message: 'fetching The Marks', data: MarksData })
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).json({ message: 'server error', err: error })
 
     }
 }
 
 
 
-
-
-module.exports = { CreateAssignments, FetchAssignments, SubmitAssignments, ValidateAssignments, GetSubmissions }
+module.exports = { CreateAssignments, FetchAssignments, SubmitAssignments, ValidateAssignments, GetSubmissions, fetchMarksByStudentId }

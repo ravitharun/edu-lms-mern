@@ -7,7 +7,7 @@ const mongoose = require("mongoose")
 const assignmentSubmissionSchema = new mongoose.Schema({
     assignmentId: {
         type: String,
-        ref: "Assignment",
+     
         required: true,
     },
     submissionassignmentId: {
@@ -29,6 +29,10 @@ const assignmentSubmissionSchema = new mongoose.Schema({
 
     submissionUrl: String,
     obtainedMarks: {
+        type: Number,
+        default: 0,
+    },
+    TotalMarks: {
         type: Number,
         default: 0,
     },
