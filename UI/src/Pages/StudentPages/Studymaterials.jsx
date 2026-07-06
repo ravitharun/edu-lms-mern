@@ -22,7 +22,7 @@ import ViewAssignemts from './ViewAssignemts'
 function Studymaterials() {
   const location = useLocation()
   const course = location.state.data
-  console.log(course, 'course')
+
   const Subject_info = location.state.info
   const [Showpdfs, setshowpdfs] = useState([])
   const [Menu, setmenu] = useState("Study Materials")
@@ -255,7 +255,7 @@ function Studymaterials() {
       </div>}
       {Menu == "Assignments" && <>
 
-        <ViewAssignemts />
+        <ViewAssignemts Section={course} Subject_info={course}/>
       </>}
       {Menu == "Teacher Info" && <>
 

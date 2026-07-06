@@ -45,6 +45,7 @@ connectDB().then(() => {
     console.log(process.env.RESEND_API_KEY,'process.env.RESEND_API_KEY')
 
   });
+//   https://studyhuberp.netlify.app
 });// Middleware
 const allowedOrigin = process.env.NODE_ENV === "development"
 

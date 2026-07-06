@@ -6,14 +6,24 @@ const mongoose = require("mongoose")
 
 const assignmentSubmissionSchema = new mongoose.Schema({
     assignmentId: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: "Assignment",
         required: true,
     },
-
+    submissionassignmentId: {
+        type: String,
+        ref: "Assignment",
+        required: true,
+    },
+    subjectid: {
+        type: String,
+        ref: "Assignment",
+        required: true,
+    },
+    feedback: { type: String, default: "" },
     studentId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Student",
+        ref: "User",
         required: true,
     },
 
@@ -32,6 +42,12 @@ const assignmentSubmissionSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
-},{
-      timestamps: true,
+}, {
+    timestamps: true,
 });
+
+
+const UploadassignmentModel = mongoose.model("AssignmentSubmission", assignmentSubmissionSchema)
+
+
+module.exports = UploadassignmentModel
