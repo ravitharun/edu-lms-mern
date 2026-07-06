@@ -68,9 +68,9 @@ function Addassignments() {
     useEffect(() => {
         const Fetch_Assignment = async () => {
             try {
-                console.log(section,'section')
+                console.log(section, 'section')
 
-                const response = await axios.get(`${url}/api/UploadAssignments/Assignment/`,{params:{section:section.trim()}})
+                const response = await axios.get(`${url}/api/UploadAssignments/Assignment/`, { params: { section: section.trim() } })
 
                 console.log(response.data.data, 'response.data.message')
                 setresources(response.data.data)
@@ -345,12 +345,12 @@ function Addassignments() {
 
                                     </th>
                                     <th className="p-3 text-left">Assignment Name</th>
-                                    <th className="p-3 text-left">Description</th>
+                                    <th className="p-3 text-left">Section</th>
                                     <th className="p-3 text-center">Due Date</th>
                                     <th className="p-3 text-center">Due Time</th>
                                     <th className="p-3 text-center">Marks</th>
                                     <th className="p-3 text-center">PDF</th>
-                                    <th className="p-3 text-center">Status</th>
+                                    {/* <th className="p-3 text-center">Status</th> */}
                                     <th className="p-3 text-center">Submissions</th>
                                     <th className="p-3 text-center">Actions</th>
                                 </tr>
@@ -362,41 +362,42 @@ function Addassignments() {
                                 </>
                                 }
 
-                                {resources?.map((item) => (
+                                {resources?.map((item, id) => (
                                     <tr
                                         key={item.id}
                                         className="border-b hover:bg-gray-50 transition"
                                     >
-                                        <td className="p-3 font-medium">{item.id || 0}</td>
+                                        <td className="p-3 font-medium">{id + 1}</td>
 
                                         <td className="p-3 font-semibold text-gray-800">
-                                            {item.assignmentName || "assignmentName"}
+                                            {item.AssignementName || "assignmentName"}
                                         </td>
 
                                         <td className="p-3 text-gray-600 max-w-xs truncate">
-                                            {item.description || "description"}
+                                            {item.Section || "Section"}
                                         </td>
 
-                                        <td className="p-3 text-center">{item.dueDate || "dueDate"}</td>
-
+                                        <td className="p-3 text-center">{new Date(item.DueDate).toDateString() || "dueDate"}</td>
                                         <td className="p-3 text-center">{item.dueTime || "dueTime"}</td>
 
                                         <td className="p-3 text-center font-medium">
-                                            {item.marks || 0}
+                                            {item.Marks || 0}
                                         </td>
 
                                         <td className="p-3 text-center">
                                             <a
-                                                href={item.pdfUrl}
+                                                href={`https://docs.google.com/gview?url=${encodeURIComponent(
+                                                    item.Assignementurl
+                                                )}&embedded=true`}
+                                                target="_parent"
+                                                rel="noopener noreferrer"
                                                 className="text-blue-600 hover:underline font-medium"
-                                                target="_blank"
-                                                rel="noreferrer"
                                             >
                                                 View
                                             </a>
                                         </td>
 
-                                        <td className="p-3 text-center">
+                                        {/* <td className="p-3 text-center">
                                             <span
                                                 className={`px-3 py-1 rounded-full text-xs font-semibold
                                     ${item.submissionStatus === "Open"
@@ -406,7 +407,7 @@ function Addassignments() {
                                             >
                                                 {item.submissionStatus}
                                             </span>
-                                        </td>
+                                        </td> */}
 
                                         <td className="p-3 text-center font-medium">
                                             <span onClick={() => setDefaultNavbar("Student Submissions")}>View Submissions</span>
@@ -414,12 +415,17 @@ function Addassignments() {
 
                                         <td className="p-3">
                                             <div className="flex items-center justify-center gap-2">
-                                                <button className="px-3 py-1 text-xs rounded-md bg-blue-500 text-white hover:bg-blue-600">
+                                                <a
+
+
+                                                    href={`https://docs.google.com/gview?url=${encodeURIComponent(item.Assignementurl)}&embedded=true`}
+                                                    target="_blank"
+                                                    className="px-3 py-1 text-xs rounded-md bg-blue-500 text-white hover:bg-blue-600">
                                                     View
-                                                </button>
-                                                <button className="px-3 py-1 text-xs rounded-md bg-yellow-500 text-white hover:bg-yellow-600">
+                                                </a>
+                                                {/* <button className="px-3 py-1 text-xs rounded-md bg-yellow-500 text-white hover:bg-yellow-600">
                                                     Edit
-                                                </button>
+                                                </button> */}
                                                 <button className="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-600">
                                                     Delete
                                                 </button>

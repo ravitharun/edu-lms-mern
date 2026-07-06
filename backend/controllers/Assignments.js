@@ -61,14 +61,12 @@ const FetchAssignments = async (req, res) => {
 
         const { section } = req.query
 
-        console.log(section, '<---section')
-        console.log(section=="CSE3 - CSE - 3", '<---section')
-        console.log("CSE3 - CSE - 3", '<---DB section')
+      
 
         const data = await uploadAssigment.find({ Section: section })
         console.log(data)
         if (data.length == 0) {
-            return res.status(200).json({ message: "No Resuroces Found" })
+            return res.status(200).json({ message: "No Resuroces Found" ,data:[]})
         }
 
         return res.status(201).json({ message: "Assignments FetchAssignments.", data: data })
