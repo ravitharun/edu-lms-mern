@@ -1,7 +1,7 @@
 
 // Studymaterials.jsx
 import App from '../../App'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import BackButton from '../../Components/BackButton'
 import Footer from './Footer'
 import LMSLoader from '../../Loaders/BackgroungImgLoader'
@@ -12,16 +12,24 @@ import { fetchSubjetcsMaterials } from './FetchPdfs'
 import toast from 'react-hot-toast'
 import Dataloading from '../../Loaders/Dataloading'
 import PoupProfileimg from './PoupProfileimg'
-
+import {
+  FaBookOpen,
+  FaClipboardList,
+  FaChalkboardTeacher,
+} from "react-icons/fa";
+import TeacherInfo from './TeacherInfo'
+import ViewAssignemts from './viewAssignemts'
 function Studymaterials() {
   const location = useLocation()
-  console.log(location, 'location')
   const course = location.state.data
+  console.log(course, 'course')
   const Subject_info = location.state.info
   const [Showpdfs, setshowpdfs] = useState([])
+  const [Menu, setmenu] = useState("Study Materials")
+
   const [loader, setloader] = useState(false)
-  const [isurl,setporileurl]=useState('')
-  const [Poupporileurl,setPoupporileurl]=useState(false)
+  const [isurl, setporileurl] = useState('')
+  const [Poupporileurl, setPoupporileurl] = useState(false)
 
   useEffect(() => {
     const FetchPdfs = async () => {
@@ -50,18 +58,67 @@ function Studymaterials() {
       </>
     )
   }
-const handelProfilePoupImg=(url)=>{
-  setporileurl(url)
-  setPoupporileurl((prev)=>!prev)
+  const handelProfilePoupImg = (url) => {
+    setporileurl(url)
+    setPoupporileurl((prev) => !prev)
 
-}
-
+  }
+  const menuItems = [
+    {
+      title: "Study Materials",
+      icon: <FaBookOpen className="text-3xl text-blue-600" />,
+      color: "from-blue-500 to-cyan-500",
+    },
+    {
+      title: "Assignments",
+      icon: <FaClipboardList className="text-3xl text-emerald-600" />,
+      color: "from-emerald-500 to-green-500",
+    },
+    {
+      title: "Teacher Info",
+      icon: <FaChalkboardTeacher className="text-3xl text-purple-600" />,
+      color: "from-purple-500 to-pink-500",
+    },
+  ];
   return (
     <>
       <App />
       <BackButton page="dashboard" currentPage="my-course" />
-     {Poupporileurl &&  <PoupProfileimg url={isurl} onClose={handelProfilePoupImg}></PoupProfileimg>}
-      <div className="max-w-6xl mx-auto p-4">
+      {Poupporileurl && <PoupProfileimg url={isurl} onClose={handelProfilePoupImg}></PoupProfileimg>}
+      <div className="w-full rounded-3xl border border-sky-100 bg-gradient-to-r from-sky-50 via-white to-indigo-50 p-3 shadow-[0_8px_30px_rgba(59,130,246,0.08)]">
+        <div className="flex flex-wrap items-center justify-center gap-3">
+          {menuItems.map((item, idx) => {
+            const isActive = Menu === item.title;
+
+            return (
+              <button
+                key={idx}
+                onClick={() => setmenu(item?.title)}
+                className={`group flex items-center justify-center gap-2 rounded-2xl px-5 py-3 text-sm font-semibold transition-all duration-300
+            ${isActive
+                    ? "bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-md shadow-blue-200 scale-[1.02]"
+                    : "bg-white text-slate-700 border border-sky-100 hover:bg-sky-50 hover:text-blue-600 hover:shadow-sm"
+                  }`}
+              >
+                <span
+                  className={`text-lg transition-all duration-300 ${isActive
+                      ? "text-white"
+                      : "text-sky-500 group-hover:text-blue-600"
+                    }`}
+                >
+                  {item.icon}
+                </span>
+
+                <span>{item.title}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+
+
+      {Menu == "Study Materials" && <div className="max-w-6xl mx-auto p-4">
 
         {/* ================= HEADER ================= */}
         <div className="mb-6">
@@ -112,7 +169,7 @@ const handelProfilePoupImg=(url)=>{
               <img
                 src={course.Techer_profile}
                 alt={course.name}
-                onClick={()=>handelProfilePoupImg(course.Techer_profile)}
+                onClick={() => handelProfilePoupImg(course.Techer_profile)}
                 className="w-24 hover:cursor-pointer h-24 rounded-full object-cover border-4 border-blue-500 shadow-lg hover:scale-105 transition duration-300"
               />
             </div>
@@ -195,7 +252,15 @@ const handelProfilePoupImg=(url)=>{
           </table>
         </div>
 
-      </div>
+      </div>}
+      {Menu == "Assignments" && <>
+
+        <ViewAssignemts />
+      </>}
+      {Menu == "Teacher Info" && <>
+
+        <TeacherInfo></TeacherInfo>
+      </>}
 
       {/* <Footer /> */}
     </>

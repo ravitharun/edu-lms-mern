@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 
 const Assignment = new mongoose.Schema({
+    assignmentId:{type:String,required:true,unique:true},
     Section: { type: String, required: true },
     subjectId: { type: String, required: true },
     AssignementName: { type: String, required: true },
