@@ -79,7 +79,7 @@ app.use("/api/ProfileViewnotification", ProfileNotificationRouter);
 app.use("/api/UploadResources", UploadGuide);
 app.use("/api/UploadAssignments", Assignments);
 app.use(apiLimiter)
-app.use(ApiMonitioring);
+// app.use(ApiMonitioring);
 app.use("/api/MaintanceMode",MaintanceMode);
 console.log(process.env.MONGO_URI,'locasl MONGO_URI');
 console.log(process.env.RESEND_API_KEY,'process.env.RESEND_API_KEY');

@@ -5,6 +5,6 @@ const { uploadAssignments } = require("../Expose/Cloudinarystorage")
 const Assignments = express.Router()
 
 Assignments.post("/Assignments", uploadAssignments.single("Assignmentfile"), CreateAssignments)
-Assignments.get("/Assignments/{id}", FetchAssignments)
+Assignments.get("/Assignment/{section}", FetchAssignments)
 
 module.exports = Assignments

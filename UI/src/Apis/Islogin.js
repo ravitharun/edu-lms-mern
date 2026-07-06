@@ -7,16 +7,16 @@ export const UserName = secureLocalStorage.getItem("User_info")
 export const totalClass = secureLocalStorage.getItem('totalClass')
 export const MaintanceMode = false;
 export const ClassName_hover_btn = "hover:cursor-pointer"
-export const UserProfileInfo = secureLocalStorage.getItem("userProfileInfo")
+export const UserProfileInfo = secureLocalStorage.getItem("User_info")
 export let dt = new Date().getFullYear();
 export const userRoutingDashboard = UserName?.role == "Teacher" ? "/teacher-dashboard" : UserName?.role == "student" ? "/StudentDashboard" : "/AdminDashboard"
 export const userRoutingProfilePage = UserName?.role == "Teacher" ? "/teachers/profile" : UserName?.role == "student" ? "/profile" : "/teachers/profile"
-export const handleLogout = () => {
+export const handleLogout = (redirect) => {
     const get = secureLocalStorage.removeItem("token")
-    const UserName = secureLocalStorage.removeItem("User_info")
+    const UserName = secureLocalStorage.removeItem("userProfileInfo")
     if (!get) {
         setTimeout(() => {
-            return window.location.href = "/login";
+            return redirect("/login");
         }, 1500);
     }
     socket.disconnect();

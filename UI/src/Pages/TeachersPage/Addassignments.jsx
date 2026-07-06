@@ -3,17 +3,19 @@ import App from '../../App'
 import { FaBell, FaUser } from "react-icons/fa";
 import { TfiExport } from "react-icons/tfi";
 import AdminHeader from '../../Components/AdminHeader';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
-import { Header_Token_expry_Formdata, MaintanceMode, url, UserLogin, UserName, UserProfileInfo } from '../../Apis/Islogin';
+import { handleLogout, Header_Token_expry_Formdata, MaintanceMode, url, UserLogin, UserName, UserProfileInfo } from '../../Apis/Islogin';
 import Tablecomponets from '../../Components/Tablecomponets';
 import Tomany from '../../Loaders/Tomany';
 import Undermanitance from '../../Loaders/Undermanitance';
 import StudentAssignmentsSubmissions from './StudentAssignmentsSubmissions';
 import { toast, Toaster } from "react-hot-toast";
 import { ToastContainer } from "react-toastify";
+
 function Addassignments() {
+    const naviagte = useNavigate()
     const [ChooseNavbar, setDefaultNavbar] = useState("Assignments Uploaded");
     const location = useLocation()
     const [classList, setClassList] = useState([])
@@ -25,10 +27,11 @@ function Addassignments() {
     const [AssignmentName, setAssignmentName] = useState("")
     const [Assignmentfile, setAssignmentfile] = useState(null)
     const [Duedate, setDuedate] = useState(null)
+    const [resources, setresources] = useState([])
     const Marks = 20
     const [isuploading, setisuploading] = useState(false)
 
-
+    console.log(resources, 'resources')
 
     // fect the classId
     useEffect(() => {
@@ -56,6 +59,41 @@ function Addassignments() {
         }
         Fetch_Assignment()
     }, [])
+
+
+    // fetch Resources
+
+
+
+    useEffect(() => {
+        const Fetch_Assignment = async () => {
+            try {
+                console.log(section,'section')
+
+                const response = await axios.get(`${url}/api/UploadAssignments/Assignment/`,{params:{section:section.trim()}})
+
+                console.log(response.data.data, 'response.data.message')
+                setresources(response.data.data)
+
+            } catch (error) {
+
+                if (error.response.status == 401) {
+                    toast.error("Token Expry")
+                    setTimeout(() => {
+                        return handleLogout()
+                    }, 1300);
+                }
+                if (error.status == 429) {
+
+                    return setrequestTimeout(true)
+                }
+                setrequestTimeout(false)
+                console.error(error.status, 'from the Fetching Teacher Pages Api Call.')
+                // toast.error(error.message)
+            }
+        }
+        Fetch_Assignment()
+    }, [section])
 
 
 
@@ -133,8 +171,7 @@ function Addassignments() {
     const handlefileAssigmentUpload = (file) => {
 
         const validate_file = file
-        // validate_file.type
-        // validate_file.size
+
         if (!validate_file) {
 
 
@@ -176,14 +213,14 @@ function Addassignments() {
     const submitFile = async (e) => {
         e.preventDefault();
 
-        if (!section || !Assignmentfile || !AssignmentName || !Mark || !Duedate) {
+        if (!section || !Assignmentfile || !AssignmentName || !Mark || !Duedate || !UserProfileInfo?.teacher_Id) {
             return toast.error("Some fields are required.");
         }
 
         const formData = new FormData();
 
         formData.append("Assignmentfile", Assignmentfile);
-        formData.append("AddedBy", UserProfileInfo?.ID);
+        formData.append("AddedBy", UserProfileInfo?.teacher_Id);
         formData.append("Mark", Mark);
         formData.append("Duedate", Duedate);
         formData.append("AssignmentName", AssignmentName);
@@ -320,78 +357,80 @@ function Addassignments() {
                             </thead>
 
                             <tbody>
-                                {!classList || classList.length === 0 ? (
+                                {!resources || resources.length === 0 && <>
                                     <Tablecomponets col={10} text="There is no Assignment Found" />
-                                ) : (
-                                    classList.map((item) => (
-                                        <tr
-                                            key={item.id}
-                                            className="border-b hover:bg-gray-50 transition"
-                                        >
-                                            <td className="p-3 font-medium">{item.id || 0}</td>
+                                </>
+                                }
 
-                                            <td className="p-3 font-semibold text-gray-800">
-                                                {item.assignmentName}
-                                            </td>
+                                {resources?.map((item) => (
+                                    <tr
+                                        key={item.id}
+                                        className="border-b hover:bg-gray-50 transition"
+                                    >
+                                        <td className="p-3 font-medium">{item.id || 0}</td>
 
-                                            <td className="p-3 text-gray-600 max-w-xs truncate">
-                                                {item.description}
-                                            </td>
+                                        <td className="p-3 font-semibold text-gray-800">
+                                            {item.assignmentName || "assignmentName"}
+                                        </td>
 
-                                            <td className="p-3 text-center">{item.dueDate}</td>
+                                        <td className="p-3 text-gray-600 max-w-xs truncate">
+                                            {item.description || "description"}
+                                        </td>
 
-                                            <td className="p-3 text-center">{item.dueTime}</td>
+                                        <td className="p-3 text-center">{item.dueDate || "dueDate"}</td>
 
-                                            <td className="p-3 text-center font-medium">
-                                                {item.marks}
-                                            </td>
+                                        <td className="p-3 text-center">{item.dueTime || "dueTime"}</td>
 
-                                            <td className="p-3 text-center">
-                                                <a
-                                                    href={item.pdfUrl}
-                                                    className="text-blue-600 hover:underline font-medium"
-                                                    target="_blank"
-                                                    rel="noreferrer"
-                                                >
-                                                    View
-                                                </a>
-                                            </td>
+                                        <td className="p-3 text-center font-medium">
+                                            {item.marks || 0}
+                                        </td>
 
-                                            <td className="p-3 text-center">
-                                                <span
-                                                    className={`px-3 py-1 rounded-full text-xs font-semibold
+                                        <td className="p-3 text-center">
+                                            <a
+                                                href={item.pdfUrl}
+                                                className="text-blue-600 hover:underline font-medium"
+                                                target="_blank"
+                                                rel="noreferrer"
+                                            >
+                                                View
+                                            </a>
+                                        </td>
+
+                                        <td className="p-3 text-center">
+                                            <span
+                                                className={`px-3 py-1 rounded-full text-xs font-semibold
                                     ${item.submissionStatus === "Open"
-                                                            ? "bg-green-100 text-green-700"
-                                                            : "bg-red-100 text-red-700"
-                                                        }`}
-                                                >
-                                                    {item.submissionStatus}
-                                                </span>
-                                            </td>
+                                                        ? "bg-green-100 text-green-700"
+                                                        : "bg-red-100 text-red-700"
+                                                    }`}
+                                            >
+                                                {item.submissionStatus}
+                                            </span>
+                                        </td>
 
-                                            <td className="p-3 text-center font-medium">
-                                                <span onClick={() => setDefaultNavbar("Student Submissions")}>View Submissions</span>
-                                            </td>
+                                        <td className="p-3 text-center font-medium">
+                                            <span onClick={() => setDefaultNavbar("Student Submissions")}>View Submissions</span>
+                                        </td>
 
-                                            <td className="p-3">
-                                                <div className="flex items-center justify-center gap-2">
-                                                    <button className="px-3 py-1 text-xs rounded-md bg-blue-500 text-white hover:bg-blue-600">
-                                                        View
-                                                    </button>
-                                                    <button className="px-3 py-1 text-xs rounded-md bg-yellow-500 text-white hover:bg-yellow-600">
-                                                        Edit
-                                                    </button>
-                                                    <button className="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-600">
-                                                        Delete
-                                                    </button>
-                                                    <button className="px-3 py-1 text-xs rounded-md bg-purple-500 text-white hover:bg-purple-600">
-                                                        Reminder
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
+                                        <td className="p-3">
+                                            <div className="flex items-center justify-center gap-2">
+                                                <button className="px-3 py-1 text-xs rounded-md bg-blue-500 text-white hover:bg-blue-600">
+                                                    View
+                                                </button>
+                                                <button className="px-3 py-1 text-xs rounded-md bg-yellow-500 text-white hover:bg-yellow-600">
+                                                    Edit
+                                                </button>
+                                                <button className="px-3 py-1 text-xs rounded-md bg-red-500 text-white hover:bg-red-600">
+                                                    Delete
+                                                </button>
+                                                <button className="px-3 py-1 text-xs rounded-md bg-purple-500 text-white hover:bg-purple-600">
+                                                    Reminder
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                                }
                             </tbody>
 
                         </table>

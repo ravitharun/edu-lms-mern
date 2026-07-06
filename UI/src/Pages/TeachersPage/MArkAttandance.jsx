@@ -7,16 +7,18 @@ import toast, { Toaster } from "react-hot-toast";
 import Dataloading from "../../Loaders/Dataloading";
 import NotFound from "../../Loaders/NotFound";
 import Tomany from "../../Loaders/Tomany";
-import { MaintanceMode } from "../../Apis/Islogin";
+import { handleLogout, MaintanceMode } from "../../Apis/Islogin";
 import Undermanitance from "../../Loaders/Undermanitance";
 import AttandanceBulk from "./AttandanceBulk";
 import { FaCalendarAlt, FaClock, FaBook } from "react-icons/fa";
 import UpdateAttandance from "./UpdateAttandance";
 import AdminHeader from "../../Components/AdminHeader";
 import ProgressLoader from "../../Loaders/Progressloader";
+import { useNavigate } from "react-router-dom";
 
 function MarkAttendance() {
-  const [showNotifications, setShowNotifications] = useState(false);
+  // const [showNotifications, setShowNotifications] = useState(false);
+  const naviagte = useNavigate()
   const [HandelAttandance, setHandelAttandance] = useState(false);
   const [AbsentAttandance, setHandelAbsentAttandance] = useState(false);
   const [Class, setClassList] = useState([])
@@ -26,18 +28,23 @@ function MarkAttendance() {
   const [handel, sethandel] = useState(false)
   const [ShowBulk, setShowBulk] = useState(false)
   const [Hidebutton, sethidesubmitbutton] = useState(false)
-  const [studentidx, setid] = useState(0)
-  const [toggleStatus, settoggleStatus] = useState(false)
+  // const [studentidx, setid] = useState(0)
+  // const [toggleStatus, settoggleStatus] = useState(false)
   useEffect(() => {
     const Fetch_Assignment = async () => {
       try {
-        const reonse = await FetchClassByTecherId()
-        setClassList(reonse.data.message)
-        // let Classdf = reonse.data.message[0]
-        // setdefault(Classdf.classId + "-" + Classdf.department + "-" + Classdf.year)
+        const response = await FetchClassByTecherId()
+        setClassList(response.data.message)
+
 
       } catch (error) {
         console.log(error.message)
+        if (error.response.status == 401) {
+          toast.error("Token Expry")
+          setTimeout(() => {
+            return handleLogout(naviagte)
+          }, 1300);
+        }
       }
     }
     Fetch_Assignment()
@@ -63,7 +70,12 @@ function MarkAttendance() {
 
       } catch (error) {
         console.log(error.message, 'err')
-        // toast.error(error.message)
+        if (error.response.status == 401) {
+          toast.error("Token Expry")
+          setTimeout(() => {
+            return handleLogout(naviagte)
+          }, 1300);
+        }
 
       }
     }
@@ -123,7 +135,7 @@ function MarkAttendance() {
 
   // handelSubmit final
   const HandelSubmit = () => {
-   
+
   }
 
   // bulk Upload
@@ -153,8 +165,8 @@ function MarkAttendance() {
                 key={item}
                 onClick={() => setype(item)}
                 className={`px-5 py-2 rounded-lg text-sm font-medium transition ${type === item
-                    ? "bg-blue-600 text-white shadow"
-                    : "text-gray-700 hover:bg-gray-200"
+                  ? "bg-blue-600 text-white shadow"
+                  : "text-gray-700 hover:bg-gray-200"
                   }`}
               >
                 {item}
@@ -273,8 +285,8 @@ function MarkAttendance() {
                           <div
                             onClick={() => handleToggle(student.Student_ID)}
                             className={`cursor-pointer font-semibold ${attendance[student.Student_ID] === "P"
-                                ? "text-green-600"
-                                : "text-red-500"
+                              ? "text-green-600"
+                              : "text-red-500"
                               }`}
                           >
                             {attendance[student.Student_ID] || "AB"}

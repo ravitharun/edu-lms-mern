@@ -4,13 +4,14 @@ import toast, { Toaster } from 'react-hot-toast'
 import AdminHeader from '../../Components/AdminHeader'
 import { FaPlus } from 'react-icons/fa'
 import ProgressLoader from '../../Loaders/Progressloader'
-import { MaintanceMode, UserName, UserProfileInfo } from '../../Apis/Islogin'
+import { handleLogout, MaintanceMode, UserName, UserProfileInfo } from '../../Apis/Islogin'
 import axios from 'axios'
 import GetUserProfile from './TechersApiCall/GetUserProfile'
 import { useEffect } from 'react'
 import secureLocalStorage from 'react-secure-storage'
 import ProfileLoading from '../../Loaders/ProfileLoading'
 import Undermanitance from '../../Loaders/Undermanitance'
+import { useNavigate } from 'react-router-dom'
 
 function TeachersProfile() {
     const [Edit, setEdit] = useState(false)
@@ -28,7 +29,7 @@ function TeachersProfile() {
     const [isFill, setisfill] = useState([])
     const [page, setpage] = useState(1);
     const [Profileloader, SetLoader] = useState(false)
-
+    const naviagte = useNavigate()
 
     useEffect(() => {
         const response = async () => {
@@ -48,11 +49,14 @@ function TeachersProfile() {
                 secureLocalStorage.setItem("userProfileInfo", response_profile.data.message)
                 setisfill(response_profile.data.message)
             } catch (error) {
-                if (error?.message === "Request failed with status code 401") {
+              
+                if (error.response.status == 401) {
                     toast.error("Token Expry")
-                    return window.location.href = "/login"
-
+                    setTimeout(() => {
+                        return handleLogout(naviagte)
+                    }, 1300);
                 }
+                
                 console.log(error, 'error from the GetUserProfile.')
             }
         }

@@ -1,4 +1,5 @@
 const cloudinary = require("../config/cloudinary");
+const uploadAssigment = require("../models/Assigment");
 
 const CreateAssignments = async (req, res) => {
 
@@ -21,6 +22,7 @@ const CreateAssignments = async (req, res) => {
         }
 
         if (!AddedBy || !Mark || !Duedate || !AssignmentName || !section) {
+            console.log("hy")
 
             return res.status(404).json({ message: "Some inputs Are missing" })
         }
@@ -28,7 +30,18 @@ const CreateAssignments = async (req, res) => {
         const securl_url = await cloudinary.uploader.upload(req.file.path)
         console.log(securl_url.secure_url, 'securl_url');
 
-// Db save it 
+        // Db save it 
+
+        const saveDb = new uploadAssigment({
+            Section: section,
+            AssignementName: AssignmentName,
+            Assignementurl: securl_url.secure_url,
+            DueDate: Duedate,
+            Marks: Mark,
+            Addedby: AddedBy
+
+        })
+        await saveDb.save()
 
 
 
@@ -37,6 +50,8 @@ const CreateAssignments = async (req, res) => {
         return res.status(201).json({ message: "Assignments Uploaded." })
 
     } catch (error) {
+
+
         return res.status(500).json({ message: "server error." })
 
     }
@@ -44,13 +59,22 @@ const CreateAssignments = async (req, res) => {
 const FetchAssignments = async (req, res) => {
     try {
 
-        const { data } = req.query
+        const { section } = req.query
 
-        console.log(data, 'data')
+        console.log(section, '<---section')
+        console.log(section=="CSE3 - CSE - 3", '<---section')
+        console.log("CSE3 - CSE - 3", '<---DB section')
 
-        return res.status(201).json({ message: "Assignments FetchAssignments." })
+        const data = await uploadAssigment.find({ Section: section })
+        console.log(data)
+        if (data.length == 0) {
+            return res.status(200).json({ message: "No Resuroces Found" })
+        }
+
+        return res.status(201).json({ message: "Assignments FetchAssignments.", data: data })
 
     } catch (error) {
+        console.log(error)
         return res.status(500).json({ message: "server error." })
 
     }
@@ -65,6 +89,7 @@ const SubmitAssignments = async (req, res) => {
         return res.status(201).json({ message: "Assignments submited." })
 
     } catch (error) {
+        console.log(error)
         return res.status(500).json({ message: "server error." })
 
     }

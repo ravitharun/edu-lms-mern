@@ -5,8 +5,8 @@ const Assignment = new mongoose.Schema({
     AssignementName: { type: String, required: true },
     Assignementurl: { type: String, required: true },
     DueDate: { type: Date, required: true },
-    Marks: { type: number, required: true },
-    Addedby: {  type:mongoose.Schema.Types.ObjectId, required: true },
+    Marks: { type: Number, required: true },
+    Addedby: {  type:String, required: true },
 
 },{
 timestamps: true,
