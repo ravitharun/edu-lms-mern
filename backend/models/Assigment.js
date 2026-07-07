@@ -10,7 +10,12 @@ const Assignment = new mongoose.Schema({
     DueDate: { type: Date, required: true },
     Marks: { type: Number, required: true },
     Addedby: { type: String, required: true, ref: "User" },
-    totalSubmissions: { type: Number, default: 0 }
+    totalSubmissions: { type: Number, default: 0 },
+    StudentsIdSubmitted: [{ type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" }],
+    SubmittedAssignments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "AssignmentSubmission"
+    }]
 }, {
     timestamps: true,
 })

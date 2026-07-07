@@ -7,9 +7,11 @@ const mongoose = require("mongoose")
 const assignmentSubmissionSchema = new mongoose.Schema({
     assignmentId: {
         type: String,
-     
+
         required: true,
     },
+
+    year: { type: String, required: true} ,
     submissionassignmentId: {
         type: String,
         ref: "Assignment",

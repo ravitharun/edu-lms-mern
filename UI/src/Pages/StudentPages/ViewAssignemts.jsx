@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     FileText,
     CalendarDays,
@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FaEye } from "react-icons/fa";
 
-const ViewAssignemts=React.memo(({ Section, Subject_info }) => {
+const ViewAssignemts = React.memo(({ Section, Subject_info }) => {
     const naviagte = useNavigate()
     const [selectedAssignment, setSelectedAssignment] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
@@ -38,10 +38,11 @@ const ViewAssignemts=React.memo(({ Section, Subject_info }) => {
                 setloading(true)
                 const res = await axios.get(`${url}/api/UploadAssignments/Assignment/`, {
                     params: {
-                        section: Section.subjectId
+                        section: Section.subjectId,
+                        studentid: UserName._id
                     }
                 })
-                console.log(res, 'res.response.data.message')
+         
                 setassignments(res.data.data)
             } catch (error) {
                 const err_status = error.response.status
@@ -121,7 +122,7 @@ const ViewAssignemts=React.memo(({ Section, Subject_info }) => {
         formdata.append("feedback", comment)
         formdata.append("subjectid", selectedAssignment.subjectId)
         formdata.append("StudentId", UserName._id)
-       
+        formdata.append("StudentsYearDepartment", UserName.StudentsYearDepartment)
         try {
             const response = await axios.post(`${url}/api/UploadAssignments/SubmitAssignments`, formdata, {
                 headers: {
@@ -184,7 +185,7 @@ const ViewAssignemts=React.memo(({ Section, Subject_info }) => {
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="rounded-2xl bg-white/15 px-4 py-3">
                                         <p className="text-xs text-blue-100">Total</p>
-                                        <p className="text-lg font-bold">{assignments?.length||0}</p>
+                                        <p className="text-lg font-bold">{assignments?.length || 0}</p>
                                     </div>
                                     <div className="rounded-2xl bg-white/15 px-4 py-3">
                                         <p className="text-xs text-blue-100">Pending</p>
@@ -209,101 +210,188 @@ const ViewAssignemts=React.memo(({ Section, Subject_info }) => {
                                                 Due Date
                                             </th>
                                             <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
-                                                Marks
+                                                Total Marks
+                                            </th>
+                                            <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
+                                                Obtained Marks
+                                            </th>
+                                            <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
+                                                Your Assignement Status
                                             </th>
                                             <th className="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider text-slate-500">
                                                 createdAt
+                                            </th>
+                                            <th className="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-slate-500">
+                                                Submitted
                                             </th>
                                             <th className="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider text-slate-500">
                                                 Actions
                                             </th>
                                         </tr>
                                     </thead>
-
                                     <tbody className="divide-y divide-slate-100">
-                                        {(!assignments || assignments.length === 0) && (
-                                            <div className="flex min-h-[60vh] items-center justify-center">
-                                                <NotFound message="No Assignments available" />
-                                            </div>
-                                        )}
-                                        {assignments.map((item, id) => (
-                                            <tr key={item.assignmentId} className="hover:bg-sky-50/40">
-                                                <td className="px-6 py-5">
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="rounded-xl bg-blue-100 p-3 text-blue-600">
-                                                            <FileText size={18} />
-                                                        </div>
-                                                        <div>
-                                                            <p className="font-semibold text-slate-800">
-                                                                {item.title}
-                                                            </p>
-                                                            <p className="text-xs text-slate-500">
-                                                                {id + 1}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
-                                                <td className="px-6 py-5">
-                                                    <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
-                                                        <BookOpen size={16} className="text-indigo-500" />
-                                                        {item.subjectId || "subjectId"}
-                                                    </div>
-                                                </td>
-
-                                                <td className="px-6 py-5">
-                                                    <div className="flex items-center gap-2 text-sm text-slate-700">
-                                                        <CalendarDays size={16} className="text-rose-500" />
-                                                        {new Date(item.DueDate)?.toLocaleDateString()}
-                                                    </div>
-                                                </td>
-
-                                                <td className="px-6 py-5 text-sm font-semibold text-slate-800">
-                                                    {item.Marks}
-                                                </td>
-
-                                                <td className="px-6 py-5">
-                                                    <span
-                                                        className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold `}
-                                                    >
-
-                                                        {new Date(item.createdAt)?.toLocaleDateString()}
-                                                    </span>
-                                                </td>
-
-                                                <td className="px-6 py-5">
-                                                    <div className="flex items-center justify-center gap-2">
-                                                        <a
-                                                            href={`https://docs.google.com/gview?url=${encodeURIComponent(item.Assignementurl)}&embedded=true`}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="inline-flex items-center gap-2 rounded-xl bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200"
-                                                        >
-                                                            <FaEye size={16} />
-                                                            View
-                                                        </a>
-                                                        <a
-                                                            href={item.Assignementurl}
-
-                                                            rel="noopener noreferrer"
-                                                            className="inline-flex items-center gap-2 rounded-xl bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-200"
-                                                            download
-                                                        >
-                                                            <Download size={16} />
-                                                            Download
-                                                        </a>
-
-                                                        <button
-                                                            onClick={() => openUploadPanel(item)}
-                                                            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700"
-                                                        >
-                                                            <Upload size={16} />
-                                                            Upload
-                                                        </button>
+                                        {!assignments || assignments.length === 0 ? (
+                                            <tr>
+                                                <td colSpan={9} className="py-16">
+                                                    <div className="flex items-center justify-center">
+                                                        <NotFound message="No Assignments available" />
                                                     </div>
                                                 </td>
                                             </tr>
-                                        ))}
+                                        ) : (
+                                            assignments.map((item, id) => {
+                                                const submission = item.SubmittedAssignments?.find((sub) => {
+                                                    const studentId =
+                                                        typeof sub.studentId === "object"
+                                                            ? sub.studentId?._id
+                                                            : sub.studentId;
+
+                                                    return studentId?.toString() === UserName._id?.toString();
+                                                });
+
+                                                return (
+                                                    <tr
+                                                        key={item._id || item.assignmentId}
+                                                        className="border-b border-slate-100 hover:bg-slate-50 transition-colors"
+                                                    >
+                                                        {/* Assignment */}
+                                                        <td className="px-6 py-5">
+                                                            <div className="flex items-center gap-3">
+                                                                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                                                                    <FileText size={20} />
+                                                                </div>
+
+                                                                <div>
+                                                                    <h3 className="font-semibold text-slate-800">
+                                                                        {item.title}
+                                                                    </h3>
+
+                                                                    <span className="text-xs text-slate-500">
+                                                                        #{id + 1}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+
+                                                        {/* Subject */}
+                                                        <td className="px-6 py-5">
+                                                            <span className="inline-flex items-center gap-2 rounded-lg bg-indigo-50 px-3 py-2 text-sm font-medium text-indigo-700">
+                                                                <BookOpen size={15} />
+                                                                {item.CourseCode}
+                                                            </span>
+                                                        </td>
+
+                                                        {/* Due Date */}
+                                                        <td className="px-6 py-5">
+                                                            <span className="inline-flex items-center gap-2 rounded-lg bg-amber-50 px-3 py-2 text-sm font-medium text-amber-700">
+                                                                <CalendarDays size={15} />
+                                                                {new Date(item.DueDate).toLocaleDateString()}
+                                                            </span>
+                                                        </td>
+
+                                                        {/* Total Marks */}
+                                                        <td className="px-6 py-5">
+                                                            <span className="rounded-lg bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700">
+                                                                {item.Marks} Marks
+                                                            </span>
+                                                        </td>
+
+                                                        {/* Obtained Marks */}
+                                                        <td className="px-6 py-5">
+                                                            {submission ? (
+                                                                <div className="flex flex-col gap-1">
+                                                                    <span className="rounded-lg bg-blue-50 px-3 py-2 text-sm font-semibold text-blue-700">
+                                                                        {submission.obtainedMarks ?? "--"} / {item.Marks}
+                                                                    </span>
+
+                                                                    <span
+                                                                        className={`inline-flex w-fit rounded-full px-2 py-1 text-xs font-medium ${submission.status === "Reviewed"
+                                                                                ? "bg-green-100 text-green-700"
+                                                                                : "bg-yellow-100 text-yellow-700"
+                                                                            }`}
+                                                                    >
+                                                                        {submission.status ?? "Pending Review"}
+                                                                    </span>
+                                                                </div>
+                                                            ) : (
+                                                                <span className="rounded-lg bg-slate-100 px-3 py-2 text-sm font-medium text-slate-500">
+                                                                    Not Submitted
+                                                                </span>
+                                                            )}
+                                                        </td>
+
+                                                        {/* Created */}
+                                                        <td className="px-6 py-5">
+                                                            <span className="rounded-lg bg-slate-100 px-3 py-2 text-sm text-slate-600">
+                                                            
+                                                                {submission.status}
+                                                            </span>
+                                                        </td>
+
+                                                        {/* Submitted */}
+                                                        <td className="px-6 py-5">
+                                                               {new Date(item.createdAt).toLocaleDateString()}
+                                                        </td>
+                                                        {/* Submitted */}
+                                                        <td className="px-6 py-5">
+                                                            {submission ? (
+                                                                <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
+                                                                     Submitted
+                                                                </span>
+                                                            ) : (
+                                                                <span className="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700">
+                                                                 Pending
+                                                                </span>
+                                                            )}
+                                                        </td>
+
+                                                        {/* Actions */}
+                                                        <td className="px-6 py-5">
+                                                            <div className="flex flex-wrap items-center justify-center gap-2">
+                                                                <a
+                                                                    href={`https://docs.google.com/gview?url=${encodeURIComponent(
+                                                                        item.Assignementurl
+                                                                    )}&embedded=true`}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600"
+                                                                >
+                                                                    <FaEye size={15} />
+                                                                    View
+                                                                </a>
+
+                                                                <a
+                                                                    href={item.Assignementurl}
+                                                                    download
+                                                                    className="flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:border-green-300 hover:bg-green-50 hover:text-green-600"
+                                                                >
+                                                                    <Download size={15} />
+                                                                    Download
+                                                                </a>
+
+                                                                {!submission ? (
+                                                                    <button
+                                                                        onClick={() => openUploadPanel(item)}
+                                                                        className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                                                                    >
+                                                                        <Upload size={15} />
+                                                                        Upload
+                                                                    </button>
+                                                                ) : (
+                                                                    <button
+                                                                        onClick={() => handleViewSubmission(submission)}
+                                                                        className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700"
+                                                                    >
+                                                                        <FaEye size={15} />
+                                                                        View Submission
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                );
+                                            })
+                                        )}
                                     </tbody>
                                 </table>
                             </div>
@@ -358,7 +446,7 @@ const ViewAssignemts=React.memo(({ Section, Subject_info }) => {
                                                     <CheckCircle2 size={18} className="text-emerald-600" />
                                                     <div>
                                                         <p className="text-sm font-semibold text-slate-800">
-                                                            {selectedFile?.name||"name"}
+                                                            {selectedFile?.name || "name"}
                                                         </p>
                                                         <p className="text-xs text-slate-500">
                                                             Ready to submit
