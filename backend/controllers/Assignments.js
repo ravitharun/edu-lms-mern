@@ -65,15 +65,18 @@ const CreateAssignments = async (req, res) => {
 const FetchAssignments = async (req, res) => {
     try {
 
-        const { section } = req.query
-        console.log(req.query, ' Section req')
+        const { section, studentid } = req.query
+        console.log(req.query, 'Section req')
+        // const MarksData = await uploadAssigment.find({ StudentsIdSubmitted: studentid })
+
         const data = await uploadAssigment.find({
 
             $or: [
-                { Section: section},
-                { CourseCode: section }
+                { Section: section },
+                { CourseCode: section },
+                { StudentsIdSubmitted: studentid }
             ]
-        }).populate("Addedby")
+        }).populate("Addedby").populate("assignmentId").populate("StudentsIdSubmitted").populate("SubmittedAssignments")
         console.log("data", data)
         if (data.length == 0) {
             return res.status(200).json({ message: "No Resuroces Found", data: [] })
@@ -116,8 +119,8 @@ const SubmitAssignments = async (req, res) => {
 
 
         const url = await cloudinary.uploader.upload(req.file.path)
-
         const assignement = new UploadassignmentModel({
+            year: req.body.StudentsYearDepartment,
             assignmentId: req.body.assignmentId,
             submissionassignmentId: uuidv4(),
             subjectid: req.body.subjectid,
@@ -129,11 +132,15 @@ const SubmitAssignments = async (req, res) => {
 
 
         })
-
+        console.log(assignement, 'tharunassignement')
 
         const Updatedsubmissions = await uploadAssigment.findOneAndUpdate({ assignmentId: req.body.assignmentId }, {
             $inc: {
                 totalSubmissions: 1
+            },
+            $push: {
+                StudentsIdSubmitted: req.body.StudentId,
+                SubmittedAssignments: assignement._id
             }
         })
         await assignement.save()
@@ -205,7 +212,7 @@ const fetchMarksByStudentId = async (req, res) => {
 
         console.log(studentid, 'studentid')
 
-        const MarksData = await UploadassignmentModel.find({ studentId: studentid }).populate("assignmentId")
+        const MarksData = await uploadAssigment.find({ StudentsIdSubmitted: studentid }).populate("assignmentId").populate("StudentsIdSubmitted").populate("SubmittedAssignments")
         console.log(MarksData, 'MarksData')
         return res.status(200).json({ message: 'fetching The Marks', data: MarksData })
     } catch (error) {
