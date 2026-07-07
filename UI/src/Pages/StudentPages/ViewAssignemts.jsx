@@ -110,9 +110,8 @@ const ViewAssignemts=React.memo(({ Section, Subject_info }) => {
 
     const handleSubmit = async () => {
 
+
         if (!selectedFile) {
-
-
             return alert("Please select a file first");
         }
 
@@ -122,6 +121,7 @@ const ViewAssignemts=React.memo(({ Section, Subject_info }) => {
         formdata.append("feedback", comment)
         formdata.append("subjectid", selectedAssignment.subjectId)
         formdata.append("StudentId", UserName._id)
+       
         try {
             const response = await axios.post(`${url}/api/UploadAssignments/SubmitAssignments`, formdata, {
                 headers: {

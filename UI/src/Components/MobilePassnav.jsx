@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FiChevronDown, FiChevronUp, FiLock, FiLogOut, FiUser } from 'react-icons/fi'
 import { Link, useNavigate } from 'react-router-dom'
 import { UserLogin } from '../Apis/Islogin'
@@ -37,7 +37,11 @@ function MobilePassnav({ mobileMenuOpen }) {
                         className="flex items-center gap-3 rounded-lg px-3 py-2 text-red-600 hover:bg-red-50"
                         onClick={Logout}
                     >
-                        {!UserLogin  ? "Login" : <> <FiLogOut /> Logout</>}
+                        {UserLogin  ? <>
+                        
+                        
+                        <span className='flex  gap-1.5 space-x-0'><FiLogOut /> Logout</span>
+                        </> : <><span>Login</span> </>}
                     </button>
                 </div>
             </div>

@@ -7,14 +7,17 @@ const CreateAssignments = async (req, res) => {
     try {
         const { AddedBy, Mark, Duedate, AssignmentName, section, SUbjectsId } = req.body
 
+        const id = req.body.section.split("-").pop().trim();
+        const CourseCode = req.body.section.trim().split("-")[3].trim()
+        const Section = section.substring(0, section.lastIndexOf("-")).trim();
 
-        console.log(AddedBy, 'AddedBy')
-        console.log(Mark, 'body')
-        console.log(Duedate, 'body')
-        console.log(AssignmentName, 'body')
-        console.log(section, 'section')
-        console.log(SUbjectsId, 'SUbjectsId')
-        console.log(req.file, 'file')
+        console.log(CourseCode, 'CourseCode')
+        console.log(id, 'id')
+        console.log(Section, 'Section')
+
+
+
+
 
         if (!req.file) {
             return res.status(404).json({ message: "File is required." })
@@ -31,17 +34,16 @@ const CreateAssignments = async (req, res) => {
         console.log(securl_url.secure_url, 'securl_url');
 
         // Db save it 
-
         const saveDb = new uploadAssigment({
             assignmentId: uuidv4(),
-            Section: section,
-            subjectId: SUbjectsId,
+            Section: Section,
+            subjectId: id,
+            CourseCode: CourseCode,
             AssignementName: AssignmentName,
             Assignementurl: securl_url.secure_url,
             DueDate: Duedate,
             Marks: Mark,
             Addedby: AddedBy
-
         })
         await saveDb.save()
 
@@ -53,7 +55,7 @@ const CreateAssignments = async (req, res) => {
 
     } catch (error) {
 
-        console.log(error, 'error')
+        console.log(error.message, 'error')
         return res.status(500).json({ message: "server error." })
 
     }
@@ -64,12 +66,12 @@ const FetchAssignments = async (req, res) => {
     try {
 
         const { section } = req.query
-        console.log(section, ' req.query')
+        console.log(req.query, ' Section req')
         const data = await uploadAssigment.find({
 
             $or: [
-                { Section: section },
-                { subjectId: section }
+                { Section: section},
+                { CourseCode: section }
             ]
         }).populate("Addedby")
         console.log("data", data)
@@ -97,6 +99,7 @@ const SubmitAssignments = async (req, res) => {
 
 
         const checkIsStudentUploaded = await UploadassignmentModel.findOne({
+
             studentId: req.body.StudentId,
             subjectid: req.body.subjectid,
         });
@@ -118,12 +121,20 @@ const SubmitAssignments = async (req, res) => {
             assignmentId: req.body.assignmentId,
             submissionassignmentId: uuidv4(),
             subjectid: req.body.subjectid,
+            CourseCode: req.body.CourseCode,
             feedback: req.body.feedback,
             studentId: req.body.StudentId,
             submissionUrl: url.secure_url,
             submittedAt: Date.now()
 
 
+        })
+
+
+        const Updatedsubmissions = await uploadAssigment.findOneAndUpdate({ assignmentId: req.body.assignmentId }, {
+            $inc: {
+                totalSubmissions: 1
+            }
         })
         await assignement.save()
         return res.status(201).json({ message: "Assignments submited." })
@@ -135,25 +146,75 @@ const SubmitAssignments = async (req, res) => {
     }
 }
 
+const GetSubmissions = async (req, res) => {
+    try {
+        const { id } = req.query
+        if (!id) {
+            return res.status(404).json({ message: "No id found" })
+        }
+        console.log(id, 'checkid')
 
+
+        // Db fetch it
+        const response = await UploadassignmentModel.find({
+            assignmentId: id,
+        }).populate({
+            path: "studentId",
+            select:
+                "name email profilePreview AccountStatus isActive StudentsYearDepartment department Student_ID",
+        });
+        console.log(response, 'response')
+        if (!response) {
+            return res.status(404).json({ messsage: "No student Submitted." })
+        }
+        return res.status(200).json({ message: "fetched", data: response })
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).json({ message: "server error" })
+
+    }
+}
 
 const ValidateAssignments = async (req, res) => {
     try {
 
+        const { UpdatedStatus, updateMarks, Student_ID, assignementId, TotalMarks } = req.body.data
+        console.log(UpdatedStatus, updateMarks, Student_ID, assignementId)
 
-        console.log(req.body)
-        console.log(req.files)
-
-        return res.status(201).json({ message: "Assignments submited." })
+        const studentAssignementfindUpdate = await UploadassignmentModel.findOneAndUpdate({ studentId: Student_ID, assignmentId: assignementId }, {
+            $set: {
+                obtainedMarks: updateMarks,
+                status: UpdatedStatus,
+                TotalMarks: TotalMarks
+            }
+        }, { returnDocument: "after" })
+        console.log(studentAssignementfindUpdate, 'studentAssignementfindUpdate')
+        return res.status(201).json({ message: "Student assignment validated successfully." })
 
     } catch (error) {
+        console.log(error.message)
         return res.status(500).json({ message: "server error." })
+
+    }
+}
+
+const fetchMarksByStudentId = async (req, res) => {
+    try {
+        // const { studentid } = req.query
+        const studentid = "6a4b21b2302a114dd21eb117"
+
+        console.log(studentid, 'studentid')
+
+        const MarksData = await UploadassignmentModel.find({ studentId: studentid }).populate("assignmentId")
+        console.log(MarksData, 'MarksData')
+        return res.status(200).json({ message: 'fetching The Marks', data: MarksData })
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).json({ message: 'server error', err: error })
 
     }
 }
 
 
 
-
-
-module.exports = { CreateAssignments, FetchAssignments, SubmitAssignments, ValidateAssignments }
+module.exports = { CreateAssignments, FetchAssignments, SubmitAssignments, ValidateAssignments, GetSubmissions, fetchMarksByStudentId }

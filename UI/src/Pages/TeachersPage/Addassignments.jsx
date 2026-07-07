@@ -498,7 +498,7 @@ function Addassignments() {
                                         {classList.map((cls, idx) => (
                                             <option
                                                 key={idx}
-                                                value={`${cls.classId} - ${cls.department} - ${cls.year} - ${cls?.subjects[0]?.subjectId}`}
+                                                value={`${cls.classId} - ${cls.department} - ${cls.year} - ${cls?.subjects[0]?.subjectId} - ${cls?.subjects[0]?._id}`}
                                             >
                                                 {cls.classId} - {cls.department} - {cls.year} - {cls?.subjects?.[0]?.subjectName || "No Subject"}
                                             </option>
