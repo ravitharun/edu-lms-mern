@@ -125,6 +125,7 @@ export default function StudentAssignmentsSubmissions({ Data, setDefaultNavbar }
 
 
   const HandelUpdate = async (updatedata) => {
+    console.log(updatedata,'updatedata')
 
     if (!UpdatedStatus || !updateMarks) { return toast.error("Required") }
     if (!updatedata.assignmentId) { return toast.error("Some Thing Went Wrong.") }
