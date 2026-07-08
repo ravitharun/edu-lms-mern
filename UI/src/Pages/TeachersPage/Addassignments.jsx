@@ -187,8 +187,8 @@ function Addassignments() {
         }
 
 
-        const fixed_size_file = 5000000
-        if (validate_file.size > fixed_size_file) {
+        const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+        if (validate_file.size > MAX_FILE_SIZE) {
 
 
             return toast.error('Only 5mb file can upload', {
@@ -213,7 +213,7 @@ function Addassignments() {
     // submit the file
     const submitFile = async (e) => {
         e.preventDefault();
-        
+
 
         if (!Uploadsection || !Assignmentfile || !AssignmentName || !Mark || !Duedate || !UserProfileInfo?.teacher_Id || !Uploadsection) {
             return toast.error("Some fields are required.");
@@ -271,9 +271,9 @@ function Addassignments() {
     };
     const [SubmissionsData, setSubmissionsData] = useState(0)
 
-    const handelSubmissions = (data,id) => {
-        setSubmissionsData({data,id})
-        console.log({data,id},'{data,id}')
+    const handelSubmissions = (data, id) => {
+        setSubmissionsData({ data, id })
+        console.log({ data, id }, '{data,id}')
         setDefaultNavbar("Student Submissions")
     }
 
@@ -420,14 +420,14 @@ function Addassignments() {
                                             </span>
                                         </td> */}
 
-                                    <td className="p-3 text-center">
-  <button
-    onClick={() => handelSubmissions(item,id)}
-    className="inline-flex items-center justify-center rounded-md border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 transition hover:bg-blue-100"
-  >
-    View Submissions
-  </button>
-</td>
+                                        <td className="p-3 text-center">
+                                            <button
+                                                onClick={() => handelSubmissions(item, id)}
+                                                className="inline-flex items-center justify-center rounded-md border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-medium text-blue-700 transition hover:bg-blue-100"
+                                            >
+                                                View Submissions
+                                            </button>
+                                        </td>
 
                                         <td className="p-3">
                                             <div className="flex items-center justify-center gap-2">
@@ -460,7 +460,7 @@ function Addassignments() {
                 </div>
 
 
-                {ChooseNavbar == "Student Submissions" && <StudentAssignmentsSubmissions Data={SubmissionsData} setDefaultNavbar={setDefaultNavbar}/>}
+                {ChooseNavbar == "Student Submissions" && <StudentAssignmentsSubmissions Data={SubmissionsData} setDefaultNavbar={setDefaultNavbar} />}
 
             </div>
 

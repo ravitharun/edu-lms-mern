@@ -42,7 +42,7 @@ const ViewAssignemts = React.memo(({ Section, Subject_info }) => {
                         studentid: UserName._id
                     }
                 })
-         
+
                 setassignments(res.data.data)
             } catch (error) {
                 const err_status = error.response.status
@@ -81,7 +81,12 @@ const ViewAssignemts = React.memo(({ Section, Subject_info }) => {
         if (!typeallowedFile.includes(file.type)) {
             setSelectedFile(null)
 
+            const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
 
+            if (selectedFile.size > MAX_FILE_SIZE) {
+                toast.error("File size must not exceed 5 MB.");
+                return;
+            }
             return toast.error("type of file is not alowed")
         }
     };
@@ -306,8 +311,8 @@ const ViewAssignemts = React.memo(({ Section, Subject_info }) => {
 
                                                                     <span
                                                                         className={`inline-flex w-fit rounded-full px-2 py-1 text-xs font-medium ${submission.status === "Reviewed"
-                                                                                ? "bg-green-100 text-green-700"
-                                                                                : "bg-yellow-100 text-yellow-700"
+                                                                            ? "bg-green-100 text-green-700"
+                                                                            : "bg-yellow-100 text-yellow-700"
                                                                             }`}
                                                                     >
                                                                         {submission.status ?? "Pending Review"}
@@ -323,24 +328,24 @@ const ViewAssignemts = React.memo(({ Section, Subject_info }) => {
                                                         {/* Created */}
                                                         <td className="px-6 py-5">
                                                             <span className="rounded-lg bg-slate-100 px-3 py-2 text-sm text-slate-600">
-                                                            
+
                                                                 {submission.status}
                                                             </span>
                                                         </td>
 
                                                         {/* Submitted */}
                                                         <td className="px-6 py-5">
-                                                               {new Date(item.createdAt).toLocaleDateString()}
+                                                            {new Date(item.createdAt).toLocaleDateString()}
                                                         </td>
                                                         {/* Submitted */}
                                                         <td className="px-6 py-5">
                                                             {submission ? (
                                                                 <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-700">
-                                                                     Submitted
+                                                                    Submitted
                                                                 </span>
                                                             ) : (
                                                                 <span className="inline-flex items-center rounded-full bg-red-100 px-3 py-1 text-xs font-medium text-red-700">
-                                                                 Pending
+                                                                    Pending
                                                                 </span>
                                                             )}
                                                         </td>
