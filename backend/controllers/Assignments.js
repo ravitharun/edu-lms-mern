@@ -53,10 +53,22 @@ const CreateAssignments = async (req, res) => {
         console.log("DB Saved....")
         return res.status(201).json({ message: "Assignments Uploaded." })
 
-    } catch (error) {
+    } catch (err) {
+        console.log(err.message, 'error')
+        if (err instanceof multer.MulterError) {
+            if (err.code === "LIMIT_FILE_SIZE") {
+                return res.status(413).json({
+                    success: false,
+                    message: "File size must not exceed 5 MB.",
+                });
+            }
+        }
 
-        console.log(error.message, 'error')
-        return res.status(500).json({ message: "server error." })
+        return res.status(err.status || 500).json({
+            success: false,
+            message: err.message || "Internal Server Error",
+        });
+
 
     }
 }
@@ -146,9 +158,20 @@ const SubmitAssignments = async (req, res) => {
         await assignement.save()
         return res.status(201).json({ message: "Assignments submited." })
 
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({ message: "server error." })
+    } catch (err) {
+        if (err instanceof multer.MulterError) {
+            if (err.code === "LIMIT_FILE_SIZE") {
+                return res.status(413).json({
+                    success: false,
+                    message: "File size must not exceed 5 MB.",
+                });
+            }
+        }
+
+        return res.status(err.status || 500).json({
+            success: false,
+            message: err.message || "Internal Server Error",
+        });
 
     }
 }

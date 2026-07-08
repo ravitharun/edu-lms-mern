@@ -144,6 +144,9 @@ const ViewAssignemts = React.memo(({ Section, Subject_info }) => {
             if (error.response.status == 404) {
                 return toast.error(error.response.data.message)
             }
+            if (error.response.status == 413) {
+                return toast.error(error.response.data.message)
+            }
             if (error.response.status == 409) {
                 closeUploadPanel()
                 return toast.error(error.response.data.message)
