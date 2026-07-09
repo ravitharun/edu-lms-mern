@@ -28,10 +28,13 @@ const ViewAssignemts = React.memo(({ Section, Subject_info }) => {
     const [assignments, setassignments] = useState([])
 
 
-
     useEffect(() => {
         const FetchAssignemenst = async () => {
-
+            console.log({
+                section: Section.subjectId,
+                CourseCode: Section.subjectId,
+                studentid: UserName._id
+            })
 
 
             try {
@@ -39,7 +42,9 @@ const ViewAssignemts = React.memo(({ Section, Subject_info }) => {
                 const res = await axios.get(`${url}/api/UploadAssignments/Assignment/`, {
                     params: {
                         section: Section.subjectId,
-                        studentid: UserName._id
+                        CourseCode: Section.subjectId,
+                        studentid: UserName._id,
+                        role:UserName?.role
                     }
                 })
 

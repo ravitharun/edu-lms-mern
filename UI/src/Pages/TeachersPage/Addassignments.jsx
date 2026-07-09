@@ -69,9 +69,8 @@ function Addassignments() {
     useEffect(() => {
         const Fetch_Assignment = async () => {
             try {
-                console.log(section, 'section')
 
-                const response = await axios.get(`${url}/api/UploadAssignments/Assignment/`, { params: { section: section.trim() } })
+                const response = await axios.get(`${url}/api/UploadAssignments/Assignment/`, { params: { CourseCode: section.trim().split(" ")[6]} })
 
                 console.log(response.data.data, 'response.data.message')
                 setresources(response.data.data)
