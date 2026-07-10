@@ -77,19 +77,24 @@ const CreateAssignments = async (req, res) => {
 const FetchAssignments = async (req, res) => {
     try {
 
-        const { section, studentid } = req.query
+        const { section, studentid, CourseCode, role } = req.query
         console.log(req.query, 'Section req')
         // const MarksData = await uploadAssigment.find({ StudentsIdSubmitted: studentid })
 
-        const data = await uploadAssigment.find({
+        const data = await uploadAssigment.find({ CourseCode:  CourseCode }).populate("Addedby").populate("assignmentId").populate("StudentsIdSubmitted").populate("SubmittedAssignments")
 
-            $or: [
-                { Section: section },
-                { CourseCode: section },
-                { StudentsIdSubmitted: studentid }
-            ]
-        }).populate("Addedby").populate("assignmentId").populate("StudentsIdSubmitted").populate("SubmittedAssignments")
+        // const data = await uploadAssigment.find({
+        //     $or: [
+
+
+        //         // { Section: section },
+        //         { CourseCode: CourseCode },
+        //         { StudentsIdSubmitted: studentid }
+        //     ]
+        // }).populate("Addedby").populate("assignmentId").populate("StudentsIdSubmitted").populate("SubmittedAssignments")
+
         console.log("data", data)
+
         if (data.length == 0) {
             return res.status(200).json({ message: "No Resuroces Found", data: [] })
         }
