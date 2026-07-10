@@ -100,7 +100,7 @@ function MasterAdminNavbar({ path, Active }) {
           <SidebarItem icon={<FaExclamationTriangle className="text-red-500" />} title="Maintance Mode" url="/admin/Maintance" path={path} active={Active} />
           {<>
 
-            {UserLogin ? <SidebarItem icon={<FiLogOut />} title="LogOut" path={path} active={Active} onClick={handleLogout} /> : <SidebarItem icon={<FiPower />} title="Login" path={path} active={Active} onClick={HandelLogin} />}
+            {UserLogin ? <SidebarItem icon={<FiLogOut />} title="Logout" path={path} active={Active} onClick={handleLogout} /> : <SidebarItem icon={<FiPower />} title="Login" path={path} active={Active} onClick={HandelLogin} />}
           </>}
         </nav>
       </aside>
