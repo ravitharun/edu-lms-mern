@@ -249,7 +249,6 @@ function MarksTableSection({ subjects, semester }) {
             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-red-100">
               <FiXCircle className="text-red-600" size={22} />
             </div>
-
             <div>
               <h4 className="font-semibold text-red-800">
                 Better Luck Next Time
