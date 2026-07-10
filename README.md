@@ -13,29 +13,30 @@ This system follows a **role-based access control** model where different users 
 
 ### 📊 Access Table
 
-| Feature / Use Case        | 👨‍🎓 Student | 👨‍🏫 Teacher | 👨‍💼 Admin |
-|--------------------------|-------------|-------------|------------|
-| View Courses             | ✅ Yes      | ✅ Yes      | ✅ Yes     |
-| Access Course PDFs       | ✅ Yes      | ✅ Upload & Manage | ✅ Yes |
-| Take Tests / Exams       | ✅ Yes      | ✅ Create / Edit / Delete | ❌ No |
-| View Attendance          | ✅ Yes      | ✅ Yes      | ✅ Yes     |
-| Mark Attendance          | ❌ No       | ✅ Yes      | ❌ No      |
-| Send Attendance Reminder | ❌ No       | ✅ Yes      | ❌ No      |
-| Apply for Leave          | ❌ No       | ✅ Yes      | ❌ No      |
-| Approve/Reject Leave     | ❌ No       | ✅ Yes      | ❌ No      |
-| Profile View             | ✅ Yes      | ✅ Yes      | ✅ Yes     |
-| Profile Update           | ✅ Yes      | ✅ Yes      | ✅ Yes     |
-| Upload Study Materials   | ❌ No       | ✅ Yes      | ❌ No      |
-| Manage Subjects          | ❌ No       | ❌ No       | ✅ Yes     |
-| Assign Subjects          | ❌ No       | ❌ No       | ✅ Yes     |
-| Manage Users             | ❌ No       | ❌ No       | ✅ Yes     |
-| Account Deactivation     | ❌ No       | ❌ No       | ✅ Yes     |
-| Notifications (Create)   | ❌ No       | ❌ No       | ✅ Yes     |
-| Notifications (View)     | ✅ Yes      | ✅ Yes      | ✅ Yes     |
-| CRUD Operations (Data)   | ❌ No       | Limited     | ✅ Full    |
-| Maintenance Mode         | ❌ No       | ❌ No       | 🚧 Upcoming |
-| User Status(online/offline)         |    ✅ Yes    | ✅ Yes     | ✅ Yes|
-| Profile View Notitfication         | 🚧 Upcoming       | 🚧 Upcoming       | 🚧 Upcoming |
+| Feature / Use Case | 👨‍🎓 Student | 👨‍🏫 Teacher | 👨‍💼 Admin |
+|--------------------|--------------|--------------|------------|
+| View Courses | ✅ Yes | ✅ Yes | ✅ Yes |
+| Access Course PDFs | ✅ Yes | ✅ Upload & Manage | ✅ Yes |
+| Take Tests / Exams | ✅ Yes | ✅ Create / Edit / Delete | ❌ No |
+| View Attendance | ✅ Yes | ✅ Yes | ✅ Yes |
+| Mark Attendance | ❌ No | ✅ Yes | ❌ No |
+| Send Attendance Reminder | ❌ No | ✅ Yes | ❌ No |
+| Apply for Leave | ❌ No | ✅ Yes | ❌ No |
+| Approve / Reject Leave | ❌ No | ❌ No | ✅ Yes |
+| Profile View | ✅ Yes | ✅ Yes | ✅ Yes |
+| Profile Update | ✅ Yes | ✅ Yes | ✅ Yes |
+| Upload Study Materials | ❌ No | ✅ Yes | ❌ No |
+| Manage Subjects | ❌ No | ❌ No | ✅ Yes |
+| Assign Subjects | ❌ No | ❌ No | ✅ Yes |
+| Manage Users | ❌ No | ❌ No | ✅ Yes |
+| Account Deactivation | ❌ No | ❌ No | ✅ Yes |
+| Notifications (Create) | ❌ No | 🚧 Optional | ✅ Yes |
+| Notifications (View) | ✅ Yes | ✅ Yes | ✅ Yes |
+| CRUD Operations | ❌ No | ✅ Assigned Data Only | ✅ Full |
+| Maintenance Mode | ❌ No | ❌ No | 🚧 Upcoming |
+| User Status (Online / Offline) | ✅ Yes | ✅ Yes | ✅ Yes |
+| View Student Marks | ✅ Yes | ✅ Yes | ✅ Yes |
+| Profile Activity Notifications | 🚧 Upcoming | 🚧 Upcoming | 🚧 Upcoming |
 
 ---
 
