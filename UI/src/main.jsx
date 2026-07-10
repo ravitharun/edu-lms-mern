@@ -4,6 +4,7 @@ import './index.css'
 import { Routes, Route } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 const Login = lazy(() => import('./Components/Login.jsx'));
+const StudentAcademicMarks = lazy(() => import('./Pages/StudentPages/StudentAcademicMarks.jsx'));
 const Siginup = lazy(() => import('./Components/SiginUp.jsx'));
 const BackgroungImgLoader = lazy(() => import('./Loaders/BackgroungImgLoader.jsx'));
 const Studymaterials = lazy(() => import('./Pages/StudentPages/Studymaterials.jsx'));
@@ -59,298 +60,308 @@ createRoot(document.getElementById('root')).render(
           {/* student,teacher Routes */}
           <Route element={<Undermanitance />}>
 
-           
-
-              <Route path="/" element={
 
 
+            <Route path="/" element={
 
-                <Redirect />
 
 
-              } />
-              <Route path="/StudentDashboard" element={
+              <Redirect />
+
+
+            } />
+            <Route path="/StudentDashboard" element={
+
+              <ProtectedRoute allowedRoles={"students"}>
+
+
+                <Dashboard />
+              </ProtectedRoute>
+
+
+            } />
+            <Route path="/Academic-Marks" element={
+
+              <ProtectedRoute allowedRoles={"students"}>
+
+
+                <StudentAcademicMarks />
+              </ProtectedRoute>
+
+
+            } />
+            <Route path="/Class-Timings" element={
+
+              <ProtectedRoute allowedRoles={"students"}>
+
+                <ClassTimings />
+              </ProtectedRoute>
+
+            } />
+            <Route path="/moreabout" element={
+
+              <Studymaterials />
+
+            } />
+
+
+            <Route path="/my-course"
+              element={
+
+
 
                 <ProtectedRoute allowedRoles={"students"}>
-
-
-                  <Dashboard />
+                  <MyCourses />
                 </ProtectedRoute>
 
+              }
 
-              } />
-              <Route path="/Class-Timings" element={
-
+            />
+            <Route path="/profile"
+              element={
                 <ProtectedRoute allowedRoles={"students"}>
 
-                  <ClassTimings />
+                  <Studentprofile />
                 </ProtectedRoute>
 
-              } />
-              <Route path="/moreabout" element={
+              }
 
-                <Studymaterials />
+            />
+            <Route path="/Academic-Calendar"
+              element={
+                <ProtectedRoute allowedRoles={"students"}>
 
-              } />
-
-
-              <Route path="/my-course"
-                element={
-
-
-
-                  <ProtectedRoute allowedRoles={"students"}>
-                    <MyCourses />
-                  </ProtectedRoute>
-
-                }
-
-              />
-              <Route path="/profile"
-                element={
-                  <ProtectedRoute allowedRoles={"students"}>
-
-                    <Studentprofile />
-                  </ProtectedRoute>
-
-                }
-
-              />
-              <Route path="/Academic-Calendar"
-                element={
-                  <ProtectedRoute allowedRoles={"students"}>
-
-                    <AcademiCalendar />
-                  </ProtectedRoute>
-
-                }
-
-              />
-              <Route path="/Exam-Schedule"
-                element={
-                  <ProtectedRoute allowedRoles={"students"}>
-
-                    <ExamSchedule />
-                  </ProtectedRoute>
-
-                }
-
-              />
-              <Route path="/login" element={<Login />} />
-              <Route path="/access-restricted" element={<Error />} />
-              <Route path="/AccountDeactivate" element={<AccountDeactivate />} />
-              <Route path="/siginup" element={<Siginup />} />
-              {/* teacher routes */}
-              <Route path="/teacher-dashboard" element={
-
-                <ProtectedRoute allowedRoles={"Teacher"}>
-
-                  <AdminDashboard />
-                </ProtectedRoute>
-              } />
-
-              {/* <Route path="/admin-dashboard" element={<AdminDashboard />} /> */}
-              <Route path="/change-password" element={<UpdatePassword />} />
-              <Route path="/classes" element={<ProtectedRoute allowedRoles={"Teacher"}>
-
-                <Classes />
-              </ProtectedRoute>} />
-
-              <Route path="/StudentsProfile" element={<ProtectedRoute allowedRoles={"Teacher"}>
-
-
-                <StudentProfile />
-              </ProtectedRoute>} />
-
-              <Route path="/TecherProfile/Info" element={<ProtectedRoute allowedRoles={"Admin"}>
-
-
-                <TeacherProfileInfo />
-              </ProtectedRoute>} />
-
-              <Route path="/teachers/ApplyLeaveAccept" element={<ProtectedRoute allowedRoles={"Teacher"}>
-
-
-                <ApplyLeaveAccept />
-              </ProtectedRoute>} />
-              <Route path="/attendance" element={
-
-
-                <ProtectedRoute allowedRoles={["Teacher"]}>
-
-                  <MArkAttandance />
+                  <AcademiCalendar />
                 </ProtectedRoute>
 
-              } />
-              <Route path="/assignments" element={
+              }
 
+            />
+            <Route path="/Exam-Schedule"
+              element={
+                <ProtectedRoute allowedRoles={"students"}>
 
-
-                <ProtectedRoute allowedRoles={"Teacher"}>
-                  <Addassignments />
+                  <ExamSchedule />
                 </ProtectedRoute>
 
-              } />
-              <Route
-                path="/Upload-Material"
-                element={
-                  <ProtectedRoute allowedRoles={["Teacher"]}>
-                    <UploadMaterilas />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/teacher/Academic-Calendar"
-                element={
-                  <ProtectedRoute allowedRoles={["Teacher"]}>
-                    <TeacherAcademicCalendar />
-                  </ProtectedRoute>
-                }
-              />
+              }
 
-              <Route
-                path="/students"
-                element={
-                  <ProtectedRoute allowedRoles={["Teacher"]}>
-                    <Students />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/exam"
-                element={
-                  <ProtectedRoute allowedRoles={["Teacher"]}>
-                    <Exam />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/Teachers/Profile"
-                element={
-                  <ProtectedRoute allowedRoles={["Teacher"]}>
-                    <TeachersProfile />
-                  </ProtectedRoute>
-                }
-              />
+            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/access-restricted" element={<Error />} />
+            <Route path="/AccountDeactivate" element={<AccountDeactivate />} />
+            <Route path="/siginup" element={<Siginup />} />
+            {/* teacher routes */}
+            <Route path="/teacher-dashboard" element={
 
-              <Route
-                path="/teachers/ApplyLeave"
-                element={
-                  <ProtectedRoute allowedRoles={["Teacher"]}>
-                    <ApplyLeave />
-                  </ProtectedRoute>
-                }
-              />
+              <ProtectedRoute allowedRoles={"Teacher"}>
 
-              <Route
-                path="/teachers/profile"
-                element={
-                  <ProtectedRoute allowedRoles={["Admin"]}>
-                    <AdminProfile />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/Issues"
-                element={
-                  <ProtectedRoute allowedRoles={["Admin"]}>
-                    <Issues />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/Studenta"
-                element={
-                  <ProtectedRoute allowedRoles={["Admin"]}>
-                    <ProfilesStudenta />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/Maintance"
-                element={
-                  <ProtectedRoute allowedRoles={["Admin"]}>
-                    <Maintance />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/Annoncement"
-                element={
-                  <ProtectedRoute allowedRoles={["Admin"]}>
-                    <Annoncement />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/AddTimeTable"
-                element={
-                  <ProtectedRoute allowedRoles={["Admin"]}>
-                    <AddTimeTable />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/admin/Uploadholidays"
-                element={
-                  <ProtectedRoute allowedRoles={["Admin"]}>
-                    <AdminMangeholidays />
-                  </ProtectedRoute>
-                }
-              />
-            </Route>
+                <AdminDashboard />
+              </ProtectedRoute>
+            } />
 
+            {/* <Route path="/admin-dashboard" element={<AdminDashboard />} /> */}
+            <Route path="/change-password" element={<UpdatePassword />} />
+            <Route path="/classes" element={<ProtectedRoute allowedRoles={"Teacher"}>
 
-
-
-            {/* adminMAster routes */}
-            <Route path="/AdminDashboard" element={<ProtectedRoute allowedRoles={["Admin"]}>
-              <MasterAdminDashboard />
+              <Classes />
             </ProtectedRoute>} />
+
+            <Route path="/StudentsProfile" element={<ProtectedRoute allowedRoles={"Teacher"}>
+
+
+              <StudentProfile />
+            </ProtectedRoute>} />
+
+            <Route path="/TecherProfile/Info" element={<ProtectedRoute allowedRoles={"Admin"}>
+
+
+              <TeacherProfileInfo />
+            </ProtectedRoute>} />
+
+            <Route path="/teachers/ApplyLeaveAccept" element={<ProtectedRoute allowedRoles={"Teacher"}>
+
+
+              <ApplyLeaveAccept />
+            </ProtectedRoute>} />
+            <Route path="/attendance" element={
+
+
+              <ProtectedRoute allowedRoles={["Teacher"]}>
+
+                <MArkAttandance />
+              </ProtectedRoute>
+
+            } />
+            <Route path="/assignments" element={
+
+
+
+              <ProtectedRoute allowedRoles={"Teacher"}>
+                <Addassignments />
+              </ProtectedRoute>
+
+            } />
             <Route
-              path="/Admin/AssiginSubjects"
+              path="/Upload-Material"
               element={
-                <ProtectedRoute allowedRoles={["Admin"]}>
-                  <AssiginSubject />
+                <ProtectedRoute allowedRoles={["Teacher"]}>
+                  <UploadMaterilas />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/teacher/Academic-Calendar"
+              element={
+                <ProtectedRoute allowedRoles={["Teacher"]}>
+                  <TeacherAcademicCalendar />
                 </ProtectedRoute>
               }
             />
 
             <Route
-              path="/admin/Assign-Teachers"
+              path="/students"
               element={
-                <ProtectedRoute allowedRoles={["Admin"]}>
-                  <AssiginTeacherwisesubjects />
+                <ProtectedRoute allowedRoles={["Teacher"]}>
+                  <Students />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/exam"
+              element={
+                <ProtectedRoute allowedRoles={["Teacher"]}>
+                  <Exam />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/Teachers/Profile"
+              element={
+                <ProtectedRoute allowedRoles={["Teacher"]}>
+                  <TeachersProfile />
                 </ProtectedRoute>
               }
             />
 
             <Route
-              path="/admin/Profile"
+              path="/teachers/ApplyLeave"
+              element={
+                <ProtectedRoute allowedRoles={["Teacher"]}>
+                  <ApplyLeave />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/teachers/profile"
               element={
                 <ProtectedRoute allowedRoles={["Admin"]}>
                   <AdminProfile />
                 </ProtectedRoute>
               }
             />
-
             <Route
-              path="/admin/Reports"
+              path="/admin/Issues"
               element={
                 <ProtectedRoute allowedRoles={["Admin"]}>
-                  <AdminStudents />
+                  <Issues />
                 </ProtectedRoute>
               }
             />
-
             <Route
-              path="/admin/Teachers"
+              path="/admin/Studenta"
               element={
                 <ProtectedRoute allowedRoles={["Admin"]}>
-                  <TeachersProfiles />
+                  <ProfilesStudenta />
                 </ProtectedRoute>
               }
             />
+            <Route
+              path="/admin/Maintance"
+              element={
+                <ProtectedRoute allowedRoles={["Admin"]}>
+                  <Maintance />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/Annoncement"
+              element={
+                <ProtectedRoute allowedRoles={["Admin"]}>
+                  <Annoncement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/AddTimeTable"
+              element={
+                <ProtectedRoute allowedRoles={["Admin"]}>
+                  <AddTimeTable />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/Uploadholidays"
+              element={
+                <ProtectedRoute allowedRoles={["Admin"]}>
+                  <AdminMangeholidays />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
+
+
+
+
+          {/* adminMAster routes */}
+          <Route path="/AdminDashboard" element={<ProtectedRoute allowedRoles={["Admin"]}>
+            <MasterAdminDashboard />
+          </ProtectedRoute>} />
+          <Route
+            path="/Admin/AssiginSubjects"
+            element={
+              <ProtectedRoute allowedRoles={["Admin"]}>
+                <AssiginSubject />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/Assign-Teachers"
+            element={
+              <ProtectedRoute allowedRoles={["Admin"]}>
+                <AssiginTeacherwisesubjects />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/Profile"
+            element={
+              <ProtectedRoute allowedRoles={["Admin"]}>
+                <AdminProfile />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/Reports"
+            element={
+              <ProtectedRoute allowedRoles={["Admin"]}>
+                <AdminStudents />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/Teachers"
+            element={
+              <ProtectedRoute allowedRoles={["Admin"]}>
+                <TeachersProfiles />
+              </ProtectedRoute>
+            }
+          />
 
         </Routes>
       </Suspense>

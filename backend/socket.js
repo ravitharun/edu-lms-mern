@@ -6,7 +6,7 @@ let io;
 const initSocket = (server) => {
     const { Server } = require("socket.io");
     const allowedOrigin = process.env.NODE_ENV === "development"
-        ? "http://localhost:5173"
+        ? "http://localhost:5173/"
         : process.env.FRONTEND_URL; //  frontend URL
     io = new Server(server, {
         cors: {
@@ -20,6 +20,7 @@ io.on("connection", async (socket) => {
         console.log(" User connected:", socket.id);
 
         const userId = socket.handshake.query.userId;
+        console.log(userId,'userId')
         if (!userId) return console.log("userId is missing");
         ;
 
