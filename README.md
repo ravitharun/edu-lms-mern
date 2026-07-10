@@ -26,6 +26,10 @@ This system follows a **role-based access control** model where different users 
 | Profile View | ✅ Yes | ✅ Yes | ✅ Yes |
 | Profile Update | ✅ Yes | ✅ Yes | ✅ Yes |
 | Upload Study Materials | ❌ No | ✅ Yes | ❌ No |
+| View Marks | ✅ Yes | ✅ Yes | ✅ Yes |
+| Add / Update Marks | ❌ No | ✅ Yes | ❌ No |
+| Publish Marks | ❌ No | ✅ Yes | ❌ No |
+| Download Mark Report | ✅ Yes | ✅ Yes | ✅ Yes |
 | Manage Subjects | ❌ No | ❌ No | ✅ Yes |
 | Assign Subjects | ❌ No | ❌ No | ✅ Yes |
 | Manage Users | ❌ No | ❌ No | ✅ Yes |
@@ -35,7 +39,6 @@ This system follows a **role-based access control** model where different users 
 | CRUD Operations | ❌ No | ✅ Assigned Data Only | ✅ Full |
 | Maintenance Mode | ❌ No | ❌ No | 🚧 Upcoming |
 | User Status (Online / Offline) | ✅ Yes | ✅ Yes | ✅ Yes |
-| View Student Marks | ✅ Yes | ✅ Yes | ✅ Yes |
 | Profile Activity Notifications | 🚧 Upcoming | 🚧 Upcoming | 🚧 Upcoming |
 
 ---
