@@ -232,7 +232,7 @@ function StudentAcademicMarks() {
 
         <div className="mt-6 mx-auto w-full max-w-6xl">
           {/* add here Internal marks */}
-      
+
           <DataLoading path={`${ViewButtons.label} Marks`} description='Lab Marks data loading' />
         </div>
 
