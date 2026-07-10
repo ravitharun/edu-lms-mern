@@ -3,6 +3,8 @@ import React from 'react'
 import { CiCircleCheck } from "react-icons/ci";
 
 import { FiXCircle } from 'react-icons/fi';
+import DownloadMarks from './DownloadMarks';
+import { UserName } from '../../Apis/Islogin';
 
 function MarksTableSection({ subjects, semester }) {
   console.log('Final Exam', subjects)
@@ -26,7 +28,7 @@ function MarksTableSection({ subjects, semester }) {
 
     <>
 
-{/* <h1>odvlm</h1> */}
+      {/* <h1>odvlm</h1> */}
       <div className="rounded-3xl border border-slate-200 bg-white">
         {/* Header */}
         <div className="flex flex-col gap-3 border-b border-slate-200 p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -225,12 +227,11 @@ function MarksTableSection({ subjects, semester }) {
           </table>
         </div>
       </div>
-      <div>
-
-
-        {result.length == subjects.length ? (
-          <div className="mt-6 flex items-center gap-3 rounded-2xl border border-green-200 bg-green-50 px-5 py-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100">
+      <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+        {/* Result Status */}
+        {result.length === subjects.length ? (
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-green-100">
               <CiCircleCheck className="text-green-600" size={24} />
             </div>
 
@@ -238,29 +239,41 @@ function MarksTableSection({ subjects, semester }) {
               <h4 className="font-semibold text-green-800">
                 Congratulations!
               </h4>
-              <p className="text-sm text-green-700">
+              <p className="text-sm text-slate-600">
                 You have passed all subjects successfully.
               </p>
             </div>
           </div>
         ) : (
-          <div className="mt-6 flex items-center gap-3 rounded-2xl border border-red-200 bg-red-50 px-5 py-4">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
+          <div className="flex items-center gap-3">
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-red-100">
               <FiXCircle className="text-red-600" size={22} />
             </div>
-
             <div>
               <h4 className="font-semibold text-red-800">
                 Better Luck Next Time
               </h4>
-              <p className="text-sm text-red-700">
-                You have failed in {subjects.length - result.length}{" "}
+              <p className="text-sm text-slate-600">
+                You have failed in{" "}
+                <span className="font-semibold text-red-600">
+                  {subjects.length - result.length}
+                </span>{" "}
                 {subjects.length - result.length === 1 ? "subject" : "subjects"}.
               </p>
             </div>
           </div>
         )}
+
+        {/* Download Button */}
+        <div className="flex justify-start lg:justify-end">
+          <DownloadMarks
+            filename={`${UserName.name || "Name"}-${UserName.Student_ID || "ID"}`}
+            data={subjects}
+          />
+        </div>
       </div>
+
+
     </>
 
   )
