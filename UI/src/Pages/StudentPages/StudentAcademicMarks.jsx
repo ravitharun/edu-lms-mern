@@ -203,6 +203,7 @@ function StudentAcademicMarks() {
 
         <div className="mt-6 mx-auto w-full max-w-6xl">
           <MarksTableSection
+          page="child"
             subjects={selectedSemester.subjects}
             semester={selectedSemester.semester}
           />

@@ -1,13 +1,12 @@
-import React from 'react'
-
+import React, { useEffect, useState } from 'react'
 import { CiCircleCheck } from "react-icons/ci";
-
+import { useWindowSize } from 'react-use'
 import { FiXCircle } from 'react-icons/fi';
 import DownloadMarks from './DownloadMarks';
 import { UserName } from '../../Apis/Islogin';
-
-function MarksTableSection({ subjects, semester }) {
-  console.log('Final Exam', subjects)
+import Confetti from 'react-confetti'
+function MarksTableSection({ subjects, semester, page }) {
+  const { width, height } = useWindowSize()
   const getGradeColor = (grade) => {
     if (grade === 'O') return 'bg-emerald-100 text-emerald-700 border-emerald-200'
     if (grade === 'A+') return 'bg-blue-100 text-blue-700 border-blue-200'
@@ -22,13 +21,38 @@ function MarksTableSection({ subjects, semester }) {
   }
 
   const result = subjects.filter((mrks) => mrks.totalMarks >= 45)
-  console.log(result, 'result')
+
+  const grades = subjects?.reduce((acc, grade,) => {
+    acc[grade.grade] = (acc[grade.grade] || 0) + 1;
+    acc[grade]
+
+    return acc;
+  }, {})
+  const [scroll, setScroll] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScroll(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Set initial value
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [scroll]);
+  console.log(scroll.toFixed(),'scroll')
+
+
+  const ispassed = result.length === subjects.length
 
   return (
 
     <>
 
-      {/* <h1>odvlm</h1> */}
       <div className="rounded-3xl border border-slate-200 bg-white">
         {/* Header */}
         <div className="flex flex-col gap-3 border-b border-slate-200 p-5 sm:flex-row sm:items-center sm:justify-between">
@@ -229,7 +253,7 @@ function MarksTableSection({ subjects, semester }) {
       </div>
       <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
         {/* Result Status */}
-        {result.length === subjects.length ? (
+        {ispassed ? (
           <div className="flex items-center gap-3">
             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-green-100">
               <CiCircleCheck className="text-green-600" size={24} />
@@ -272,8 +296,218 @@ function MarksTableSection({ subjects, semester }) {
           />
         </div>
       </div>
+      <div className="mt-6 rounded-2xl border border-slate-100 bg-slate-50 p-6 shadow-sm">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <h3 className="text-lg font-semibold text-slate-900">
+              Grade Summary
+            </h3>
+            <p className="text-xs text-slate-500">
+              Overall distribution of grades for this student
+            </p>
+          </div>
+        </div>
 
+        {/* Grid */}
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
+          {/* O */}
+          <div className="group relative overflow-hidden rounded-2xl bg-emerald-50 px-4 py-3 shadow-xs border border-emerald-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="inline-flex items-center gap-1 rounded-full bg-emerald-100/80 px-2 py-0.5">
+                  <span className="text-[10px] font-semibold text-emerald-800">
+                    O Grade
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-emerald-700/80">
+                  Outstanding
+                </p>
+              </div>
+              <span className="text-xl font-bold text-emerald-800">
+                {grades["O"] || 0}
+              </span>
+            </div>
+            <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-emerald-100/70 blur-xl group-hover:bg-emerald-200/80 transition-colors" />
+          </div>
 
+          {/* A+ */}
+          <div className="group relative overflow-hidden rounded-2xl bg-green-50 px-4 py-3 shadow-xs border border-green-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="inline-flex items-center gap-1 rounded-full bg-green-100/80 px-2 py-0.5">
+                  <span className="text-[10px] font-semibold text-green-800">
+                    A+ Grade
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-green-700/80">
+                  Excellent
+                </p>
+              </div>
+              <span className="text-xl font-bold text-green-800">
+                {grades["A+"] || 0}
+              </span>
+            </div>
+            <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-green-100/70 blur-xl group-hover:bg-green-200/80 transition-colors" />
+          </div>
+
+          {/* A */}
+          <div className="group relative overflow-hidden rounded-2xl bg-lime-50 px-4 py-3 shadow-xs border border-lime-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="inline-flex items-center gap-1 rounded-full bg-lime-100/80 px-2 py-0.5">
+                  <span className="text-[10px] font-semibold text-lime-800">
+                    A Grade
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-lime-700/80">
+                  Very good
+                </p>
+              </div>
+              <span className="text-xl font-bold text-lime-800">
+                {grades["A"] || 0}
+              </span>
+            </div>
+            <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-lime-100/70 blur-xl group-hover:bg-lime-200/80 transition-colors" />
+          </div>
+
+          {/* B+ */}
+          <div className="group relative overflow-hidden rounded-2xl bg-blue-50 px-4 py-3 shadow-xs border border-blue-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="inline-flex items-center gap-1 rounded-full bg-blue-100/80 px-2 py-0.5">
+                  <span className="text-[10px] font-semibold text-blue-800">
+                    B+ Grade
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-blue-700/80">
+                  Above average
+                </p>
+              </div>
+              <span className="text-xl font-bold text-blue-800">
+                {grades["B+"] || 0}
+              </span>
+            </div>
+            <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-blue-100/70 blur-xl group-hover:bg-blue-200/80 transition-colors" />
+          </div>
+
+          {/* B */}
+          <div className="group relative overflow-hidden rounded-2xl bg-sky-50 px-4 py-3 shadow-xs border border-sky-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="inline-flex items-center gap-1 rounded-full bg-sky-100/80 px-2 py-0.5">
+                  <span className="text-[10px] font-semibold text-sky-800">
+                    B Grade
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-sky-700/80">
+                  Average
+                </p>
+              </div>
+              <span className="text-xl font-bold text-sky-800">
+                {grades["B"] || 0}
+              </span>
+            </div>
+            <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-sky-100/70 blur-xl group-hover:bg-sky-200/80 transition-colors" />
+          </div>
+
+          {/* C+ */}
+          <div className="group relative overflow-hidden rounded-2xl bg-yellow-50 px-4 py-3 shadow-xs border border-yellow-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="inline-flex items-center gap-1 rounded-full bg-yellow-100/80 px-2 py-0.5">
+                  <span className="text-[10px] font-semibold text-yellow-800">
+                    C+ Grade
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-yellow-700/80">
+                  Below average
+                </p>
+              </div>
+              <span className="text-xl font-bold text-yellow-800">
+                {grades["C+"] || 0}
+              </span>
+            </div>
+            <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-yellow-100/70 blur-xl group-hover:bg-yellow-200/80 transition-colors" />
+          </div>
+
+          {/* C */}
+          <div className="group relative overflow-hidden rounded-2xl bg-orange-50 px-4 py-3 shadow-xs border border-orange-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="inline-flex items-center gap-1 rounded-full bg-orange-100/80 px-2 py-0.5">
+                  <span className="text-[10px] font-semibold text-orange-800">
+                    C Grade
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-orange-700/80">
+                  Needs improvement
+                </p>
+              </div>
+              <span className="text-xl font-bold text-orange-800">
+                {grades["C"] || 0}
+              </span>
+            </div>
+            <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-orange-100/70 blur-xl group-hover:bg-orange-200/80 transition-colors" />
+          </div>
+
+          {/* P */}
+          <div className="group relative overflow-hidden rounded-2xl bg-purple-50 px-4 py-3 shadow-xs border border-purple-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="inline-flex items-center gap-1 rounded-full bg-purple-100/80 px-2 py-0.5">
+                  <span className="text-[10px] font-semibold text-purple-800">
+                    P Grade
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-purple-700/80">
+                  Pass
+                </p>
+              </div>
+              <span className="text-xl font-bold text-purple-800">
+                {grades["P"] || 0}
+              </span>
+            </div>
+            <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-purple-100/70 blur-xl group-hover:bg-purple-200/80 transition-colors" />
+          </div>
+
+          {/* F */}
+          <div className="group relative overflow-hidden rounded-2xl bg-red-50 px-4 py-3 shadow-xs border border-red-100">
+            <div className="flex items-center justify-between">
+              <div>
+                <div className="inline-flex items-center gap-1 rounded-full bg-red-100/80 px-2 py-0.5">
+                  <span className="text-[10px] font-semibold text-red-800">
+                    F Grade
+                  </span>
+                </div>
+                <p className="mt-2 text-xs text-red-700/80">
+                  Fail
+                </p>
+              </div>
+              <span className="text-xl font-bold text-red-800">
+                {grades["F"] || 0}
+              </span>
+            </div>
+            <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-red-100/70 blur-xl group-hover:bg-red-200/80 transition-colors" />
+          </div>
+        </div>
+      </div>
+
+      {page == 'child' && ispassed &&  scroll>=400&&
+        <Confetti
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            zIndex: 9999,
+            pointerEvents: "none",
+          }}
+          width={window.innerWidth}
+          height={window.innerHeight}
+          numberOfPieces={300}
+          recycle={false}
+        />
+      }
     </>
 
   )
