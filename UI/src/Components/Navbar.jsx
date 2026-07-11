@@ -193,7 +193,7 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                           title="Timetable"
                         />
                         <MobileItem
-                          to="/Schedule-Timetable"
+                          to="/Academic-Marks"
                           icon={<MdOutlineAssessment />}
                           title="Academic Marks"
                         />
