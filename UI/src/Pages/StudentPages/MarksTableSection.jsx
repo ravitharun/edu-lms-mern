@@ -44,7 +44,7 @@ function MarksTableSection({ subjects, semester, page }) {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [scroll]);
-  console.log(scroll.toFixed(),'scroll')
+
 
 
   const ispassed = result.length === subjects.length

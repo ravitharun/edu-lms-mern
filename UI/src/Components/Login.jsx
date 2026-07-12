@@ -37,7 +37,7 @@ export default function Login() {
       setloading(true)
       setredirectloading(true)
       const get_user_valid = await handelLogin(Userdata, e)
-      console.log(get_user_valid.response?.data,'get_user_valid.response?.data')
+      console.log(get_user_valid.response?.data, 'get_user_valid.response?.data')
       if (get_user_valid.response?.data?.message === 'Role is incorrect') {
         return toast.custom((t) => (
           <div
@@ -81,7 +81,6 @@ export default function Login() {
         });
       }
 
-
       // Logic for the redirect page from login to dashboard.
       if (get_user_valid?.data?.user?.role == "Teacher") {
         setredirectloading(true)
@@ -122,8 +121,28 @@ export default function Login() {
       }
     }
     catch (error) {
-      // console.log(error.status)
-      console.log(error)
+
+      const statusCode = error.response.status
+      const response = error.response.data.message
+      if (statusCode == 403) {
+
+
+        toast.error(response)
+        setloading(false)
+        setredirectloading(false)
+        return
+
+
+
+      }
+      if (statusCode == 500) {
+
+
+        toast.error(response || 'server error')
+        setloading(false)
+        setredirectloading(false)
+        return
+      }
 
 
     }
