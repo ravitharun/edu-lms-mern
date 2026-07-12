@@ -148,16 +148,15 @@ function UploadMaterilas() {
     console.log(subjects, 'subjects')
 
     return (
-        <omany>
+        <>
             <App></App>
             <Toaster />
 
             {requestTimeout && <Tomany />}
             <div className="md:ml-64 p-6 space-y-6 min-h-screen bg-gray-100">
                 {/* ================= HEADER ================= */}
-                <div className=''>
+       
                     <AdminHeader pathname={"Upload Material"}></AdminHeader>
-                </div>
                 <h1 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center gap-3 mt-3">
                 </h1>
 
@@ -463,7 +462,7 @@ function UploadMaterilas() {
 
             </div>
 
-        </omany>
+        </>
     )
 }
 

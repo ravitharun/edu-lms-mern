@@ -11,7 +11,7 @@ export const FetchClassByTecherId = async () => {
         })
         return response;
     } catch (error) {
-        return error;
+        throw error;
 
     }
 
@@ -28,7 +28,7 @@ export const GetStudentname = async (ClassID, getByclass) => {
         })
         return response;
     } catch (error) {
-        return error;
+        throw error;
 
     }
 

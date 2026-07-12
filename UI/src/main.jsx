@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { Routes, Route } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
+import StudentMarks from './Pages/TeachersPage/StudentMarks.jsx';
 const Login = lazy(() => import('./Components/Login.jsx'));
 const StudentAcademicMarks = lazy(() => import('./Pages/StudentPages/StudentAcademicMarks.jsx'));
 const Siginup = lazy(() => import('./Components/SiginUp.jsx'));
@@ -207,6 +208,14 @@ createRoot(document.getElementById('root')).render(
               element={
                 <ProtectedRoute allowedRoles={["Teacher"]}>
                   <UploadMaterilas />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/StudentMarks"
+              element={
+                <ProtectedRoute allowedRoles={["Teacher"]}>
+                  <StudentMarks />
                 </ProtectedRoute>
               }
             />
