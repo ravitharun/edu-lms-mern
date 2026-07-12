@@ -106,22 +106,30 @@ const NewAccount = async (req, res) => {
 const LoginAccount = async (req, res) => {
   try {
     const { email, Password, role } = req.query;
+
+   
     if (!email || !Password || !role) {
       return res.status(400).json({ message: "all inputs are required" })
     }
-    const Check_userAccount = await User.findOne({ email: req.query.email, role: req.query.role })
+    const Check_userAccount = await User.findOne({
+      $and: [
+        { email: email },
+        { role: role },
+      ],
+    });
     console.log(Check_userAccount, 'userAccount')
-    if (Check_userAccount.role != req.query.role) {
-      return res.status(403).json({ message: "Role is incorrect" })
+    if (!Check_userAccount) {
+
+      return res.status(403).json({ message: "User NotFound." })
     }
-    if (Check_userAccount == null) {
-      console.log({ message: "USer NotFound." })
-      return res.status(403).json({ message: "USer NotFound." })
+    if (Check_userAccount.role != role) {
+      return res.status(403).json({ message: "Invalid Creditanls" })
     }
+
     // password we will compare now Password input to db Password
-    const check_password = await bcrypt.compare(req.query.Password, Check_userAccount.password);
+    const check_password = await bcrypt.compare(Password, Check_userAccount.password);
     if (!check_password) {
-      return res.status(403).json({ message: "The password is incorrect" })
+      return res.status(403).json({ message: "Invalid Creditanls" })
     }
     const token = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
@@ -131,7 +139,7 @@ const LoginAccount = async (req, res) => {
     }
 
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     return res.status(500).json({ error: "Server error" });
   }
 };
