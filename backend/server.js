@@ -1,6 +1,6 @@
- 
 
-require("dotenv").config(); 
+
+require("dotenv").config();
 
 const express = require("express");
 const redis = require("redis");
@@ -19,7 +19,7 @@ const ProfileRouter = require("./routes/ProfileRoute");
 const AnnouncementRouter = require("./routes/Announcement");
 const { HandelAcademicRouter } = require("./routes/AcandemicRouter");
 const { HandelFetchTimeTableRouter } = require("./routes/FetchTimetableRouter");
-const  Assignments  = require("./routes/AssignmentsRouter");
+const Assignments = require("./routes/AssignmentsRouter");
 const { apiLimiter } = require("./Middleware/ReateLimeter");
 const { Admin_UserInfo } = require("./routes/AdminUserRouter");
 const { Manageholiday } = require("./routes/AddHolidaysRouter");
@@ -27,6 +27,7 @@ const { redisClient } = require("./Expose/redis");
 const { initSocket } = require("./socket");
 const { AttandanceRouter } = require("./routes/AttandanceROuter");
 const { LeaveStatusRouter } = require("./routes/leaveStatusRouter");
+const studentMarksRouter = require("./routes/Marksrouter");
 const { ProfileNotificationRouter } = require("./routes/ProfileNotificationRouter");
 const ApiMonitioring = require("./Middleware/ApiMonitorning");
 const User = require("./models/User");
@@ -40,20 +41,20 @@ const server = http.createServer(app);
 // Connect to MongoDBcd 
 
 connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log(process.env.RESEND_API_KEY,'process.env.RESEND_API_KEY')
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+        // console.log(process.env.RESEND_API_KEY, 'process.env.RESEND_API_KEY')
 
-  });
-//   https://studyhuberp.netlify.app
+    });
+    //   https://studyhuberp.netlify.app
 });// Middleware
 const allowedOrigin = process.env.NODE_ENV === "development"
 
     ? "http://localhost:5173"
-    : process.env.FRONTEND_URL; 
+    : process.env.FRONTEND_URL;
 app.use(cors({
-    origin: allowedOrigin ,// your frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE","PATCH"],
+    origin: allowedOrigin,// your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true
 }));
 initSocket(server);
@@ -79,15 +80,16 @@ app.use("/api/LeaveStatusResponse", LeaveStatusRouter);
 app.use("/api/ProfileViewnotification", ProfileNotificationRouter);
 app.use("/api/UploadResources", UploadGuide);
 app.use("/api/UploadAssignments", Assignments);
+app.use("/api/studentMarks", studentMarksRouter);
 app.use(apiLimiter)
 // app.use(ApiMonitioring);
-app.use("/api/MaintanceMode",MaintanceMode);
-console.log(process.env.MONGO_URI,'locasl MONGO_URI');
-console.log(process.env.RESEND_API_KEY,'process.env.RESEND_API_KEY');
+app.use("/api/MaintanceMode", MaintanceMode);
+// console.log(process.env.MONGO_URI, 'locasl MONGO_URI');
+// console.log(process.env.RESEND_API_KEY, 'process.env.RESEND_API_KEY');
 
 // Test root
 app.get("/", (req, res) => {
-   
+
     res.json('server is runninf',);
     console.log(process.env.RESEND_API_KEY)
 });

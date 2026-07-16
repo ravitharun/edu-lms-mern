@@ -6,295 +6,335 @@ import { useEffect, useState } from "react";
 import { FetchClassByTecherId } from "./TechersApiCall/FectchClassApi";
 import { useNavigate } from "react-router-dom";
 import NotFound from "../../Loaders/NotFound";
+import DataLoading from "../../Loaders/Dataloading";
 
 const StudentMarks = () => {
-    const naviagte = useNavigate()
-    const [students, setStudents] = useState([]);
-    const [data, setData] = useState([]);
-    const [Section, setsection] = useState([])
-    const [choosesection, setSection] = useState("")
-    console.log(data, "data");
-    console.log(choosesection.split("-")[0].slice(0, 3) + " " + choosesection.split("-")[0].slice(3, 4), 'choosesection.split("-")[0].slice(0,3)+" "+choosesection.split("-")[0].slice(3,4)');
+  const naviagte = useNavigate()
+  const [students, setStudents] = useState([]);
+  const [data, setData] = useState([]);
+  const [Section, setsection] = useState([])
+  const [choosesection, setSection] = useState("")
+  // const [subjectInfo,setsubjectInfo] = useState()
+  const [loader, setloader] = useState(false)
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await axios.get(
+          `${url}/api/markAttandance/StudentsAttandance`,
+          // wrod.slice(0,3)+" "+wrod.slice(3,4)
+          {
+            params: {
+              ClassID: choosesection.split("-")[0].slice(0, 3) + " " + choosesection.split("-")[0].slice(3, 4),
+            },
+          }
+        );
+        console.log(response.data.message, "response");
+        setStudents(response.data.message);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchStudents();
+  }, [choosesection]);
 
 
-    useEffect(() => {
-        const fetchStudents = async () => {
-            try {
-                const response = await axios.get(
-                    `${url}/api/markAttandance/StudentsAttandance`,
-                    // wrod.slice(0,3)+" "+wrod.slice(3,4)
-                    {
-                        params: {
-                            ClassID: choosesection.split("-")[0].slice(0, 3) + " " + choosesection.split("-")[0].slice(3, 4),
-                        },
-                    }
-                );
-                console.log(response.data.message, "response");
-                setStudents(response.data.message);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchStudents();
-    }, [choosesection]);
+  useEffect(() => {
 
 
-    useEffect(() => {
-
-
-        const FetchClassAssigned = async () => {
+    const FetchClassAssigned = async () => {
 
 
 
-            try {
+      try {
 
-                const response = await FetchClassByTecherId()
-                console.log(response.data.message);
-                setsection(response.data.message);
-
-
-            } catch (error) {
+        const response = await FetchClassByTecherId()
+        console.log(response.data.message);
+        setsection(response.data.message);
 
 
-                if (error.response.status == 500) {
-                    return console.error("server error");
+      } catch (error) {
 
-                }
-                if (error.response.status == 403) {
-                    return naviagte("/login");
 
-                }
+        if (error.response.status == 500) {
+          return console.error("server error");
 
-            }
         }
-        FetchClassAssigned()
-    }, [])
+        if (error.response.status == 403) {
+          return naviagte("/login");
+
+        }
+
+      }
+    }
+    FetchClassAssigned()
+  }, [])
 
 
-    const handleMarkChange = (studentId, field, value) => {
-        const numericValue = Number(value) || 0;
+  const handleMarkChange = (studentId, field, value) => {
+    const numericValue = Number(value) || 0;
 
-        setData((prev) => {
-            const existing = prev.find((item) => item.id === studentId);
 
-            if (existing) {
-                const updated = {
-                    ...existing,
-                    [field]: numericValue,
-                };
+    const filterBySubjectid = Section.filter((subjects) => choosesection.split("-")[0] == subjects.classId ? subjects : "")
+    // console.log(filterBySubjectid[0].classId, '/filterBySubjectid');
 
-                // recalculate total
-                updated.total =
-                    Number(updated.internal || 0) +
-                    Number(updated.lab || 0) +
-                    Number(updated.final || 0);
+    // Section[1].subjects[0]._id
 
-                return prev.map((item) =>
-                    item.id === studentId ? updated : item
-                );
-            }
+    setData((prev) => {
+      const existing = prev.find((item) => item.id === studentId);
 
-            // if not exists, create new entry
-            const newEntry = {
-                id: studentId,
-                internal: field === "internal" ? numericValue : 0,
-                lab: field === "lab" ? numericValue : 0,
-                final: field === "final" ? numericValue : 0,
-                Grade: "",
-                percentage: 0,
-            };
+      if (existing) {
+        const updated = {
+          ...existing,
+          [field]: numericValue,
+          "subjectid": filterBySubjectid[0].subjects[0]._id,
+          "Semester":filterBySubjectid[0].classId
 
-            newEntry.total =
-                Number(newEntry.internal) +
-                Number(newEntry.lab) +
-                Number(newEntry.final);
+        };
 
-            return [...prev, newEntry];
-        });
-    };
+        // recalculate total
+        updated.total =
+          Number(updated.internal || 0) +
+          Number(updated.lab || 0) +
+          Number(updated.final || 0);
 
-    const getStudentTotal = (studentId) => {
-        const record = data.find((item) => item.id === studentId);
-        return record?.total ?? 0;
-    };
+        return prev.map((item) =>
+          item.id === studentId ? updated : item
+        );
+      }
+      // if not exists, create new entry
+      const newEntry = {
+        id: studentId,
+        internal: field === "internal" ? numericValue : 0,
+        lab: field === "lab" ? numericValue : 0,
+        final: field === "final" ? numericValue : 0,
+        Grade: "",
+        percentage: 0,
+        "subjectid": filterBySubjectid[0].subjects[0]._id,
+        "Semester":filterBySubjectid[0].classId
 
-    const SaveAll = async () => {
-        console.log(data);
 
-    };
+      };
 
-    return (
-        <>
-            <App />
+      newEntry.total =
+        Number(newEntry.internal) +
+        Number(newEntry.lab) +
+        Number(newEntry.final);
 
-          <div className="md:ml-64 min-h-screen bg-gray-100 p-6 space-y-6">
-  <AdminHeader pathname={"Marks"} />
+      return [...prev, newEntry];
+    });
+  };
 
-  {/* Section select wrapper */}
-  <div>
-    <label
-      htmlFor="section"
-      className="mb-1 block text-sm font-medium text-gray-700"
-    >
-      Section
-    </label>
+  const getStudentTotal = (studentId) => {
+    const record = data.find((item) => item.id === studentId);
+    return record?.total ?? 0;
+  };
 
-    <div className="relative inline-block">
-      <select
-        id="section"
-        name="Section"
-        onChange={(e) => setSection(e.target.value)}
-        className="block w-64 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
-      >
-        <option value="" disabled selected>
-          select Section
-        </option>
-        {Section.map((subj, idx) => (
-          <option
-            key={idx}
-            value={`${subj.classId}-${subj.department}-${subj.subjects[0].subjectId}`}
+  const SaveAll = async () => {
+    console.log(data);
+    alert("data")
+    try {
+      setloader(true)
+      const response = await axios.post(`${url}/api/studentMarks/AssiginMarks`, { data: data })
+      console.log(response);
+
+      setloader(false)
+    } catch (error) {
+      console.log(error);
+
+
+    }
+
+    finally {
+      setloader(false)
+    }
+
+
+
+  };
+
+  return (
+    <>
+
+      <App />
+
+      <div className="md:ml-64 min-h-screen bg-gray-100 p-6 space-y-6">
+        <AdminHeader pathname={"Marks"} />
+
+        {/* Section select wrapper */}
+        <div>
+          <label
+            htmlFor="section"
+            className="mb-1 block text-sm font-medium text-gray-700"
           >
-            {subj.subjects[0].subjectId}
-          </option>
-        ))}
-      </select>
+            Section
+          </label>
 
-      {/* custom arrow */}
-      <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400">
-        ▾
-      </span>
-    </div>
-  </div>
+          <div className="relative inline-block">
+            <select
+              id="section"
+              name="Section"
+              onChange={(e) => {
 
-  <div className="rounded-xl bg-white shadow border border-gray-100">
-    <div className="border-b px-6 py-4">
-      <h2 className="text-lg font-semibold text-gray-800">
-        Upload Student Marks - {choosesection || "Select a section"}
-      </h2>
-      <p className="text-sm text-gray-500">
-        Enter the marks for each student and click <b>Save All Marks</b>.
-      </p>
-    </div>
+                setSection(e.target.value)
 
-    <div className="overflow-x-auto">
-      <table className="min-w-full text-sm">
-        <thead className="bg-gray-100">
-          <tr className="text-left text-sm font-semibold text-gray-700">
-            <th className="px-4 py-3">Profile</th>
-            <th className="px-4 py-3">Student ID</th>
-            <th className="px-4 py-3">Student Name</th>
-            <th className="px-4 py-3 text-center">Internal</th>
-            <th className="px-4 py-3 text-center">Lab</th>
-            <th className="px-4 py-3 text-center">Final Exam</th>
-            <th className="px-4 py-3 text-center">Total</th>
-          </tr>
-        </thead>
 
-        <tbody className="divide-y divide-gray-200">
-          {students.length == 0 ? (
-            <>
-              <tr>
-                <td colSpan={7} className="px-4 py-8">
-                  <NotFound message="No studnts Found" />
-                </td>
-              </tr>
-            </>
-          ) : (
-            students?.map((student) => (
-              <tr
-                key={student._id}
-                className="hover:bg-gray-50 transition-colors"
-              >
-                <td className="px-4 py-3">
-                  <img
-                    src={student.profilePreview}
-                    alt={student.name}
-                    className="h-10 w-10 rounded-full object-cover border border-gray-200"
-                  />
-                </td>
 
-                <td className="px-4 py-3 font-medium text-gray-800">
-                  {student.Student_ID}
-                </td>
+              }}
+              className="block w-64 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+            >
+              <option value="" disabled selected>
+                select Section
+              </option>
+              {Section.map((subj, idx) => (
+                <option
+                  key={idx}
+                  value={`${subj.classId}-${subj.department}-${subj.subjects[0].subjectId}`}
+                >
+                  {subj.subjects[0].subjectId}
+                </option>
+              ))}
+            </select>
 
-                <td className="px-4 py-3 text-gray-700">
-                  {student.name}
-                </td>
+            {/* custom arrow */}
+            <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-gray-400">
+              ▾
+            </span>
+          </div>
+        </div>
 
-                {/* Internal */}
-                <td className="px-4 py-3 text-center">
-                  <input
-                    type="number"
-                    placeholder="10"
-                    className="w-20 rounded-lg border border-gray-300 bg-white px-2 py-2 text-center text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
-                    onChange={(e) =>
-                      handleMarkChange(
-                        student._id,
-                        "internal",
-                        e.target.value
-                      )
-                    }
-                  />
-                </td>
+        <div className="rounded-xl bg-white shadow border border-gray-100">
+          <div className="border-b px-6 py-4">
+            <h2 className="text-lg font-semibold text-gray-800">
+              Upload Student Marks - {choosesection || "Select a section"}
+            </h2>
+            <p className="text-sm text-gray-500">
+              Enter the marks for each student and click <b>Save All Marks</b>.
+            </p>
+          </div>
 
-                {/* Lab */}
-                <td className="px-4 py-3 text-center">
-                  <input
-                    type="number"
-                    placeholder="0"
-                    className="w-20 rounded-lg border border-gray-300 bg-white px-2 py-2 text-center text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
-                    onChange={(e) =>
-                      handleMarkChange(
-                        student._id,
-                        "lab",
-                        e.target.value
-                      )
-                    }
-                  />
-                </td>
+          <div className="overflow-x-auto">
+            <table className="min-w-full text-sm">
+              <thead className="bg-gray-100">
+                <tr className="text-left text-sm font-semibold text-gray-700">
+                  <th className="px-4 py-3">Profile</th>
+                  <th className="px-4 py-3">Student ID</th>
+                  <th className="px-4 py-3">Student Name</th>
+                  <th className="px-4 py-3 text-center">Internal</th>
+                  <th className="px-4 py-3 text-center">Lab</th>
+                  <th className="px-4 py-3 text-center">Final Exam</th>
+                  <th className="px-4 py-3 text-center">Total</th>
+                </tr>
+              </thead>
+    {/* {loader && <DataLoading/>} */}
+   
 
-                {/* Final */}
-                <td className="px-4 py-3 text-center">
-                  <input
-                    type="number"
-                    placeholder="0"
-                    className="w-20 rounded-lg border border-gray-300 bg-white px-2 py-2 text-center text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
-                    onChange={(e) =>
-                      handleMarkChange(
-                        student._id,
-                        "final",
-                        e.target.value
-                      )
-                    }
-                  />
-                </td>
+              <tbody className="divide-y divide-gray-200">
+                { loader? <DataLoading description="Saving marks for all students..."/>:students.length == 0 ? (
+                  <>
+                    <tr>
+                      <td colSpan={7} className="px-4 py-8">
+                        <NotFound message="No studnts Found" />
+                      </td>
+                    </tr>
+                  </>
+                ) : (
+                  students?.map((student) => (
+                    <tr
+                      key={student._id}
+                      className="hover:bg-gray-50 transition-colors"
+                    >
+                      <td className="px-4 py-3">
+                        <img
+                          src={student.profilePreview}
+                          alt={student.name}
+                          className="h-10 w-10 rounded-full object-cover border border-gray-200"
+                        />
+                      </td>
 
-                {/* Total */}
-                <td className="px-4 py-3 text-center">
-                  <span className="inline-flex items-center justify-center rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold text-gray-800">
-                    {getStudentTotal(student._id)}
-                  </span>
-                </td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </div>
+                      <td className="px-4 py-3 font-medium text-gray-800">
+                        {student.Student_ID}
+                      </td>
 
-    <div className="flex justify-end border-t bg-gray-50 px-6 py-4">
-      <button
-        onClick={SaveAll}
-        disabled={students.length==0}
-        className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
-      >
-        Save All Marks
-      </button>
-    </div>
-  </div>
-</div>
-        </>
-    );
+                      <td className="px-4 py-3 text-gray-700">
+                        {student.name}
+                      </td>
+
+                      {/* Internal */}
+                      <td className="px-4 py-3 text-center">
+                        <input
+                          type="number"
+                          placeholder="10"
+                          max="100"
+                          min="0"
+                          className="w-20 rounded-lg border border-gray-300 bg-white px-2 py-2 text-center text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                          onChange={(e) =>
+                            handleMarkChange(
+                              student._id,
+                              "internal",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </td>
+
+                      {/* Lab */}
+                      <td className="px-4 py-3 text-center">
+                        <input
+                          type="number"
+                          placeholder="0"
+                          className="w-20 rounded-lg border border-gray-300 bg-white px-2 py-2 text-center text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                          onChange={(e) =>
+                            handleMarkChange(
+                              student._id,
+                              "lab",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </td>
+
+                      {/* Final */}
+                      <td className="px-4 py-3 text-center">
+                        <input
+                          type="number"
+                          placeholder="0"
+                          className="w-20 rounded-lg border border-gray-300 bg-white px-2 py-2 text-center text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                          onChange={(e) =>
+                            handleMarkChange(
+                              student._id,
+                              "final",
+                              e.target.value
+                            )
+                          }
+                        />
+                      </td>
+
+                      {/* Total */}
+                      <td className="px-4 py-3 text-center">
+                        <span className="inline-flex items-center justify-center rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold text-gray-800">
+                          {getStudentTotal(student._id)}
+                        </span>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="flex justify-end border-t bg-gray-50 px-6 py-4">
+            <button
+              onClick={SaveAll}
+              disabled={loader?true:students.length == 0}
+              className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
+            >
+              Save All Marks
+            </button>
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default StudentMarks;
