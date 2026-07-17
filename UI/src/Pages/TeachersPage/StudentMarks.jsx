@@ -7,6 +7,7 @@ import { FetchClassByTecherId } from "./TechersApiCall/FectchClassApi";
 import { useNavigate } from "react-router-dom";
 import NotFound from "../../Loaders/NotFound";
 import DataLoading from "../../Loaders/Dataloading";
+import { socket } from "../../Socket";
 
 const StudentMarks = () => {
   const naviagte = useNavigate()
@@ -14,22 +15,64 @@ const StudentMarks = () => {
   const [data, setData] = useState([]);
   const [Section, setsection] = useState([])
   const [choosesection, setSection] = useState("")
-  // const [subjectInfo,setsubjectInfo] = useState()
   const [loader, setloader] = useState(false)
+
+  const [marksstudent, setmarksstudent] = useState([])
+  const displayStudents = marksstudent.length > 0 ? marksstudent : students;
+
+  // Fetch StudentsMArks
+
+
+
+  useEffect(() => {
+    const FetchStudentsMarks = async () => {
+
+
+      try {
+        setloader(true)
+        const response = await axios.get(`${url}/api/studentMarks/fetchMarksByStudentId`, {
+          params: {
+
+            Section: choosesection.split("-")[0]
+
+          }
+        })
+
+
+        setloader(false)
+        setmarksstudent(response.data.data)
+
+      } catch (error) {
+
+      }
+      finally {
+
+
+
+        setloader(false)
+      }
+    }
+
+    FetchStudentsMarks()
+  }, [choosesection])
+
+
   useEffect(() => {
     const fetchStudents = async () => {
       try {
         const response = await axios.get(
           `${url}/api/markAttandance/StudentsAttandance`,
-          // wrod.slice(0,3)+" "+wrod.slice(3,4)
+
           {
             params: {
               ClassID: choosesection.split("-")[0].slice(0, 3) + " " + choosesection.split("-")[0].slice(3, 4),
             },
           }
         );
-        console.log(response.data.message, "response");
+
         setStudents(response.data.message);
+
+
       } catch (error) {
         console.error(error);
       }
@@ -48,7 +91,7 @@ const StudentMarks = () => {
       try {
 
         const response = await FetchClassByTecherId()
-        console.log(response.data.message);
+
         setsection(response.data.message);
 
 
@@ -69,15 +112,46 @@ const StudentMarks = () => {
     FetchClassAssigned()
   }, [])
 
+  useEffect(() => {
+    socket.on("marksUpdated", (savedMarks) => {
+
+
+      // Option 1: Update React state directly
+      setStudents(savedMarks);
+
+      // Option 2: Fetch latest data from API
+      // getAllMarks();
+    });
+
+    return () => {
+      socket.off("marksUpdated");
+    };
+  }, []);
 
   const handleMarkChange = (studentId, field, value) => {
     const numericValue = Number(value) || 0;
 
+    const filterBySubjectid = Section.find(
+      (s) => s.classId === choosesection.split("-")[0]
+    );
 
-    const filterBySubjectid = Section.filter((subjects) => choosesection.split("-")[0] == subjects.classId ? subjects : "")
-    // console.log(filterBySubjectid[0].classId, '/filterBySubjectid');
-
-    // Section[1].subjects[0]._id
+    // Update the UI immediately
+    if (marksstudent.length > 0) {
+      setmarksstudent((prev) =>
+        prev.map((student) =>
+          student._id === studentId
+            ? {
+              ...student,
+              [field]: numericValue,
+              total:
+                Number(field === "internal" ? numericValue : student.internal || 0) +
+                Number(field === "lab" ? numericValue : student.lab || 0) +
+                Number(field === "final" ? numericValue : student.final || 0),
+            }
+            : student
+        )
+      );
+    }
 
     setData((prev) => {
       const existing = prev.find((item) => item.id === studentId);
@@ -86,12 +160,10 @@ const StudentMarks = () => {
         const updated = {
           ...existing,
           [field]: numericValue,
-          "subjectid": filterBySubjectid[0].subjects[0]._id,
-          "Semester":filterBySubjectid[0].classId
-
+          subjectid: filterBySubjectid.subjects[0]._id,
+          Semester: filterBySubjectid.classId,
         };
 
-        // recalculate total
         updated.total =
           Number(updated.internal || 0) +
           Number(updated.lab || 0) +
@@ -101,41 +173,43 @@ const StudentMarks = () => {
           item.id === studentId ? updated : item
         );
       }
-      // if not exists, create new entry
-      const newEntry = {
-        id: studentId,
-        internal: field === "internal" ? numericValue : 0,
-        lab: field === "lab" ? numericValue : 0,
-        final: field === "final" ? numericValue : 0,
-        Grade: "",
-        percentage: 0,
-        "subjectid": filterBySubjectid[0].subjects[0]._id,
-        "Semester":filterBySubjectid[0].classId
 
-
-      };
-
-      newEntry.total =
-        Number(newEntry.internal) +
-        Number(newEntry.lab) +
-        Number(newEntry.final);
-
-      return [...prev, newEntry];
+      return [
+        ...prev,
+        {
+          id: studentId,
+          internal: field === "internal" ? numericValue : 0,
+          lab: field === "lab" ? numericValue : 0,
+          final: field === "final" ? numericValue : 0,
+          Grade: "",
+          percentage: 0,
+          total:
+            (field === "internal" ? numericValue : 0) +
+            (field === "lab" ? numericValue : 0) +
+            (field === "final" ? numericValue : 0),
+          subjectid: filterBySubjectid.subjects[0]._id,
+          Semester: filterBySubjectid.classId,
+        },
+      ];
     });
   };
 
   const getStudentTotal = (studentId) => {
-    const record = data.find((item) => item.id === studentId);
+
+
+    const record = displayStudents.find((item) => item?._id === studentId);
+
+
     return record?.total ?? 0;
   };
 
   const SaveAll = async () => {
-    console.log(data);
-    alert("data")
+
     try {
       setloader(true)
       const response = await axios.post(`${url}/api/studentMarks/AssiginMarks`, { data: data })
-      console.log(response);
+
+
 
       setloader(false)
     } catch (error) {
@@ -225,91 +299,79 @@ const StudentMarks = () => {
                   <th className="px-4 py-3 text-center">Total</th>
                 </tr>
               </thead>
-    {/* {loader && <DataLoading/>} */}
-   
 
               <tbody className="divide-y divide-gray-200">
-                { loader? <DataLoading description="Saving marks for all students..."/>:students.length == 0 ? (
-                  <>
-                    <tr>
-                      <td colSpan={7} className="px-4 py-8">
-                        <NotFound message="No studnts Found" />
-                      </td>
-                    </tr>
-                  </>
+                {loader &&
+                  <DataLoading description="Saving marks for all students..." />}
+                {loader ? (
+                  <DataLoading description="Saving marks for all students..." />
+                ) : students.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} className="px-4 py-8">
+                      <NotFound message="No students Found" />
+                    </td>
+                  </tr>
                 ) : (
-                  students?.map((student) => (
+                  displayStudents?.map((student) => (
                     <tr
                       key={student._id}
                       className="hover:bg-gray-50 transition-colors"
                     >
                       <td className="px-4 py-3">
                         <img
-                          src={student.profilePreview}
-                          alt={student.name}
+                          src={student.profilePreview || student.id?.profilePreview}
+                          alt={student.name || student.id?.name}
                           className="h-10 w-10 rounded-full object-cover border border-gray-200"
                         />
                       </td>
 
                       <td className="px-4 py-3 font-medium text-gray-800">
-                        {student.Student_ID}
+                        {student.Student_ID || student.id?.Student_ID}
                       </td>
 
                       <td className="px-4 py-3 text-gray-700">
-                        {student.name}
+                        {student.name || student.id?.name}
                       </td>
 
-                      {/* Internal */}
                       <td className="px-4 py-3 text-center">
                         <input
                           type="number"
                           placeholder="10"
                           max="100"
                           min="0"
-                          className="w-20 rounded-lg border border-gray-300 bg-white px-2 py-2 text-center text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                          value={student.internal ?? ""}
+                          className="w-20 rounded-lg border border-gray-300 bg-white px-2 py-2 text-center text-sm"
                           onChange={(e) =>
-                            handleMarkChange(
-                              student._id,
-                              "internal",
-                              e.target.value
-                            )
+                            handleMarkChange(student._id, "internal", e.target.value)
                           }
                         />
                       </td>
 
-                      {/* Lab */}
                       <td className="px-4 py-3 text-center">
                         <input
                           type="number"
                           placeholder="0"
-                          className="w-20 rounded-lg border border-gray-300 bg-white px-2 py-2 text-center text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                          value={student.lab ?? ""}
+                          className="w-20 rounded-lg border border-gray-300 bg-white px-2 py-2 text-center text-sm"
                           onChange={(e) =>
-                            handleMarkChange(
-                              student._id,
-                              "lab",
-                              e.target.value
-                            )
+                            handleMarkChange(student._id, "lab", e.target.value)
                           }
                         />
                       </td>
-
-                      {/* Final */}
+                      {/* final marsk */}
                       <td className="px-4 py-3 text-center">
                         <input
                           type="number"
                           placeholder="0"
-                          className="w-20 rounded-lg border border-gray-300 bg-white px-2 py-2 text-center text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/40"
+                          className="w-20 rounded-lg border border-gray-300 bg-white px-2 py-2 text-center text-sm"
+                          value={student.final ?? ""}
                           onChange={(e) =>
-                            handleMarkChange(
-                              student._id,
-                              "final",
-                              e.target.value
-                            )
+                            handleMarkChange(student._id, "final", e.target.value)
                           }
+
                         />
                       </td>
 
-                      {/* Total */}
                       <td className="px-4 py-3 text-center">
                         <span className="inline-flex items-center justify-center rounded-lg bg-gray-100 px-3 py-2 text-sm font-semibold text-gray-800">
                           {getStudentTotal(student._id)}
@@ -325,7 +387,7 @@ const StudentMarks = () => {
           <div className="flex justify-end border-t bg-gray-50 px-6 py-4">
             <button
               onClick={SaveAll}
-              disabled={loader?true:students.length == 0}
+              disabled={loader ? true : students.length == 0}
               className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"
             >
               Save All Marks
