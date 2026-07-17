@@ -7,6 +7,7 @@ import { FetchClassByTecherId } from "./TechersApiCall/FectchClassApi";
 import { useNavigate } from "react-router-dom";
 import NotFound from "../../Loaders/NotFound";
 import DataLoading from "../../Loaders/Dataloading";
+import { socket } from "../../Socket";
 
 const StudentMarks = () => {
   const naviagte = useNavigate()
@@ -18,6 +19,7 @@ const StudentMarks = () => {
 
   const [marksstudent, setmarksstudent] = useState([])
   const displayStudents = marksstudent.length > 0 ? marksstudent : students;
+
   // Fetch StudentsMArks
 
 
@@ -60,15 +62,17 @@ const StudentMarks = () => {
       try {
         const response = await axios.get(
           `${url}/api/markAttandance/StudentsAttandance`,
-          // wrod.slice(0,3)+" "+wrod.slice(3,4)
+
           {
             params: {
               ClassID: choosesection.split("-")[0].slice(0, 3) + " " + choosesection.split("-")[0].slice(3, 4),
             },
           }
         );
-   
+
         setStudents(response.data.message);
+
+
       } catch (error) {
         console.error(error);
       }
@@ -87,7 +91,7 @@ const StudentMarks = () => {
       try {
 
         const response = await FetchClassByTecherId()
-  
+
         setsection(response.data.message);
 
 
@@ -107,6 +111,22 @@ const StudentMarks = () => {
     }
     FetchClassAssigned()
   }, [])
+
+  useEffect(() => {
+    socket.on("marksUpdated", (savedMarks) => {
+
+
+      // Option 1: Update React state directly
+      setStudents(savedMarks);
+
+      // Option 2: Fetch latest data from API
+      // getAllMarks();
+    });
+
+    return () => {
+      socket.off("marksUpdated");
+    };
+  }, []);
 
   const handleMarkChange = (studentId, field, value) => {
     const numericValue = Number(value) || 0;
@@ -175,7 +195,7 @@ const StudentMarks = () => {
   };
 
   const getStudentTotal = (studentId) => {
-  
+
 
     const record = displayStudents.find((item) => item?._id === studentId);
 
@@ -189,7 +209,7 @@ const StudentMarks = () => {
       setloader(true)
       const response = await axios.post(`${url}/api/studentMarks/AssiginMarks`, { data: data })
 
-      
+
 
       setloader(false)
     } catch (error) {
@@ -279,7 +299,7 @@ const StudentMarks = () => {
                   <th className="px-4 py-3 text-center">Total</th>
                 </tr>
               </thead>
-  
+
               <tbody className="divide-y divide-gray-200">
                 {loader &&
                   <DataLoading description="Saving marks for all students..." />}

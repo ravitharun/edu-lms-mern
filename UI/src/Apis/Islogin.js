@@ -1,4 +1,3 @@
-
 import secureLocalStorage from "react-secure-storage";
 import { socket } from "../Socket";
 export const UserRole = secureLocalStorage.getItem("User_info")
