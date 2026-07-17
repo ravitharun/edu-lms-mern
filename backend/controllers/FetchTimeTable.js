@@ -1,7 +1,7 @@
 const { AddTimetableSchema } = require("../models/TimeTableModel")
 const FetchStudentTimetabel = async (req, res) => {
     try {
-        // http://localhost:5001/api/FetchStudentsTimeTabel/StudentTimeTabel
+     
         const { Department, SemesterByyear } = req.query
         if (!Department || !SemesterByyear) return res.status(404).json({ message: "SomeThing Went Wrong." })
         const response = await AddTimetableSchema.find({ Department: Department.toUpperCase(), SemesterByyear: SemesterByyear.toUpperCase() })
