@@ -4,7 +4,7 @@ const authMiddleware = require("../Middleware/Authmiddleware")
 const { apiLimiter } = require("../Middleware/ReateLimeter")
 
 const classlist=express.Router()
-classlist.get("/get",apiLimiter,getClasslist)
-classlist.get("/getsection",apiLimiter,GetClassSection)
-classlist.get("/getStudents",apiLimiter,getStudents)
+classlist.get("/get",apiLimiter,authMiddleware,getClasslist)
+classlist.get("/getsection",apiLimiter,authMiddleware,GetClassSection)
+classlist.get("/getStudents",apiLimiter,authMiddleware,getStudents)
 module.exports={classlist}    

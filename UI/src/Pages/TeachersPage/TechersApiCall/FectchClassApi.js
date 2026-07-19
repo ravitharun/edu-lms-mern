@@ -1,9 +1,10 @@
 import axios from "axios"
-import { url, UserName } from "../../../Apis/Islogin"
+import { Header_Token_expry, url, UserName } from "../../../Apis/Islogin"
 
 export const FetchClassByTecherId = async () => {
     try {
         const response = await axios.get(`${url}/api/classlist/getsection`, {
+           ... Header_Token_expry,
 
             params: {
                 teacher_Id: UserName.teacher_Id
@@ -21,6 +22,7 @@ export const GetStudentname = async (ClassID, getByclass) => {
     try {
 
         const response = await axios.get(`${url}/api/markAttandance/StudentsAttandance`, {
+            Header_Token_expry,
 
             params: {
                 ClassID: getByclass == "" ? ClassID : getByclass
