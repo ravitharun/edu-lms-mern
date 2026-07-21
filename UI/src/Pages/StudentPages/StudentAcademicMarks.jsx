@@ -62,7 +62,7 @@ function StudentAcademicMarks() {
           Header_Token_expry,
           params: {
             semseter: data.value,
-            studentid: UserProfileInfo?._id
+            studentid: '6a4b21b2302a114dd21eb117'
 
 
           }
@@ -78,6 +78,10 @@ function StudentAcademicMarks() {
         const Message = error?.response.data.message
         const Status = error?.response.status
 
+
+        if (Status == 404) {
+          return setStudentMarks([])
+        }
         if (Status == 500) {
 
 
@@ -105,7 +109,6 @@ function StudentAcademicMarks() {
 
 
 
-
   const viewButtons =
     [
       { id: 'overall', label: 'Overall View', active: true },
@@ -115,6 +118,11 @@ function StudentAcademicMarks() {
       { id: 'lab', label: 'Lab', active: false },
     ]
   const [ViewButtons, setviewButtons] = useState(viewButtons[0])
+
+
+
+
+
 
   const studentData = {
     student: {
@@ -190,6 +198,9 @@ function StudentAcademicMarks() {
       },
     ],
   }
+
+
+
   const selectedSemester = studentData.semesters[0]
 
   const highestTotal = Math.max(...selectedSemester.subjects.map((item) => item.totalMarks))
@@ -213,7 +224,7 @@ function StudentAcademicMarks() {
     selectedSemester.subjects.reduce((acc, item) => acc + item.finalExamMarks, 0) /
     selectedSemester.subjects.length
   )
-  console.log(viewButtons, 'viewButtons');
+
 
   return (
     <>
@@ -259,12 +270,13 @@ function StudentAcademicMarks() {
 
               <div className="p-4 sm:p-6 lg:p-8">
                 <MarksOverviewCards
-                  student={studentData.student}
+                  student={Marks[0]?.id}
                   selectedSemester={selectedSemester}
                   averageInternal={averageInternal}
                   averageAssignment={averageAssignment}
                   averageLab={averageLab}
                   averageFinal={averageFinal}
+                // St={Marks}
                 />
 
                 <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
@@ -275,7 +287,8 @@ function StudentAcademicMarks() {
                   </div>
 
                   <div className="space-y-6">
-                    <StudentProfileCard student={studentData.student} />
+
+                    <StudentProfileCard student={Marks[0]?.id} />
                     <PerformanceSummaryCard
                       highestTotal={highestTotal}
                       averageTotal={averageTotal}
@@ -294,6 +307,7 @@ function StudentAcademicMarks() {
         <div className="mt-6 mx-auto w-full max-w-6xl">
           <MarksTableSection
             page="child"
+            Marks={Marks}
             subjects={selectedSemester.subjects}
             semester={selectedSemester.semester}
           />

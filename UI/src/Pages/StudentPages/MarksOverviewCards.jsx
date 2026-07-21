@@ -18,6 +18,8 @@ function MarksOverviewCards({
   averageLab,
   averageFinal,
 }) {
+  console.log(student,'student');
+  
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -25,9 +27,10 @@ function MarksOverviewCards({
           <div className="mb-3 flex items-center justify-between">
             <span className="text-sm font-medium text-slate-500">Student Name</span>
             <FaGraduationCap className="text-indigo-600" size={18} />
+
           </div>
-          <h2 className="text-lg font-bold text-slate-800 sm:text-xl">{student.name}</h2>
-          <p className="mt-1 text-sm text-slate-500">{student.regNo}</p>
+          <h2 className="text-lg font-bold text-slate-800 sm:text-xl">{student?.name||"StudentName"}</h2>
+          <p className="mt-1 text-sm text-slate-500">{student?.regNo}</p>
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
@@ -35,8 +38,8 @@ function MarksOverviewCards({
             <span className="text-sm font-medium text-slate-500">Department</span>
             <FaBookOpen className="text-cyan-600" size={18} />
           </div>
-          <h2 className="text-base font-bold text-slate-800 sm:text-lg">{student.department}</h2>
-          <p className="mt-1 text-sm text-slate-500">{student.course}</p>
+          <h2 className="text-base font-bold text-slate-800 sm:text-lg">{student?.department}</h2>
+          <p className="mt-1 text-sm text-slate-500">{student?.course}</p>
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
@@ -45,9 +48,9 @@ function MarksOverviewCards({
             <FaPercentage className="text-emerald-600" size={18} />
           </div>
           <h2 className="text-2xl font-bold text-slate-800">
-            {selectedSemester.overallPercentage}%
+            {selectedSemester?.overallPercentage}%
           </h2>
-          <p className="mt-1 text-sm text-slate-500">{selectedSemester.semester}</p>
+          <p className="mt-1 text-sm text-slate-500">{selectedSemester?.semester}</p>
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
@@ -55,7 +58,7 @@ function MarksOverviewCards({
             <span className="text-sm font-medium text-slate-500">CGPA</span>
             <FaStar className="text-amber-500" size={18} />
           </div>
-          <h2 className="text-2xl font-bold text-slate-800">{selectedSemester.cgpa}</h2>
+          <h2 className="text-2xl font-bold text-slate-800">{selectedSemester?.cgpa}</h2>
           <p className="mt-1 text-sm text-slate-500">Academic score</p>
         </div>
       </div>

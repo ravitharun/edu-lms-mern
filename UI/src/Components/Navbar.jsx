@@ -79,11 +79,11 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
                     {academicsOpen && (
                       <div className="absolute top-full mt-2 w-56 rounded-lg bg-gray-700 border border-white/20 shadow-lg">
 
-                        <DropdownItem
+                        {/* <DropdownItem
                           to="/Exam-Schedule"
                           icon={<FiClipboard />}
                           title="Exam Schedule"
-                        />
+                        /> */}
 
                         <DropdownItem
                           to="/Class-Timings"
@@ -168,12 +168,12 @@ function Navbar({ mobileMenuOpen, setMobileMenuOpen }) {
 
                     {academicsOpen && (
                       <div className="ml-4 flex flex-col gap-1">
-
+{/* 
                         <MobileItem
                           to="/Exam-Schedule"
                           icon={<FiClipboard />}
-                          title="Exam Schedule"
-                        />
+                          title="Exam Schedule"ddcd
+                        /> */}
 
                         <MobileItem
                           to="/Class-Timings"
