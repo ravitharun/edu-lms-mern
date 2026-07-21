@@ -190,7 +190,6 @@ function StudentAcademicMarks() {
       },
     ],
   }
-  // const Dept = UserName.department=="CSE"?"":["CSE1", "Semester2", "Semester3", "Semester4", "Semester5", "Semester6", "Semester7", "Semester8"]
   const selectedSemester = studentData.semesters[0]
 
   const highestTotal = Math.max(...selectedSemester.subjects.map((item) => item.totalMarks))
