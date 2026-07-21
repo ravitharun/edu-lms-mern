@@ -4,7 +4,7 @@ import { createSlice, configureStore } from '@reduxjs/toolkit'
 const SectionSlicer = createSlice({
     name: 'counter',
     initialState: {
-        value: 0
+        value: ''
     },
     reducers: {
         incremented: (state,action) => {

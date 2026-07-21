@@ -6,6 +6,7 @@ import store from "./Store/store.js";
 import { Routes, Route } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
 import StudentMarks from './Pages/TeachersPage/StudentMarks.jsx';
+import PageNotFound from './Components/PageNotFound.jsx';
 const Login = lazy(() => import('./Components/Login.jsx'));
 const StudentAcademicMarks = lazy(() => import('./Pages/StudentPages/StudentAcademicMarks.jsx'));
 const Siginup = lazy(() => import('./Components/SiginUp.jsx'));
@@ -64,7 +65,7 @@ createRoot(document.getElementById('root')).render(
             {/* student,teacher Routes */}
             <Route element={<Undermanitance />}>
 
-
+              <Route path="*" element={<PageNotFound />} />
 
               <Route path="/" element={
 

@@ -6,9 +6,12 @@ import DownloadMarks from './DownloadMarks';
 import { UserName } from '../../Apis/Islogin';
 import Confetti from 'react-confetti'
 import NotFound from '../../Loaders/NotFound';
+import { useSelector } from 'react-redux';
 function MarksTableSection({ semester, page, Marks }) {
-  console.log(Marks,'Marks');
-  
+
+  const data = useSelector((state) => state.section);
+
+
 
 
 
@@ -67,12 +70,12 @@ function MarksTableSection({ semester, page, Marks }) {
               Subject-wise Marks
             </h3>
             <p className="text-sm text-slate-500">
-              Detailed split-up for {semester}
+              Detailed split-up for {data.value}
             </p>
           </div>
 
           <div className="rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700">
-            {Marks?.length||0} Subjects
+            {Marks?.length || 0} Subjects
           </div>
         </div>
 
@@ -127,51 +130,51 @@ function MarksTableSection({ semester, page, Marks }) {
                       }`}
                   >
                     <td className="px-5 py-4 text-sm font-semibold text-slate-700">
-                      {subject?.code}
+                      {subject?.subjectid.subjectId}
                     </td>
 
                     <td className="px-5 py-4">
                       <div>
                         <p className="text-sm font-semibold text-slate-700">
-                          {subject?.name}
+                          {subject?.subjectid.subjectName}
                         </p>
                         <p className="mt-1 text-xs text-slate-500">
-                          {subject?.type}
+                          {subject?.type || "Theory"}
                         </p>
                       </div>
                     </td>
 
                     <td className="px-5 py-4 text-sm font-semibold text-indigo-600">
-                      {subject?.internalMarks}
+                      {subject?.internal}
                     </td>
 
                     <td className="px-5 py-4 text-sm font-semibold text-orange-500">
-                      {subject?.assignmentMarks}
+                      {subject?.assignmentMarks || 0}
                     </td>
 
                     <td className="px-5 py-4 text-sm font-semibold text-cyan-600">
-                      {subject?.labMarks}
+                      {subject?.lab}
                     </td>
 
                     <td className="px-5 py-4 text-sm font-semibold text-emerald-600">
-                      {subject?.finalExamMarks}
+                      {subject?.total}
                     </td>
 
                     <td
                       className={`px-5 py-4 text-sm font-bold ${getMarkColor(
-                        subject?.totalMarks
+                        subject?.total
                       )}`}
                     >
-                      {subject?.totalMarks}
+                      {subject?.total || 0}
                     </td>
 
                     <td className="px-5 py-4">
                       <span
                         className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold ${getGradeColor(
-                          subject?.grade
+                          subject?.Grade || "F"
                         )}`}
                       >
-                        {subject?.grade}
+                        {subject?.Grade || "F"}
                       </span>
                     </td>
 
@@ -371,7 +374,8 @@ function MarksTableSection({ semester, page, Marks }) {
                 </p>
               </div>
               <span className="text-xl font-bold text-green-800">
-                {grades["A+"] || 0}
+                {/* {grades["A+"] || 0} */}
+                grade
               </span>
             </div>
             <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-green-100/70 blur-xl group-hover:bg-green-200/80 transition-colors" />
@@ -391,7 +395,8 @@ function MarksTableSection({ semester, page, Marks }) {
                 </p>
               </div>
               <span className="text-xl font-bold text-lime-800">
-                {grades["A"] || 0}
+                {/* {grades["A"] || 0} */}
+                grade
               </span>
             </div>
             <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-lime-100/70 blur-xl group-hover:bg-lime-200/80 transition-colors" />
@@ -411,7 +416,8 @@ function MarksTableSection({ semester, page, Marks }) {
                 </p>
               </div>
               <span className="text-xl font-bold text-blue-800">
-                {grades["B+"] || 0}
+                {/* {grades["B+"] || 0} */}
+                grade
               </span>
             </div>
             <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-blue-100/70 blur-xl group-hover:bg-blue-200/80 transition-colors" />
@@ -431,7 +437,8 @@ function MarksTableSection({ semester, page, Marks }) {
                 </p>
               </div>
               <span className="text-xl font-bold text-sky-800">
-                {grades["B"] || 0}
+                {/* {grades["B"] || 0} */}
+                grade
               </span>
             </div>
             <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-sky-100/70 blur-xl group-hover:bg-sky-200/80 transition-colors" />
@@ -451,7 +458,8 @@ function MarksTableSection({ semester, page, Marks }) {
                 </p>
               </div>
               <span className="text-xl font-bold text-yellow-800">
-                {grades["C+"] || 0}
+                {/* {grades["C+"] || 0} */}
+                grade
               </span>
             </div>
             <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-yellow-100/70 blur-xl group-hover:bg-yellow-200/80 transition-colors" />
@@ -471,7 +479,8 @@ function MarksTableSection({ semester, page, Marks }) {
                 </p>
               </div>
               <span className="text-xl font-bold text-orange-800">
-                {grades["C"] || 0}
+                {/* {grades["C"] || 0} */}
+                grade
               </span>
             </div>
             <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-orange-100/70 blur-xl group-hover:bg-orange-200/80 transition-colors" />
@@ -491,7 +500,8 @@ function MarksTableSection({ semester, page, Marks }) {
                 </p>
               </div>
               <span className="text-xl font-bold text-purple-800">
-                {grades["P"] || 0}
+                {/* {grades["P"] || 0} */}
+                grade
               </span>
             </div>
             <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-purple-100/70 blur-xl group-hover:bg-purple-200/80 transition-colors" />
@@ -511,7 +521,8 @@ function MarksTableSection({ semester, page, Marks }) {
                 </p>
               </div>
               <span className="text-xl font-bold text-red-800">
-                {grades["F"] || 0}
+                {/* {grades["F"] || 0} */}
+                grade
               </span>
             </div>
             <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-red-100/70 blur-xl group-hover:bg-red-200/80 transition-colors" />
