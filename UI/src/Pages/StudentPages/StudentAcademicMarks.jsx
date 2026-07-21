@@ -1,7 +1,7 @@
 
 
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import App from '../../App'
 import MarksHeader from './MarksHeader'
 import MarksOverviewCards from './MarksOverviewCards'
@@ -10,8 +10,68 @@ import StudentProfileCard from './StudentProfileCard'
 import PerformanceSummaryCard from './PerformanceSummaryCard'
 import MarksLegendCard from './MarksLegendCard'
 import DataLoading from '../../Loaders/Dataloading'
-
+import { Header_Token_expry, url, UserProfileInfo } from '../../Apis/Islogin'
+import axios from "axios"
+import toast from 'react-hot-toast'
 function StudentAcademicMarks() {
+
+
+  const [Marks, setStudentMarks] = useState([])
+  useEffect(() => {
+    const FetchStudentMarks = async () => {
+
+      console.log({
+        semseter: "CSE3",
+        studentid: UserProfileInfo?.Student_ID
+      });
+
+      try {
+        const response = await axios.get(`${url}/api/studentMarks/Student/sem`, {
+          Header_Token_expry,
+          params: {
+            semseter: "CSE3",
+
+            studentid: UserProfileInfo?._id
+
+
+          }
+        })
+
+
+        console.log(response.data.message, 'response');
+        setStudentMarks(response.data.message)
+
+      } catch (error) {
+
+
+        const Message = error?.response.data.message
+        const Status = error?.response.status
+
+        if (Status == 500) {
+
+
+          return toast.error(Message)
+        }
+
+
+        if (Status == 401) {
+
+
+          return toast.error(Message)
+        }
+
+
+
+
+      }
+
+
+
+    }
+    FetchStudentMarks()
+
+  }, [])
+
   const viewButtons =
     [
       { id: 'overall', label: 'Overall View', active: true },
@@ -96,7 +156,7 @@ function StudentAcademicMarks() {
       },
     ],
   }
-
+  const Dept = ["Semester1", "Semester2", "Semester3", "Semester4", "Semester5", "Semester6", "Semester7", "Semester8"]
   const selectedSemester = studentData.semesters[0]
 
   const highestTotal = Math.max(...selectedSemester.subjects.map((item) => item.totalMarks))
@@ -129,7 +189,7 @@ function StudentAcademicMarks() {
 
       <div className="space-y-6">
         <MarksHeader
-          semesters={studentData.semesters}
+          semesters={Dept}
           selectedSemester={selectedSemester}
         />
 
@@ -175,11 +235,9 @@ function StudentAcademicMarks() {
                 />
 
                 <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
-                  <div className="xl:col-span-2">
+                  <div className="xl:col-span-2"> 
 
-
-
-                    <MarksTableSection subjects={selectedSemester.subjects} semester={selectedSemester.semester} />
+                    <MarksTableSection  semester={selectedSemester.semester} Marks={Marks}/>
 
                   </div>
 
@@ -203,7 +261,7 @@ function StudentAcademicMarks() {
 
         <div className="mt-6 mx-auto w-full max-w-6xl">
           <MarksTableSection
-          page="child"
+            page="child"
             subjects={selectedSemester.subjects}
             semester={selectedSemester.semester}
           />

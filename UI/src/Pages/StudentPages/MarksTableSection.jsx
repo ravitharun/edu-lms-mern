@@ -5,7 +5,8 @@ import { FiXCircle } from 'react-icons/fi';
 import DownloadMarks from './DownloadMarks';
 import { UserName } from '../../Apis/Islogin';
 import Confetti from 'react-confetti'
-function MarksTableSection({ subjects, semester, page }) {
+function MarksTableSection({ semester, page, Marks }) {
+
   const { width, height } = useWindowSize()
   const getGradeColor = (grade) => {
     if (grade === 'O') return 'bg-emerald-100 text-emerald-700 border-emerald-200'
@@ -20,9 +21,9 @@ function MarksTableSection({ subjects, semester, page }) {
     return 'text-amber-600'
   }
 
-  const result = subjects.filter((mrks) => mrks.totalMarks >= 45)
+  const result = Marks.filter((mrks) => mrks.totalMarks >= 45)
 
-  const grades = subjects?.reduce((acc, grade,) => {
+  const grades = Marks?.reduce((acc, grade,) => {
     acc[grade.grade] = (acc[grade.grade] || 0) + 1;
     acc[grade]
 
@@ -47,7 +48,7 @@ function MarksTableSection({ subjects, semester, page }) {
 
 
 
-  const ispassed = result.length === subjects.length
+  const ispassed = result.length === Marks.length
 
   return (
 
@@ -66,7 +67,7 @@ function MarksTableSection({ subjects, semester, page }) {
           </div>
 
           <div className="rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700">
-            {subjects.length} Subjects
+            {Marks.length} Subjects
           </div>
         </div>
 
@@ -107,63 +108,63 @@ function MarksTableSection({ subjects, semester, page }) {
               </thead>
 
               <tbody>
-                {subjects.map((subject, index) => (
+                {Marks?.map((subject, index) => (
                   <tr
-                    key={subject.code}
+                    key={subject?.code}
                     className={`border-t border-slate-100 ${index % 2 === 0 ? "bg-white" : "bg-slate-50/60"
                       }`}
                   >
                     <td className="px-5 py-4 text-sm font-semibold text-slate-700">
-                      {subject.code}
+                      {subject?.code}
                     </td>
 
                     <td className="px-5 py-4">
                       <div>
                         <p className="text-sm font-semibold text-slate-700">
-                          {subject.name}
+                          {subject?.name}
                         </p>
                         <p className="mt-1 text-xs text-slate-500">
-                          {subject.type}
+                          {subject?.type}
                         </p>
                       </div>
                     </td>
 
                     <td className="px-5 py-4 text-sm font-semibold text-indigo-600">
-                      {subject.internalMarks}
+                      {subject?.internalMarks}
                     </td>
 
                     <td className="px-5 py-4 text-sm font-semibold text-orange-500">
-                      {subject.assignmentMarks}
+                      {subject?.assignmentMarks}
                     </td>
 
                     <td className="px-5 py-4 text-sm font-semibold text-cyan-600">
-                      {subject.labMarks}
+                      {subject?.labMarks}
                     </td>
 
                     <td className="px-5 py-4 text-sm font-semibold text-emerald-600">
-                      {subject.finalExamMarks}
+                      {subject?.finalExamMarks}
                     </td>
 
                     <td
                       className={`px-5 py-4 text-sm font-bold ${getMarkColor(
-                        subject.totalMarks
+                        subject?.totalMarks
                       )}`}
                     >
-                      {subject.totalMarks}
+                      {subject?.totalMarks}
                     </td>
 
                     <td className="px-5 py-4">
                       <span
                         className={`inline-flex rounded-full border px-3 py-1 text-xs font-bold ${getGradeColor(
-                          subject.grade
+                          subject?.grade
                         )}`}
                       >
-                        {subject.grade}
+                        {subject?.grade}
                       </span>
                     </td>
 
                     <td className="px-5 py-4">
-                      {subject.totalMarks >= 45 ? (
+                      {subject?.totalMarks >= 45 ? (
                         <div className="flex items-center gap-2 font-medium text-green-600">
                           <CiCircleCheck size={18} />
                           <span>Passed</span>
@@ -203,7 +204,7 @@ function MarksTableSection({ subjects, semester, page }) {
             </thead>
 
             <tbody>
-              {subjects.map((subject, index) => (
+              {Marks?.map((subject, index) => (
                 <tr
                   key={subject.code}
                   className={`border-t ${index % 2 === 0 ? "bg-white" : "bg-slate-50"
@@ -211,31 +212,31 @@ function MarksTableSection({ subjects, semester, page }) {
                 >
                   <td className="px-4 py-3">
                     <p className="font-semibold text-sm text-slate-700">
-                      {subject.name}
+                      {Marks?.name}
                     </p>
-                    <p className="text-xs text-slate-500">{subject.code}</p>
+                    <p className="text-xs text-slate-500">{Marks?.code}</p>
                   </td>
 
                   <td
                     className={`px-4 py-3 text-center font-bold ${getMarkColor(
-                      subject.totalMarks
+                      Marks?.totalMarks
                     )}`}
                   >
-                    {subject.totalMarks}
+                    {Marks?.totalMarks}
                   </td>
 
                   <td className="px-4 py-3 text-center">
                     <span
                       className={`inline-flex rounded-full border px-2 py-1 text-xs font-bold ${getGradeColor(
-                        subject.grade
+                        Marks?.grade
                       )}`}
                     >
-                      {subject.grade}
+                      {Marks?.grade}
                     </span>
                   </td>
 
                   <td className="px-4 py-3">
-                    {subject.totalMarks >= 45 ? (
+                    {Marks?.totalMarks >= 45 ? (
                       <div className="flex justify-center text-green-600">
                         <CiCircleCheck size={20} /> <span>Passed</span>
                       </div>
@@ -280,9 +281,9 @@ function MarksTableSection({ subjects, semester, page }) {
               <p className="text-sm text-slate-600">
                 You have failed in{" "}
                 <span className="font-semibold text-red-600">
-                  {subjects.length - result.length}
+                  {Marks.length - result.length}
                 </span>{" "}
-                {subjects.length - result.length === 1 ? "subject" : "subjects"}.
+                {Marks.length - result.length === 1 ? "subject" : "subjects"}.
               </p>
             </div>
           </div>
@@ -292,7 +293,7 @@ function MarksTableSection({ subjects, semester, page }) {
         <div className="flex justify-start lg:justify-end">
           <DownloadMarks
             filename={`${UserName.name || "Name"}-${UserName.Student_ID || "ID"}`}
-            data={subjects}
+            data={Marks}
           />
         </div>
       </div>
@@ -493,7 +494,7 @@ function MarksTableSection({ subjects, semester, page }) {
         </div>
       </div>
 
-      {page == 'child' && ispassed &&  scroll>=400&&
+      {page == 'child' && ispassed && scroll >= 400 &&
         <Confetti
           style={{
             position: "fixed",

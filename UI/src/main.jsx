@@ -321,8 +321,6 @@ createRoot(document.getElementById('root')).render(
           </Route>
 
 
-
-
           {/* adminMAster routes */}
           <Route path="/AdminDashboard" element={<ProtectedRoute allowedRoles={["Admin"]}>
             <MasterAdminDashboard />

@@ -34,8 +34,8 @@ function MarksHeader({ semesters, selectedSemester }) {
               defaultValue={selectedSemester.semester}
             >
               {semesters.map((sem) => (
-                <option key={sem.semester} value={sem.semester} className="text-slate-800">
-                  {sem.semester}
+                <option key={sem} value={sem} className="text-slate-800">
+                  {sem}
                 </option>
               ))}
             </select>
