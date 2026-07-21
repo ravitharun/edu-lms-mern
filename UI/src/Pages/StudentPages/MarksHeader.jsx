@@ -2,8 +2,12 @@ import React from 'react'
 import { FaCalendarAlt } from 'react-icons/fa'
 import { HiMiniAcademicCap } from 'react-icons/hi2'
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md'
+import { useDispatch } from 'react-redux'
+import { incremented } from '../../Store/Section'
 
 function MarksHeader({ semesters, selectedSemester }) {
+    let sectionDisp = useDispatch()
+  
   return (
     <div className="border-b border-slate-200 bg-gradient-to-r from-indigo-600 via-blue-600 to-cyan-500 p-5 sm:p-7 lg:p-8">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
@@ -32,6 +36,8 @@ function MarksHeader({ semesters, selectedSemester }) {
             <select
               className="w-full appearance-none rounded-2xl border border-white/20 bg-white/15 px-4 py-3 pr-10 text-sm font-medium text-white outline-none backdrop-blur-sm transition focus:border-white/40 focus:bg-white/20 sm:min-w-[220px]"
               defaultValue={selectedSemester.semester}
+
+              onChange={(e)=>sectionDisp(incremented(e.target.value))}
             >
               {semesters.map((sem) => (
                 <option key={sem} value={sem} className="text-slate-800">

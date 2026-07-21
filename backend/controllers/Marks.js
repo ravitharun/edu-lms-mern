@@ -34,6 +34,9 @@ const AssiginMarks = async (req, res) => {
         });
     }
 };
+
+
+
 const fetchMarksByStudentId = async (req, res) => {
     try {
         const { Section } = req.query
@@ -76,6 +79,19 @@ const FetchBySingleStudentId = async (req, res) => {
             Semester: semseter
         }).populate("id");
 
+
+
+
+        // const 
+
+        if (marks.length == 0) {
+
+
+            return res.status(404).json({
+                message: `No records found for Semester ${semseter}.`,
+                status: false
+            });
+        }
         const result = [];
 
         for (const mark of marks) {

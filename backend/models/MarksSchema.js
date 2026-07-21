@@ -6,6 +6,7 @@ const StudentMarks = new mongoose.Schema({
     subjectid: { type: mongoose.Schema.ObjectId, required: true, ref:"SubjectWiseTeacher" },
 
     Semester: { type: String, required: true },
+    dept:{ type: String, required: true },
 
     internal: { type: Number, default: 0 },
 

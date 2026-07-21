@@ -5,7 +5,10 @@ import { FiXCircle } from 'react-icons/fi';
 import DownloadMarks from './DownloadMarks';
 import { UserName } from '../../Apis/Islogin';
 import Confetti from 'react-confetti'
+import NotFound from '../../Loaders/NotFound';
 function MarksTableSection({ semester, page, Marks }) {
+
+
 
   const { width, height } = useWindowSize()
   const getGradeColor = (grade) => {
@@ -108,6 +111,13 @@ function MarksTableSection({ semester, page, Marks }) {
               </thead>
 
               <tbody>
+
+
+                {Marks.length == 0 && <>
+
+
+                  <NotFound message={'No records found'} />
+                </>}
                 {Marks?.map((subject, index) => (
                   <tr
                     key={subject?.code}
@@ -252,51 +262,63 @@ function MarksTableSection({ semester, page, Marks }) {
           </table>
         </div>
       </div>
-      <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
-        {/* Result Status */}
-        {ispassed ? (
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-green-100">
-              <CiCircleCheck className="text-green-600" size={24} />
-            </div>
 
-            <div>
-              <h4 className="font-semibold text-green-800">
-                Congratulations!
-              </h4>
-              <p className="text-sm text-slate-600">
-                You have passed all subjects successfully.
-              </p>
-            </div>
-          </div>
-        ) : (
-          <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-red-100">
-              <FiXCircle className="text-red-600" size={22} />
-            </div>
-            <div>
-              <h4 className="font-semibold text-red-800">
-                Better Luck Next Time
-              </h4>
-              <p className="text-sm text-slate-600">
-                You have failed in{" "}
-                <span className="font-semibold text-red-600">
-                  {Marks.length - result.length}
-                </span>{" "}
-                {Marks.length - result.length === 1 ? "subject" : "subjects"}.
-              </p>
-            </div>
-          </div>
-        )}
+      {Marks.length >= 1 &&
+        <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
+          {/* Result Status */}
 
-        {/* Download Button */}
-        <div className="flex justify-start lg:justify-end">
-          <DownloadMarks
-            filename={`${UserName.name || "Name"}-${UserName.Student_ID || "ID"}`}
-            data={Marks}
-          />
-        </div>
-      </div>
+
+
+
+
+          {ispassed ? (
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-green-100">
+                <CiCircleCheck className="text-green-600" size={24} />
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-green-800">
+                  Congratulations!
+                </h4>
+                <p className="text-sm text-slate-600">
+                  You have passed all subjects successfully.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center gap-3">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-red-100">
+                <FiXCircle className="text-red-600" size={22} />
+              </div>
+              <div>
+                <h4 className="font-semibold text-red-800">
+                  Better Luck Next Time
+                </h4>
+                <p className="text-sm text-slate-600">
+                  You have failed in{" "}
+                  <span className="font-semibold text-red-600">
+                    {Marks.length - result.length}
+                  </span>{" "}
+                  {Marks.length - result.length === 1 ? "subject" : "subjects"}.
+                </p>
+              </div>
+            </div>
+          )}
+
+
+
+
+          < div className="flex justify-start lg:justify-end">
+            <DownloadMarks
+              filename={`${UserName.name || "Name"}-${UserName.Student_ID || "ID"}`}
+              data={Marks}
+            />
+          </div>
+
+        </div >}
+
+
       <div className="mt-6 rounded-2xl border border-slate-100 bg-slate-50 p-6 shadow-sm">
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
@@ -494,7 +516,8 @@ function MarksTableSection({ semester, page, Marks }) {
         </div>
       </div>
 
-      {page == 'child' && ispassed && scroll >= 400 &&
+      {
+        page == 'child' && ispassed && scroll >= 400 &&
         <Confetti
           style={{
             position: "fixed",
