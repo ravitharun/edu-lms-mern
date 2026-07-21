@@ -1,7 +1,7 @@
 
 
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import App from '../../App'
 import MarksHeader from './MarksHeader'
 import MarksOverviewCards from './MarksOverviewCards'
@@ -10,8 +10,102 @@ import StudentProfileCard from './StudentProfileCard'
 import PerformanceSummaryCard from './PerformanceSummaryCard'
 import MarksLegendCard from './MarksLegendCard'
 import DataLoading from '../../Loaders/Dataloading'
+import { Header_Token_expry, url, UserName, UserProfileInfo } from '../../Apis/Islogin'
+import axios from "axios"
+import toast from 'react-hot-toast'
+import { useDispatch, useSelector } from "react-redux";
+import { incremented } from '../../Store/Section'
+
 
 function StudentAcademicMarks() {
+  const data = useSelector((state) => state.section);
+  const [Marks, setStudentMarks] = useState([])
+  const Dept = []
+  const [choosesection, setchoosesection] = useState('')
+  for (let i = 1; i <= 8; i++) {
+    if (UserName.department == "CSE") {
+      let data = "CSE" + i
+      Dept.push(data)
+    }
+    if (UserName.department == "MECH") {
+      let data = "CSE" + i
+      Dept.push(data)
+    }
+    if (UserName.department == "ECE") {
+      let data = "CSE" + i
+      Dept.push(data)
+    }
+
+  }
+  useEffect(() => {
+    const setDefult = () => {
+
+
+      setchoosesection(Dept[0])
+
+
+    }
+
+    setDefult()
+  }, [])
+
+
+
+
+
+  useEffect(() => {
+    const FetchStudentMarks = async () => {
+
+
+      try {
+        const response = await axios.get(`${url}/api/studentMarks/Student/sem`, {
+          Header_Token_expry,
+          params: {
+            semseter: data.value,
+            studentid: UserProfileInfo?._id
+
+
+          }
+        })
+
+
+        console.log(response.data.message, 'response');
+        setStudentMarks(response.data.message)
+
+      } catch (error) {
+
+
+        const Message = error?.response.data.message
+        const Status = error?.response.status
+
+        if (Status == 500) {
+
+
+          return toast.error(Message)
+        }
+
+
+        if (Status == 401) {
+
+
+          return toast.error(Message)
+        }
+
+
+
+
+      }
+
+
+
+    }
+    FetchStudentMarks()
+
+  }, [data.value])
+
+
+
+
   const viewButtons =
     [
       { id: 'overall', label: 'Overall View', active: true },
@@ -96,7 +190,7 @@ function StudentAcademicMarks() {
       },
     ],
   }
-
+  // const Dept = UserName.department=="CSE"?"":["CSE1", "Semester2", "Semester3", "Semester4", "Semester5", "Semester6", "Semester7", "Semester8"]
   const selectedSemester = studentData.semesters[0]
 
   const highestTotal = Math.max(...selectedSemester.subjects.map((item) => item.totalMarks))
@@ -129,7 +223,7 @@ function StudentAcademicMarks() {
 
       <div className="space-y-6">
         <MarksHeader
-          semesters={studentData.semesters}
+          semesters={Dept}
           selectedSemester={selectedSemester}
         />
 
@@ -177,9 +271,7 @@ function StudentAcademicMarks() {
                 <div className="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-3">
                   <div className="xl:col-span-2">
 
-
-
-                    <MarksTableSection subjects={selectedSemester.subjects} semester={selectedSemester.semester} />
+                    <MarksTableSection semester={selectedSemester.semester} Marks={Marks} />
 
                   </div>
 
@@ -200,10 +292,9 @@ function StudentAcademicMarks() {
 
       {ViewButtons.label == 'Final Exam' && <>
 
-
         <div className="mt-6 mx-auto w-full max-w-6xl">
           <MarksTableSection
-          page="child"
+            page="child"
             subjects={selectedSemester.subjects}
             semester={selectedSemester.semester}
           />
@@ -238,6 +329,8 @@ function StudentAcademicMarks() {
         </div>
 
       </>}
+
+
 
     </>
   )

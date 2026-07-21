@@ -11,6 +11,7 @@ Assignments.get("/Assignment/{section}", FetchAssignments)
 Assignments.get("/GetSubmissions", GetSubmissions)
 Assignments.put("/UpdateSubmissions",ValidateAssignments)
 Assignments.get("/Marks",fetchMarksByStudentId)
+// /Student/sem
 Assignments.post("/SubmitAssignments",uploadAssignments.single("assignmentFile"), SubmitAssignments)
 
 module.exports = Assignments
