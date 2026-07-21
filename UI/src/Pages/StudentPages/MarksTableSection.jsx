@@ -7,6 +7,8 @@ import { UserName } from '../../Apis/Islogin';
 import Confetti from 'react-confetti'
 import NotFound from '../../Loaders/NotFound';
 function MarksTableSection({ semester, page, Marks }) {
+  console.log(Marks,'Marks');
+  
 
 
 
@@ -24,7 +26,7 @@ function MarksTableSection({ semester, page, Marks }) {
     return 'text-amber-600'
   }
 
-  const result = Marks.filter((mrks) => mrks.totalMarks >= 45)
+  const result = Marks?.filter((mrks) => mrks?.totalMarks >= 45)
 
   const grades = Marks?.reduce((acc, grade,) => {
     acc[grade.grade] = (acc[grade.grade] || 0) + 1;
@@ -51,7 +53,7 @@ function MarksTableSection({ semester, page, Marks }) {
 
 
 
-  const ispassed = result.length === Marks.length
+  const ispassed = result?.length === Marks?.length
 
   return (
 
@@ -70,7 +72,7 @@ function MarksTableSection({ semester, page, Marks }) {
           </div>
 
           <div className="rounded-full bg-indigo-50 px-4 py-2 text-sm font-semibold text-indigo-700">
-            {Marks.length} Subjects
+            {Marks?.length||0} Subjects
           </div>
         </div>
 
@@ -113,7 +115,7 @@ function MarksTableSection({ semester, page, Marks }) {
               <tbody>
 
 
-                {Marks.length == 0 && <>
+                {Marks?.length == 0 && <>
 
 
                   <NotFound message={'No records found'} />
@@ -263,7 +265,7 @@ function MarksTableSection({ semester, page, Marks }) {
         </div>
       </div>
 
-      {Marks.length >= 1 &&
+      {Marks?.length >= 1 &&
         <div className="mt-6 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm lg:flex-row lg:items-center lg:justify-between">
           {/* Result Status */}
 
@@ -348,7 +350,8 @@ function MarksTableSection({ semester, page, Marks }) {
                 </p>
               </div>
               <span className="text-xl font-bold text-emerald-800">
-                {grades["O"] || 0}
+                {/* {grades["O"] || 0} */}
+                Grade
               </span>
             </div>
             <div className="absolute -right-6 -bottom-6 h-16 w-16 rounded-full bg-emerald-100/70 blur-xl group-hover:bg-emerald-200/80 transition-colors" />
