@@ -6,6 +6,7 @@ import { handelLogin } from "../Apis/Signup";
 import toast, { Toaster } from 'react-hot-toast';
 import { UserRole } from "../Apis/Islogin";
 import RedirectPopup from "./RedirectPopup";
+import secureLocalStorage from "react-secure-storage";
 
 export default function Login() {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -37,7 +38,7 @@ export default function Login() {
       setloading(true)
       setredirectloading(true)
       const get_user_valid = await handelLogin(Userdata, e)
-      console.log(get_user_valid.response?.data, 'get_user_valid.response?.data')
+
       if (get_user_valid.response?.data?.message === 'Role is incorrect') {
         return toast.custom((t) => (
           <div
@@ -80,6 +81,7 @@ export default function Login() {
           }
         });
       }
+      secureLocalStorage.setItem("TokenExpryIscontinue", false)
 
       // Logic for the redirect page from login to dashboard.
       if (get_user_valid?.data?.user?.role == "Teacher") {
@@ -109,6 +111,8 @@ export default function Login() {
       }
       // Student Route
       else {
+        console.log( `Login successfully - Hey! ${get_user_valid?.data?.user?.name || ""} (${get_user_valid?.data?.user?.role || ""})`);
+        
         toast.success(
           `Login successfully - Hey! ${get_user_valid?.data?.user?.name || ""} (${get_user_valid?.data?.user?.role || ""})`,
         );
@@ -119,11 +123,13 @@ export default function Login() {
         }, 3500);
         return
       }
+
+
     }
     catch (error) {
 
-      const statusCode = error.response.status
-      const response = error.response.data.message
+      const statusCode = error.response?.status
+      const response = error.response?.data?.message
       if (statusCode == 403) {
 
 
@@ -147,7 +153,10 @@ export default function Login() {
 
     }
   }
+
+  
   const naviagte = useNavigate("")
+
   const updatePassowrd = (Useremail) => {
     if (!Useremail) { return toast.error("Email is required.") }
     naviagte("/change-password", {
@@ -253,10 +262,11 @@ export default function Login() {
 
             {/* Terms */}
             <div className="flex items-start gap-2">
-              <input type="checkbox" className="mt-1 h-3.5 w-3.5 accent-indigo-500" required onClick={() => setcheck((prev) => !prev)
+             
+              <input type="checkbox" id="c" className="mt-1 h-3.5 w-3.5 accent-indigo-500" required onClick={() => setcheck((prev) => !prev)
               } />
               <span className="text-xs text-gray-300">
-                {ischeck ? "I" : "Not"} agree to the <span className="text-indigo-400">Terms & Conditions</span>
+                <label htmlFor="c">I agree to the <span className="text-indigo-400">Terms & Conditions</span></label>
               </span>
             </div>
 

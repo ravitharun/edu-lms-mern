@@ -4,14 +4,14 @@ import Navbar from "./Components/Navbar";
 import toast, { Toaster } from "react-hot-toast";
 import { socket } from "./Socket";
 import { useEffect } from "react";
-import { UserName } from "./Apis/Islogin";
+import { UserRole } from "./Apis/Islogin";
 import { useNavigate } from "react-router-dom";
 function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const naviagte = useNavigate("")
   useEffect(() => {
     const handleAnnouncementAccount = (data) => {
-      if (UserName?.email == data?.email) {
+      if (UserRole?.email == data?.email) {
         toast.custom((t) => (
           <div
             className={`bg-white px-4 py-3 rounded-lg shadow-md border-l-4 border-red-500 flex items-center gap-3 ${t.visible ? "animate-enter" : "animate-leave"
@@ -36,14 +36,14 @@ function App() {
       alert(data);
     };
     const handleAnnouncementUpdate = (data, updatedAccount) => {
-      if (UserName?.email == updatedAccount?.email) {
+      if (UserRole?.email == updatedAccount?.email) {
 
         return toast.success('Your Account is Activated by the Admin');
       }
 
     };
     const handelProfileViewNotificationToast = (data) => {
-      if (UserName?.role == "student") {
+      if (UserRole?.role == "student") {
         return toast.custom((t) => (
           <div
             className={`${t.visible ? "animate-enter" : "animate-leave"
