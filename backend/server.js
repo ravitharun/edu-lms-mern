@@ -87,6 +87,8 @@ app.use("/api/MaintanceMode", MaintanceMode);
 // console.log(process.env.MONGO_URI, 'locasl MONGO_URI');
 // console.log(process.env.RESEND_API_KEY, 'process.env.RESEND_API_KEY');
 
+console.log(process.env.JWT_ACCESS_SECRET, 'JWT_ACCESS_SECRET');
+console.log(process.env.JWT_ACCESS_SECRET, 'JWT_ACCESS_SECRET');
 // Test root
 app.get("/", (req, res) => {
 

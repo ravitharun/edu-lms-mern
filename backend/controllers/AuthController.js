@@ -107,7 +107,7 @@ const LoginAccount = async (req, res) => {
   try {
     const { email, Password, role } = req.query;
 
-   
+
     if (!email || !Password || !role) {
       return res.status(400).json({ message: "all inputs are required" })
     }
@@ -117,7 +117,6 @@ const LoginAccount = async (req, res) => {
         { role: role },
       ],
     });
-    console.log(Check_userAccount, 'userAccount')
     if (!Check_userAccount) {
 
       return res.status(403).json({ message: "User NotFound." })
@@ -132,10 +131,16 @@ const LoginAccount = async (req, res) => {
       return res.status(403).json({ message: "Invalid Creditanls" })
     }
     const token = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const refreshToken = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "7d" });
+
+
+    const addrefreshToken = await User.findOneAndUpdate({ email: email }, { refreshToken: refreshToken }, { returnDocument: "after" })
+
+    await addrefreshToken.save()
 
     // main level to say user data are same
     if (Check_userAccount.email == email || Check_userAccount.role == role || check_password) {
-      return res.status(200).json({ message: "Logedin", token: token, user: Check_userAccount });
+      return res.status(200).json({ message: "Logedin", token: token, user: addrefreshToken });
     }
 
   } catch (error) {
@@ -144,4 +149,95 @@ const LoginAccount = async (req, res) => {
   }
 };
 
-module.exports = { NewAccount, LoginAccount };
+
+
+const NewAxcessToken = async (req, res) => {
+  try {
+    const { refreshToken, id } = req.body;
+    console.log(req.body, 'req.body tharun');
+
+    // 1. Check refresh token
+    if (!refreshToken) {
+      return res.status(401).json({
+        status: false,
+        message: "Refresh token not found. Please log in again."
+      });
+    }
+
+    // 2. Verify refresh token
+    const decoded = jwt.verify(
+      refreshToken,
+      process.env.JWT_SECRET
+    );
+    console.log(decoded, 'decoded');
+
+    // 3. Find user
+
+    const user = await User.findOne({ _id: id });
+    console.log(user, 'tharunuser');
+    console.log(user.refreshToken, '(user.refreshToken ');
+
+
+    if (!user) {
+      return res.status(404).json({
+        status: false,
+        message: "User not found."
+      });
+    }
+
+    if (user.refreshToken != refreshToken) {
+      console.log("Inside Invalid Refresh Token Block");
+
+      return res.status(401).json({
+        status: false,
+        message: "Invalid refresh token."
+      });
+    }
+
+
+    // 5. Generate new tokens
+    const accessToken = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
+      process.env.JWT_ACCESS_SECRET,
+      { expiresIn: "15m" }
+    );
+
+    const newRefreshToken = jwt.sign(
+      {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    // 6. Save new refresh token (Rotation)
+    user.refreshToken = newRefreshToken;
+    await user.save();
+
+    // 7. Return tokens
+    return res.status(200).json({
+      status: true,
+      message: "New access token generated successfully.",
+      token: accessToken,
+      user: user,
+    });
+
+  }
+  catch (error) {
+    console.log("Error Name:", error.name);
+    console.log("Error Message:", error.message);
+    console.log(error);
+
+    return res.status(500).json({
+      status: false,
+      message: error.message
+    });
+  }
+};
+module.exports = { NewAccount, LoginAccount, NewAxcessToken };

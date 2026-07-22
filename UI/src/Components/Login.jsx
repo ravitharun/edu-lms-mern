@@ -38,6 +38,8 @@ export default function Login() {
       setloading(true)
       setredirectloading(true)
       const get_user_valid = await handelLogin(Userdata, e)
+      console.log(get_user_valid,'get_user_valid');
+      
 
       if (get_user_valid.response?.data?.message === 'Role is incorrect') {
         return toast.custom((t) => (
@@ -82,6 +84,7 @@ export default function Login() {
         });
       }
       secureLocalStorage.setItem("TokenExpryIscontinue", false)
+     
 
       // Logic for the redirect page from login to dashboard.
       if (get_user_valid?.data?.user?.role == "Teacher") {
