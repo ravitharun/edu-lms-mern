@@ -306,7 +306,7 @@ function Dashboard() {
       )}
 
 
-
+      {/* <LogoutPoup></LogoutPoup> */}
 
       {/* Main Section: Left Profile + Right Stats + Notifications */}
       <div className="flex flex-col lg:flex-row gap-6 mt-6 px-4">

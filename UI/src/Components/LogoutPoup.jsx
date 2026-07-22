@@ -2,17 +2,47 @@ import { HiOutlineExclamationTriangle } from "react-icons/hi2";
 import { FiLogOut } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
 import Cookies from "js-cookie";
-import { handleLogout } from "../Apis/Islogin";
+import { handleLogout, url, UserName } from "../Apis/Islogin";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import secureLocalStorage from "react-secure-storage";
 
 const LogoutPoup = ({ onLogout, onClose }) => {
     const redirect = useNavigate()
-    const onContinue = () => {
-        // const expiry = Date.now() + 5 * 60 * 1000;
-        // Cookies.set("TokenExpryIscontinue", expiry.toString(), {
-        //     expires: 5 / (24 * 60),
-        // });
-        // secureLocalStorage.setItem("TokenExpryIscontinue", true)
+    const onContinue = async () => {
+
+
+        try {
+            const response = await axios.post(`${url}/api/auth/refresh-token`, { refreshToken: UserName.refreshToken, id: UserName._id })
+
+            
+            secureLocalStorage.setItem("token", response.data.token)
+            secureLocalStorage.setItem("User_info", response.data.user)
+            console.log(response);
+            if(response.status==200){
+
+                 alert(response.data.message)
+                 return
+            }
+
+
+        } catch (error) {
+            // console.log(error, 'err');
+
+            const status = error.response?.status
+
+            console.log({ status });
+
+            if (status == 401) {
+
+                return handleLogout(redirect)
+            }
+
+        }
+
+
+
+
 
 
     }
@@ -33,7 +63,7 @@ const LogoutPoup = ({ onLogout, onClose }) => {
 
                 <div className="text-center">
                     <h2 className="text-xl font-semibold text-slate-800 sm:text-2xl">
-                        Session Expired -user accpeted { }
+                        Session Expired
                     </h2>
                     <p className="mt-2 text-sm leading-6 text-slate-500 sm:text-base">
                         Your login session has expired. Please logout and sign in again to access your account.

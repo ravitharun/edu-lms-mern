@@ -26,10 +26,10 @@ const userSchema = new mongoose.Schema({
   department: { type: String, enum: ["CSE", "ECE", "MECH", "EEE", "CIVIL"], default: "CSE" },
   StudentsYearDepartment: { type: String, },
   isActive: { type: Boolean, default: false },
-  resetToken: { type: String, },
+
   lastSeen: { type: Date },
-  resetTokenExpiry: {
-    type: Date,
+  refreshToken: {
+    type: String,
     default: null
   }
 }, { timestamps: true });
