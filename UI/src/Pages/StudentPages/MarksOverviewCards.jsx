@@ -9,6 +9,7 @@ import {
   FaFileAlt,
   FaLayerGroup,
 } from 'react-icons/fa'
+import { useSelector } from 'react-redux';
 
 function MarksOverviewCards({
   student,
@@ -19,6 +20,10 @@ function MarksOverviewCards({
   averageFinal,
 }) {
   console.log(student,'student');
+
+  
+
+  const data=useSelector((state)=>state.section.value)
   
   return (
     <>
@@ -38,7 +43,7 @@ function MarksOverviewCards({
             <span className="text-sm font-medium text-slate-500">Department</span>
             <FaBookOpen className="text-cyan-600" size={18} />
           </div>
-          <h2 className="text-base font-bold text-slate-800 sm:text-lg">{student?.department}</h2>
+          <h2 className="text-base font-bold text-slate-800 sm:text-lg">{student?.department||"Department"}</h2>
           <p className="mt-1 text-sm text-slate-500">{student?.course}</p>
         </div>
 
@@ -48,9 +53,9 @@ function MarksOverviewCards({
             <FaPercentage className="text-emerald-600" size={18} />
           </div>
           <h2 className="text-2xl font-bold text-slate-800">
-            {selectedSemester?.overallPercentage}%
+            {selectedSemester?.overallPercentage||0}%
           </h2>
-          <p className="mt-1 text-sm text-slate-500">{selectedSemester?.semester}</p>
+          <p className="mt-1 text-sm text-slate-500">{data}</p>
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
