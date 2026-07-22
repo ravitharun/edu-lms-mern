@@ -8,7 +8,7 @@ import {
     AiOutlineCalendar,
     AiOutlineDownload,
 } from "react-icons/ai";
-import { UserName } from "../Apis/Islogin";
+import { UserRole } from "../Apis/Islogin";
 
 const AUTO_CLOSE_MS = 7000;
 
@@ -79,8 +79,8 @@ function Announcement() {
     useEffect(() => {
         (async () => {
             const res = await Hnadlefetechannouncements();
-            const filtterbyrole = res.filter((data) => data.TargetAudience == "Both" ? res : data.TargetAudience.toLowerCase() == UserName.role + "s")
-            if (UserName.role == "Admin") { return setData([]) }
+            const filtterbyrole = res.filter((data) => data.TargetAudience == "Both" ? res : data.TargetAudience.toLowerCase() == UserRole.role + "s")
+            if (UserRole.role == "Admin") { return setData([]) }
             setData(filtterbyrole);
         })();
 

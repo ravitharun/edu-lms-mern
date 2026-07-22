@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Loaders from './src/Loaders/Loaders'
-import { UserRole } from './src/Apis/Islogin'
+import { UserName } from './src/Apis/Islogin'
 import Countdown from 'react-countdown'
 
 function Redirect() {
@@ -10,7 +10,9 @@ function Redirect() {
     useEffect(() => {
         setLoading(true)
 
-        const role = UserRole?.role  // safe access
+        const role = UserName?.role  
+        // console.log(role,'rolerole')
+        // console.log(UserName,'UserName')
 
         // ❌ if role not exists
         if (!role) {
@@ -41,7 +43,7 @@ function Redirect() {
                     return (
                         <>
                             {loading &&
-                                <Loaders pathname={UserRole?.role} userName={UserRole?.name} sec={sec} />
+                                <Loaders pathname={UserName?.role} userName={UserName?.name} sec={sec} />
                             }
                         </>
                     )

@@ -10,7 +10,7 @@ import {
   FiChevronUp,
 } from "react-icons/fi";
 import secureLocalStorage from "react-secure-storage";
-import { UserLogin, UserName, userRoutingDashboard, userRoutingProfilePage } from "../Apis/Islogin";
+import { handleLogout, UserLogin, UserRole, userRoutingDashboard, userRoutingProfilePage } from "../Apis/Islogin";
 function LogoNavbar({ hide }) {
   const [openProfile, setOpenProfile] = useState(false);
   const [openMobile, setOpenMobile] = useState(false);
@@ -19,6 +19,7 @@ function LogoNavbar({ hide }) {
     let tkn = secureLocalStorage.removeItem("token")
 
     if (tkn == null) {
+      handleLogout()
       return navigate("/login")
     }
   }
@@ -39,7 +40,7 @@ function LogoNavbar({ hide }) {
               LMS
             </div>
             <span className="hidden sm:block text-lg font-semibold text-gray-800">
-              {UserName.role} Portal
+              {UserRole.role} Portal
             </span>
           </Link>
 
@@ -59,7 +60,7 @@ function LogoNavbar({ hide }) {
     animate-gradient
   "
               >
-                HI, {UserName?.name}
+                HI, {UserRole?.name}
               </span>
 
               {openProfile ? <FiChevronUp className="text-gray-500" /> : <FiChevronDown className="text-gray-500" />}

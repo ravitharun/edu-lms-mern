@@ -19,7 +19,7 @@ import {
     FaRegCalendarAlt,
     FaPenAlt,
 } from "react-icons/fa";
-import { handleLogout, UserName } from "../Apis/Islogin";
+import { handleLogout, UserRole } from "../Apis/Islogin";
 
 function AdminSidebar() {
     const [menuOpen, setMenuOpen] = useState(false);

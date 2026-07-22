@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FaBell, FaUser } from 'react-icons/fa'
-import { UserName } from '../Apis/Islogin';
+import { UserRole } from '../Apis/Islogin';
 import { Link } from 'react-router-dom';
 
 function AdminHeader({ pathname }) {

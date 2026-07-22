@@ -7,14 +7,16 @@ import { IoNewspaperOutline } from "react-icons/io5";
 import "../../App.css"
 import toast, { Toaster } from 'react-hot-toast';
 import secureLocalStorage from 'react-secure-storage';
-import { MaintanceMode, UserName, UserRole } from '../../Apis/Islogin';
+import { handleLogout, MaintanceMode, UserRole } from '../../Apis/Islogin';
 import Error from '../../Components/Error';
 import { GetallSubjects } from './StudentsApi';
 import ProgressLoader from '../../Loaders/Progressloader';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Announcement from '../../Components/Announcement';
 import Undermanitance from '../../Loaders/Undermanitance';
+import LogoutPoup from '../../Components/LogoutPoup';
 function Dashboard() {
+  const redirect = useNavigate()
 
   const [Profile, setprofile] = useState(UserRole.profilePreview)
   const [StudentID, setStudentID] = useState(UserRole.Student_ID)
@@ -104,13 +106,20 @@ function Dashboard() {
   useEffect(() => {
     const getSubjects = async () => {
       try {
-        // console.log(UserName.StudentsYearDepartment.split(" ").join(""),'UserName.StudentsYearDepartment.split(" ").join("")')
-        const response = await GetallSubjects(UserName.StudentsYearDepartment.split(" ").join(""))
+        // console.log(UserRole.StudentsYearDepartment.split(" ").join(""),'UserRole.StudentsYearDepartment.split(" ").join("")')
+        const response = await GetallSubjects(UserRole.StudentsYearDepartment.split(" ").join(""))
         // console.log(response)
         setcourses(response.data.message)
       } catch (error) {
-        console.log(error, "message")
-        toast.error(error.message)
+
+
+        if (error.response.status == 401) {
+          toast.error("Token  is expired")
+          return handleLogout(redirect)
+        }
+        if (error.response.status == 500) {
+          return toast.error("Server Error")
+        }
       }
     }
     getSubjects()
@@ -192,7 +201,7 @@ function Dashboard() {
             <p className="text-xs uppercase tracking-wide text-gray-300">Student ID :</p>
             <p className="text-lg font-semibold text-blue-400">{StudentID}</p>
           </div>
-          <p className="text-sm text-gray-300">{UserName?.StudentsYearDepartment?.split(" ")[1]} (Semester )| {UserName?.StudentsYearDepartment?.split(" ")[0]}</p>
+          <p className="text-sm text-gray-300">{UserRole?.StudentsYearDepartment?.split(" ")[1]} (Semester )| {UserRole?.StudentsYearDepartment?.split(" ")[0]}</p>
         </div>
 
         {/* Right Side: Profile Image */}
@@ -299,7 +308,6 @@ function Dashboard() {
 
 
 
-
       {/* Main Section: Left Profile + Right Stats + Notifications */}
       <div className="flex flex-col lg:flex-row gap-6 mt-6 px-4">
         {/* ================= PROFILE CARD ================= */}
@@ -320,14 +328,14 @@ function Dashboard() {
             <div className="w-10 h-1 bg-blue-500 rounded mt-1"></div>
           </div>
           <p className="text-sm text-gray-600 text-center mb-4">
-            {UserName?.StudentsYearDepartment?.split(" ")[0]} · B.Tech · {UserName.StudentsYearDepartment?.split(" ")[1]} Sem · {StudentID}
+            {UserRole?.StudentsYearDepartment?.split(" ")[0]} · B.Tech · {UserRole.StudentsYearDepartment?.split(" ")[1]} Sem · {StudentID}
           </p>
 
           <div className="space-y-2 text-sm text-center text-gray-700">
-            <p><span className="text-gray-500">Roll No:</span> 40</p>
-            <p><span className="text-gray-500">DOB:</span> 18/06/2005</p>
-            <p><span className="text-gray-500">Email:</span> {UserName.email}</p>
-            <p><span className="text-gray-500">Phone:</span> adding</p>
+            {/* <p><span className="text-gray-500">Roll No:</span> 40</p> */}
+            {/* <p><span className="text-gray-500">DOB:</span> 18/06/2005</p> */}
+            <p><span className="text-gray-500">Email:</span><a href={`mailto:${UserRole.email}`}> {UserRole.email}</a></p>
+            {/* <p><span className="text-gray-500">Phone:</span> adding</p> */}
           </div>
         </div>
 

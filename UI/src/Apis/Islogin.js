@@ -1,6 +1,8 @@
 import secureLocalStorage from "react-secure-storage";
 import { socket } from "../Socket";
 export const UserRole = secureLocalStorage.getItem("User_info")
+console.log(UserRole,'UserRole');
+
 export const UserLogin = secureLocalStorage.getItem("token")
 export const UserName = secureLocalStorage.getItem("User_info")
 export const totalClass = secureLocalStorage.getItem('totalClass')
@@ -10,17 +12,24 @@ export const UserProfileInfo = secureLocalStorage.getItem("User_info")
 export let dt = new Date().getFullYear();
 export const userRoutingDashboard = UserName?.role == "Teacher" ? "/teacher-dashboard" : UserName?.role == "student" ? "/StudentDashboard" : "/AdminDashboard"
 export const userRoutingProfilePage = UserName?.role == "Teacher" ? "/teachers/profile" : UserName?.role == "student" ? "/profile" : "/teachers/profile"
+
 export const handleLogout = (redirect) => {
     const get = secureLocalStorage.removeItem("token")
-    const UserName = secureLocalStorage.removeItem("userProfileInfo")
+    const UserRole = secureLocalStorage.removeItem("User_info")
+    const UserLogin = secureLocalStorage.removeItem("token")
+    secureLocalStorage.removeItem("TokenExpryIscontinue")
+    const UserName = secureLocalStorage.removeItem("User_info")
+
+
     if (!get) {
-        setTimeout(() => {
-            return redirect("/login");
-        }, 1500);
+        return redirect("/login");
     }
     socket.disconnect();
     return true
 }
+
+
+
 export const HandelLogin = () => {
     const get = secureLocalStorage.getItem("token")
     const UserInfo = secureLocalStorage.getItem("User_info")
@@ -38,6 +47,8 @@ export const Header_Token_expry = {
         'Authorization': `Bearer ${UserLogin} `
     }
 }
+
+
 export const Header_Token_expry_Formdata = {
     headers: {
         'Content-Type': 'multipart/form-data',

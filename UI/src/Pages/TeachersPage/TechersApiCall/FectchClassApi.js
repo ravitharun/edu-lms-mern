@@ -1,5 +1,5 @@
 import axios from "axios"
-import { Header_Token_expry, url, UserName } from "../../../Apis/Islogin"
+import { Header_Token_expry, url, UserRole } from "../../../Apis/Islogin"
 
 export const FetchClassByTecherId = async () => {
     try {
@@ -7,7 +7,7 @@ export const FetchClassByTecherId = async () => {
            ... Header_Token_expry,
 
             params: {
-                teacher_Id: UserName.teacher_Id
+                teacher_Id: UserRole.teacher_Id
             }
         })
         return response;

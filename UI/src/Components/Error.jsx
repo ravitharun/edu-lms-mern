@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
-import { UserName } from "../Apis/Islogin";
+import { UserRole } from "../Apis/Islogin";
 import RedirectPopup from "./RedirectPopup";
 import { useEffect } from "react";
 
@@ -41,11 +41,11 @@ function Error() {
 
   // handelPageRoute
   const handelPageRoute = () => {
-    if (UserName?.role == "student") {
+    if (UserRole?.role == "student") {
       navigate("/")
 
     }
-    else if (UserName?.role == "Teacher") {
+    else if (UserRole?.role == "Teacher") {
       navigate("/teacher-dashboard")
 
     }
@@ -81,9 +81,9 @@ function Error() {
           </h2>
 
           <p className="mt-3 text-gray-600 text-sm">
-            Hello <span className="font-medium">{UserName
+            Hello <span className="font-medium">{UserRole
               ?.role || "User"}</span>,
-            your current role is <span className="font-medium text-blue-700">{UserName
+            your current role is <span className="font-medium text-blue-700">{UserRole
               ?.role || "Unknown"}</span>.
           </p>
 

@@ -10,7 +10,7 @@ import StudentProfileCard from './StudentProfileCard'
 import PerformanceSummaryCard from './PerformanceSummaryCard'
 import MarksLegendCard from './MarksLegendCard'
 import DataLoading from '../../Loaders/Dataloading'
-import { Header_Token_expry, url, UserName, UserProfileInfo } from '../../Apis/Islogin'
+import { Header_Token_expry, url, UserName, UserProfileInfo, UserRole } from '../../Apis/Islogin'
 import axios from "axios"
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from "react-redux";
@@ -21,22 +21,27 @@ function StudentAcademicMarks() {
   const data = useSelector((state) => state.section);
   const [Marks, setStudentMarks] = useState([])
   const Dept = []
-  const [choosesection, setchoosesection] = useState('')
+  const [choosesection, setchoosesection] = useState()
   for (let i = 1; i <= 8; i++) {
     if (UserName.department == "CSE") {
       let data = "CSE" + i
       Dept.push(data)
     }
     if (UserName.department == "MECH") {
-      let data = "CSE" + i
+      let data = "MECH" + i
       Dept.push(data)
     }
     if (UserName.department == "ECE") {
-      let data = "CSE" + i
+      let data = "ECE" + i
+      Dept.push(data)
+    }
+    if (UserName.department == "EEE") {
+      let data = "EEE" + i
       Dept.push(data)
     }
 
   }
+
   useEffect(() => {
     const setDefult = () => {
 
@@ -52,62 +57,47 @@ function StudentAcademicMarks() {
 
 
 
+console.log(data,'choosesection');
 
-  useEffect(() => {
-    const FetchStudentMarks = async () => {
+useEffect(() => {
+  if (!UserRole?._id || !data?.value) return;
 
-
-      try {
-        const response = await axios.get(`${url}/api/studentMarks/Student/sem`, {
-          Header_Token_expry,
+  const FetchStudentMarks = async () => {
+    try {
+      const response = await axios.get(
+        `${url}/api/studentMarks/Student/sem`,
+        {
+          headers: Header_Token_expry.headers, // or just Header_Token_expry if it already contains { headers: ... }
           params: {
             semseter: data.value,
-            studentid: '6a4b21b2302a114dd21eb117'
-
-
-          }
-        })
-
-
-        console.log(response.data.message, 'response');
-        setStudentMarks(response.data.message)
-
-      } catch (error) {
-
-
-        const Message = error?.response.data.message
-        const Status = error?.response.status
-
-
-        if (Status == 404) {
-          return setStudentMarks([])
+            studentid: UserRole._id,
+          },
         }
-        if (Status == 500) {
+      );
 
+      setStudentMarks(response.data.message);
+    } catch (error) {
+      const message = error?.response?.data?.message;
+      const status = error?.response?.status;
 
-          return toast.error(Message)
-        }
+      switch (status) {
+        case 404:
+          setStudentMarks([]);
+          break;
 
+        case 401:
+        case 500:
+          toast.error(message || "Something went wrong");
+          break;
 
-        if (Status == 401) {
-
-
-          return toast.error(Message)
-        }
-
-
-
-
+        default:
+          toast.error("Network error");
       }
-
-
-
     }
-    FetchStudentMarks()
+  };
 
-  }, [data.value])
-
-
+  FetchStudentMarks();
+}, [data.value]);
 
   const viewButtons =
     [
