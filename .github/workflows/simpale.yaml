@@ -73,7 +73,6 @@ jobs:
     needs: backend
     name: Build & Deployment
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -94,4 +93,3 @@ jobs:
 
       - name: Deployment started
         run: echo "Deployment started"
-
