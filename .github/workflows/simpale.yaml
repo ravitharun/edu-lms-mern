@@ -26,7 +26,7 @@ jobs:
           key: frontend-dev-${{ hashFiles('UI/package-lock.json') }}
 
       - name: Install frontend dependencies
-        run: npm install
+        run: npm ci
         working-directory: UI
 
       - name: Build frontend
@@ -63,7 +63,7 @@ jobs:
           key: backend-dev-${{ hashFiles('backend/package-lock.json') }}
 
       - name: Install backend dependencies
-        run: npm install
+        run: npm ci
         working-directory: backend
 
       - name: Backend ready
