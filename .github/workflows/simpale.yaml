@@ -75,13 +75,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download Build Files
-        uses: actions/download-artifact@v4
-        with:
-          name: Buildfiles
+      # - name: Download Build Files
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: Buildfiles
 
-      - name: Show build files
-        run: ls -R
+      # - name: Show build files
+      #   run: ls -R
 
 
       - name: Docker Login
