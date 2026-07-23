@@ -3,89 +3,60 @@ import { Link } from "react-router-dom";
 import {
     HiOutlineHome,
     HiOutlineArrowLeft,
-    HiOutlineExclamationTriangle,
+    HiOutlineMagnifyingGlass,
 } from "react-icons/hi2";
 import { userRoutingDashboard } from "../Apis/Islogin";
 
 const PageNotFound = () => {
     return (
-        <>
+        <section className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6">
+            <div className="mx-auto flex min-h-[80vh] max-w-2xl items-center justify-center">
+                <div className="w-full rounded-2xl border border-slate-200 bg-white p-8 shadow-sm sm:p-10">
+                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
+                        <HiOutlineMagnifyingGlass className="text-2xl" />
+                    </div>
 
+                    <div className="mt-6 text-center">
+                        <span className="inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold tracking-wide text-slate-600">
+                            ERROR 404
+                        </span>
 
-            <section className="min-h-screen bg-slate-50 flex items-center justify-center px-4">
-                <div className="relative w-full max-w-4xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-lg">
+                        <h1 className="mt-4 text-2xl font-bold text-slate-900 sm:text-3xl">
+                            Page not found
+                        </h1>
 
-                    {/* BackgrounD 404 */}
-                    <h1 className="absolute right-6 top-4 select-none text-[180px] font-black text-slate-100 hidden md:block">
-                        404
-                    </h1>
+                        <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-600 sm:text-base">
+                            The page you are looking for does not exist, was moved, or is not
+                            available for your role in the LMS.
+                        </p>
+                    </div>
 
-                    <div className="relative grid lg:grid-cols-2">
-                        {/* Left Parta */}
-                        <div className="p-8 lg:p-12 flex flex-col justify-center">
+                    <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+                        <button
+                            onClick={() => window.location.href="/"}
+                            className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 active:scale-[0.98]"
+                        >
+                            <HiOutlineArrowLeft className="text-lg" />
+                            Go Back
+                        </button>
 
-                            <span className="mb-6 w-fit rounded-full bg-red-50 px-4 py-1 text-sm font-semibold text-red-600">
-                                Error 404
-                            </span>
+                        <Link
+                            to={userRoutingDashboard}
+                            className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 active:scale-[0.98]"
+                        >
+                            <HiOutlineHome className="text-lg" />
+                            Dashboard
+                        </Link>
+                    </div>
 
-                            <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-50 text-blue-600">
-                                <HiOutlineExclamationTriangle size={32} />
-                            </div>
-
-                            <h2 className="text-4xl font-bold text-slate-900">
-                                Page Not Found
-                            </h2>
-
-                            <p className="mt-4 text-slate-600 leading-7">
-                                Sorry, the page you are trying to access doesn't exist or may
-                                have been moved. Please check the URL or return to your dashboard.
-                            </p>
-
-                            <div className="mt-10 flex flex-wrap gap-4">
-                                <button
-                                    onClick={() => window.history.back()}
-                                    className="flex items-center gap-2 rounded-xl border border-slate-300 px-6 py-3 font-medium text-slate-700 hover:bg-slate-100"
-                                >
-                                    <HiOutlineArrowLeft size={20} />
-                                    Go Back
-                                </button>
-
-                                <Link
-                                    to={userRoutingDashboard}
-                                    className="flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-3 font-medium text-white hover:bg-blue-700"
-                                >
-                                    <HiOutlineHome size={20} />
-                                    Dashboard
-                                </Link>
-                            </div>
-                        </div>
-
-                        {/* Right Part*/}
-                        <div className="hidden lg:flex items-center justify-center bg-slate-50 border-l border-slate-200">
-
-                            <div className="text-center">
-                                <div className="mx-auto mb-6 flex h-28 w-28 items-center justify-center rounded-full bg-blue-100">
-                                    <HiOutlineExclamationTriangle
-                                        size={56}
-                                        className="text-blue-600"
-                                    />
-                                </div>
-
-                                <h3 className="text-6xl font-extrabold text-slate-900">
-                                    404
-                                </h3>
-
-                                <p className="mt-3 text-slate-500">
-                                    This page isn't available.
-                                </p>
-                            </div>
-
-                        </div>
+                    <div className="mt-6 border-t border-slate-200 pt-4 text-center">
+                        <p className="text-xs text-slate-500 sm:text-sm">
+                            Try returning to the dashboard, courses, assignments, or announcements page.
+                        </p>
                     </div>
                 </div>
-            </section>
-        </>
-
+            </div>
+        </section>
     );
 };
 
