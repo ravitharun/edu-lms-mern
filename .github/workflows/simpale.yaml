@@ -86,10 +86,10 @@ jobs:
         run: docker compose build
 
       - name: Push Frontend into the Docker Repo
-        run: docker push ravitharun/lms-ui:1.0.0
+        run: docker push ravitharun/lms-ui:1.0.1
 
       - name: Push backend into the Docker Repo
-        run: docker push ravitharun/lms-backend:1.0.0
+        run: docker push ravitharun/lms-backend:1.0.1
 
       - name: Deployment started
         run: echo "Deployment started"
