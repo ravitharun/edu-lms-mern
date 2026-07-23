@@ -2,6 +2,7 @@ services:
   ui:
     build: ./UI
     image: ravitharun/lms-ui:1.0.2
+    
     ports:
       - "5173:5173"
     environment:
