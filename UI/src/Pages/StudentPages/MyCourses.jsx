@@ -11,6 +11,7 @@ import { useState } from "react";
 import { FaBookOpen } from "react-icons/fa";
 import toast, { Toaster } from "react-hot-toast";
 import Undermanitance from "../../Loaders/Undermanitance";
+import api from "../../Components/axiosInstance";
 
 function MyCourses() {
 
@@ -24,7 +25,7 @@ function MyCourses() {
   useEffect(() => {
     const fetchAllSubjectsClassid = async () => {
       try {
-        const response_subjectsByClassID = await axios.get(`http://localhost:5001/api/AssignSubjects/get/subjects/${UserName.StudentsYearDepartment.split(" ").join("")}`)
+        const response_subjectsByClassID = await api.get(`http://localhost:5001/api/AssignSubjects/get/subjects/${UserName.StudentsYearDepartment.split(" ").join("")}`)
         setInfo({
           yr: response_subjectsByClassID.data.message.year,
           department: response_subjectsByClassID.data.message.department
@@ -32,6 +33,9 @@ function MyCourses() {
         setsubjects(response_subjectsByClassID.data.message.subjects)
 
       } catch (error) {
+
+        return console.log(error);
+        
 
       }
 
@@ -56,23 +60,7 @@ function MyCourses() {
         {/* HEADER ROW */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
 
-          {/* <div>
-            <h1 className="text-2xl font-semibold text-gray-800">
-              Study Materials
-            </h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Year {Info.yr || 1} • {Info.department || 'CSE'} Department
-            </p>
-
-            {Semester && <>
-
-
-              <div className="text-sm text-gray-500 mt-1">
-
-
-                ({Semester})Semester
-              </div></>}
-          </div> */}
+          
           <div className="mb-4">
             <h1 className="text-xl md:text-2xl font-semibold text-gray-800">
               Study Materials

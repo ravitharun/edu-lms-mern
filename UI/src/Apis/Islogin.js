@@ -14,18 +14,20 @@ export const userRoutingDashboard = UserName?.role == "Teacher" ? "/teacher-dash
 export const userRoutingProfilePage = UserName?.role == "Teacher" ? "/teachers/profile" : UserName?.role == "student" ? "/profile" : "/teachers/profile"
 
 export const handleLogout = (redirect) => {
-    const get = secureLocalStorage.removeItem("token")
-    const UserRole = secureLocalStorage.removeItem("User_info")
-    const UserLogin = secureLocalStorage.removeItem("token")
-    secureLocalStorage.removeItem("TokenExpryIscontinue")
-    const UserName = secureLocalStorage.removeItem("User_info")
+    console.log("heyt /login");
+    
+    // const get = secureLocalStorage.removeItem("token")
+    // const UserRole = secureLocalStorage.removeItem("User_info")
+    // const UserLogin = secureLocalStorage.removeItem("token")
+    // secureLocalStorage.removeItem("TokenExpryIscontinue")
+    // const UserName = secureLocalStorage.removeItem("User_info")
 
 
-    if (!get) {
-        return redirect("/login");
-    }
-    socket.disconnect();
-    return true
+    // if (!get) {
+    //     return redirect("/login");
+    // }
+    // socket.disconnect();
+    // return true
 }
 
 

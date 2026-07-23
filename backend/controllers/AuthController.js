@@ -130,7 +130,7 @@ const LoginAccount = async (req, res) => {
     if (!check_password) {
       return res.status(403).json({ message: "Invalid Creditanls" })
     }
-    const token = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "1m" });
     const refreshToken = jwt.sign({ email, role }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
 
@@ -154,48 +154,43 @@ const LoginAccount = async (req, res) => {
 const NewAxcessToken = async (req, res) => {
   try {
     const { refreshToken, id } = req.body;
-    console.log(req.body, 'req.body tharun');
+    console.log(req.body, 'req.body refr');
+
 
     // 1. Check refresh token
     if (!refreshToken) {
       return res.status(401).json({
         status: false,
-        message: "Refresh token not found. Please log in again."
+        message: "Refresh token not found. Please log in again.",
       });
     }
 
     // 2. Verify refresh token
     const decoded = jwt.verify(
       refreshToken,
-      process.env.JWT_SECRET
+      process.env.JWT_REFRESH_SECRET
     );
-    console.log(decoded, 'decoded');
 
-    // 3. Find user
-
-    const user = await User.findOne({ _id: id });
-    console.log(user, 'tharunuser');
-    console.log(user.refreshToken, '(user.refreshToken ');
-
+    // 3. Find user using decoded token
+    const user = await User.findById({ _id: id });
 
     if (!user) {
       return res.status(404).json({
         status: false,
-        message: "User not found."
+        message: "User not found.",
       });
     }
+    console.log(user.refreshToken !== refreshToken,refreshToken,"<--refreshToken",user.refreshToken,"<----user.refreshToken");
 
-    if (user.refreshToken != refreshToken) {
-      console.log("Inside Invalid Refresh Token Block");
-
+    // 4. Compare refresh token stored in DB
+    if (user.refreshToken !== refreshToken) {
       return res.status(401).json({
         status: false,
-        message: "Invalid refresh token."
+        message: "Invalid refresh token.",
       });
     }
 
-
-    // 5. Generate new tokens
+    // 5. Generate new access token
     const accessToken = jwt.sign(
       {
         id: user._id,
@@ -206,6 +201,7 @@ const NewAxcessToken = async (req, res) => {
       { expiresIn: "15m" }
     );
 
+    // 6. Generate new refresh token (Rotation)
     const newRefreshToken = jwt.sign(
       {
         id: user._id,
@@ -216,27 +212,46 @@ const NewAxcessToken = async (req, res) => {
       { expiresIn: "7d" }
     );
 
-    // 6. Save new refresh token (Rotation)
+    // 7. Save new refresh token
     user.refreshToken = newRefreshToken;
     await user.save();
+    console.log({
+      status: true,
+      message: "New access token generated successfully.",
+      accessToken: accessToken,
+      refreshToken: newRefreshToken,
+    }, 'UER');
 
-    // 7. Return tokens
+
+    // 8. Return new tokens
     return res.status(200).json({
       status: true,
       message: "New access token generated successfully.",
-      token: accessToken,
-      user: user,
+      accessToken: accessToken,
+      refreshToken: newRefreshToken,
     });
 
-  }
-  catch (error) {
-    console.log("Error Name:", error.name);
-    console.log("Error Message:", error.message);
-    console.log(error);
+  } catch (error) {
+
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({
+        status: false,
+        message: "Refresh token expired. Please login again.",
+      });
+    }
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({
+        status: false,
+        message: "Invalid refresh token.",
+      });
+    }
+
+    console.error(error);
 
     return res.status(500).json({
       status: false,
-      message: error.message
+      message: "Internal Server Error",
     });
   }
 };

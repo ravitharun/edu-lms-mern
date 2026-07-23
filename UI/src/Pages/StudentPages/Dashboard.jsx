@@ -14,9 +14,9 @@ import ProgressLoader from '../../Loaders/Progressloader';
 import { Link, useNavigate } from 'react-router-dom';
 import Announcement from '../../Components/Announcement';
 import Undermanitance from '../../Loaders/Undermanitance';
-import LogoutPoup from '../../Components/LogoutPoup';
 function Dashboard() {
   const redirect = useNavigate()
+  const token = secureLocalStorage.getItem("token");
 
   const [Profile, setprofile] = useState(UserRole.profilePreview)
   const [StudentID, setStudentID] = useState(UserRole.Student_ID)
@@ -101,30 +101,30 @@ function Dashboard() {
   const [courses, setcourses] = useState(
     []
   )
+
   // get the all subjects
 
   useEffect(() => {
     const getSubjects = async () => {
       try {
-        // console.log(UserRole.StudentsYearDepartment.split(" ").join(""),'UserRole.StudentsYearDepartment.split(" ").join("")')
-        const response = await GetallSubjects(UserRole.StudentsYearDepartment.split(" ").join(""))
-        // console.log(response)
-        setcourses(response.data.message)
+        const response = await GetallSubjects(
+          UserRole.StudentsYearDepartment.split(" ").join("")
+        );
+
+        setcourses(response.data.message);
+
       } catch (error) {
 
+        console.log(error,'status');
 
-        if (error.response.status == 401) {
-          toast.error("Token  is expired")
-          return handleLogout(redirect)
-        }
-        if (error.response.status == 500) {
-          return toast.error("Server Error")
-        }
+        // if (error.response?.status === 500) {
+        //   toast.error("Server Error");
+        // }
       }
-    }
-    getSubjects()
-  }, [])
+    };
 
+    getSubjects();
+  }, []);
 
 
   const [imgurlChoosed, setimgurlChoosed] = useState(imgechooserurl[0].imgUrl);
@@ -155,10 +155,7 @@ function Dashboard() {
     if (!choosedurl) {
       return toast.error("We hit a snag. Please refresh and try again.")
     }
-    // if (type === "Vid") {
 
-    //   return setimgurlChoosed({ choosedurl, type })
-    // }
     setimgurlChoosed(choosedurl)
   }
 
@@ -240,7 +237,6 @@ function Dashboard() {
         </div>
 
       </div>
-
 
 
       {/* poup */}

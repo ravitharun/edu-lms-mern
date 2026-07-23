@@ -11,8 +11,6 @@ function Redirect() {
         setLoading(true)
 
         const role = UserName?.role  
-        // console.log(role,'rolerole')
-        // console.log(UserName,'UserName')
 
         // ❌ if role not exists
         if (!role) {
